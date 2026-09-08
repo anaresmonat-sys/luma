@@ -83,6 +83,14 @@ pregunta de journaling reveladora + un ejercicio de 1 minuto para hoy.
 - Sesión 7: testing, pulido, rigor de entrega
 - Sesión 8: adquisición, lanzamiento, backoffice
 
+## Problemas conocidos ⚠️
+- [FICHA-MODELO] Pospuesto a Sesión 1: aún no se elige ni extrae la app modelo. Nada construido
+  todavía — el proyecto está en aprobación del Plan Maestro. FICHA-MODELO.md se crea al inicio
+  de la Sesión 1 (01 — LA APP MODELO + PLANTILLA-FICHA-MODELO.md).
+- [veredicto onboarding] No aplica aún: la pantalla de onboarding NO está construida (estado:
+  pendiente). Se construye y se le pasa el revisor-visual en la Sesión 4. Sin código no hay
+  screenshot ni veredicto.
+
 ## Pendientes del usuario
 - [ ] Nada por ahora — se avisará cuando toque crear cuentas (Hotmart, Supabase, Vercel, Resend) y comprar dominio
 
