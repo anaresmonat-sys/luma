@@ -1,7 +1,7 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 2 — FICHA-ARTE.md (borrador), replica-fiel.html y vista-previa-app.html (9 frames) generados; test de fidelidad PASA (0 desvíos) / Siguiente acción exacta: el usuario aprueba el tour (1=me encanta / 2=ajusta / 3=repensar) → cerrar FICHA-ARTE.md y pasar a Sesión 3 (página de ventas — requiere FICHA-AVATAR con ≥10 VoC)
+⏸️ CHECKPOINT — Última acción completada: Sesión 2 — v1 del tour RECHAZADA por el usuario (poco fiel); rehecha v2 corrigiendo contra la referencia real (más pálido, Lora, botones planos, emociones multicolor). FICHA-ARTE.md actualizada / Siguiente acción exacta: el usuario aprueba la v2 del tour (1=me encanta / 2=ajusta / 3=repensar) → cerrar FICHA-ARTE.md y pasar a Sesión 3
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -98,7 +98,7 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 
 ## Sesiones
 - ✅ Sesión 1 — validación, FICHA-MODELO (Nebula), FICHA-MERCADO, FICHA-AVATAR (borrador), monetización, arquitectura, unit economics. Aprobada por el usuario (precio + rango de edad 18-60+).
-- 🔧 Sesión 2 — identidad visual: FICHA-ARTE.md (borrador), replica-fiel.html + vista-previa-app.html (9 frames), test de fidelidad PASA. Pendiente: OK del usuario al tour → cerrar FICHA-ARTE.
+- 🔧 Sesión 2 — identidad visual: FICHA-ARTE.md v2 (corregida tras rechazo del usuario). vista-previa-app.html v2 (9 frames, réplica fiel: pálido, Lora, botones planos, emociones multicolor). Pendiente: OK del usuario al tour v2 → cerrar FICHA-ARTE.
 - 📋 Sesión 3: página de ventas (requiere FICHA-AVATAR APROBADA con ≥10 VoC).
 - 📋 Sesión 4: onboarding + paywall + login · 5: app interna · 6: integraciones + seguridad · 7: testing + pulido + rigor · 8: adquisición + lanzamiento + backoffice.
 

@@ -10,3 +10,9 @@ node_modules/
 .env
 .env.*
 !.env.example
+
+# capturas de trabajo
+z*.png
+*-vp.png
+*-full.png
+luma-final.png
