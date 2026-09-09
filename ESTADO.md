@@ -1,164 +1,122 @@
 # ESTADO — LUMA (nombre de trabajo)
-Última actualización: 2026-09-09 | Sesión actual: 1
+Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: fusionado el 2º resumen validado (freemium, analizador de chats, 18 competidores) con la propuesta LUMA del PDF y con la versión recortada / Siguiente acción exacta: el usuario aprueba el ALCANCE V1 fusionado (~8 pantallas) → arrancar Sesión 1 (FICHA-AVATAR + FICHA-MODELO + FICHA-MERCADO + monetización + arquitectura)
+⏸️ CHECKPOINT — Última acción completada: Sesión 1 — creadas FICHA-MODELO (Nebula, aprobada), FICHA-MERCADO y FICHA-AVATAR (borrador), decididas monetización y arquitectura / Siguiente acción exacta: el usuario aprueba el resumen de Sesión 1 (avatar + precio) → Sesión 2 (identidad visual: réplica fiel de su referencia)
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
-análisis de chats/capturas para que mujeres jóvenes descifren señales ambiguas, calmen la ansiedad
-afectiva y sepan qué hacer hoy sin perder sus límites. Tarot = herramienta de reflexión, no de
-predicción. Monetización: freemium con suscripción (prueba 3 días → $9.99/mes o $59.99/año).
+análisis de chats/capturas para que mujeres jóvenes (18-38) descifren señales ambiguas, calmen la
+ansiedad afectiva y sepan qué hacer hoy sin perder sus límites. Tarot = herramienta de reflexión,
+no de predicción. Monetización: freemium onboarding-first (prueba 3 días → $9,99/mes o anual).
 
-## Promesa central (borrador — se afina en Sesión 1)
+## Promesa central (borrador — se afina con el copy en Sesión 3)
 "Entiende lo que está pasando y elige mejor." — Ayuda a mujeres con dudas o conflictos en su vida
 amorosa a separar hechos de interpretaciones, ver sus patrones y decidir su próximo paso sin
 adivinación, mediante análisis de su situación + coach IA + tarot como disparador de reflexión.
 
 ## Historial de enfoque (3 insumos fusionados — NO re-validar la idea)
-- Insumo A — "Tarot Mirror" (resumen validado 2026-09-08): tarot como detonante de journaling.
-  Vigente: avatar base, precio, postura anti-adivinación.
-- Insumo B — PDF "LUMA_propuesta_MVP-3.pdf" (2026-09): foco a amor/relaciones; 10 pantallas; tono
-  "amiga intuitiva y preparada, nunca vidente"; estética wellness premium, no esotérica; momento WOW.
-- Insumo C — 2º resumen validado LUMA (2026-09-09): freemium; el ANALIZADOR DE CHATS/CAPTURAS es la
-  función estrella; "Mis relaciones" entra al núcleo; 18 competidores 🟢 (subnicho poco saturado);
-  costo IA ~$1.20/usuaria/mes; avatar 18-38.
-→ Cuando A y C difieren, MANDA C (es el más reciente y específico).
+- Insumo A — "Tarot Mirror" (resumen validado 2026-09-08): tarot como detonante de journaling. Vigente: avatar base, precio, postura anti-adivinación.
+- Insumo B — PDF "LUMA_propuesta_MVP-3.pdf": foco a amor/relaciones; tono "amiga preparada, no vidente"; estética wellness premium; momento WOW.
+- Insumo C — 2º resumen validado LUMA (2026-09-09): freemium; ANALIZADOR DE CHATS/CAPTURAS = función estrella; "Mis relaciones" al núcleo; 18 competidores 🟢; costo IA ~$1,20/usuaria/mes; avatar 18-38. **Manda C donde difieren.**
+
+## App modelo (FICHA-MODELO.md — APROBADA por evidencia)
+- **Nebula: Horoscope & Astrology** — 2 señales de revenue: #1 grossing horóscopo EE.UU. (Statista 2023) + ~US$300k/mes est. (Sensor Tower, ~mar-2026). Ads de largo recorrido.
+- Qué conservamos: onboarding tipo quiz que construye inversión · preview de valor → paywall · freemium con prueba 3 días · hook de hábito diario (carta del día + check-in).
+- Nuestro eje único (UNO): ángulo → coach de claridad en el amor, tarot como reflexión y analizador anclado a la situación real; + idioma-geo español LATAM. Elimina su queja #1: precio honesto, sin chat por créditos, lecturas no genéricas.
 
 ## Reporte de validación (materia prima — no se re-valida)
-- Avatar: mujeres 18-38, activas en redes, en dating / conociendo a alguien / dudas en pareja /
-  superando al ex / detectan patrones repetitivos / sobrepiensan mensajes y señales. Pago $9.99-14.99.
-  Consciencia del problema ALTA; cansancio ALTO de chatbots fríos y de apps de tarot con texto genérico.
-- Dolores textuales (Insumo C): "The AI responses feel so robotic and cold, like reading a Wikipedia
-  article" · "gives the exact same generic card interpretation every single day" · "$10/week just for
-  a daily card quote. Total rip off for no depth."
-- Deseos: saber qué siente/qué significan los mensajes del otro · dejar de revisar el teléfono ·
-  saber qué responder sin perder dignidad ni límites · desahogo privado sin juicio · sentir la
-  lectura 100% personalizada a su historia real.
-- Objeciones: "es un chatbot genérico" · "el tarot en apps no sirve, prefiero persona real" · "caro
-  por significados que busco en Google" · "no quiero que me juzgue por escribirle a mi ex".
-- Competidores + hueco: The Pattern / Co-Star (conceptuales, fríos, impersonales) · HerPocket Coach
-  (coaching sin el eje intuitivo/tarot) · Labyrinthos y tarot tradicional (enciclopedias estáticas,
-  sin análisis de la situación personal). Hueco LUMA = motor de IA contextual por carta + análisis
-  de chats reales + formato de acción.
-- Competencia: 18 apps directas contadas en tiendas 🟢 (menos de 20 = subnicho poco saturado).
-- Diferenciador: "la única app que conecta el Tarot con la lectura en tiempo real de tus chats y
-  vínculos para darte claridad sobre qué hacer hoy sin perder tu dignidad".
-
-## Unit economics (recalcular formal en Sesión 1 — gate del 40)
-- Costo IA declarado: ~$1.20 USD/usuaria activa/mes (coach + análisis + tiradas).
-- Cobro: $9.99/mes → margen bruto ~88% (~$8.79 libres para adquisición).
-- Riesgo: usuarias intensivas de chat pueden pasarse del costo → límites por plan empaquetados en
-  RESULTADOS (no tokens), free tier con 1 tirada/mes + check-in básico mantiene su costo ~0.
+- Avatar: mujeres 18-38, activas en redes, en dating / dudas en pareja / superando al ex / sobrepiensan señales. Pago $9,99-14,99. Consciencia alta y ESCÉPTICA (ya probó amigas, tiradas gratis, apps).
+- Dolores textuales: "obsesionada mirando el teléfono a ver si respondió" · "the AI responses feel robotic and cold" · "same generic card interpretation every day" · "$10/week just for a daily card quote, total rip off".
+- Deseos: entender qué pasa hoy en <3 min · saber qué responder sin perder dignidad · dejar de revisar el teléfono · espacio privado sin juicio · lectura anclada a su historia real.
+- Competencia: 18 apps directas 🟢 (subnicho poco saturado). Entrantes cercanos: Arcana (AI Tarot Chat), "Bye – Red Flags" (tarot sobre tus conversaciones), Co-Star, The Pattern.
+- Diferenciador: "la única app que conecta el Tarot con la lectura en tiempo real de tus chats y vínculos para darte claridad sobre qué hacer hoy sin perder tu dignidad".
 
 ## Momento WOW / primera victoria (<5 min)
-Usuaria pega el último mensaje o sube una captura ("¿por qué tardó 5 horas en responder?") →
-tirada de 1-3 cartas contextualizada → desglose inmediato: qué sabemos / qué observamos / posible
-riesgo / pregunta para ti / qué podrías responder manteniendo tu valor. Sensación: "esta app me entiende."
+Pega el último mensaje o sube una captura → tirada de 1-3 cartas contextualizada → desglose: qué
+sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías responder. Sensación: "esta app me entiende."
 
-## Avatar y venta (Sesión 1 — se completa FICHA-AVATAR.md)
-- FICHA-AVATAR.md: NO creada aún
-- Tono de marca (protegido en TODO el copy): amiga intuitiva y muy preparada en relaciones y
-  psicología; NUNCA vidente que dicta certezas; estética wellness/coaching premium, no esotérica.
-- Canal: Meta/TikTok Ads + reels orgánicos con dilemas de chat reales. Ganchos (de dolores reales):
-  1 "Si estás obsesionada mirando el teléfono a ver si respondió, haz esta tirada en 10 segundos."
-  2 "Subí la captura de lo que me puso mi ex y la lectura me dejó en shock."
-  3 "Deja de pedirle consejo a tus amigas que están igual de confundidas que tú."
-  4 "3 red flags que esta app de tarot e IA me detectó en menos de un minuto."
-  5 "Qué hacer cuando te demuestra interés un día y al otro desaparece."
-- Ventaja del dueño: dominio del lenguaje/estética del nicho (crecimiento personal, tarot) y de los
-  ganchos emocionales que convierten en orgánico y ads.
+## Avatar y venta (FICHA-AVATAR.md — BORRADOR)
+- Estado BORRADOR: hay ~7 frases VoC con fuente; faltan ≥3 más antes de escribir copy de venta (Sesión 3). Recomendado: 5-10 conversaciones con mujeres del avatar (44).
+- Dolor #1: obsesión/incertidumbre ante señales ambiguas. Deseo #1: entender qué pasa hoy en <3 min.
+- Tono de marca (protegido en TODO el copy): amiga intuitiva y muy preparada; NUNCA vidente que dicta certezas; estética wellness/coaching premium, no esotérica.
+- Canal: Meta/TikTok Ads + reels orgánicos con dilemas de chat reales. Ganchos: teléfono/espera · "subí la captura de mi ex" · "deja de pedir consejo a amigas confundidas" · "3 red flags en 1 minuto" · "interés un día, desaparece al otro".
 
-## Estrategia de monetización (Sesión 1 — matriz A-F del 02C)
-- Modelo: freemium con suscripción (confirmado por Insumo C).
-- Gratis: 1 tirada/mes · check-in emocional diario básico · carta del día · diario básico.
-- Premium: coach IA ilimitada · analizador de chats/capturas · Mis relaciones · tarot ampliado ·
-  historial e insights.
-- Trial: 3 días (declarado) — validar plazo real de la pasarela en FICHA-MERCADO + puente D1-D7 (02C).
-- Pricing de partida: $9.99/mes | $59.99/año (mostrar como "2 meses gratis"). Validar 3 suelos del 02C + gate del 40.
+## Monetización (DECIDE-INFORMA — el usuario puede ajustar el precio con /precios)
+- Modelo: **freemium onboarding-first** (quiz → preview de valor → paywall → registro/login). Confirmado por matriz A-F (B2C bienestar/relaciones) + el modelo Nebula.
+- Prueba: **3 días** · Garantía: **7 días** (regla dura 18: garantía > prueba ✓; Hotmart admite 7/15/21/30).
+- Precio propuesto: **US$9,99/mes + US$71,99/año** ("más de 4 meses gratis"). El resumen validado decía $59,99/año (≈6 meses gratis, descuento ~50%); se propone $71,99 para proteger ingreso — el usuario decide.
+- Suelo de MERCADO (FICHA-MERCADO §1): mediana ~$10-15/mes → $9,99 dentro de rango (−0 a −20%), sin desvío que justificar.
+- Suelo de COSTO (gate 40): costo IA ~$1,20/usuaria/mes → margen bruto ~88% a $9,99. PASA con holgura.
+  Cupos: Gratis = 1 tirada/mes + check-in diario + carta del día + diario básico (costo ≈ $0).
+  Premium = coach/analizador/tarot ilimitados con tope blando por resultado (fórmula 02C ≈ 40 resultados/día) para casos extremos.
+- Suelo de CANAL: se chequea antes de la 1ª campaña pagada (34, Sesión 8).
 
-## ALCANCE V1 FUSIONADO — pendiente de OK del usuario (~8 pantallas núcleo)
-Mantiene el espíritu "recortado" (buildable, sin scope creep) PERO reincorpora lo que el Insumo C
-marca como núcleo (analizador de chats, Mis relaciones):
-1. Bienvenida
-2. Recorrido de inicio (onboarding: situación afectiva, objetivos, patrones, ansiedad, relación con el tarot)
-3. Inicio / Home — check-in emocional + carta del día + accesos
-4. Analizar mi situación — pega texto o sube captura → hechos / observaciones / posible riesgo /
-   pregunta para ti / qué responder + acciones (explorar con tarot · trabajar límites)  ← LA FUNCIÓN ESTRELLA
-5. Coach IA — chat contextual (conversación abierta, con el contexto de "Mis relaciones")
-6. Tarot — tiradas contextualizadas de 1-3 cartas (temas: Amor, Ruptura, Decisión, Autoconocimiento, Carta del día)
-7. Mis relaciones (versión ligera) — perfiles "Pareja / Ex / Candidato": rol + 2-3 líneas de
-   contexto que SÓLO alimentan al coach y al analizador. Sin timeline profundo (eso es V2).
-8. Diario emocional — check-in estructurado (emoción · situación · pensamiento · necesidad) con una
-   pista simple de patrón ("van 3 registros parecidos"), no analítica completa.
-+ Pantalla de planes (paywall) — pantalla de primera clase de la secuencia.
+## Decisiones técnicas (NO re-discutir sin pedirlo el usuario — no van al chat)
+- Framework: **Next.js App Router** (landing con SEO + app + rutas de servidor para IA). Idioma UI: español mono-idioma.
+- Auth: **Supabase Auth** passwordless (magic link / OTP por email) + Google OAuth; age gate 18+ en el onboarding; rate limit y errores de login genéricos (26).
+- Modelo de datos (RLS activa en TODAS por `user_id = (select auth.uid())`, columna indexada — 25):
+  `profiles` · `onboarding_answers` · `checkins` (mood diario) · `daily_cards` · `tarot_readings` ·
+  `situations` (analizador: input + salida estructurada) · `coach_messages` (chat) ·
+  `relationships` (Mis relaciones: rol + notas de la usuaria) · `journal_entries` ·
+  `subscriptions` (plan/estado desde webhook Hotmart, idempotente + firma) · `ai_calls` (coste/kill-switch, 30/31).
+- IA (30): coach = texto→texto sync con contexto (perfil + relaciones + últimos mensajes);
+  analizador = texto→texto sync con salida estructurada (hechos/observaciones/riesgo/pregunta/qué responder);
+  tiradas = texto→texto sync; OCR de capturas = modelo multimodal o OCR+texto (proveedor se decide en Sesión 6).
+  `AI_MODEL` en env, `max_tokens` ~800-1024, cache de idénticos, kill-switch por coste. Prompt con guardarraíles:
+  solo auto-reflexión/límites/inteligencia emocional; PROHIBIDO predecir salud, embarazo, muerte o eventos trágicos (gate 61).
+- Loop de retención (Hooked): Gatillo = notificación nocturna "tu reflexión de 1 minuto está lista" + evento personal →
+  Acción = check-in + carta del día / pegar un mensaje → Recompensa = insight que reencuadra + carta contextual (variable) →
+  Inversión = diario + perfiles de Mis relaciones + historial que personaliza la lectura de mañana.
+  Test "si borro tu historial ¿la app de mañana es idéntica?": NO. Primera semana D1-D7 y ritual diario M0 se diseñan en Sesión 4/5.
+- Pasarela: Hotmart + webhook a Supabase (default del SO). Reviews/competidores citados son apps nativas; se construye web app + Hotmart salvo que el usuario exija nativo.
 
-**A V2 (mismo estilo, cuando ya haya clientas pagando):** Programas de 7-30 días · detección de
-patrones sobre todo el historial (pantalla analítica "ver mi patrón") · Mis relaciones con memoria/
-timeline profundo · memoria de largo plazo del coach entre todo el historial.
+## ALCANCE V1 (aprobado por el usuario — ~8 pantallas núcleo + bienvenida + paywall)
+1. Bienvenida · 2. Recorrido de inicio (quiz) · 3. Inicio (check-in + carta del día) ·
+4. **Analizar mi situación** (función estrella) · 5. Coach IA · 6. Tarot (tiradas contextuales 1-3 cartas) ·
+7. Mis relaciones (ligera: rol + contexto que alimenta al coach) · 8. Diario emocional · + Pantalla de planes.
+- A V2: Programas de 7-30 días · detección de patrones sobre todo el historial · Mis relaciones con timeline profundo · memoria de largo plazo del coach.
 
-## Riesgos (fusionados)
-- "Mis relaciones" guarda notas sobre TERCEROS (ex, cita). Mitigación V1: es el espacio privado de
-  reflexión de ELLA (cómo lo vive ella), sin perfilar a la otra persona; borrable; se decide con 47
-  en Sesión 1. Solo 18+ (age gate), nunca 13+.
-- Alucinaciones IA / predicciones absolutas de tarot → prompting estricto en auto-reflexión, límites
-  e inteligencia emocional; PROHIBIDO predecir salud, embarazo, muerte o eventos trágicos (gate 61).
-- CPA alto en ads → ganchos de chats reales para clics baratos (ya en el plan de canal).
-- Cancelación tras resolver la duda puntual → ritual diario (check-in + carta del día) + Mis
-  relaciones + notificación diaria "tu reflexión de 1 minuto está lista".
-- Costo de IA del coach con memoria puede erosionar margen → límites por resultado, recalcular en Sesión 1.
-- Plataforma: los reviews/competidores citados son apps NATIVAS (App Store/Play, RevenueCat/Stripe).
-  El SO construye WEB APP con checkout Hotmart. Reconciliar en Sesión 1 (por defecto: web app + Hotmart;
-  cambiar solo si el usuario exige nativo).
-- Nombre "LUMA": varias apps lo usan → verificar marca/dominio/stores; alternativas: "LUMA Tarot &
-  Relaciones", "Claria IA".
+## Riesgos
+- "Mis relaciones" guarda notas sobre TERCEROS → en V1 es el espacio privado de reflexión de ELLA (cómo lo vive ella), sin perfilar al otro, borrable; salvaguardas con 47. Solo 18+.
+- Alucinaciones IA / predicción de tarot → prompt con guardarraíles + gate 61.
+- CPA alto en ads → ganchos de chats reales (plan de canal).
+- Cancelación tras resolver la duda puntual → ritual diario + Mis relaciones + notificación nocturna.
+- Nombre "LUMA": varias apps lo usan → verificar marca/dominio/stores; alt: "LUMA Tarot & Relaciones", "Claria IA".
 
-## Decisiones técnicas (NO re-discutir sin pedirlo el usuario)
-- Framework: PENDIENTE (Sesión 1 — probable Next.js: landing con SEO + app + rutas de servidor para IA).
-- IA: coach = chat texto→texto con contexto/memoria de la usuaria + de "Mis relaciones"; analizador y
-  tiradas = texto→texto sync. Modelo en constante AI_MODEL, max_tokens acotado, cachear idénticos.
-  Visión/OCR de capturas: decidir en Sesión 1 (modelo multimodal vs OCR + texto).
-- Loop de retención, método de auth y modelo de datos + RLS: se definen en Sesión 1 / al construir.
-- Pasarela: Hotmart + webhook (por defecto del SO) salvo decisión de ir nativo.
-
-## Identidad visual — REFERENCIA DEL USUARIO = CONTRATO (16)
-- El usuario envió un mockup de PANTALLA COMPLETA (10 pantallas de LUMA) el 2026-09-09 → RÉPLICA FIEL
-  (54 RUTA 2). Estilo a replicar (extracción preliminar, se formaliza en FICHA-ARTE.md en Sesión 2):
-  claro/cálido · fondo crema #f4eee4 · superficie #fbf7f1 · texto #3d342e / #9a8c7f · acento rosa
-  empolvado #c88b84 · panel oscuro espresso #2a2320 (Premium) · serif editorial (Fraunces/Playfair/
-  Cormorant) display + sans humanista (Hanken Grotesk/Figtree) body · radio 18/14 · sombras sutiles
-  cálidas · fotografía de atardecer · íconos de línea. Mood: cálida · serena · femenina-editorial.
-- Borrador de tour: `vista-previa-app.html` (7 frames, estilo replicado; falta ajustar recorte en
-  Inicio y Tarot y añadir Analizar/Mis relaciones para reflejar el alcance V1 fusionado).
-- La captura original la envió el usuario en el chat — archivar en docs/revisiones/ cuando esté disponible.
+## Identidad visual — REFERENCIA DEL USUARIO = CONTRATO (16 / 54 RUTA 2 — se formaliza en Sesión 2)
+- El usuario envió mockup de 10 pantallas de LUMA (2026-09-09) → RÉPLICA FIEL. Extracción preliminar:
+  claro/cálido · fondo #f4eee4 · superficie #fbf7f1 · texto #3d342e / #9a8c7f · acento rosa empolvado #c88b84 ·
+  panel espresso #2a2320 (Premium) · display serif editorial (Fraunces/Playfair/Cormorant) + body sans humanista
+  (Hanken Grotesk/Figtree) · radio 18/14 · sombras sutiles cálidas · foto de atardecer · íconos de línea.
+  Mood: cálida · serena · femenina-editorial. Sin prohibiciones anti-IA que levantar.
+- Borrador de tour: `vista-previa-app.html` (7 frames; falta ajustar recorte en Inicio/Tarot y añadir Analizar + Mis relaciones al alcance V1).
+- Archivar la captura original en docs/revisiones/ cuando esté disponible.
 
 ## Secuencia maestra de construcción (NO saltar)
-- Estado: nada de código construido. Ruta: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
+- Estado: nada de código. Ruta: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
 - Servicios externos: bloqueados hasta que las puertas anteriores estén aprobadas.
 
-## Sesión en progreso 🔧
-- Sesión 1 — en pausa: esperando OK del usuario al ALCANCE V1 fusionado (~8 pantallas).
-
-## Próximas sesiones 📋
-- Sesión 1: FICHA-AVATAR · FICHA-MODELO · FICHA-MERCADO · monetización · arquitectura · unit economics
-- Sesión 2: identidad visual (FICHA-ARTE — réplica fiel de la referencia del usuario) + tour aprobado
-- Sesión 3: página de ventas · Sesión 4: onboarding + paywall + login · Sesión 5: app interna
-- Sesión 6: integraciones + seguridad · Sesión 7: testing + pulido + rigor · Sesión 8: adquisición + lanzamiento + backoffice
+## Sesiones
+- ✅ Sesión 1 — validación, FICHA-MODELO (Nebula), FICHA-MERCADO, FICHA-AVATAR (borrador), monetización, arquitectura, unit economics. Pendiente: OK del usuario al resumen.
+- 📋 Sesión 2: identidad visual — réplica fiel de la referencia + tour aprobado + FICHA-ARTE.md + tokens.
+- 📋 Sesión 3: página de ventas (requiere FICHA-AVATAR APROBADA con ≥10 VoC).
+- 📋 Sesión 4: onboarding + paywall + login · 5: app interna · 6: integraciones + seguridad · 7: testing + pulido + rigor · 8: adquisición + lanzamiento + backoffice.
 
 ## Problemas conocidos ⚠️
-- [FICHA-MODELO] Aún sin crear — se elige y extrae al inicio de la Sesión 1. Candidatas: Co-Star o
-  The Pattern (escala/hábito probados) + HerPocket Coach / Alora (eje coaching de relaciones). Nada
-  de UI real se construye antes de tenerla.
+- [FICHA-AVATAR] En BORRADOR: faltan ≥3 frases VoC con fuente (y, mejor, 5-10 entrevistas del 44) antes de escribir copy de venta en Sesión 3.
 - [veredicto:onboarding] Pospuesto — pantalla de recorrido de inicio NO iniciada (Sesión 4). Sin código no hay captura ni veredicto.
 - [veredicto:landing] Pospuesto — página de ventas NO iniciada (Sesión 3).
 - [veredicto:paywall] Pospuesto — pantalla de planes NO iniciada (Sesión 4).
-- `vista-previa-app.html` es un mockup pre-código (no es la app); recorte por ajustar en 2 frames.
+- `vista-previa-app.html` es mockup pre-código (no es la app); recorte por ajustar en 2 frames.
+- FICHA-MERCADO: penetración de tarjeta por país y % compras >30 días quedaron NO ENCONTRADO — revisar 2027-03-09.
 
 ## Pendientes del usuario
-- [ ] Aprobar el ALCANCE V1 fusionado (~8 pantallas) o decir qué quitar/añadir.
-- [ ] Verificar disponibilidad del nombre "LUMA" (marca/dominio/stores).
+- [ ] Aprobar el resumen de Sesión 1 (tu clienta ideal + el precio propuesto).
+- [ ] Verificar disponibilidad del nombre "LUMA" (marca/dominio/stores) — te digo cómo cuando toque el dominio.
+- [ ] Ideal antes de la página de ventas: hablar 10-15 min con 5-10 mujeres del perfil (te preparo las preguntas).
 - [ ] Más adelante: crear cuentas (Hotmart, Supabase, Vercel, Resend) y comprar dominio — se avisará.
 
 ## Notas para la próxima sesión
-- Enfoque ACTUAL: LUMA con el Insumo C como fuente principal. No re-validar concepto ni proponer alternativas.
+- Enfoque ACTUAL: LUMA con Insumo C como fuente principal. No re-validar concepto.
 - El ANALIZADOR DE CHATS/CAPTURAS es la función estrella y el eje del video/ads — priorizarlo en diseño y en la primera victoria.
 - Referencia visual del usuario = CONTRATO: replicar, no reinterpretar (16 / 54 RUTA 2).
