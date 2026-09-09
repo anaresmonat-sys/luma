@@ -1,0 +1,12 @@
+# Scratch de herramientas de preview / screenshots
+.playwright-mcp/
+.tsbuildinfo-hook
+luma-*.png
+
+# Node
+node_modules/
+
+# Entorno (nunca commitear secretos)
+.env
+.env.*
+!.env.example
