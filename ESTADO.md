@@ -1,7 +1,7 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 1 — creadas FICHA-MODELO (Nebula, aprobada), FICHA-MERCADO y FICHA-AVATAR (borrador), decididas monetización y arquitectura / Siguiente acción exacta: el usuario aprueba el resumen de Sesión 1 (avatar + precio) → Sesión 2 (identidad visual: réplica fiel de su referencia)
+⏸️ CHECKPOINT — Última acción completada: Sesión 1 cerrada — usuario aprobó precio ($9,99/mes + $71,99/año) y pidió ampliar el rango de edad a 18-60+ (hecho en FICHA-AVATAR) / Siguiente acción exacta: arrancar Sesión 2 (identidad visual: réplica fiel de la referencia del usuario + tour + FICHA-ARTE)
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -25,7 +25,7 @@ adivinación, mediante análisis de su situación + coach IA + tarot como dispar
 - Nuestro eje único (UNO): ángulo → coach de claridad en el amor, tarot como reflexión y analizador anclado a la situación real; + idioma-geo español LATAM. Elimina su queja #1: precio honesto, sin chat por créditos, lecturas no genéricas.
 
 ## Reporte de validación (materia prima — no se re-valida)
-- Avatar: mujeres 18-38, activas en redes, en dating / dudas en pareja / superando al ex / sobrepiensan señales. Pago $9,99-14,99. Consciencia alta y ESCÉPTICA (ya probó amigas, tiradas gratis, apps).
+- Avatar: mujeres **18 a 60+** (rango ampliado a pedido del usuario). Primaria: 20-35, en dating / dudas en pareja / superando al ex, sobrepiensa señales — es el foco de la ADQUISICIÓN pagada (más volumen, CPM barato). Sub-avatares: 35-45 post-divorcio con hijos; 50-65 sola tras matrimonio largo/viudez, se replantea si volver a salir o hacer las paces con estar sola (usa más diario y carta del día que el analizador; canal orgánico Facebook). El producto y el copy NO excluyen por edad. Consciencia alta y ESCÉPTICA.
 - Dolores textuales: "obsesionada mirando el teléfono a ver si respondió" · "the AI responses feel robotic and cold" · "same generic card interpretation every day" · "$10/week just for a daily card quote, total rip off".
 - Deseos: entender qué pasa hoy en <3 min · saber qué responder sin perder dignidad · dejar de revisar el teléfono · espacio privado sin juicio · lectura anclada a su historia real.
 - Competencia: 18 apps directas 🟢 (subnicho poco saturado). Entrantes cercanos: Arcana (AI Tarot Chat), "Bye – Red Flags" (tarot sobre tus conversaciones), Co-Star, The Pattern.
@@ -111,7 +111,7 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 - FICHA-MERCADO: penetración de tarjeta por país y % compras >30 días quedaron NO ENCONTRADO — revisar 2027-03-09.
 
 ## Pendientes del usuario
-- [ ] Aprobar el resumen de Sesión 1 (tu clienta ideal + el precio propuesto).
+- [x] Sesión 1 aprobada: precio $9,99/mes + $71,99/año · rango de edad ampliado a 18-60+.
 - [ ] Verificar disponibilidad del nombre "LUMA" (marca/dominio/stores) — te digo cómo cuando toque el dominio.
 - [ ] Ideal antes de la página de ventas: hablar 10-15 min con 5-10 mujeres del perfil (te preparo las preguntas).
 - [ ] Más adelante: crear cuentas (Hotmart, Supabase, Vercel, Resend) y comprar dominio — se avisará.

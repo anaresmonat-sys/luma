@@ -2,13 +2,17 @@
 
 - Estado: BORRADOR (VoC recolectada ~7 frases con fuente; faltan ≥3 más con fuente antes de escribir copy de venta — Sesión 3). En BORRADOR está PROHIBIDO derivar copy de landing/paywall.
 
-## El avatar (cliente ideal — UNA persona concreta)
-- Nombre/arquetipo: "Valentina", 27 años · Situación: conociendo a alguien hace 2 meses, señales mixtas; historial de una relación que la dejó insegura · País(es): México / Colombia / Chile (habla hispana LATAM)
+## El avatar (cliente ideal — UNA persona concreta; rango total 18-60+)
+- Rango de edad del producto: **18 a 60+**. El copy y el producto NO excluyen a nadie por edad; la
+  ADQUISICIÓN pagada lidera con el dolor de la avatar primaria (más joven) porque es el segmento de
+  mayor volumen y CPM más barato en Meta/TikTok. Los sub-avatares tienen su propio ángulo orgánico.
+- AVATAR PRIMARIA — Nombre/arquetipo: "Valentina", 27 años · Situación: conociendo a alguien hace 2 meses, señales mixtas; historial de una relación que la dejó insegura · País(es): México / Colombia / Chile (habla hispana LATAM)
 - Poder adquisitivo: C/C+, ingreso propio · ¿US$9,99/mes le duele? No si siente que le da calma real; sí si huele a "otra app de horóscopos" · Dispositivo: Android gama media, muy activa en Instagram/TikTok
 - IDENTIDAD (cómo se describe): "soy intensa, lo pienso todo demasiado, necesito entender por qué pasan las cosas"
 - MOMENTO DEL DÍA en que duele: 23:00, en la cama, releyendo la conversación por décima vez porque él tardó horas en responder; el estómago apretado
 - MOMENTO DEL AÑO: rupturas de enero y post-vacaciones · San Valentín · aniversarios y fechas que remueven
-- Sub-avatar secundario: mujer 30-38 saliendo de una relación larga / divorcio — léxico: "rehacerme", "mis estándares", "no repetir el patrón"
+- SUB-AVATAR 1 — mujer 35-45 saliendo de una relación larga / divorcio con hijos — léxico: "rehacerme", "mis estándares", "no repetir el patrón", "no tengo tiempo para juegos"
+- SUB-AVATAR 2 — mujer 50-65, sola tras un matrimonio largo, viudez o separación; se replantea si quiere volver a salir con alguien o está haciendo las paces con estar sola. Léxico: "empezar de nuevo a esta edad", "a mi edad ya no…", "mi espacio", "mis años", "compañía"; menos ansiedad de "¿me responderá?" y más de "¿vale la pena?", "¿me estoy conformando?", "¿confío en esta persona?". Usa más el diario y la carta del día que el analizador de chats. Dispositivo: iPhone o Android, usuaria de Facebook/WhatsApp más que de TikTok → canal orgánico: Facebook, grupos de mujeres, testimonios.
 - Ya intentó: preguntar a las amigas (igual de perdidas), tiradas gratis de TikTok/YouTube (genéricas), apps de astrología → las abandonó porque "no me hablan de MI caso" y "solo te sacan plata"
 - Dónde pasa tiempo online: Instagram (reels de terapia/relaciones), TikTok (#relationships #tarot #redflags), grupos de mujeres en WhatsApp/Facebook
 
