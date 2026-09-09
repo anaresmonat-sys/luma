@@ -1,69 +1,96 @@
-# ESTADO — Tarot Mirror (nombre tentativo)
-Última actualización: 2026-09-08 | Sesión actual: 1
+# ESTADO — LUMA (nombre de trabajo)
+Última actualización: 2026-09-09 | Sesión actual: 1
 
-⏸️ CHECKPOINT — Última acción completada: idea validada recibida y guardada / Siguiente acción exacta: aprobar Plan Maestro y arrancar Sesión 1 (validación profunda + FICHA-AVATAR + monetización + arquitectura)
+⏸️ CHECKPOINT — Última acción completada: revisada la propuesta LUMA (PDF), enfoque migrado de "Tarot Mirror" a coach emocional del amor / Siguiente acción exacta: el usuario elige alcance (V1 recortada de 6 pantallas vs 10 pantallas completas); luego arrancar Sesión 1 (FICHA-AVATAR + FICHA-MODELO + FICHA-MERCADO + monetización + arquitectura)
 
 ## Qué es esta app (3 líneas máximo)
-Refugio diario para mujeres (22-42) que usa la simbología del tarot como detonante de journaling
-guiado e inteligencia emocional. No es adivinación: es "psicología visual" para procesar emociones
-y decidir sin actuar por impulso. Monetización: suscripción mensual/anual con prueba gratis.
+Coach emocional para el amor y las relaciones, dirigida a mujeres adultas que atraviesan una
+situación afectiva (conociendo a alguien, dudas en pareja, ruptura, patrones repetitivos,
+sobrepensar mensajes). El tarot es una herramienta de reflexión, no de predicción. La IA actúa
+como coach personalizada. Monetización: freemium con suscripción (~$9.99/mes o $59.99/año).
 
 ## Promesa central (borrador — se afina en Sesión 1)
-"Ayuda a mujeres en dilemas de pareja o ansiedad cotidiana a entender qué les pasa y qué hacer hoy,
-sin horóscopos genéricos ni respuestas frías de IA, mediante cartas de tarot que disparan
-journaling guiado y un ejercicio práctico de 1 minuto."
+"Entiende lo que está pasando y elige mejor." — Ayuda a mujeres con dudas o conflictos en su vida
+amorosa a distinguir hechos de interpretaciones, ver sus patrones y decidir su próximo paso, sin
+promesas de adivinación, mediante coach IA + inteligencia emocional + tarot como disparador de
+reflexión.
+
+## Historial de enfoque
+- v1 de la idea (pre-validada por el usuario, 2026-09-08): "Tarot Mirror" — tarot como detonante
+  de journaling e inteligencia emocional, tema amplio. Competidores citados: Nebula, Labyrinthos,
+  Sanctuary. Sigue siendo materia prima válida (avatar, precio, anti-adivinación).
+- v2 / ACTUAL (propuesta LUMA, PDF "LUMA_propuesta_MVP-3.pdf", 2026-09): mismo avatar y precio,
+  foco AFINADO a amor y relaciones; añade coach IA con memoria, perfiles "Mis relaciones",
+  analizador de situaciones, programas de 7-30 días, diario emocional con detección de patrones.
 
 ## Reporte de validación (idea PRE-VALIDADA por el usuario — materia prima, no se re-valida)
-- Veredicto del usuario: oportunidad con competencia alta (+50 apps) pero hueco claro: introspección/journaling
-- Apps de referencia / competidores:
-  - Nebula — queja: respuestas robóticas, cobros agresivos · hueco: cero introspección/journaling
-  - Labyrinthos — queja: contenido repetitivo, sin enfoque práctico · hueco: es herramienta de aprendizaje, no coach
-  - Sanctuary — queja: caro (cobra por minuto) · hueco: depende de terceros, no autogestión
-- Lo que los usuarios odian de la competencia (nuestra oportunidad):
-  - Interpretaciones tipo "horóscopo de periódico", genéricas
-  - IA superficial que se siente falsa y aleatoria, sin conexión con su situación real
-  - Sin espacio privado para volcar pensamientos
-- Precio de referencia declarado: $9.99/mes o $59.99/año · prueba gratis 3 días desde el onboarding
-- Costo por cliente estimado: ~$0.15 USD/mes (IA por tirada + journaling) → margen ~98.5%
-- Idioma/mercado: español (los ganchos y el avatar del resumen están en español)
+- Avatar (constante entre v1 y v2): mujeres adultas ~22-42, situación afectiva concreta, sobrepiensan
+  señales, dudan de la relación o vienen de una ruptura, conocen el tarot, cansadas de promesas
+  místicas vacías y de IA fría. Consciencia alta / sofisticación de mercado alta.
+- Benchmarks de la propuesta LUMA (a extraer en FICHA-MODELO): The Pattern (patrones personales),
+  Co-Star (hábito diario + notificaciones), CHANI (espiritualidad desde bienestar), Alora (coaching
+  de relaciones para mujeres), HerPocket Coach (IA para dating/red flags), Cosmic Tea (conversación
+  personalizada con contexto relacional).
+- Lo que falta separado en el mercado (oportunidad LUMA): astrología/tarot + bienestar + coaching de
+  relaciones están en apps distintas; LUMA los une alrededor de "¿qué pasa en mi vida afectiva y cómo
+  lo gestiono mejor?"
+- Precio de referencia declarado: ~$9.99/mes o $59.99/año — sujeto a validación (FICHA-MERCADO + 02C)
+- Costo por cliente estimado (v1): ~$0.15 USD/mes de IA. ⚠️ Con coach IA de chat con memoria el
+  costo por usuaria SUBE — recalcular en Sesión 1 con el gate del 40 antes de fijar precio y cupos.
+- Idioma/mercado: español.
+
+## Momento WOW (del PDF)
+Usuaria: "Estoy conociendo a un chico, me escribía muchísimo y ahora tarda horas; estoy obsesionada
+mirando el móvil." → LUMA reencuadra: el problema no es solo "si le intereso", es la incertidumbre
+que se le activa. Ofrece análisis emocional, una tirada o un ejercicio para la ansiedad.
+Sensación buscada: "Esta app me entiende."
 
 ## Avatar y venta (Sesión 1 — se completa FICHA-AVATAR.md)
 - FICHA-AVATAR.md: NO creada aún
-- Avatar: mujer 22-42, dilemas de pareja o ansiedad cotidiana, conoce el tarot, cansada de
-  promesas místicas vacías y de IA fría. Nivel de consciencia: alto (conoce el problema y las
-  soluciones, escéptica de ellas → sofisticación de mercado alta).
-- Dolor #1: sobrecarga emocional y confusión sin espacio privado para procesarla de forma práctica
-- Deseo #1: entender qué le pasa emocionalmente en < 3 minutos
-- Objeciones: "otra app de horóscopo genérico" · "para eso están las tiradas gratis de TikTok/YouTube"
-  · "no tengo tiempo de escribir párrafos largos a diario"
-- Diferenciador: única app que usa las cartas como disparadores de inteligencia emocional +
-  journaling guiado para tomar el control, no para predecir el futuro
+- Dolor #1: sobrepensar / obsesión con señales ambiguas de la otra persona; incertidumbre afectiva
+- Deseo #1: entender qué está pasando y qué puede hacer, con calma, sin actuar por impulso
+- Objeciones: "otra app que te dice si tu ex va a volver" · "para eso hay tiradas gratis en redes"
+  · "no tengo tiempo de escribir mucho a diario"
+- Tono de marca (del PDF, protegido en TODO el copy): amiga intuitiva y preparada en relaciones y
+  psicología; NUNCA una vidente que dicta certezas. Evitar estética esotérica; cercano a wellness
+  premium / coaching.
+- Diferenciador: coach de relaciones con IA + inteligencia emocional donde el tarot es la
+  herramienta de reflexión (no la promesa). Frente a Alora / HerPocket, el tarot es el ángulo
+  propio; frente a Nebula / apps de tarot, el coaching práctico y el diario lo son.
 
 ## Estrategia de monetización (Sesión 1 — se decide con matriz A-F del 02C)
-- Modelo: PENDIENTE (probable onboarding-first con trial, por ser B2C de personalización/bienestar)
-- Trial: 3 días (declarado por el usuario) — se valida contra 02C/plazos de Hotmart
-- Pricing propuesto de partida: $9.99/mes | $59.99/año — se valida con los 3 suelos del 02C + gate del 40
+- Modelo: freemium (el PDF ya propone tabla Gratis vs Premium) — se confirma con la matriz A-F
+- Gratis (propuesta PDF): carta diaria · check-in emocional · 1-2 tiradas al mes · conversaciones
+  limitadas · diario básico
+- Premium (propuesta PDF): coach IA ampliada · tarot ampliado · Mis relaciones · analizador de
+  situaciones · detección de patrones · programas + historial + insights
+- Trial: por definir (02C por nicho + plazos reales de la pasarela en FICHA-MERCADO)
+- Pricing propuesto de partida: $9.99/mes | $59.99/año — validar con los 3 suelos del 02C + gate del 40
 
-## Primera victoria (< 5 min)
-Tirar una carta → recibir una interpretación psicológica de su emoción actual → responder UNA
-pregunta de journaling reveladora + un ejercicio de 1 minuto para hoy.
+## Decisión PENDIENTE del usuario — ALCANCE de la V1
+- Opción 1 (recomendada): V1 recortada de 6 pantallas — recorrido de inicio · Home (check-in +
+  insight del día) · Coach IA (con modo "describe tu situación" que absorbe el analizador) · Tarot
+  (5 tiradas: Amor, Ruptura, Decisión, Autoconocimiento, Carta del día) · Diario emocional · Planes.
+  A V2: Mis relaciones, Programas 7-30 días, detección de patrones.
+- Opción 2: las 10 pantallas del PDF desde el inicio (más sesiones, más riesgo de salir a medias).
+
+## Riesgos
+- ALCANCE demasiado grande para una V1 (10 pantallas con chat con memoria + perfiles + programas +
+  patrones). Mitigación: lanzar con núcleo recortado (Opción 1).
+- "Mis relaciones" almacena datos de TERCEROS (ex, cita) que no son usuarios ni consintieron →
+  implicación de privacidad seria. Decidir en Sesión 1 si entra en V1 y con qué salvaguardas (47).
+- Mercado con jugadores fuertes (Co-Star, The Pattern, HerPocket Coach, Alora). El tarot como
+  herramienta de reflexión es el diferenciador real — apoyarse en él, no esconderlo.
+- Costo de IA del coach con memoria puede romper el margen — recalcular antes de fijar precio.
+- Churn rápido (patrón del rubro) → ritual diario (check-in + carta del día) + notificación diaria.
 
 ## Decisiones técnicas (NO re-discutir sin pedirlo el usuario)
-- Framework: PENDIENTE (se decide Sesión 1 — probable Next.js: landing + app + rutas de servidor para IA)
-- Features del MVP (del campo 11 del resumen):
-  1. Selección visual de 3 cartas
-  2. Motor de prompt de coaching emocional basado en la carta
-  3. Diario de reflexión (journaling)
-  4. Rastreador de estado de ánimo
-- NO construir aún: tarotistas humanos en vivo, horóscopo por signo, compatibilidad de pareja
-  avanzada, foros comunitarios
-- Modelo de IA: PENDIENTE (constante AI_MODEL, nunca hardcodeado)
-- IA: texto→texto, sync (respuesta corta) — se confirma arquitectura en Sesión 1
-
-## Riesgos (del resumen)
-- Adquisición dependiente de TikTok orgánico sin pauta → plantillas de video replicables
-- Cancelación a los 2 días → notificación diaria "tu reflexión de 1 minuto está lista" + loop
-- Percepción de "IA genérica" → prompt en primera persona, coach empático, específico
+- Framework: PENDIENTE (se decide Sesión 1 — probable Next.js: landing con SEO + app + rutas de
+  servidor para la IA)
+- Modelo de IA: PENDIENTE (constante AI_MODEL, nunca hardcodeado; max_tokens acotado; cachear)
+- Arquitectura de IA: coach = chat texto→texto con contexto/memoria de la usuaria; tiradas y
+  análisis = texto→texto sync. Se confirma en Sesión 1 (30).
+- Loop de retención, método de auth y modelo de datos + RLS: se definen en Sesión 1 / al construir.
 
 ## Secuencia maestra de construcción (NO saltar)
 - Estado: nada construido. Ruta: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
@@ -71,11 +98,11 @@ pregunta de journaling reveladora + un ejercicio de 1 minuto para hoy.
 - Servicios externos: bloqueados hasta que las puertas anteriores estén aprobadas
 
 ## Sesión en progreso 🔧
-- Sesión 1 — arrancando: falta aprobación del Plan Maestro por el usuario
+- Sesión 1 — en pausa: esperando que el usuario elija el alcance (Opción 1 vs 2)
 
 ## Próximas sesiones 📋
-- Sesión 1: validación profunda, FICHA-AVATAR, FICHA-MODELO, FICHA-MERCADO, monetización, arquitectura
-- Sesión 2: identidad visual y sistema de diseño (FICHA-ARTE)
+- Sesión 1: FICHA-AVATAR, FICHA-MODELO, FICHA-MERCADO, monetización, arquitectura
+- Sesión 2: identidad visual (FICHA-ARTE) — dirección: femenina, sofisticada, cálida, no esotérica
 - Sesión 3: página de ventas
 - Sesión 4: onboarding, paywall, login
 - Sesión 5: app interna
@@ -84,16 +111,21 @@ pregunta de journaling reveladora + un ejercicio de 1 minuto para hoy.
 - Sesión 8: adquisición, lanzamiento, backoffice
 
 ## Problemas conocidos ⚠️
-- [FICHA-MODELO] Pospuesto a Sesión 1: aún no se elige ni extrae la app modelo. Nada construido
-  todavía — el proyecto está en aprobación del Plan Maestro. FICHA-MODELO.md se crea al inicio
-  de la Sesión 1 (01 — LA APP MODELO + PLANTILLA-FICHA-MODELO.md).
-- [veredicto onboarding] No aplica aún: la pantalla de onboarding NO está construida (estado:
-  pendiente). Se construye y se le pasa el revisor-visual en la Sesión 4. Sin código no hay
-  screenshot ni veredicto.
+- [FICHA-MODELO] Aún sin crear — se elige y extrae la app modelo al inicio de la Sesión 1, una vez
+  el usuario fije el alcance. Candidata principal: Co-Star o The Pattern (escala probada) para el
+  hábito diario; Alora / HerPocket Coach para el eje de coaching de relaciones. Nada de UI se
+  construye antes de tenerla.
+- [veredicto:onboarding] Pospuesto — la pantalla de recorrido de inicio NO iniciada / pendiente
+  (se hará en la Sesión 4). Sin código todavía no hay captura ni veredicto del revisor-visual.
+- [veredicto:landing] Pospuesto — página de ventas NO iniciada / pendiente (Sesión 3).
+- [veredicto:paywall] Pospuesto — pantalla de planes NO iniciada / pendiente (Sesión 4).
 
 ## Pendientes del usuario
-- [ ] Nada por ahora — se avisará cuando toque crear cuentas (Hotmart, Supabase, Vercel, Resend) y comprar dominio
+- [ ] Elegir el alcance de la V1 (Opción 1 recortada vs Opción 2 completa)
+- [ ] Más adelante: crear cuentas (Hotmart, Supabase, Vercel, Resend) y comprar dominio — se avisará
 
 ## Notas para la próxima sesión
-- La idea llegó PRE-VALIDADA (bloque "RESUMEN FINAL — IDEA VALIDADA PARA CONSTRUIR"). No re-validar
-  ni proponer alternativas. Prestar atención a campos 5, 11, 15, 16, 18, 20 del resumen.
+- El enfoque ACTUAL es LUMA (PDF). "Tarot Mirror" fue la v1 de la idea; su avatar/precio/anti-
+  adivinación siguen valiendo. No re-validar la idea ni proponer alternativas de concepto.
+- Verificar disponibilidad del nombre "LUMA" (marca, dominio, stores) — hay varias apps con ese
+  nombre; puede requerir alternativa. Anotado como paso del PDF (sección 15).
