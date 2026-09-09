@@ -1,7 +1,7 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 1 cerrada — usuario aprobó precio ($9,99/mes + $71,99/año) y pidió ampliar el rango de edad a 18-60+ (hecho en FICHA-AVATAR) / Siguiente acción exacta: arrancar Sesión 2 (identidad visual: réplica fiel de la referencia del usuario + tour + FICHA-ARTE)
+⏸️ CHECKPOINT — Última acción completada: Sesión 2 — FICHA-ARTE.md (borrador), replica-fiel.html y vista-previa-app.html (9 frames) generados; test de fidelidad PASA (0 desvíos) / Siguiente acción exacta: el usuario aprueba el tour (1=me encanta / 2=ajusta / 3=repensar) → cerrar FICHA-ARTE.md y pasar a Sesión 3 (página de ventas — requiere FICHA-AVATAR con ≥10 VoC)
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -97,8 +97,8 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 - Servicios externos: bloqueados hasta que las puertas anteriores estén aprobadas.
 
 ## Sesiones
-- ✅ Sesión 1 — validación, FICHA-MODELO (Nebula), FICHA-MERCADO, FICHA-AVATAR (borrador), monetización, arquitectura, unit economics. Pendiente: OK del usuario al resumen.
-- 📋 Sesión 2: identidad visual — réplica fiel de la referencia + tour aprobado + FICHA-ARTE.md + tokens.
+- ✅ Sesión 1 — validación, FICHA-MODELO (Nebula), FICHA-MERCADO, FICHA-AVATAR (borrador), monetización, arquitectura, unit economics. Aprobada por el usuario (precio + rango de edad 18-60+).
+- 🔧 Sesión 2 — identidad visual: FICHA-ARTE.md (borrador), replica-fiel.html + vista-previa-app.html (9 frames), test de fidelidad PASA. Pendiente: OK del usuario al tour → cerrar FICHA-ARTE.
 - 📋 Sesión 3: página de ventas (requiere FICHA-AVATAR APROBADA con ≥10 VoC).
 - 📋 Sesión 4: onboarding + paywall + login · 5: app interna · 6: integraciones + seguridad · 7: testing + pulido + rigor · 8: adquisición + lanzamiento + backoffice.
 
