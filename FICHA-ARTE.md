@@ -109,7 +109,13 @@
 - Protocolo A/B/C: `direcciones-abc.html` · screenshot docs/revisiones/direcciones-abc-375.png ·
   opción elegida: **A · Terciopelo & Oro** · descartadas: B (claro clay), C (atardecer degradado glass)
 - Réplicas fieles previas (archivadas, ya no vigentes): `replica-fiel.html`, primera `vista-previa-app.html` — rechazadas por el usuario.
-- Tour de la app: `vista-previa-app.html` (se reconstruye con la dirección A) · aprobado por el usuario: PENDIENTE
+- Tour de la app: `vista-previa-app.html` con la dirección A · aprobado por el usuario: PENDIENTE
+- Ronda de retoques 2026-09-10 (pedidos del usuario, aplicados sobre la base A):
+  · pantalla "Analizador" renombrada → "Descifrar" con encabezado "Pega vuestra conversación" + 3 modos
+    de entrada (pegar texto / subir captura / nota de voz)
+  · iconos de "Lo que hemos detectado" a 34px, con relleno de color más fuerte + glow por tipo
+  · cajas de texto: fondo #2d1c26 cálido translúcido + hairline oro tenue (antes #1f1219 casi-negro, resaltaba de más)
+  · botón de micrófono (voz→texto) en Descifrar, chat del coach y diario — ver ESTADO "NOTAS DE VOZ"
 - Paleta derivada de: propuesta propia (dirección A), fusionando calidez editorial (CHANI) + profundidad de degradado (The Pattern) + capa 3D cálida
 - Registro anti-repetición: paleta (vino/cacao #241019 + oro #d8a441) y par tipográfico (Cormorant Garamond + Hanken Grotesk) VETADOS para el próximo proyecto del SO
 - Modo (oscuro cálido) DERIVADO por: el brief del usuario (noche íntima, esotérico, romántico) + fusión de referencias — NO asumido por reflejo

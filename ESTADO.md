@@ -1,7 +1,7 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 2 — el usuario eligió la dirección A (Terciopelo & Oro), con retoques posteriores acordados. Hecho el TOUR (`vista-previa-app.html`, 9 pantallas V1 con la dirección A). FICHA-ARTE.md con el brand kit A / Siguiente acción exacta: el usuario aprueba el tour (1=me encanta / 2=ajusta / 3=repensar) → cerrar FICHA-ARTE.md → Sesión 3 (página de ventas — requiere FICHA-AVATAR con ≥10 VoC)
+⏸️ CHECKPOINT — Última acción completada: Sesión 2 — dirección A elegida; ronda de retoques del tour: pantalla 4 renombrada a "Descifrar / Pega vuestra conversación", añadidas NOTAS DE VOZ (mic en toda caja de texto), iconos del análisis más grandes y con glow, cajas de texto con fondo cálido (ya no negro duro) / Siguiente acción exacta: el usuario aprueba el tour retocado (1=me encanta / 2=más ajustes / 3=repensar) → cerrar FICHA-ARTE.md → Sesión 3 (página de ventas)
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -60,8 +60,9 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
   `relationships` (Mis relaciones: rol + notas de la usuaria) · `journal_entries` ·
   `subscriptions` (plan/estado desde webhook Hotmart, idempotente + firma) · `ai_calls` (coste/kill-switch, 30/31).
 - IA (30): coach = texto→texto sync con contexto (perfil + relaciones + últimos mensajes);
-  analizador = texto→texto sync con salida estructurada (hechos/observaciones/riesgo/pregunta/qué responder);
-  tiradas = texto→texto sync; OCR de capturas = modelo multimodal o OCR+texto (proveedor se decide en Sesión 6).
+  DESCIFRAR = texto→texto sync con salida estructurada (sabemos/observamos/riesgo/pregunta/qué responder);
+  tiradas = texto→texto sync; OCR de capturas = modelo multimodal o OCR+texto; NOTAS DE VOZ = voz→texto
+  en servidor y luego el flujo de texto (proveedores de OCR y de transcripción se deciden en Sesión 6).
   `AI_MODEL` en env, `max_tokens` ~800-1024, cache de idénticos, kill-switch por coste. Prompt con guardarraíles:
   solo auto-reflexión/límites/inteligencia emocional; PROHIBIDO predecir salud, embarazo, muerte o eventos trágicos (gate 61).
 - Loop de retención (Hooked): Gatillo = notificación nocturna "tu reflexión de 1 minuto está lista" + evento personal →
@@ -72,8 +73,19 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 
 ## ALCANCE V1 (aprobado por el usuario — ~8 pantallas núcleo + bienvenida + paywall)
 1. Bienvenida · 2. Recorrido de inicio (quiz) · 3. Inicio (check-in + carta del día) ·
-4. **Analizar mi situación** (función estrella) · 5. Coach IA · 6. Tarot (tiradas contextuales 1-3 cartas) ·
+4. **DESCIFRAR / "Pega vuestra conversación"** (función estrella — antes "Analizador de situaciones";
+   renombrada 2026-09-10 para vender la fuerza real: pegar el chat de WhatsApp. Entradas: pegar
+   texto · subir captura · NOTA DE VOZ) · 5. Coach IA · 6. Tarot (tiradas contextuales 1-3 cartas) ·
 7. Mis relaciones (ligera: rol + contexto que alimenta al coach) · 8. Diario emocional · + Pantalla de planes.
+
+### NOTAS DE VOZ (decisión de producto 2026-09-10 — a pedido del usuario)
+- Toda caja de texto de la app (Descifrar, chat del coach, diario) lleva un botón de micrófono:
+  la usuaria mantiene pulsado y habla en vez de escribir.
+- El audio se transcribe EN EL SERVIDOR (modelo voz→texto; proveedor se decide en Sesión 6) y a
+  partir de ahí sigue el MISMO flujo que el texto. Nunca se manda la clave de voz al navegador.
+- Coste: transcripción ≈ US$0,006/min → despreciable frente a la respuesta. Entra en el
+  circuit-breaker de coste (30/31). Límite blando: audios ≤ 2-3 min.
+- Coherente con "la buena IA borra trabajo, no agrega pasos" (regla UX 19c).
 - A V2: Programas de 7-30 días · detección de patrones sobre todo el historial · Mis relaciones con timeline profundo · memoria de largo plazo del coach.
 
 ## Riesgos

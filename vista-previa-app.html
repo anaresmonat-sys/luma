@@ -19,7 +19,7 @@
     --fb:"Hanken Grotesk", system-ui, sans-serif;
     --gold:#d8a441; --gold-lite:#e9b06a; --rose:#d98a86;
     --t1:#f4e7db; --t2:#c6a996; --t3:#b79a86;
-    --surf:#2b1a24; --surf-2:#33202b; --sunk:#1f1219; --hair:rgb(255 255 255/.09);
+    --surf:#2b1a24; --surf-2:#33202b; --sunk:#2d1c26; --hair:rgb(255 255 255/.09);
   }
   body{
     background:
@@ -148,12 +148,21 @@
   .askchips span{padding:9px 12px;border-radius:999px;background:rgb(233 176 106/.09);color:#e7d3bc;font-size:10.5px;font-weight:600;border:1px solid rgb(233 176 106/.2)}
 
   /* analizador */
-  .field{background:var(--sunk);border:1px solid var(--hair);border-radius:12px;padding:11px;font-size:11.5px;color:var(--t1);line-height:1.45}
-  .cnt{text-align:right;font-size:9px;color:var(--t3);margin-top:5px}
-  .det{display:flex;gap:10px;align-items:flex-start;padding:8px 0}
-  .det .dot{width:25px;height:25px;border-radius:999px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-  .det h5{font-size:11px;font-weight:700;color:var(--t1)}
-  .det p{font-size:10.5px;color:var(--t2);line-height:1.4;margin-top:1px}
+  .inmodes{display:flex;gap:7px;margin-top:12px}
+  .im{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:8px 3px;border-radius:10px;
+    font-size:9.5px;font-weight:600;color:var(--t2);background:rgb(255 255 255/.04);border:1px solid var(--hair)}
+  .im svg{width:12px;height:12px}
+  .im.on{color:var(--gold-lite);background:rgb(233 176 106/.1);border-color:rgb(233 176 106/.32)}
+  .field{background:#2d1c26;border:1px solid rgb(233 176 106/.16);border-radius:14px;padding:12px;
+    font-size:11.5px;color:var(--t1);line-height:1.5;box-shadow:inset 0 1px 0 rgb(255 255 255/.05)}
+  .field .ff{display:flex;align-items:center;justify-content:space-between;margin-top:9px}
+  .mic{width:26px;height:26px;border-radius:999px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:rgb(233 176 106/.15);color:var(--gold-lite);border:1px solid rgb(233 176 106/.28)}
+  .cnt{font-size:9px;color:var(--t3)}
+  .det{display:flex;gap:11px;align-items:flex-start;padding:9px 0}
+  .det .dot{width:34px;height:34px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+  .det h5{font-size:11.5px;font-weight:700;color:var(--t1)}
+  .det p{font-size:10.5px;color:var(--t2);line-height:1.4;margin-top:2px}
   .acts{display:flex;flex-direction:column;gap:7px}
   .acts span{padding:9px 12px;border-radius:999px;background:rgb(233 176 106/.09);color:var(--gold-lite);font-size:11px;font-weight:600;text-align:center;border:1px solid rgb(233 176 106/.2)}
 
@@ -307,20 +316,28 @@
 
   <!-- 4 · ANALIZADOR -->
   <div class="fw">
-    <div class="rot">4 · Analizador de situaciones<small>la función estrella</small></div>
+    <div class="rot">4 · Descifrar · pega tu chat<small>la función estrella · texto, captura o voz</small></div>
     <div class="ph"><div class="scr">
       <div class="sb"><span>9:41</span><span class="r"><svg width="16" height="10" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="3" width="3" height="8" rx=".8"/><rect x="13.5" y=".5" width="3" height="10.5" rx=".8"/></svg></span></div>
       <div class="pn">
-        <div class="bar"><span class="bk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></span><span class="ttl">Analiza una situación</span><span style="width:17px"></span></div>
-        <div class="sc" style="margin-top:6px">
-          <div class="field">Me dice que no quiere una relación pero me busca todos los fines de semana y se pone celoso cuando salgo con otros.</div>
-          <p class="cnt">124/500</p>
-          <div class="btn" style="margin-top:8px">Analizar</div>
-          <p style="font-family:var(--fd);font-size:15px;color:#f4e7db;margin:14px 0 4px">Lo que hemos detectado</p>
-          <div class="det"><span class="dot" style="background:rgb(169 155 196/.16)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#a99bc4" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3 9 6M12 3l3 3M5 12h14v8H5z"/></svg></span><div><h5>Lo que sabemos</h5><p>No quiere una relación.</p></div></div>
-          <div class="det"><span class="dot" style="background:rgb(127 176 170/.16)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7fb0aa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="2.5"/></svg></span><div><h5>Lo que observamos</h5><p>Busca intimidad y cierta exclusividad emocional.</p></div></div>
-          <div class="det"><span class="dot" style="background:rgb(217 119 106/.16)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d9776a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3ZM12 9v5M12 17h.01"/></svg></span><div><h5>Posible riesgo</h5><p>Hay una discrepancia entre sus palabras y sus comportamientos.</p></div></div>
-          <div class="det"><span class="dot" style="background:rgb(138 164 198/.16)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8aa4c6" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 0 1 4.5 1.5c0 2-2.5 2-2.5 3.5M12 17.5h.01"/></svg></span><div><h5>Pregunta para ti</h5><p>¿Este tipo de relación satisface lo que tú buscas?</p></div></div>
+        <div class="bar"><span class="bk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></span><span class="ttl">Descifrar</span><span style="width:17px"></span></div>
+        <div class="sc">
+          <h2 class="t sm" style="margin-top:4px">Pega vuestra<br>conversación</h2>
+          <p class="bd" style="margin-top:6px">El chat de WhatsApp, una captura o un audio. Te digo qué está pasando de verdad.</p>
+          <div class="inmodes">
+            <span class="im on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2M9 3h6v3H9z"/></svg>Pegar texto</span>
+            <span class="im"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>Subir captura</span>
+            <span class="im"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg>Nota de voz</span>
+          </div>
+          <div class="field" style="margin-top:9px">Él: no quiero nada serio ahora mismo<br>Ella: vale, lo entiendo<br>Él: pero el finde te veo, ¿no? y no me gusta que salgas con el grupo ese…
+            <div class="ff"><span class="mic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg></span><span class="cnt">o mantén pulsado para hablar</span></div>
+          </div>
+          <div class="btn" style="margin-top:10px">Analizar</div>
+          <p style="font-family:var(--fd);font-size:16px;color:#f4e7db;margin:16px 0 6px">Lo que hemos detectado</p>
+          <div class="det"><span class="dot" style="background:rgb(169 155 196/.24);border:1px solid rgb(169 155 196/.5);box-shadow:0 0 16px -4px rgb(169 155 196/.55)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb0d6" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3 9 6M12 3l3 3M5 12h14v8H5z"/></svg></span><div><h5>Lo que sabemos</h5><p>No quiere una relación.</p></div></div>
+          <div class="det"><span class="dot" style="background:rgb(127 176 170/.24);border:1px solid rgb(127 176 170/.5);box-shadow:0 0 16px -4px rgb(127 176 170/.55)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#96c2bc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="2.5"/></svg></span><div><h5>Lo que observamos</h5><p>Busca intimidad y cierta exclusividad emocional.</p></div></div>
+          <div class="det"><span class="dot" style="background:rgb(217 119 106/.26);border:1px solid rgb(217 119 106/.55);box-shadow:0 0 16px -4px rgb(217 119 106/.6)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e79082" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3ZM12 9v5M12 17h.01"/></svg></span><div><h5>Posible riesgo</h5><p>Hay una discrepancia entre sus palabras y sus comportamientos.</p></div></div>
+          <div class="det"><span class="dot" style="background:rgb(138 164 198/.24);border:1px solid rgb(138 164 198/.5);box-shadow:0 0 16px -4px rgb(138 164 198/.55)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#a3b9d6" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 0 1 4.5 1.5c0 2-2.5 2-2.5 3.5M12 17.5h.01"/></svg></span><div><h5>Pregunta para ti</h5><p>¿Este tipo de relación satisface lo que tú buscas?</p></div></div>
           <div class="acts" style="margin-top:10px">
             <span>Explorar con tarot</span>
             <span>Trabajar mis límites</span>
@@ -353,7 +370,7 @@
             <span class="qr">Trabajar la ansiedad</span>
           </div>
         </div>
-        <div class="comp" style="margin-bottom:12px">Escribe tu mensaje…<span class="snd"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z"/></svg></span></div>
+        <div class="comp" style="margin-bottom:12px">Escribe o mantén pulsado para hablar…<span class="mic" style="width:24px;height:24px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg></span><span class="snd"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z"/></svg></span></div>
       </div>
       <div class="hi"></div>
     </div></div>
@@ -437,9 +454,10 @@
             <div class="mc" style="--rc:#8fa6c6"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8fa6c6" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 15.5c1.2-1.8 5.8-1.8 7 0"/></svg></span>Triste</div>
             <div class="mc" style="--rc:#cf6f63"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#cf6f63" stroke-width="1.6" stroke-linecap="round"><path d="M8 9l1.5 1M16 9l-1.5 1M8.5 15c1.2-1 5.8-1 7 0"/></svg></span>Enfadada</div>
           </div>
-          <div class="field" style="margin-top:14px">Hoy me sentí insegura porque Laura no me contestó. Me dio vueltas toda la tarde y pensé que ya no le importo.</div>
-          <p class="cnt">128/500</p>
-          <div class="btn" style="margin-top:8px">Guardar</div>
+          <div class="field" style="margin-top:14px">Hoy me sentí insegura porque Laura no me contestó. Me dio vueltas toda la tarde y pensé que ya no le importo.
+            <div class="ff"><span class="mic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg></span><span class="cnt">escribe o cuéntalo en voz alta</span></div>
+          </div>
+          <div class="btn" style="margin-top:10px">Guardar</div>
           <div class="patt" style="margin-top:11px">
             <span style="width:22px;height:22px;border-radius:999px;background:rgb(233 176 106/.2);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--gold-lite)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></span>
             <p><b>La IA ha detectado un patrón:</b> has sentido inseguridad ante la falta de respuesta 3 veces este mes. <span class="lnk">Ver mi patrón →</span></p>
