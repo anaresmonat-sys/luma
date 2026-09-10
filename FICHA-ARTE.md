@@ -62,32 +62,56 @@
 ## Identidad derivada
 - N/A — hay referencia del usuario (RÉPLICA FIEL). No se fusionan líderes para el PRODUCTO.
 
-## Personalidad compilada (obligatoria)
-- 3 adjetivos: **Sereno (dominante) · Cálido · Minimal**
-- Compilación (tabla del 11):
-  → spring: bounce 0.08 / stiffness ~205 · duración base: 320ms · exclamaciones: máx 0/pantalla
-  → celebración N1: check suave con el nombre · N2: banner calmado con luz (sin confetti) · N3: el insight/anillo que se completa + tarjeta para guardar (sin confetti)
-  → radius tendencial: 12-20px · color emocional: bajo — blancos/cremas dominan; el rosa solo en la acción/enlace; los multicolor de emoción son funcionales, no decorativos
-  → arquetipo de voz: mentor sereno (amiga intuitiva y preparada; nunca vidente que dicta certezas)
+## DIRECCIÓN ELEGIDA (2026-09-10): **A · Terciopelo & Oro**
+- El usuario eligió la opción A del `direcciones-abc.html`. Nota del usuario: "aunque tendremos que
+  hacer retoques posteriormente" → se cierra la ficha con estos valores; los retoques se aplican
+  sobre esta base sin reabrir el modo/tipografía.
+- Ambiente: la noche íntima — vino profundo y cacao casi-negro, luz de vela, oro. Objeto héroe: una
+  carta de tarot de pergamino que FLOTA con sombra de contacto + resplandor ámbar reales (3D por
+  transform + box-shadow, no imagen). Mood: elegante · misteriosa · romántica · cálida.
+- Descartadas: B (Amanecer de Cuarzo — claro clay) · C (Atardecer — degradado de cielo glass).
 
-## Brand kit final (los valores que viven en globals.css / @theme)
-- Fondo: #f5f1ea · Superficie: #fffdf9 · Elevado: #faf6f0 · Hundido: #f0ebe2 · Texto 1º/2º/3º: #4a423c / #9d9288 / #bcb2a7
-- Acento: #cf9c95 (SOLO en: botón principal, pestaña activa, enlaces, dato/acción clave) · rosa-tinta texto #b07c74 · relleno claro #f3e4e0
-- 2ª nota: espresso #2c2723 (tarjeta Premium del paywall — viene de la referencia)
-- Multicolor de emoción (ownable): verde #8faa78 · dorado #d3a95f · coral #dd8f7a · azul #8fa6c6 · rosa #d99db3 · turquesa #7fb3ad · rojo #cf6f63 · gris #a89f95
+## Personalidad compilada (obligatoria)
+- 3 adjetivos: **Cálido (dominante) · Sereno · Minimal**
+- Compilación (tabla del 11):
+  → spring: bounce 0.12 / stiffness ~220 · duración base: 320ms · exclamaciones: máx 0/pantalla
+  → celebración N1: check suave con el nombre · N2: banner con luz cálida (sin confetti) · N3: la carta del día se revela con resplandor + leve ascenso/rotación (sin confetti)
+  → radius tendencial: 14-16px · color emocional: medio — vino/cacao dominan; el ORO solo en la acción/dato clave; los multicolor de emoción son funcionales (con glow tenue), no decorativos
+  → arquetipo de voz: mentor sereno / cómplice cálido (amiga intuitiva y preparada; nunca vidente que dicta certezas)
+
+## Brand kit final — DIRECCIÓN A · TERCIOPELO & ORO (los valores que van a globals.css / @theme)
+- Fondo base: #1a0d13 → #241019 (vino/cacao casi-negro) CON blooms radiales: vino #6d2f3e (arriba-dcha),
+  ciruela #4a2233 (izq), ámbar #a5623a (abajo). El fondo NUNCA es un fill plano.
+- Superficie/card: #2b1a24 con rim highlight (inset 0 1px 0 rgb(255 255 255/.5)) · Elevado: #33202b · Hundido/input: #1f1219
+- Texto 1º/2º/3º: #f4e7db / #c6a996 / #b79a86
+- Acento ORO: #d8a441 (base) · gradiente CTA #eab765 → #cf8f3f · realce/enlace #e9b06a. SOLO en: botón
+  principal, pestaña activa, enlaces, dato/acción clave, filos de la carta.
+- 2ª nota: rosa cálido #d98a86 (semántico suave / detalle romántico puntual)
+- Multicolor de emoción (ownable, con glow tenue sobre fondo oscuro): verde #8faa78 · dorado #d8a441 ·
+  coral #dd8f7a · azul #8fa6c6 · rosa #d99db3 · turquesa #7fb3ad · rojo #cf6f63 · gris #a89f95
 - Colores del analizador (ownable): lavanda #a99bc4 · turquesa #7fb0aa · coral #d9776a · azul #8aa4c6
 - Semánticos: éxito #8faa78 · aviso/riesgo #d9776a
-- Display: **Lora** (400-500) · Body: **Hanken Grotesk** (400-600) · Escala: display ~22-26px / title ~18-20px / body ~13-14px / label ~11-12px
-- Radio: 20px cards · 12px botones · 14px filas · Profundidad: por AIRE + sombra difusa mínima (bordes casi ausentes) · Espaciado: escala 4·8·12·16·24·32·48
-- Dispositivo ownable: (1) círculos de emoción multicolor con carita de línea · (2) items del analizador con color propio por tipo · (3) ilustración de carta de tarot a línea
-- Motion signature: easing suave (sin linear) · stagger 60-80ms en la 1ª pantalla · firma: la carta del día aparece con fundido cálido y leve ascenso
+- Carta de tarot (objeto héroe): cara pergamino linear-gradient(160deg,#f7ecd6,#efdcbd) · texto #5a2436 ·
+  nombre de carta #a86a3a · título #6d2f3e · ilustración a línea stroke #b07a3a · resplandor detrás
+  radial-gradient(circle,#e9a24d,#b0416a 55%,transparent 72%) · sombra de contacto elíptica difusa
+- Display: **Cormorant Garamond** (500-700; candidatas: Cormorant Garamond, EB Garamond, Playfair) · tracking amplio en el wordmark
+- Body: **Hanken Grotesk** (400-600) · Escala: display ~26-30px / title ~19-22px / body ~13-14px / label ~10-12px
+- Radio: 14-16px cards · 14px botones · Profundidad: 3 niveles + sombras cálidas profundas + glow puntual
+- Espaciado: escala 4·8·12·16·24·32·48
+- Dispositivo ownable: (1) la carta de tarot de pergamino que FLOTA con sombra+resplandor reales ·
+  (2) círculos de emoción multicolor con carita de línea y glow tenue · (3) items del analizador con color propio por tipo
+- Motion signature: easing suave (sin linear) · stagger 60-80ms en la 1ª pantalla ·
+  FIRMA: la carta del día se revela con resplandor ámbar + leve ascenso y rotación (−3°→0°)
 
 ## Trazabilidad y vetos
-- Ruta de diseño (PREGUNTA DE REFERENCIA del 54): réplica de referencia (pantalla completa → sin A/B/C)
-- Réplica fiel: `replica-fiel.html` · screenshot docs/revisiones/replica-fiel-375.png · test de fidelidad: REHACIENDO (v1 rechazada por el usuario)
-- Tour de la app: `vista-previa-app.html` (9 frames) · screenshot docs/revisiones/vista-previa-app-375.png · aprobado por el usuario: PENDIENTE (v1 rechazada — v2 en curso)
-- Paleta derivada de: referencia del usuario (contrato)
-- Registro anti-repetición: paleta (blanco cálido #f5f1ea + rosa empolvado apagado #cf9c95) y par tipográfico (Lora + Hanken Grotesk) VETADOS para el próximo proyecto del SO
-- Modo (claro/cálido) DERIVADO por: la referencia del usuario lo fija
+- Ruta de diseño (PREGUNTA DE REFERENCIA del 54): PROPUESTA PROPIA (el usuario liberó el contrato de
+  réplica el 2026-09-10 tras 2 réplicas rechazadas) → protocolo A/B/C.
+- Protocolo A/B/C: `direcciones-abc.html` · screenshot docs/revisiones/direcciones-abc-375.png ·
+  opción elegida: **A · Terciopelo & Oro** · descartadas: B (claro clay), C (atardecer degradado glass)
+- Réplicas fieles previas (archivadas, ya no vigentes): `replica-fiel.html`, primera `vista-previa-app.html` — rechazadas por el usuario.
+- Tour de la app: `vista-previa-app.html` (se reconstruye con la dirección A) · aprobado por el usuario: PENDIENTE
+- Paleta derivada de: propuesta propia (dirección A), fusionando calidez editorial (CHANI) + profundidad de degradado (The Pattern) + capa 3D cálida
+- Registro anti-repetición: paleta (vino/cacao #241019 + oro #d8a441) y par tipográfico (Cormorant Garamond + Hanken Grotesk) VETADOS para el próximo proyecto del SO
+- Modo (oscuro cálido) DERIVADO por: el brief del usuario (noche íntima, esotérico, romántico) + fusión de referencias — NO asumido por reflejo
 
-## Idioma UI: español (mono-idioma) · Fecha de cierre de la ficha: PENDIENTE · Aprobada por el usuario: NO
+## Idioma UI: español (mono-idioma) · Fecha de cierre de la ficha: 2026-09-10 (con retoques pendientes acordados) · Aprobada por el usuario: dirección A elegida; tour pendiente de OK
