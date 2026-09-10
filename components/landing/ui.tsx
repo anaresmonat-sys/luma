@@ -113,7 +113,7 @@ export function SectionShell({
     <section
       id={id}
       aria-label={ariaLabel}
-      className={`${elevacion === 'elevada' ? 'bg-[var(--surface)]' : ''} ${pt} ${pb} ${className}`}
+      className={`${elevacion === 'elevada' ? 'bg-[var(--surface)] shadow-[var(--rim)]' : ''} ${pt} ${pb} ${className}`}
     >
       <div className="mx-auto w-full max-w-[1140px] px-5">{children}</div>
     </section>
@@ -124,20 +124,30 @@ export function SectionShell({
    reduced-motion respetado (movimiento fuera, fade dentro — 55 T4). ── */
 export function useReveal(stagger = 0.07): { contenedor: Variants; item: Variants } {
   const reduce = useReducedMotion();
+  // MEJORA PROGRESIVA: el contenido es visible por defecto (opacity 1). La animación
+  // de entrada solo se ARMA tras el montaje del cliente; si el IntersectionObserver
+  // no dispara (captura full-page, JS lento, sin JS) el contenido NUNCA queda oculto.
+  const [armado, setArmado] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setArmado(true), 60);
+    return () => clearTimeout(t);
+  }, []);
+  const oculto = armado && !reduce ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 };
   return {
     contenedor: {
       hidden: {},
       visible: { transition: { staggerChildren: reduce ? 0 : stagger } },
     },
     item: {
-      hidden: { opacity: 0, y: reduce ? 0 : 20 },
+      hidden: oculto,
       visible: { opacity: 1, y: 0, transition: { duration: reduce ? 0.2 : 0.45, ease: [0.16, 1, 0.3, 1] } },
     },
   };
 }
 
-/* Props estándar para el contenedor con reveal — evita repetir en cada sección. */
-export const VIEWPORT_ONCE = { once: true, amount: 0.2 } as const;
+/* Props estándar para el contenedor con reveal — amount 0 = dispara en cuanto
+   la sección roza el viewport (más robusto que 0.2 en pantallas altas). */
+export const VIEWPORT_ONCE = { once: true, amount: 0 } as const;
 
 /* ── <CtaButton> — el CTA vivo del kit: ≥52px, whileTap 0.97, sombra tintada.
    El texto sobre acento usa --bg: si tu FICHA-ARTE rompe el contraste AA ahí,

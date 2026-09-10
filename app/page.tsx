@@ -7,6 +7,7 @@
 // Modelo 02C: freemium onboarding-first → TODOS los CTA van a /onboarding.
 
 import { Clock, HelpCircle, Send, Repeat } from 'lucide-react';
+import { HeroDemoLuma } from '@/components/app/HeroDemoLuma';
 import { Hero } from '@/components/landing/Hero';
 import { Problema } from '@/components/landing/Problema';
 import { Agitacion } from '@/components/landing/Agitacion';
@@ -33,8 +34,8 @@ export default function LandingLuma() {
         subtitleMarked="Pega la conversación y en un minuto sabes qué [b]sientes[/b] y qué [b]hacer[/b]."
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
-        socialProof={<span>3 días gratis · sin cobros por mensaje · cancela cuando quieras</span>}
-        visualPlaceholderSugerencia="pantalla de Inicio con la carta del día y el acceso a «Descifra la conversación»"
+        socialProof={<span>Empieza gratis 3 días · sin cobros por mensaje · cancela cuando quieras</span>}
+        visual={<HeroDemoLuma />}
       />
 
       {/* 2 · PROBLEMA */}
@@ -52,7 +53,7 @@ export default function LandingLuma() {
       <Agitacion
         frases={[
           'Cada mensaje ambiguo te manda a la misma espiral: releer, suponer, preguntar a amigas igual de perdidas.',
-          'Llegas ansiosa al trabajo, revisas el teléfono cada cinco minutos y mandas el mensaje del que te arrepientes.',
+          'Son las 23:00 y sigues en la cama releyendo la conversación por décima vez, con el estómago apretado.',
           'No es que pienses de más. Es que [b]nadie te ayudó a ver la conversación con calma[/b].',
         ]}
         contraste={{
@@ -65,6 +66,7 @@ export default function LandingLuma() {
 
       {/* 4 · SOLUCIÓN */}
       <Solucion
+        kicker="Cómo funciona"
         tituloMarked="Tu conversación, [acento]vista con calma[/acento]"
         mecanismo="descifrar la conversación"
         bigIdeaMarked="No piensas de más. Nadie te ayudó a [b]separar los hechos de las historias[/b] que tu mente construye."
@@ -92,6 +94,7 @@ export default function LandingLuma() {
 
       {/* 5 · POR DENTRO — placeholders honestos hasta tener screenshots reales (pendiente en ESTADO.md) */}
       <AppPorDentro
+        kicker="Por dentro"
         tituloMarked="Así se ve [acento]por dentro[/acento]"
         frames={[
           { label: 'Tu carta del día', nombrePantalla: 'Inicio' },
@@ -106,6 +109,7 @@ export default function LandingLuma() {
 
       {/* 6 · OFERTA — anual primero, trial 3 días (02C), total visible */}
       <Oferta
+        kicker="Tu plan"
         tituloMarked="Menos que [acento]una consulta con una tarotista[/acento]"
         trialDias={3}
         anual={{
@@ -144,8 +148,8 @@ export default function LandingLuma() {
 
       {/* 7 · GARANTÍA — FICHA-MERCADO §4: garantía 7 días > prueba 3 días */}
       <Garantia
-        nombre="la Garantía de los 7 Días"
-        condicionMarked="Si tras el primer cobro sientes que LUMA no es para ti, tienes [b]7 días[/b] para pedir el reembolso completo. Sin explicaciones."
+        nombre="Empieza gratis, sin riesgo"
+        condicionMarked="Pruebas [b]3 días gratis[/b]: si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, tienes [b]7 días[/b] para el reembolso completo."
         pisoLegal="Respaldada por la garantía de Hotmart"
       />
 

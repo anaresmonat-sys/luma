@@ -9,8 +9,12 @@
 :root {
   /* ── SUPERFICIES (3 niveles: base / elevada / hundida) ── */
   --bg: #1a0d13;              /* noche vino/cacao casi-negro (nunca #000) */
-  --surface: #241019;         /* secciones elevadas y cards */
-  --surface-2: #150b10;       /* hundido: wells, frames de placeholder */
+  --surface: #2c1a25;         /* secciones elevadas y cards (más separación del base) */
+  --surface-2: #140a0f;       /* hundido: wells, frames de placeholder */
+
+  /* rim highlight de FICHA-ARTE (luz de vela en el borde superior de lo elevado) */
+  --rim: inset 0 1px 0 rgb(255 255 255 / 0.07);
+  --shadow-card: 0 20px 44px -18px rgb(10 5 8 / 0.66), var(--rim);
 
   /* ── TEXTO (crema cálida con tinte; ≥4.5:1 sobre las 3 superficies) ── */
   --text-primary: #f4e7db;
@@ -35,6 +39,18 @@
 
   /* ── DERIVADOS (no se tocan) ── */
   --chip-bg: color-mix(in oklab, var(--accent) 10%, transparent);
+
+  /* ── DISPOSITIVO OWNABLE: carta de tarot de pergamino (FICHA-ARTE §objeto héroe) ── */
+  --card-paper: #f7ecd6;
+  --card-paper-2: #efdcbd;
+  --card-ink: #5a2436;
+  --card-label: #a86a3a;
+  --card-title: #6d2f3e;
+  --card-line: #b07a3a;
+
+  /* Colores propios del analizador (FICHA-ARTE §items del analizador) */
+  --an-eye: #7fb0aa;
+  --an-risk: #d9776a;
 }
 
 /* Base mínima que el kit asume (no tematizar) */
