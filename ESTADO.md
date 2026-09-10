@@ -1,7 +1,7 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 3 — scaffold + **página de ventas `/` CONSTRUIDA** (10 secciones del kit tematizado en Terciopelo & Oro, copy de FICHA-AVATAR; tsc/build/dev limpios; screenshot 375px en docs/revisiones/landing-375.png). Lanzado el subagente `revisor-visual` / Siguiente acción exacta: recibir el veredicto del revisor → si LISTA, PUERTA DE ETAPA de Landing + OK del usuario → Onboarding (`/onboarding`). Si NO LISTA, corregir.
+⏸️ CHECKPOINT — Última acción completada: Sesión 3 — landing construida; 1ª revisión = NO LISTA (29/40, 10/20, 14/20); aplicadas las 5 correcciones (reveal por mejora progresiva; visual del hero = carta de tarot flotante + demo "EJEMPLO"; rim highlight + profundidad; reverso de riesgo con jerarquía; kickers). tsc/build limpios. Lanzada la 2ª revisión (`revisor-visual`) / Siguiente acción exacta: recibir el 2º veredicto → si LISTA, PUERTA DE ETAPA de Landing + OK del usuario → `/onboarding`. Si NO, otra corrección.
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
