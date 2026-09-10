@@ -147,6 +147,12 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   reemplazan con screenshots reales de la app interna (Sesión 5). CTAs → `/onboarding` (aún no existe: Sesión 4).
 - [legal] /privacidad /terminos /cookies /reembolsos /aviso-ia son BORRADOR — contenido legal
   definitivo antes del lanzamiento (archivo 47).
+- [veredicto landing] EN CURSO: el subagente revisor-visual está corriendo; escribe
+  docs/revisiones/landing-veredicto.md al terminar. La landing NO se declara "lista" ni se abre la
+  PUERTA DE ETAPA hasta tener ese veredicto ≥36/40 y ≥16/20 (+ copy ≥16/20).
+- [veredicto onboarding] NO APLICA todavía: la pantalla de onboarding (`/onboarding`) NO está
+  construida (pendiente, Sesión 4). Sin código no hay screenshot ni veredicto. La secuencia
+  maestra (arriba) la lista como "pendiente", no como construida.
 - [assets LUMA] Falta el retrato/ilustración final de LUMA (persona) para avatar del coach + redes — sesión de assets (20). No bloquea la construcción; en el código va un placeholder.
 - [veredicto:onboarding] Pospuesto — pantalla de recorrido de inicio NO iniciada (Sesión 4). Sin código no hay captura ni veredicto.
 - [veredicto:landing] Pospuesto — página de ventas NO iniciada (Sesión 3).
