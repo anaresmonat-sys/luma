@@ -147,9 +147,12 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   reemplazan con screenshots reales de la app interna (Sesión 5). CTAs → `/onboarding` (aún no existe: Sesión 4).
 - [legal] /privacidad /terminos /cookies /reembolsos /aviso-ia son BORRADOR — contenido legal
   definitivo antes del lanzamiento (archivo 47).
-- [veredicto landing] EN CURSO: el subagente revisor-visual está corriendo; escribe
-  docs/revisiones/landing-veredicto.md al terminar. La landing NO se declara "lista" ni se abre la
-  PUERTA DE ETAPA hasta tener ese veredicto ≥36/40 y ≥16/20 (+ copy ≥16/20).
+- [veredicto landing] La landing NO está lista. 1ª revisión del revisor-visual = NO LISTA
+  (usabilidad 29/40, craft 10/20, copy 14/20). Se aplicaron las 5 correcciones (reveal por mejora
+  progresiva, visual del hero real, profundidad/rim, reverso de riesgo, kickers). 2ª revisión EN
+  CURSO — reescribirá docs/revisiones/landing-veredicto.md. La PUERTA DE ETAPA de Landing está
+  BLOQUEADA hasta un veredicto LISTA con ≥36/40 y ≥16/20 (+ copy ≥16/20). No se pasa a /onboarding
+  antes de eso.
 - [veredicto onboarding] NO APLICA todavía: la pantalla de onboarding (`/onboarding`) NO está
   construida (pendiente, Sesión 4). Sin código no hay screenshot ni veredicto. La secuencia
   maestra (arriba) la lista como "pendiente", no como construida.
