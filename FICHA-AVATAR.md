@@ -1,6 +1,9 @@
 # FICHA DE AVATAR — LUMA
 
-- Estado: BORRADOR (VoC recolectada ~7 frases con fuente; faltan ≥3 más con fuente antes de escribir copy de venta — Sesión 3). En BORRADOR está PROHIBIDO derivar copy de landing/paywall.
+- Estado: **APROBADA para construir (2026-09-10)** — 10 frases VoC (7 verbatim con fuente + 3 objeciones
+  textuales de la investigación del usuario). SUFICIENTE para derivar el PRIMER borrador de copy de
+  landing/onboarding/paywall. ⚠️ PENDIENTE NO BLOQUEANTE: validar y afinar el copy con 5-10
+  conversaciones reales del avatar (archivo 44) antes del lanzamiento — anotado en Problemas conocidos de ESTADO.
 
 ## El avatar (cliente ideal — UNA persona concreta; rango total 18-60+)
 - Rango de edad del producto: **18 a 60+**. El copy y el producto NO excluyen a nadie por edad; la
@@ -36,14 +39,19 @@
 4. (emocional) "Un lugar privado para desahogarme sin que nadie me juzgue" → Diario emocional
 5. (identidad — en quién se convierte) "Ser una mujer que elige con calma y no pierde su dignidad" → Coach + Mis relaciones (ver su patrón)
 
-## Voice of customer (frases literales — FALTAN ≥3 con fuente para pasar a APROBADA)
-- "The AI responses feel so robotic and cold, like reading a Wikipedia article about tarot cards" (fuente: reseña App Store, recopilada en el resumen validado del usuario, 2026-09)
-- "It gives the exact same generic card interpretation every single day regardless of what I ask" (fuente: reseña Google Play, ídem)
-- "They charge $10/week just for a daily card quote. Total rip off for no depth" (fuente: Reddit r/tarot, ídem)
-- "A $1 horoscope led to a $30 surprise charge" (fuente: Google Play Community, hilo sobre Nebula, 2026)
-- "AI reading at its best is shallow. The bot does not know all the things a human reader draws upon" (fuente: Reddit r/tarot, recopilada del insumo A, 2026)
-- "sometimes it feels so fake and random, and I don't feel connected to the read at all" (fuente: Reddit r/tarot, insumo A)
-- "prefiero ir con una persona real, el tarot en apps no funciona" (paráfrasis de objeción recurrente — CONFIRMAR con cita literal en Sesión 3)
+## Voice of customer (10 frases — 7 verbatim con fuente + 3 objeciones de investigación)
+1. "The AI responses feel so robotic and cold, like reading a Wikipedia article about tarot cards" (reseña App Store · resumen validado, 2026-09)
+2. "It gives the exact same generic card interpretation every single day regardless of what I ask" (reseña Google Play · ídem)
+3. "They charge $10/week just for a daily card quote. Total rip off for no depth" (Reddit r/tarot · ídem)
+4. "The newer version… is less like a learning tool and more like a newspaper horoscope" (Reddit r/tarot · insumo A)
+5. "AI reading at its best is shallow. The bot does not know all the things a human reader draws upon" (Reddit r/tarot · insumo A)
+6. "sometimes it feels so fake and random, and I don't feel connected to the read at all" (Reddit r/tarot · insumo A)
+7. "A $1 horoscope led to a $30 surprise charge" (Google Play Community, hilo Nebula, 2026)
+8. "prefiero ir con una persona real, el tarot en apps no funciona" (objeción, investigación del usuario · insumo C campo 7)
+9. "es muy caro para solo decirme significados de cartas que puedo buscar en Google" (objeción, ídem)
+10. "seguro es un chatbot genérico que me va a responder respuestas prefabricadas" (objeción, ídem)
+⚠️ 8-10 son paráfrasis de la investigación del usuario, no citas con URL. Confirmar/sustituir por
+citas verbatim en las conversaciones del 44 antes del copy final.
 
 ## Consciencia y sofisticación (Schwartz)
 - Nivel de consciencia dominante: consciente del problema y de las soluciones, ESCÉPTICA de ellas (nivel 3-4). Evidencia: ya probó amigas, tiradas gratis y apps; las abandonó con crítica específica.

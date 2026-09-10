@@ -1,6 +1,8 @@
 # FICHA DE DIRECCIÓN DE ARTE — LUMA
 
-- Estado: BORRADOR — cambio de rumbo (2026-09-10): el usuario LIBERÓ el contrato de réplica fiel.
+- Estado: **APROBADA (2026-09-10)** — dirección A "Terciopelo & Oro" + rondas de retoque + iconos emoji
+  + LUMA con retrato. Cosa juzgada: no se reabre modo/tipografía/paleta. Retoques finos se hacen sobre esta base.
+- Historial — cambio de rumbo (2026-09-10): el usuario LIBERÓ el contrato de réplica fiel.
   Tras 2 réplicas rechazadas, pidió explícitamente OTRA cosa: "un diseño espectacular, de efecto wow,
   en tres dimensiones, elegante y con ese toque esotérico del tarot… cálido, romántico, llamativo,
   con colores que den aspecto 3D pero cálidos", tomando ideas de las apps mejor valoradas por su
@@ -147,4 +149,5 @@
 - Registro anti-repetición: paleta (vino/cacao #241019 + oro #d8a441) y par tipográfico (Cormorant Garamond + Hanken Grotesk) VETADOS para el próximo proyecto del SO
 - Modo (oscuro cálido) DERIVADO por: el brief del usuario (noche íntima, esotérico, romántico) + fusión de referencias — NO asumido por reflejo
 
-## Idioma UI: español (mono-idioma) · Fecha de cierre de la ficha: 2026-09-10 (con retoques pendientes acordados) · Aprobada por el usuario: dirección A elegida; tour pendiente de OK
+## Idioma UI: español (mono-idioma) · Fecha de cierre de la ficha: 2026-09-10 · Aprobada por el usuario: **SÍ** (el usuario aprobó el tour y dio luz verde para construir el 2026-09-10). Cosa juzgada.
+- Único pendiente de arte separado: el RETRATO FINAL de LUMA (persona) para app + redes → se produce en la sesión de assets (archivo 20); no bloquea la construcción.

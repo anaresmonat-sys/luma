@@ -1,7 +1,7 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 2 — dirección A + varias rondas de retoques. Última (2026-09-10): SISTEMA DE ÍCONOS = EMOJI en toda la app (decisión del usuario, anula la regla anti-emoji con motivo escrito: el producto gira en torno a pegar chats de WhatsApp); las 2 cajitas de Home pasan a relleno ORO como los botones; LUMA (coach) lleva un retrato ilustrado de mujer en el header del chat / Siguiente acción exacta: el usuario aprueba el tour (1=me encanta / 2=más ajustes / 3=repensar) → cerrar FICHA-ARTE.md → Sesión 3 (página de ventas); PENDIENTE de assets: retrato final de LUMA para app + redes
+⏸️ CHECKPOINT — Última acción completada: Sesión 2 CERRADA — el usuario aprobó el tour y dio luz verde para construir. FICHA-ARTE.md y FICHA-AVATAR.md APROBADAS / Siguiente acción exacta: **Sesión 3 — CONSTRUIR**. Orden: (1) scaffold del proyecto de código (Next.js + Tailwind v4 + stack pineado del 51, tokens Terciopelo & Oro en globals.css, copiar kit de landing); (2) página de ventas (`/`) con la estructura canónica del 19, copy derivado de FICHA-AVATAR, estilo dirección A; verificar + revisor-visual + PUERTA DE ETAPA.
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -123,20 +123,25 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   prompt de imagen desde FICHA-ARTE.md. En el tour hay un emblema provisional (luna creciente + destello).
 
 ## Secuencia maestra de construcción (NO saltar)
-- Estado: nada de código. Ruta: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
+- Estado: identidad cerrada; **arrancando el código**. Ruta: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
+- Landing: EN CURSO (Sesión 3) · Onboarding/Paywall/Login/App interna: pendientes.
 - Servicios externos: bloqueados hasta que las puertas anteriores estén aprobadas.
+- Stack (51): Next.js 16 App Router + TS + Tailwind v4 (CSS-first, @theme) + shadcn/ui + Motion + Lucide.
+  Kit de landing de `plantillas-codigo/landing/` → `components/landing/`. Tokens Terciopelo & Oro en globals.css.
 
 ## Sesiones
 - ✅ Sesión 1 — validación, FICHA-MODELO (Nebula), FICHA-MERCADO, FICHA-AVATAR (borrador), monetización, arquitectura, unit economics. Aprobada por el usuario (precio + rango de edad 18-60+).
-- 🔧 Sesión 2 — identidad visual: 2 réplicas fieles rechazadas → propuesta propia (RUTA 1). El usuario
-  eligió **A · Terciopelo & Oro** (noche vino/cacao, oro, carta de tarot flotante 3D; Cormorant Garamond
-  + Hanken Grotesk). TOUR de 9 pantallas hecho en `vista-previa-app.html`. FICHA-ARTE.md con el brand kit A.
-  Pendiente: OK del usuario al tour → cerrar ficha. Retoques posteriores acordados.
+- ✅ Sesión 2 — identidad visual CERRADA: dirección **A · Terciopelo & Oro** + iconos emoji + LUMA con
+  retrato + varias rondas de retoque. `vista-previa-app.html` (8 pantallas) aprobado por el usuario.
+  FICHA-ARTE.md APROBADA (cosa juzgada).
+- 🔧 Sesión 3 — CONSTRUCCIÓN: scaffold + página de ventas (en curso).
 - 📋 Sesión 3: página de ventas (requiere FICHA-AVATAR APROBADA con ≥10 VoC).
 - 📋 Sesión 4: onboarding + paywall + login · 5: app interna · 6: integraciones + seguridad · 7: testing + pulido + rigor · 8: adquisición + lanzamiento + backoffice.
 
 ## Problemas conocidos ⚠️
-- [FICHA-AVATAR] En BORRADOR: faltan ≥3 frases VoC con fuente (y, mejor, 5-10 entrevistas del 44) antes de escribir copy de venta en Sesión 3.
+- [FICHA-AVATAR] APROBADA con 10 VoC (3 son paráfrasis de investigación, no citas verbatim). Antes del
+  LANZAMIENTO: 5-10 conversaciones reales del avatar (archivo 44) para validar/afinar el copy de venta.
+- [assets LUMA] Falta el retrato/ilustración final de LUMA (persona) para avatar del coach + redes — sesión de assets (20). No bloquea la construcción; en el código va un placeholder.
 - [veredicto:onboarding] Pospuesto — pantalla de recorrido de inicio NO iniciada (Sesión 4). Sin código no hay captura ni veredicto.
 - [veredicto:landing] Pospuesto — página de ventas NO iniciada (Sesión 3).
 - [veredicto:paywall] Pospuesto — pantalla de planes NO iniciada (Sesión 4).
