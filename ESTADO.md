@@ -1,7 +1,7 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 2 — dirección A + 3 rondas de retoques del tour. Última (2026-09-10): pantalla Descifrar aún más liviana — sin encabezado "Pega vuestra conversación", sin la línea "el chat, una captura o un audio", y "Lo que sabemos"+"Lo que observamos" fusionados en un solo item "Lo que vemos" (3 items en vez de 4) / Siguiente acción exacta: el usuario aprueba el tour (1=me encanta / 2=más ajustes / 3=repensar) → cerrar FICHA-ARTE.md → Sesión 3 (página de ventas)
+⏸️ CHECKPOINT — Última acción completada: Sesión 2 — dirección A + 4 rondas de retoques del tour. Última (2026-09-10): pantalla se titula "Descifra la conversación"; modo "Texto" → "Pega texto"; los 3 modos (Pega texto/Captura/Voz) van en cajitas con ícono destacado; quitada la acción "Trabajar mis límites" del resultado → reubicada como ejercicio guiado dentro del Coach (chip en el chat); en Premium "Analizador de situaciones" → "Descifrar conversaciones" / Siguiente acción exacta: el usuario aprueba el tour (1=me encanta / 2=más ajustes / 3=repensar) → cerrar FICHA-ARTE.md → Sesión 3 (página de ventas)
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -77,6 +77,13 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
    renombrada 2026-09-10 para vender la fuerza real: pegar el chat de WhatsApp. Entradas: pegar
    texto · subir captura · NOTA DE VOZ) · 5. Coach IA · 6. Tarot (tiradas contextuales 1-3 cartas) ·
 7. Mis relaciones (ligera: rol + contexto que alimenta al coach) · 8. Diario emocional · + Pantalla de planes.
+
+### "Trabajar mis límites" — ubicación (decidido 2026-09-10)
+Es un EJERCICIO guiado, no una salida de análisis. Vive en el COACH (el coach lo propone y lo
+acompaña; chip en el chat, junto a "trabajar la ansiedad"). También se puede ofrecer tras un
+análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar. Opcional V1: lista
+"Ejercicios" bajo "Más". En V2 pasa a formar parte de los Programas ("Subir tus estándares" /
+"Construir una relación segura").
 
 ### NOTAS DE VOZ (decisión de producto 2026-09-10 — a pedido del usuario)
 - Toda caja de texto de la app (Descifrar, chat del coach, diario) lleva un botón de micrófono:
