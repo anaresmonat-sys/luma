@@ -27,15 +27,14 @@ yarn-error.log*
 .DS_Store
 *.pem
 
-# ── Scratch de herramientas de preview / capturas de trabajo ──
-.playwright-mcp/
-luma-*.png
-z*.png
-*-vp.png
-*-full.png
-tour*.png
-abc-*.png
-# capturas sueltas de dev
-landing-*.png
-l-*.png
-l[0-9]-*.png
+# ── Scratch de herramientas de preview (SOLO en la raíz — docs/revisiones/ SÍ se versiona) ──
+/.playwright-mcp/
+/luma-*.png
+/tour*.png
+/abc-*.png
+/landing-*.png
+/l-*.png
+/l[0-9]-*.png
+/z*.png
+/*-vp.png
+/*-full.png

@@ -147,12 +147,14 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   reemplazan con screenshots reales de la app interna (Sesión 5). CTAs → `/onboarding` (aún no existe: Sesión 4).
 - [legal] /privacidad /terminos /cookies /reembolsos /aviso-ia son BORRADOR — contenido legal
   definitivo antes del lanzamiento (archivo 47).
-- [veredicto landing] La landing NO está lista. 1ª revisión del revisor-visual = NO LISTA
-  (usabilidad 29/40, craft 10/20, copy 14/20). Se aplicaron las 5 correcciones (reveal por mejora
-  progresiva, visual del hero real, profundidad/rim, reverso de riesgo, kickers). 2ª revisión EN
-  CURSO — reescribirá docs/revisiones/landing-veredicto.md. La PUERTA DE ETAPA de Landing está
-  BLOQUEADA hasta un veredicto LISTA con ≥36/40 y ≥16/20 (+ copy ≥16/20). No se pasa a /onboarding
-  antes de eso.
+- [veredicto landing] La landing NO está lista. Revisiones del revisor-visual: 1ª NO LISTA
+  (29/10/14) → 2ª NO LISTA (31/15/15) → 3ª EN CURSO. Ronda 3 de correcciones aplicada: sección
+  "Ejemplos reales" (3 mini-casos del mecanismo) sustituye el carrusel de placeholders; reveal
+  firma de la carta + motivo repetido; rim de cards al valor de la ficha; puente hero→oferta
+  (tarot+coach); una sola etiqueta de CTA primario. La PUERTA DE ETAPA de Landing sigue BLOQUEADA
+  hasta un veredicto LISTA con ≥36/40 y ≥16/20 (+ copy ≥16/20). No se pasa a /onboarding antes.
+- [AppPorDentro] El carrusel de screenshots del kit sale de la V1 de la landing (lo reemplaza
+  "Ejemplos reales"). Vuelve en Sesión 5 con capturas reales de la app interna (19 §5).
 - [veredicto onboarding] NO APLICA todavía: la pantalla de onboarding (`/onboarding`) NO está
   construida (pendiente, Sesión 4). Sin código no hay screenshot ni veredicto. La secuencia
   maestra (arriba) la lista como "pendiente", no como construida.
