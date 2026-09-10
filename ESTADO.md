@@ -1,7 +1,7 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 2 CERRADA — el usuario aprobó el tour y dio luz verde para construir. FICHA-ARTE.md y FICHA-AVATAR.md APROBADAS / Siguiente acción exacta: **Sesión 3 — CONSTRUIR**. Orden: (1) scaffold del proyecto de código (Next.js + Tailwind v4 + stack pineado del 51, tokens Terciopelo & Oro en globals.css, copiar kit de landing); (2) página de ventas (`/`) con la estructura canónica del 19, copy derivado de FICHA-AVATAR, estilo dirección A; verificar + revisor-visual + PUERTA DE ETAPA.
+⏸️ CHECKPOINT — Última acción completada: Sesión 3 — scaffold + **página de ventas `/` CONSTRUIDA** (10 secciones del kit tematizado en Terciopelo & Oro, copy de FICHA-AVATAR; tsc/build/dev limpios; screenshot 375px en docs/revisiones/landing-375.png). Lanzado el subagente `revisor-visual` / Siguiente acción exacta: recibir el veredicto del revisor → si LISTA, PUERTA DE ETAPA de Landing + OK del usuario → Onboarding (`/onboarding`). Si NO LISTA, corregir.
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -123,8 +123,9 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   prompt de imagen desde FICHA-ARTE.md. En el tour hay un emblema provisional (luna creciente + destello).
 
 ## Secuencia maestra de construcción (NO saltar)
-- Estado: identidad cerrada; **arrancando el código**. Ruta: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
-- Landing: EN CURSO (Sesión 3) · Onboarding/Paywall/Login/App interna: pendientes.
+- Estado: identidad cerrada; **código en marcha**. Ruta: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
+- Landing (`/`): CONSTRUIDA — protagonista: el mecanismo "descifra la conversación"; CTA primario "Descifrar mi primera conversación" → `/onboarding`. En revisión (revisor-visual). Placeholders: visual del hero + carrusel "Así se ve por dentro" (screenshots reales cuando exista la app interna).
+- Onboarding/Paywall/Login/App interna: pendientes.
 - Servicios externos: bloqueados hasta que las puertas anteriores estén aprobadas.
 - Stack (51): Next.js 16 App Router + TS + Tailwind v4 (CSS-first, @theme) + shadcn/ui + Motion + Lucide.
   Kit de landing de `plantillas-codigo/landing/` → `components/landing/`. Tokens Terciopelo & Oro en globals.css.
@@ -141,6 +142,11 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
 ## Problemas conocidos ⚠️
 - [FICHA-AVATAR] APROBADA con 10 VoC (3 son paráfrasis de investigación, no citas verbatim). Antes del
   LANZAMIENTO: 5-10 conversaciones reales del avatar (archivo 44) para validar/afinar el copy de venta.
+  Guía de entrevistas + mensajes de WhatsApp listos: docs/investigacion/guia-entrevistas-avatar.md.
+- [landing] Placeholders honestos: (a) visual del hero, (b) carrusel "Así se ve por dentro" — se
+  reemplazan con screenshots reales de la app interna (Sesión 5). CTAs → `/onboarding` (aún no existe: Sesión 4).
+- [legal] /privacidad /terminos /cookies /reembolsos /aviso-ia son BORRADOR — contenido legal
+  definitivo antes del lanzamiento (archivo 47).
 - [assets LUMA] Falta el retrato/ilustración final de LUMA (persona) para avatar del coach + redes — sesión de assets (20). No bloquea la construcción; en el código va un placeholder.
 - [veredicto:onboarding] Pospuesto — pantalla de recorrido de inicio NO iniciada (Sesión 4). Sin código no hay captura ni veredicto.
 - [veredicto:landing] Pospuesto — página de ventas NO iniciada (Sesión 3).
