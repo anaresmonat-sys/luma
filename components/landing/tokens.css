@@ -1,0 +1,47 @@
+/* ============================================================================
+   KIT DE LANDING — tokens.css  ·  TEMATIZADO: LUMA · Dirección A "Terciopelo & Oro"
+   Fuente de verdad: FICHA-ARTE.md (APROBADA 2026-09-10). Los .tsx del kit no llevan
+   hex/fuentes/radios: todo sale de aquí. Se importa en app/globals.css DESPUÉS de
+   @import "tailwindcss".
+   Modo oscuro cálido DERIVADO del brief (noche íntima, esotérico, romántico).
+   ============================================================================ */
+
+:root {
+  /* ── SUPERFICIES (3 niveles: base / elevada / hundida) ── */
+  --bg: #1a0d13;              /* noche vino/cacao casi-negro (nunca #000) */
+  --surface: #241019;         /* secciones elevadas y cards */
+  --surface-2: #150b10;       /* hundido: wells, frames de placeholder */
+
+  /* ── TEXTO (crema cálida con tinte; ≥4.5:1 sobre las 3 superficies) ── */
+  --text-primary: #f4e7db;
+  --text-secondary: #c6a996;
+  --text-tertiary: #b79a86;   /* ~7:1 sobre --bg — cumple AA */
+
+  /* ── MARCA ── */
+  --accent: #d8a441;          /* ORO — SOLO en CTA y dato clave */
+  --accent-2: #d98a86;        /* 2ª nota: rosa cálido (detalle romántico puntual) */
+
+  /* ── FORMA ── */
+  --radius-card: 16px;
+  --radius-button: 14px;
+
+  /* ── TIPOGRAFÍA (de FICHA-ARTE; las carga next/font en layout.tsx) ── */
+  --font-display: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-body: var(--font-hanken), 'Hanken Grotesk', 'Segoe UI', sans-serif;
+
+  /* ── SOMBRAS con tinte cálido (nunca negro puro) ── */
+  --shadow-1: 0 1px 2px rgb(12 6 9 / 0.45);
+  --shadow-2: 0 18px 44px -16px rgb(12 6 9 / 0.62);
+
+  /* ── DERIVADOS (no se tocan) ── */
+  --chip-bg: color-mix(in oklab, var(--accent) 10%, transparent);
+}
+
+/* Base mínima que el kit asume (no tematizar) */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}

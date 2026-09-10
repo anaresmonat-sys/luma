@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/* Tokens del kit de landing + brand kit LUMA (Terciopelo & Oro).
+   Fuente de verdad: FICHA-ARTE.md. */
+@import "../components/landing/tokens.css";
+
+/* Exponer los tokens como utilidades de Tailwind v4 (arbitrary values también valen).
+   @theme inline: el valor es una var() que podría cambiar con el tema. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --radius-card: var(--radius-card);
+  --radius-button: var(--radius-button);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+/* Selección con el acento */
+::selection { background: color-mix(in oklab, var(--accent) 30%, transparent); }

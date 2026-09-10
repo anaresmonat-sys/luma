@@ -1,18 +1,37 @@
-# Scratch de herramientas de preview / screenshots
-.playwright-mcp/
-.tsbuildinfo-hook
-luma-*.png
-
-# Node
+# ── Node / Next ──────────────────────────────────────────────
+/node_modules
 node_modules/
+/.pnp
+.pnp.*
+/.next/
+/out/
+/build
+/coverage
+*.tsbuildinfo
+.tsbuildinfo-hook
+next-env.d.ts
 
-# Entorno (nunca commitear secretos)
+# ── Entorno (NUNCA commitear secretos) ───────────────────────
 .env
 .env.*
 !.env.example
 
-# capturas de trabajo
+# ── Deploy ───────────────────────────────────────────────────
+.vercel
+
+# ── Logs ─────────────────────────────────────────────────────
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.DS_Store
+*.pem
+
+# ── Scratch de herramientas de preview / capturas de trabajo ──
+.playwright-mcp/
+luma-*.png
 z*.png
 *-vp.png
 *-full.png
-luma-final.png
+tour*.png
+abc-*.png
