@@ -116,6 +116,12 @@
   · iconos de "Lo que hemos detectado" a 34px, con relleno de color más fuerte + glow por tipo
   · cajas de texto: fondo #2d1c26 cálido translúcido + hairline oro tenue (antes #1f1219 casi-negro, resaltaba de más)
   · botón de micrófono (voz→texto) en Descifrar, chat del coach y diario — ver ESTADO "NOTAS DE VOZ"
+- Ronda de DENSIDAD 2026-09-10 (pedido del usuario "menos pesado visualmente, menos saturado"):
+  · blooms del fondo con opacidad ~0.4-0.45 (antes hex sólidos) y sin el foco ámbar fuerte abajo
+  · círculos de emoción sin glow (solo aro fino) · botones con sombra/brillo reducidos · menos text-shadow en titulares
+  · Home: pregunta a 1 línea, sin el párrafo de insight redundante (queda solo el enlace), 5 emociones, accesos empujados al fondo con aire
+  · Descifrar: subtítulo corto, modos de entrada como texto (Texto·Captura·Voz) en vez de botones, muestra de chat a 2 líneas
+  · halo de la tarjeta Premium reducido
 - Paleta derivada de: propuesta propia (dirección A), fusionando calidez editorial (CHANI) + profundidad de degradado (The Pattern) + capa 3D cálida
 - Registro anti-repetición: paleta (vino/cacao #241019 + oro #d8a441) y par tipográfico (Cormorant Garamond + Hanken Grotesk) VETADOS para el próximo proyecto del SO
 - Modo (oscuro cálido) DERIVADO por: el brief del usuario (noche íntima, esotérico, romántico) + fusión de referencias — NO asumido por reflejo

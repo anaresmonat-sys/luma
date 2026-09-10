@@ -23,9 +23,9 @@
   }
   body{
     background:
-      radial-gradient(1200px 620px at 8% -12%, #2f1b28, transparent 58%),
-      radial-gradient(1000px 560px at 96% -4%, #29171f, transparent 56%),
-      linear-gradient(180deg,#180c12,#120a0e);
+      radial-gradient(1200px 620px at 8% -12%, rgba(47,27,40,.55), transparent 58%),
+      radial-gradient(1000px 560px at 96% -4%, rgba(41,23,31,.5), transparent 56%),
+      linear-gradient(180deg,#160b10,#110a0d);
     color:var(--t1);font-family:var(--fb);padding:34px 20px 70px;
   }
   .head{max-width:1360px;margin:0 auto 6px}
@@ -47,10 +47,10 @@
     box-shadow:0 2px 4px rgb(255 255 255/.06) inset, 0 40px 84px -30px rgb(0 0 0/.72), 0 18px 40px -24px rgb(0 0 0/.6)}
   .scr{width:100%;height:100%;border-radius:36px;overflow:hidden;position:relative;display:flex;flex-direction:column;
     background:
-      radial-gradient(320px 240px at 80% 6%, #6d2f3e, transparent 62%),
-      radial-gradient(340px 300px at 10% 28%, #4a2233, transparent 60%),
-      radial-gradient(420px 380px at 50% 110%, #a5623a, transparent 56%),
-      linear-gradient(180deg,#241019,#180c12)}
+      radial-gradient(300px 220px at 84% 2%, rgba(109,47,62,.45), transparent 62%),
+      radial-gradient(320px 280px at 4% 20%, rgba(74,34,51,.4), transparent 64%),
+      radial-gradient(340px 260px at 50% 122%, rgba(140,82,58,.22), transparent 62%),
+      linear-gradient(180deg,#211019,#160b10)}
   .sb{display:flex;align-items:center;justify-content:space-between;padding:12px 22px 3px;font-size:12px;font-weight:600;color:var(--t1);font-variant-numeric:tabular-nums;flex-shrink:0}
   .sb .r{display:flex;gap:5px;opacity:.8}
   .hi{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:106px;height:4px;border-radius:999px;background:var(--t1);opacity:.4}
@@ -65,13 +65,13 @@
   .bk{width:22px;height:22px;display:flex;align-items:center;justify-content:center;color:var(--t1)}
 
   .kick{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:.03em}
-  h2.t{font-family:var(--fd);font-weight:600;font-size:25px;line-height:1.12;color:#f6ecdf;text-shadow:0 2px 12px rgb(0 0 0/.4)}
-  h2.t.sm{font-size:22px}
+  h2.t{font-family:var(--fd);font-weight:600;font-size:23px;line-height:1.15;color:#f4e7db;text-shadow:0 1px 5px rgb(0 0 0/.22)}
+  h2.t.sm{font-size:20px}
   .bd{font-size:12px;line-height:1.5;color:var(--t2)}
 
   .btn{display:flex;align-items:center;justify-content:center;gap:7px;height:46px;border-radius:14px;font-size:13.5px;font-weight:700;letter-spacing:.02em;
-    color:#2a140f;background:linear-gradient(180deg,#eab765,#cf8f3f);flex-shrink:0;
-    box-shadow:0 14px 28px -10px rgb(207 143 63/.55), inset 0 1px 0 rgb(255 255 255/.45)}
+    color:#2a140f;background:linear-gradient(180deg,#e6b56a,#cf9147);flex-shrink:0;
+    box-shadow:0 8px 16px -10px rgb(207 143 63/.4), inset 0 1px 0 rgb(255 255 255/.35)}
   .btn.ghost{background:none;color:var(--gold-lite);border:1px solid rgb(233 176 106/.4);box-shadow:none}
   .lnk{color:var(--gold-lite);font-weight:700;font-size:11.5px;letter-spacing:.02em}
 
@@ -79,22 +79,24 @@
     box-shadow:0 16px 30px -18px rgb(0 0 0/.5), inset 0 1px 0 rgb(255 255 255/.06)}
   .card.p{padding:14px}
 
-  .opt{display:flex;align-items:center;gap:11px;padding:13px 14px;border-radius:14px;background:var(--surf);border:1px solid var(--hair);font-size:13px;color:var(--t1)}
-  .opt .hh{width:20px;height:20px;color:var(--gold);flex-shrink:0}
-  .opt.on{border-color:rgb(216 164 65/.5);background:rgb(216 164 65/.08)}
+  .opt{display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:13px;background:rgb(255 255 255/.03);border:1px solid rgb(255 255 255/.07);font-size:12.5px;color:var(--t1)}
+  .opt .hh{width:17px;height:17px;color:var(--gold);opacity:.85;flex-shrink:0}
+  .opt.on{border-color:rgb(216 164 65/.45);background:rgb(216 164 65/.07)}
+  .opt.on .hh{opacity:1}
   .prog{display:flex;gap:4px;margin:4px 0 14px}
   .prog i{height:3px;flex:1;border-radius:2px;background:rgb(255 255 255/.12)} .prog i.on{background:var(--gold)}
 
-  .moods{display:flex;justify-content:space-between;margin-top:10px}
+  .moods{display:flex;justify-content:space-between;margin-top:12px}
   .mc{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:9px;font-weight:600;color:var(--t2)}
-  .mc .rg{width:37px;height:37px;border-radius:999px;display:flex;align-items:center;justify-content:center;
-    border:1.5px solid var(--rc);box-shadow:0 0 13px -3px color-mix(in oklab,var(--rc) 60%,transparent), inset 0 0 10px -5px color-mix(in oklab,var(--rc) 50%,transparent)}
+  .mc .rg{width:34px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;
+    border:1.4px solid color-mix(in oklab,var(--rc) 70%,transparent)}
+  .mc.sel .rg{border-color:var(--rc);background:color-mix(in oklab,var(--rc) 12%,transparent)}
   .mc.sel{color:var(--t1)}
 
   /* carta 3D — objeto héroe */
-  .stage{position:relative;margin:14px 0 4px;height:196px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .glow{position:absolute;width:220px;height:220px;border-radius:999px;filter:blur(38px);opacity:.85;
-    background:radial-gradient(circle,#e9a24d,#b0416a 55%,transparent 72%)}
+  .stage{position:relative;margin:18px 0 6px;height:180px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .glow{position:absolute;width:190px;height:190px;border-radius:999px;filter:blur(40px);opacity:.55;
+    background:radial-gradient(circle,#e0a25a,#9c4560 55%,transparent 72%)}
   .c3d{position:relative;width:126px;height:186px;transform:perspective(900px) rotateX(7deg) rotateY(-15deg) rotate(-3deg)}
   .c3d .face{position:absolute;inset:0;border-radius:13px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:13px 9px;
     background:linear-gradient(160deg,#f7ecd6,#efdcbd);color:#5a2436;
@@ -109,9 +111,9 @@
   .insight .lnk{display:inline-block;margin-top:7px}
 
   .g2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-  .act{display:flex;align-items:center;gap:8px;padding:11px 11px;border-radius:13px;font-size:11px;font-weight:600;color:#ecdcc9;
-    background:rgb(255 255 255/.055);border:1px solid rgb(233 176 106/.22)}
-  .act svg{color:var(--gold-lite);flex-shrink:0}
+  .act{display:flex;align-items:center;gap:8px;padding:11px 11px;border-radius:13px;font-size:11px;font-weight:600;color:#e2d2c2;
+    background:rgb(255 255 255/.035);border:1px solid rgb(255 255 255/.08)}
+  .act svg{color:var(--gold-lite);opacity:.85;flex-shrink:0}
 
   .nav{display:flex;justify-content:space-around;margin:8px -18px 0;padding:8px 6px 14px;border-top:1px solid var(--hair);background:rgb(20 10 15/.5);flex-shrink:0}
   .nav a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:8px;font-weight:600;color:#b79a86;text-decoration:none}
@@ -148,20 +150,20 @@
   .askchips span{padding:9px 12px;border-radius:999px;background:rgb(233 176 106/.09);color:#e7d3bc;font-size:10.5px;font-weight:600;border:1px solid rgb(233 176 106/.2)}
 
   /* analizador */
-  .inmodes{display:flex;gap:7px;margin-top:12px}
-  .im{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:8px 3px;border-radius:10px;
-    font-size:9.5px;font-weight:600;color:var(--t2);background:rgb(255 255 255/.04);border:1px solid var(--hair)}
-  .im svg{width:12px;height:12px}
-  .im.on{color:var(--gold-lite);background:rgb(233 176 106/.1);border-color:rgb(233 176 106/.32)}
+  .inmodes{display:flex;gap:14px;margin-top:12px;padding-bottom:2px}
+  .im{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600;color:var(--t2)}
+  .im svg{width:12px;height:12px;opacity:.8}
+  .im.on{color:var(--gold-lite)}
+  .im.on svg{opacity:1}
   .field{background:#2d1c26;border:1px solid rgb(233 176 106/.16);border-radius:14px;padding:12px;
     font-size:11.5px;color:var(--t1);line-height:1.5;box-shadow:inset 0 1px 0 rgb(255 255 255/.05)}
   .field .ff{display:flex;align-items:center;justify-content:space-between;margin-top:9px}
   .mic{width:26px;height:26px;border-radius:999px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
     background:rgb(233 176 106/.15);color:var(--gold-lite);border:1px solid rgb(233 176 106/.28)}
   .cnt{font-size:9px;color:var(--t3)}
-  .det{display:flex;gap:11px;align-items:flex-start;padding:9px 0}
-  .det .dot{width:34px;height:34px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-  .det h5{font-size:11.5px;font-weight:700;color:var(--t1)}
+  .det{display:flex;gap:11px;align-items:flex-start;padding:7px 0}
+  .det .dot{width:30px;height:30px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+  .det h5{font-size:11px;font-weight:700;color:var(--t1)}
   .det p{font-size:10.5px;color:var(--t2);line-height:1.4;margin-top:2px}
   .acts{display:flex;flex-direction:column;gap:7px}
   .acts span{padding:9px 12px;border-radius:999px;background:rgb(233 176 106/.09);color:var(--gold-lite);font-size:11px;font-weight:600;text-align:center;border:1px solid rgb(233 176 106/.2)}
@@ -173,8 +175,8 @@
   .plans{display:grid;grid-template-columns:1fr 1fr;gap:9px}
   .pl{border-radius:15px;padding:13px 11px}
   .pl.free{background:var(--surf);border:1px solid var(--hair)}
-  .pl.pro{background:linear-gradient(160deg,#3a2130,#241019);border:1px solid rgb(233 176 106/.4);position:relative;overflow:hidden;
-    box-shadow:0 0 30px -10px rgb(233 176 106/.25)}
+  .pl.pro{background:linear-gradient(160deg,#331d2a,#221019);border:1px solid rgb(233 176 106/.32);position:relative;overflow:hidden;
+    box-shadow:0 0 20px -14px rgb(233 176 106/.18)}
   .pl h5{font-size:11px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:5px;color:var(--t1)}
   .pl.pro h5{color:var(--gold-lite)}
   .pl .pp{font-family:var(--fd);font-size:17px;font-weight:600;margin-bottom:7px;color:#f6ecdf}
@@ -274,7 +276,7 @@
         <div class="bar"><span class="ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span><span class="mk">LUMA</span><span class="av"></span></div>
         <div class="sc">
           <p class="kick">Buenas noches, Ana</p>
-          <h2 class="t sm" style="margin-top:3px">¿Cómo está tu<br>corazón hoy?</h2>
+          <h2 class="t sm" style="margin-top:4px">¿Cómo estás hoy?</h2>
           <div class="moods">
             <div class="mc sel" style="--rc:#8faa78"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8faa78" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 14.5c1.2 1.2 5.8 1.2 7 0"/></svg></span>Bien</div>
             <div class="mc" style="--rc:#d8a441"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d8a441" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 14.5h7"/></svg></span>Normal</div>
@@ -293,12 +295,9 @@
               </div>
             </div>
           </div>
-          <div class="insight">
-            <p class="q">Hoy la intuición te pide pausa, no prisa.</p>
-            <p class="lnk">Abrir mi lectura de hoy →</p>
-          </div>
-          <div class="g2" style="margin-top:14px">
-            <div class="act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4Z"/><path d="M8 9h8M8 12h5"/></svg>Analizar mi situación</div>
+          <p class="lnk" style="text-align:center;margin-top:2px">Abrir mi lectura de hoy →</p>
+          <div class="g2" style="margin-top:auto;margin-bottom:6px">
+            <div class="act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4Z"/><path d="M8 9h8M8 12h5"/></svg>Descifrar un chat</div>
             <div class="act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>Hablar con mi coach</div>
           </div>
         </div>
@@ -322,18 +321,18 @@
       <div class="pn">
         <div class="bar"><span class="bk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></span><span class="ttl">Descifrar</span><span style="width:17px"></span></div>
         <div class="sc">
-          <h2 class="t sm" style="margin-top:4px">Pega vuestra<br>conversación</h2>
-          <p class="bd" style="margin-top:6px">El chat de WhatsApp, una captura o un audio. Te digo qué está pasando de verdad.</p>
+          <h2 class="t sm" style="margin-top:6px">Pega vuestra conversación</h2>
+          <p class="bd" style="margin-top:6px">El chat, una captura o un audio.</p>
           <div class="inmodes">
-            <span class="im on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2M9 3h6v3H9z"/></svg>Pegar texto</span>
-            <span class="im"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>Subir captura</span>
-            <span class="im"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg>Nota de voz</span>
+            <span class="im on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2M9 3h6v3H9z"/></svg>Texto</span>
+            <span class="im"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>Captura</span>
+            <span class="im"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg>Voz</span>
           </div>
-          <div class="field" style="margin-top:9px">Él: no quiero nada serio ahora mismo<br>Ella: vale, lo entiendo<br>Él: pero el finde te veo, ¿no? y no me gusta que salgas con el grupo ese…
+          <div class="field" style="margin-top:10px">Él: no quiero nada serio ahora mismo<br>Él: pero el finde te veo, ¿no? y no me gusta que salgas con el grupo ese…
             <div class="ff"><span class="mic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg></span><span class="cnt">o mantén pulsado para hablar</span></div>
           </div>
-          <div class="btn" style="margin-top:10px">Analizar</div>
-          <p style="font-family:var(--fd);font-size:16px;color:#f4e7db;margin:16px 0 6px">Lo que hemos detectado</p>
+          <div class="btn" style="margin-top:12px">Analizar</div>
+          <p style="font-family:var(--fd);font-size:15px;color:#f4e7db;margin:18px 0 4px">Lo que hemos detectado</p>
           <div class="det"><span class="dot" style="background:rgb(169 155 196/.24);border:1px solid rgb(169 155 196/.5);box-shadow:0 0 16px -4px rgb(169 155 196/.55)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb0d6" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3 9 6M12 3l3 3M5 12h14v8H5z"/></svg></span><div><h5>Lo que sabemos</h5><p>No quiere una relación.</p></div></div>
           <div class="det"><span class="dot" style="background:rgb(127 176 170/.24);border:1px solid rgb(127 176 170/.5);box-shadow:0 0 16px -4px rgb(127 176 170/.55)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#96c2bc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="2.5"/></svg></span><div><h5>Lo que observamos</h5><p>Busca intimidad y cierta exclusividad emocional.</p></div></div>
           <div class="det"><span class="dot" style="background:rgb(217 119 106/.26);border:1px solid rgb(217 119 106/.55);box-shadow:0 0 16px -4px rgb(217 119 106/.6)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e79082" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3ZM12 9v5M12 17h.01"/></svg></span><div><h5>Posible riesgo</h5><p>Hay una discrepancia entre sus palabras y sus comportamientos.</p></div></div>
