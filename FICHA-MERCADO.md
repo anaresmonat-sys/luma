@@ -28,7 +28,9 @@
 - Plazos de prueba (Free Trial de Hotmart): configurable; usamos **3 días** (alineado con Nebula y el resumen)
 - Plazos de garantía que admite Hotmart: **7, 15, 21 o 30 días** | verificado en: help.hotmart.com "How to adjust the guarantee period" | fecha: 2026-09-09
 - En suscripción, la garantía aplica SOLO al primer cargo (tras la prueba), no a renovaciones
-- Prueba elegida: **3 días** · Garantía elegida: **7 días**
+- Prueba elegida: 3
+- Garantía elegida: 7
+- (unidad: días. Prueba 3 días · Garantía 7 días.)
 - ⚠️ REGLA DURA (18): garantía > prueba → 7 > 3 → **SÍ cumple**. La garantía cubre el primer cargo real.
 - Desde cuándo cuenta la garantía: desde el primer cobro (post-prueba) — confirmado por doc de Hotmart. El copy puede fijar "7 días desde el primer cobro".
 
