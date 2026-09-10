@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="es" data-kit="abc-v2">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUMA — 3 direcciones de arte (cálido · 3D · romántico · esotérico)</title>
+
+<!-- KIT-ABC-V2 · protocolo A/B/C del 54. Marcador data-kit="abc-v2" INTACTO.
+     El usuario liberó el contrato de réplica y pidió PROPUESTA PROPIA: wow, 3D cálido, romántico,
+     toque esotérico del tarot. 3 direcciones que divergen en modo/tipografía/composición.
+     Fallback-trampa: cada familia declara `"X", monospace`. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Hanken+Grotesk:wght@400;500;600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:
+      radial-gradient(1200px 600px at 8% -10%,#2a1c26,transparent 60%),
+      radial-gradient(1000px 560px at 95% 0%,#241a20,transparent 58%),
+      linear-gradient(180deg,#1c1519,#161014);
+    color:#efe6dd; font-family:"Hanken Grotesk",system-ui,sans-serif; padding:34px 20px 72px;
+  }
+  .head{max-width:1240px;margin:0 auto 8px}
+  .head h1{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:600;letter-spacing:.01em}
+  .head p{margin-top:8px;font-size:13.5px;color:#c3b3a8;max-width:76ch;line-height:1.6}
+  .salidas{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .salidas span{display:inline-flex;gap:6px;border:1px solid #4a3b40;border-radius:999px;
+    padding:7px 13px;font-size:12.5px;font-weight:600;color:#e7d8cd;background:#241a20}
+  .salidas b{color:#e9b06a}
+  .aviso{max-width:1240px;margin:12px auto 30px;font-size:12px;color:#a08f85}
+
+  .cols{max-width:1240px;margin:0 auto;display:grid;gap:44px;
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+  .col{display:flex;flex-direction:column;gap:18px}
+
+  .meta{border-radius:16px;padding:18px;border:1px solid #4a3b40;background:#20161c}
+  .meta .lt{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;
+    border-radius:9px;font-weight:800;font-size:15px;color:#1c1519;background:#e9b06a;margin-right:9px}
+  .meta h2{display:flex;align-items:center;font-family:"Cormorant Garamond",serif;font-size:21px;font-weight:600;color:#f3e6da}
+  .meta .dir{margin-top:6px;font-size:13px;color:#c3b3a8;line-height:1.55}
+  .meta .hip{margin-top:10px;font-size:12.5px;color:#d8c7bc;line-height:1.5}
+  .meta .hip b{color:#e9b06a}
+  .paleta{display:flex;gap:8px;margin-top:12px}
+  .paleta span{width:26px;height:26px;border-radius:999px;box-shadow:inset 0 0 0 1px rgb(255 255 255/.14),0 2px 6px rgb(0 0 0/.4)}
+  .esp{margin-top:12px;border-top:1px solid #40323800;padding-top:10px}
+  .esp .d{font-size:20px;font-weight:600}
+  .esp .b{margin-top:3px;font-size:13px;color:#c9b8ad}
+
+  .rot{text-align:center;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#a08f85}
+
+  /* ===== chasis 3D ===== */
+  .phone{
+    width:322px;margin:0 auto;aspect-ratio:9/19.4;border-radius:46px;position:relative;
+    padding:9px;isolation:isolate;
+    background:linear-gradient(150deg,#3b2c33,#171015);
+    box-shadow:
+      0 2px 4px rgb(255 255 255/.06) inset,
+      0 44px 90px -30px rgb(0 0 0/.7),
+      0 20px 44px -24px rgb(0 0 0/.6);
+  }
+  .scr{width:100%;height:100%;border-radius:38px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+  .sb{display:flex;align-items:center;justify-content:space-between;padding:13px 24px 4px;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+  .sb .r{display:flex;gap:5px;opacity:.8}
+  .body{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:2px 20px 0;min-height:0}
+  .fill{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+  .hi{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);width:110px;height:5px;border-radius:999px;opacity:.5}
+
+  .bar{display:flex;align-items:center;justify-content:space-between;padding:8px 0 6px}
+  .bar .mk{font-size:15px;letter-spacing:.26em;font-weight:600}
+  .bar .ic,.bar .av{width:28px;height:28px;border-radius:999px;display:flex;align-items:center;justify-content:center}
+  .greet{font-size:12px;font-weight:600;letter-spacing:.03em}
+  h3.big{line-height:1.12;letter-spacing:.005em}
+
+  .moods{display:flex;justify-content:space-between;margin-top:12px}
+  .mc{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:9px;font-weight:600}
+  .mc .rg{width:40px;height:40px;border-radius:999px;display:flex;align-items:center;justify-content:center}
+
+  /* la CARTA 3D — objeto héroe */
+  .stage{position:relative;margin:16px 0 6px;height:210px;display:flex;align-items:center;justify-content:center}
+  .glow{position:absolute;width:230px;height:230px;border-radius:999px;filter:blur(38px);opacity:.9}
+  .card3d{
+    position:relative;width:132px;height:196px;border-radius:14px;
+    transform:perspective(900px) rotateX(7deg) rotateY(-15deg) rotate(-3deg);
+    transform-style:preserve-3d;
+  }
+  .card3d .face{
+    position:absolute;inset:0;border-radius:14px;overflow:hidden;
+    box-shadow:0 30px 40px -14px rgb(0 0 0/.55), 0 10px 16px -8px rgb(0 0 0/.4),
+      inset 0 1px 0 rgb(255 255 255/.5), inset 0 0 0 1px rgb(255 255 255/.25);
+    display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:14px 10px;
+  }
+  .card3d .shadow{position:absolute;left:50%;bottom:-26px;width:150px;height:34px;transform:translateX(-50%);
+    background:rgb(0 0 0/.5);border-radius:999px;filter:blur(16px)}
+  .card3d .cn{font-size:9px;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
+  .card3d .ct{font-family:"Cormorant Garamond",serif;font-size:15px;font-weight:600;text-align:center}
+  .card3d svg{filter:drop-shadow(0 2px 3px rgb(0 0 0/.15))}
+
+  .insight{margin-top:6px;text-align:center}
+  .insight .q{font-style:italic;line-height:1.4}
+  .insight .lk{margin-top:8px;font-size:11.5px;font-weight:700;letter-spacing:.02em}
+
+  .acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  .act{display:flex;align-items:center;gap:8px;padding:11px 12px;border-radius:13px;font-size:11px;font-weight:600}
+
+  .cta{display:flex;align-items:center;justify-content:center;gap:7px;height:48px;border-radius:14px;
+    font-size:14px;font-weight:700;letter-spacing:.02em;margin-top:auto}
+
+  .nav{display:flex;justify-content:space-around;margin:10px -20px 0;padding:9px 8px 15px}
+  .nav a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:8px;font-weight:600;text-decoration:none}
+  .nav svg{width:17px;height:17px}
+
+  /* landing hero por opción */
+  .lp{border-radius:20px;overflow:hidden;padding:22px 18px 20px;position:relative;isolation:isolate}
+  .lp .bdg{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:.08em;
+    text-transform:uppercase;border-radius:999px;padding:5px 11px}
+  .lp h4{margin-top:12px;line-height:1.12;letter-spacing:.005em}
+  .lp h4 em{font-style:normal}
+  .lp .s{margin-top:9px;font-size:12.5px;line-height:1.5}
+  .lp .b{margin-top:14px;display:flex;align-items:center;justify-content:center;height:46px;border-radius:13px;font-size:13.5px;font-weight:700}
+  .lp .p{margin-top:9px;font-size:11px;text-align:center}
+
+  /* ============ A · TERCIOPELO & ORO ============ */
+  .A .esp .d{font-family:"Cormorant Garamond",monospace}
+  .A .esp .b{font-family:"Hanken Grotesk",monospace}
+  .A .phone{background:linear-gradient(150deg,#4a2c33,#150b10)}
+  .A .scr{background:
+      radial-gradient(340px 240px at 78% 8%, #6d2f3e, transparent 62%),
+      radial-gradient(360px 300px at 12% 30%, #4a2233, transparent 60%),
+      radial-gradient(420px 380px at 50% 108%, #a5623a, transparent 58%),
+      linear-gradient(180deg,#241019,#1a0d13);
+    color:#f4e7db}
+  .A .sb{color:#f4e7db}
+  .A .hi{background:#f4e7db}
+  .A .bar .mk{color:#f0d9b6;font-family:"Cormorant Garamond",serif;font-size:17px}
+  .A .bar .ic,.A .bar .av{background:rgb(255 255 255/.08);color:#e7cba0}
+  .A .bar .av{background:linear-gradient(150deg,#e7b98a,#c07a5b)}
+  .A .greet{color:#d8a441}
+  .A h3.big{font-family:"Cormorant Garamond",serif;font-size:27px;font-weight:600;color:#f6ecdf;text-shadow:0 2px 10px rgb(0 0 0/.4)}
+  .A .mc{color:#c6a996}
+  .A .mc .rg{border:1.5px solid var(--rc);box-shadow:0 0 14px -2px color-mix(in oklab,var(--rc) 60%,transparent), inset 0 0 10px -4px color-mix(in oklab,var(--rc) 50%,transparent)}
+  .A .glow{background:radial-gradient(circle,#e9a24d,#b0416a 55%,transparent 72%)}
+  .A .card3d .face{background:linear-gradient(160deg,#f7ecd6,#efdcbd);color:#5a2436}
+  .A .card3d .cn{color:#a86a3a}
+  .A .card3d .ct{color:#6d2f3e}
+  .A .card3d svg{stroke:#b07a3a}
+  .A .insight .q{font-family:"Cormorant Garamond",serif;font-size:15px;color:#f1e2d2}
+  .A .insight .lk{color:#e9b06a}
+  .A .act{background:rgb(255 255 255/.055);border:1px solid rgb(233 176 106/.22);color:#ecdcc9}
+  .A .act svg{color:#e9b06a}
+  .A .cta{background:linear-gradient(180deg,#eab765,#cf8f3f);color:#2a140f;
+    box-shadow:0 14px 30px -10px rgb(207 143 63/.6), inset 0 1px 0 rgb(255 255 255/.45)}
+  .A .nav{border-top:1px solid rgb(255 255 255/.09);background:rgb(20 10 15/.5)}
+  .A .nav a{color:#b79a86} .A .nav a.on{color:#e9b06a}
+  .A .lp{background:
+      radial-gradient(300px 220px at 82% 0%, #6d2f3e, transparent 60%),
+      radial-gradient(340px 300px at 0% 100%, #a5623a, transparent 58%),
+      linear-gradient(160deg,#26121b,#180c12);color:#f2e5d8}
+  .A .lp .bdg{color:#e9b06a;background:rgb(233 176 106/.12);border:1px solid rgb(233 176 106/.3)}
+  .A .lp h4{font-family:"Cormorant Garamond",serif;font-size:25px;font-weight:600}
+  .A .lp h4 em{color:#e9b06a}
+  .A .lp .s{color:#cdbaad} .A .lp .s b{color:#f2e5d8}
+  .A .lp .b{background:linear-gradient(180deg,#eab765,#cf8f3f);color:#2a140f;box-shadow:0 12px 26px -8px rgb(207 143 63/.55)}
+  .A .lp .p{color:#b79a86}
+
+  /* ============ B · AMANECER DE CUARZO ============ */
+  .B .esp .d{font-family:"Fraunces",monospace}
+  .B .esp .b{font-family:"Figtree",monospace}
+  .B .phone{background:linear-gradient(150deg,#f3d3c2,#d9a690)}
+  .B .scr{background:
+      radial-gradient(320px 260px at 82% 6%, #ffe9dc, transparent 66%),
+      radial-gradient(360px 320px at 6% 26%, #ffd9c6, transparent 62%),
+      radial-gradient(420px 360px at 50% 110%, #f6c3b0, transparent 58%),
+      linear-gradient(180deg,#fdeee5,#f7ddcd);
+    color:#4a3a34;font-family:"Figtree",system-ui,sans-serif}
+  .B .sb{color:#5a4842}
+  .B .hi{background:#8a6c5e}
+  .B .bar .mk{color:#7a5546;font-family:"Fraunces",serif;font-size:16px;font-weight:600}
+  .B .bar .ic,.B .bar .av{background:#fff6ef;color:#b98a72;box-shadow:0 4px 10px -4px rgb(150 100 80/.4), inset 0 1px 0 #fff}
+  .B .bar .av{background:linear-gradient(150deg,#f2c3a6,#e2947c)}
+  .B .greet{color:#c67a63}
+  .B h3.big{font-family:"Fraunces",serif;font-size:25px;font-weight:500;color:#4a352e}
+  .B .mc{color:#8a6f63}
+  .B .mc .rg{background:#fff6ef;border:1px solid #f0dccf;
+    box-shadow:6px 6px 14px -6px rgb(160 110 88/.4), -4px -4px 10px -4px #fff, inset 0 1px 0 #fff}
+  .B .mc.sel .rg{background:color-mix(in oklab,var(--rc) 16%,#fff6ef)}
+  .B .glow{background:radial-gradient(circle,#ffd7b0,#f2a58f 52%,transparent 70%);opacity:.8}
+  .B .card3d{transform:perspective(900px) rotateX(6deg) rotateY(-12deg) rotate(-2deg)}
+  .B .card3d .face{background:linear-gradient(160deg,#fff7f0,#ffe9dc);color:#7a5546;
+    box-shadow:14px 20px 34px -12px rgb(150 95 70/.5), -6px -6px 16px -8px #fff,
+      inset 0 1px 0 #fff, inset 0 0 0 1px #f4ddd0}
+  .B .card3d .shadow{background:rgb(150 95 70/.35)}
+  .B .card3d .cn{color:#c98a6c} .B .card3d .ct{color:#8a5a48} .B .card3d svg{stroke:#c98a6c}
+  .B .insight .q{font-family:"Fraunces",serif;font-size:14.5px;color:#5a463e}
+  .B .insight .lk{color:#c67a63}
+  .B .act{background:#fff6ef;border:1px solid #f2ddd0;color:#5a463e;
+    box-shadow:5px 6px 14px -7px rgb(160 110 88/.35), inset 0 1px 0 #fff}
+  .B .act svg{color:#e2947c}
+  .B .cta{background:linear-gradient(180deg,#f0a988,#e2846a);color:#fff;
+    box-shadow:0 16px 30px -10px rgb(226 132 106/.55), inset 0 1px 0 rgb(255 255 255/.5)}
+  .B .nav{border-top:1px solid #f0dccf;background:rgb(255 246 239/.7)}
+  .B .nav a{color:#a98c7d} .B .nav a.on{color:#e2846a}
+  .B .lp{background:
+      radial-gradient(300px 240px at 84% 0%, #ffe3d1, transparent 62%),
+      radial-gradient(340px 300px at 0% 100%, #ffd0bb, transparent 60%),
+      linear-gradient(160deg,#fef0e7,#f8ddce);color:#4a352e}
+  .B .lp .bdg{color:#c67a63;background:rgb(226 132 106/.12);border:1px solid rgb(226 132 106/.28)}
+  .B .lp h4{font-family:"Fraunces",serif;font-size:24px;font-weight:500}
+  .B .lp h4 em{color:#d97a5f}
+  .B .lp .s{color:#7c675d} .B .lp .s b{color:#4a352e}
+  .B .lp .b{background:linear-gradient(180deg,#f0a988,#e2846a);color:#fff;box-shadow:0 14px 28px -8px rgb(226 132 106/.5)}
+  .B .lp .p{color:#a98c7d}
+
+  /* ============ C · ATARDECER ============ */
+  .C .esp .d{font-family:"Newsreader",monospace}
+  .C .esp .b{font-family:"Hanken Grotesk",monospace}
+  .C .phone{background:linear-gradient(150deg,#7a4a52,#241318)}
+  .C .scr{background:linear-gradient(180deg,#f6c98f 0%,#e79a6f 32%,#c56b6a 62%,#8a4a63 84%,#4a2a44 100%);color:#fff}
+  .C .sb{color:#fff}
+  .C .hi{background:#fff}
+  .C .bar .mk{color:#fff;font-family:"Newsreader",serif;font-size:17px;font-weight:500}
+  .C .bar .ic,.C .bar .av{background:rgb(255 255 255/.16);color:#fff;backdrop-filter:blur(6px)}
+  .C .bar .av{background:linear-gradient(150deg,#f7d3ae,#d98a7a)}
+  .C .greet{color:#ffe4c9}
+  .C h3.big{font-family:"Newsreader",serif;font-size:26px;font-weight:500;color:#fff;text-shadow:0 2px 14px rgb(90 40 50/.4)}
+  .C .mc{color:rgb(255 255 255/.85)}
+  .C .mc .rg{background:rgb(255 255 255/.14);border:1px solid rgb(255 255 255/.4);backdrop-filter:blur(4px);
+    box-shadow:0 6px 16px -6px rgb(90 40 50/.4), inset 0 1px 0 rgb(255 255 255/.4)}
+  .C .glow{background:radial-gradient(circle,#ffdca0,#e08a6a 52%,transparent 72%);opacity:.85}
+  .C .card3d{transform:perspective(950px) rotateX(8deg) rotateY(-16deg) rotate(-3deg)}
+  .C .card3d .face{background:linear-gradient(160deg,rgb(255 255 255/.9),rgb(255 244 235/.78));color:#7a3f4a;
+    backdrop-filter:blur(8px);
+    box-shadow:0 34px 46px -16px rgb(60 20 34/.55), 0 12px 20px -10px rgb(60 20 34/.4),
+      inset 0 1px 0 rgb(255 255 255/.8), inset 0 0 0 1px rgb(217 162 122/.5)}
+  .C .card3d .shadow{background:rgb(60 20 34/.5)}
+  .C .card3d .cn{color:#c07a45} .C .card3d .ct{color:#8a4453} .C .card3d svg{stroke:#c07a45}
+  .C .insight .q{font-family:"Newsreader",serif;font-size:15px;color:#fff}
+  .C .insight .lk{color:#ffe0bd}
+  .C .act{background:rgb(255 255 255/.14);border:1px solid rgb(255 255 255/.28);color:#fff;backdrop-filter:blur(6px)}
+  .C .act svg{color:#ffdcae}
+  .C .cta{background:linear-gradient(180deg,#f6b06a,#d97a3d);color:#3a1c14;
+    box-shadow:0 16px 32px -10px rgb(120 60 40/.55), inset 0 1px 0 rgb(255 255 255/.5)}
+  .C .nav{border-top:1px solid rgb(255 255 255/.22);background:rgb(74 42 68/.35);backdrop-filter:blur(10px)}
+  .C .nav a{color:rgb(255 255 255/.7)} .C .nav a.on{color:#ffdcae}
+  .C .lp{background:linear-gradient(180deg,#f6c98f,#e2896a 46%,#a5566a 78%,#5a2f4c);color:#fff}
+  .C .lp .bdg{color:#fff;background:rgb(255 255 255/.18);border:1px solid rgb(255 255 255/.34)}
+  .C .lp h4{font-family:"Newsreader",serif;font-size:25px;font-weight:500}
+  .C .lp h4 em{color:#ffdcae}
+  .C .lp .s{color:rgb(255 255 255/.9)} .C .lp .s b{color:#fff}
+  .C .lp .b{background:linear-gradient(180deg,#f6b06a,#d97a3d);color:#3a1c14;box-shadow:0 14px 28px -8px rgb(120 60 40/.5)}
+  .C .lp .p{color:rgb(255 255 255/.72)}
+
+  .pie{max-width:1240px;margin:44px auto 0;font-size:12px;color:#a08f85;border-top:1px solid #3a2d33;padding-top:16px;line-height:1.7}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <h1>LUMA — tres direcciones de arte</h1>
+  <p>Las tres son cálidas, con profundidad 3D y un aire romántico y esotérico del tarot. No son
+    borradores: cualquiera puede ser la app final. Divergen en el <b>ambiente</b> (noche / amanecer /
+    atardecer), la <b>letra</b> y la <b>composición</b>. Mira la pantalla de Inicio y la página de
+    ventas de cada una.</p>
+  <div class="salidas">
+    <span><b>1 · Elegir</b> A, B o C</span>
+    <span><b>2 · Combinar</b> («la A pero más clara como la C»)</span>
+    <span><b>3 · Otras 3</b> direcciones</span>
+    <span><b>4 · Ajustar</b> un detalle</span>
+  </div>
+</header>
+<p class="aviso">Verificación de fuentes: el nombre de cada familia (en cada panel) se muestra EN su propia letra.
+  Si ahí se ve letra de máquina de escribir, esa fuente no cargó.</p>
+
+<div class="cols">
+
+  <!-- ================= A ================= -->
+  <section class="col A">
+    <div class="meta">
+      <h2><span class="lt">A</span> Terciopelo &amp; Oro</h2>
+      <p class="dir">La noche íntima: fondo vino profundo y cacao, luz de vela, detalles en oro.
+        Una carta de tarot flota en el centro con sombra y brillo real. Dramática, misteriosa, elegante.</p>
+      <p class="hip"><b>Por qué convierte:</b> el lujo oscuro + oro dice "esto es especial y privado";
+        la carta flotante es el imán visual que invita a tocar.</p>
+      <div class="paleta">
+        <span style="background:#241019"></span><span style="background:#2b1a24"></span>
+        <span style="background:#f4e7db"></span><span style="background:#d8a441"></span>
+        <span style="background:#d98a86"></span>
+      </div>
+      <div class="esp">
+        <p class="d">Cormorant Garamond — AaÑñ 0123</p>
+        <p class="b">Hanken Grotesk — El veloz murciélago hindú comía feliz cardillo.</p>
+      </div>
+    </div>
+
+    <p class="rot">Pantalla de Inicio</p>
+    <div class="phone"><div class="scr">
+      <div class="sb"><span>9:41</span><span class="r"><svg width="16" height="10" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="3" width="3" height="8" rx=".8"/><rect x="13.5" y=".5" width="3" height="10.5" rx=".8"/></svg><svg width="22" height="11" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"/><rect x="2" y="2" width="15" height="8" rx="1.6" fill="currentColor"/></svg></span></div>
+      <div class="body">
+        <div class="bar"><span class="ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span><span class="mk">LUMA</span><span class="av"></span></div>
+        <div class="fill">
+          <p class="greet">Buenas noches, Ana</p>
+          <h3 class="big" style="margin-top:3px">¿Cómo está tu<br>corazón hoy?</h3>
+          <div class="moods">
+            <div class="mc" style="--rc:#8faa78"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8faa78" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 14.5c1.2 1.2 5.8 1.2 7 0"/></svg></span>Bien</div>
+            <div class="mc" style="--rc:#d8a441"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d8a441" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 14.5h7"/></svg></span>Normal</div>
+            <div class="mc" style="--rc:#dd8f7a"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dd8f7a" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 15c1.2-1.2 5.8-1.2 7 0"/></svg></span>Ansiosa</div>
+            <div class="mc" style="--rc:#8fa6c6"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8fa6c6" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 15.5c1.2-1.8 5.8-1.8 7 0"/></svg></span>Triste</div>
+            <div class="mc" style="--rc:#d99db3"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d99db3" stroke-width="1.6" stroke-linecap="round"><path d="M8 9.5l1.2 1M16 9.5l-1.2 1M8.5 14c1.2 1.4 5.8 1.4 7 0"/></svg></span>Ilusión</div>
+          </div>
+          <div class="stage">
+            <div class="glow"></div>
+            <div class="card3d">
+              <div class="shadow"></div>
+              <div class="face">
+                <span class="cn">II · La Sacerdotisa</span>
+                <svg width="46" height="60" viewBox="0 0 46 60" fill="none" stroke-width="1.4" stroke-linecap="round"><path d="M7 58V8M39 58V8"/><circle cx="23" cy="17" r="5.5"/><path d="M23 23v22M14 45h18M16 34h14M23 8l3 4h-6z"/><path d="M18 12a6 6 0 0 1 10 0"/></svg>
+                <span class="ct">"Escucha antes<br>de responder."</span>
+              </div>
+            </div>
+          </div>
+          <div class="insight">
+            <p class="q">Hoy la intuición te pide pausa, no prisa.</p>
+            <p class="lk">Abrir mi lectura de hoy →</p>
+          </div>
+          <div class="acts">
+            <div class="act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4Z"/><path d="M8 9h8M8 12h5"/></svg>Analizar mi situación</div>
+            <div class="act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>Hablar con mi coach</div>
+          </div>
+          <div class="cta">Tirar mi carta de esta noche</div>
+        </div>
+        <nav class="nav">
+          <a class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>Inicio</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>Coach</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2Z"/></svg>Tarot</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/></svg>Relaciones</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>Más</a>
+        </nav>
+      </div>
+      <div class="hi"></div>
+    </div></div>
+
+    <p class="rot">Página de ventas</p>
+    <div class="lp">
+      <span class="bdg">✦ Claridad en el amor</span>
+      <h4>Deja de releer sus mensajes. <em>Entiende</em> lo que pasa.</h4>
+      <p class="s"><b>Tarot + coach con IA.</b> Cuéntale tu situación y recibe una lectura que habla de TI, no un horóscopo.</p>
+      <div class="b">Empezar mi primera lectura</div>
+      <p class="p">3 días gratis · cancela cuando quieras</p>
+    </div>
+  </section>
+
+  <!-- ================= B ================= -->
+  <section class="col B">
+    <div class="meta">
+      <h2><span class="lt">B</span> Amanecer de Cuarzo</h2>
+      <p class="dir">La mañana suave: rosas, durazno y albaricoque. Tarjetas "de plastilina" con
+        volumen y sombras cálidas. Un cristal de cuarzo rosa en 3D preside la pantalla. Tierna, luminosa, esperanzadora.</p>
+      <p class="hip"><b>Por qué convierte:</b> lo claro y mullido baja la guardia y se siente amable y
+        seguro — perfecto para abrirse a hablar de emociones.</p>
+      <div class="paleta">
+        <span style="background:#fdeee5"></span><span style="background:#fff6ef"></span>
+        <span style="background:#4a352e"></span><span style="background:#e2846a"></span>
+        <span style="background:#f2b98a"></span>
+      </div>
+      <div class="esp">
+        <p class="d">Fraunces — AaÑñ 0123</p>
+        <p class="b">Figtree — El veloz murciélago hindú comía feliz cardillo.</p>
+      </div>
+    </div>
+
+    <p class="rot">Pantalla de Inicio</p>
+    <div class="phone"><div class="scr">
+      <div class="sb"><span>9:41</span><span class="r"><svg width="16" height="10" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="3" width="3" height="8" rx=".8"/><rect x="13.5" y=".5" width="3" height="10.5" rx=".8"/></svg></span></div>
+      <div class="body">
+        <div class="bar"><span class="ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span><span class="mk">LUMA</span><span class="av"></span></div>
+        <div class="fill">
+          <p class="greet">Hola, Ana</p>
+          <h3 class="big" style="margin-top:3px">¿Cómo amaneció tu<br>corazón?</h3>
+          <div class="stage">
+            <div class="glow"></div>
+            <div class="card3d">
+              <div class="shadow"></div>
+              <div class="face">
+                <span class="cn">Cuarzo rosa</span>
+                <svg width="52" height="58" viewBox="0 0 52 58" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M26 4 10 22l4 30h24l4-30z"/><path d="M10 22h32M26 4v48M18 22 26 52M34 22 26 52"/></svg>
+                <span class="ct">Ternura y<br>autocuidado</span>
+              </div>
+            </div>
+          </div>
+          <div class="insight">
+            <p class="q">"Puedes querer a alguien y aun así elegirte a ti."</p>
+            <p class="lk">Ver mi carta del día →</p>
+          </div>
+          <div class="moods" style="margin-top:14px">
+            <div class="mc sel" style="--rc:#8faa78"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8faa78" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 14.5c1.2 1.2 5.8 1.2 7 0"/></svg></span>Bien</div>
+            <div class="mc" style="--rc:#d3a95f"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c99a55" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 14.5h7"/></svg></span>Normal</div>
+            <div class="mc" style="--rc:#dd8f7a"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dd8f7a" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 15c1.2-1.2 5.8-1.2 7 0"/></svg></span>Ansiosa</div>
+            <div class="mc" style="--rc:#8fa6c6"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8fa6c6" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 15.5c1.2-1.8 5.8-1.8 7 0"/></svg></span>Triste</div>
+            <div class="mc" style="--rc:#d99db3"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d99db3" stroke-width="1.6" stroke-linecap="round"><path d="M8 9.5l1.2 1M16 9.5l-1.2 1M8.5 14c1.2 1.4 5.8 1.4 7 0"/></svg></span>Ilusión</div>
+          </div>
+          <div class="acts">
+            <div class="act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4Z"/><path d="M8 9h8M8 12h5"/></svg>Analizar mi situación</div>
+            <div class="act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>Hablar con mi coach</div>
+          </div>
+          <div class="cta">Empezar mi ritual de hoy</div>
+        </div>
+        <nav class="nav">
+          <a class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>Inicio</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>Coach</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2Z"/></svg>Tarot</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/></svg>Relaciones</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>Más</a>
+        </nav>
+      </div>
+      <div class="hi"></div>
+    </div></div>
+
+    <p class="rot">Página de ventas</p>
+    <div class="lp">
+      <span class="bdg">✿ Para tu vida amorosa</span>
+      <h4>Un lugar suave para <em>entenderte</em> en el amor.</h4>
+      <p class="s"><b>Tarot como espejo + una coach que te escucha.</b> Sin juicios, sin adivinar el futuro.</p>
+      <div class="b">Probar 3 días gratis</div>
+      <p class="p">Cancela cuando quieras · sin cobros por mensaje</p>
+    </div>
+  </section>
+
+  <!-- ================= C ================= -->
+  <section class="col C">
+    <div class="meta">
+      <h2><span class="lt">C</span> Atardecer</h2>
+      <p class="dir">La hora dorada: un degradado de cielo de atardecer —ámbar, coral, rosa polvo,
+        violeta— de fondo. Tarjetas de cristal esmerilado con filo dorado que flotan sobre el cielo. Romántica y cinematográfica.</p>
+      <p class="hip"><b>Por qué convierte:</b> el degradado de atardecer es puro "efecto wow" en el
+        primer segundo; el cristal esmerilado da modernidad sin perder calidez.</p>
+      <div class="paleta">
+        <span style="background:#f6c98f"></span><span style="background:#e2896a"></span>
+        <span style="background:#a5566a"></span><span style="background:#5a2f4c"></span>
+        <span style="background:#ffdcae"></span>
+      </div>
+      <div class="esp">
+        <p class="d">Newsreader — AaÑñ 0123</p>
+        <p class="b">Hanken Grotesk — El veloz murciélago hindú comía feliz cardillo.</p>
+      </div>
+    </div>
+
+    <p class="rot">Pantalla de Inicio</p>
+    <div class="phone"><div class="scr">
+      <div class="sb"><span>9:41</span><span class="r"><svg width="16" height="10" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="3" width="3" height="8" rx=".8"/><rect x="13.5" y=".5" width="3" height="10.5" rx=".8"/></svg></span></div>
+      <div class="body">
+        <div class="bar"><span class="ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span><span class="mk">LUMA</span><span class="av"></span></div>
+        <div class="fill">
+          <p class="greet">Al caer la tarde, Ana</p>
+          <h3 class="big" style="margin-top:3px">Tu claridad<br>de hoy</h3>
+          <div class="stage">
+            <div class="glow"></div>
+            <div class="card3d">
+              <div class="shadow"></div>
+              <div class="face">
+                <span class="cn">XVII · La Estrella</span>
+                <svg width="46" height="58" viewBox="0 0 46 58" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="m23 8 3 8 8 1-6 6 2 8-7-5-7 5 2-8-6-6 8-1z"/><path d="M12 40c4-3 18-3 22 0M14 48c3-2 15-2 18 0"/></svg>
+                <span class="ct">Esperanza y<br>calma</span>
+              </div>
+            </div>
+          </div>
+          <div class="insight">
+            <p class="q">"La incertidumbre de hoy no define lo que vales."</p>
+            <p class="lk">Explorar mi insight →</p>
+          </div>
+          <div class="moods" style="margin-top:14px">
+            <div class="mc" style="--rc:#8faa78"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 14.5c1.2 1.2 5.8 1.2 7 0"/></svg></span>Bien</div>
+            <div class="mc" style="--rc:#d3a95f"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 14.5h7"/></svg></span>Normal</div>
+            <div class="mc sel" style="--rc:#dd8f7a"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 15c1.2-1.2 5.8-1.2 7 0"/></svg></span>Ansiosa</div>
+            <div class="mc" style="--rc:#8fa6c6"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 15.5c1.2-1.8 5.8-1.8 7 0"/></svg></span>Triste</div>
+            <div class="mc" style="--rc:#d99db3"><span class="rg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"><path d="M8 9.5l1.2 1M16 9.5l-1.2 1M8.5 14c1.2 1.4 5.8 1.4 7 0"/></svg></span>Ilusión</div>
+          </div>
+          <div class="acts">
+            <div class="act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4Z"/><path d="M8 9h8M8 12h5"/></svg>Analizar mi situación</div>
+            <div class="act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>Hablar con mi coach</div>
+          </div>
+          <div class="cta">Abrir mi lectura de hoy</div>
+        </div>
+        <nav class="nav">
+          <a class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>Inicio</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>Coach</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2Z"/></svg>Tarot</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/></svg>Relaciones</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>Más</a>
+        </nav>
+      </div>
+      <div class="hi"></div>
+    </div></div>
+
+    <p class="rot">Página de ventas</p>
+    <div class="lp">
+      <span class="bdg">☾ Amor &amp; claridad</span>
+      <h4>Entiende qué pasa en tu <em>historia</em> de amor.</h4>
+      <p class="s"><b>Sube la captura de sus mensajes.</b> El tarot y tu coach te devuelven claridad, no predicciones.</p>
+      <div class="b">Empezar ahora</div>
+      <p class="p">3 días gratis · $9,99/mes después</p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="pie">
+  Protocolo A/B/C del 54 · TEST DE DIVERGENCIA: en escala de grises se ven 3 diseños distintos
+  (noche oscura / amanecer claro / atardecer con degradado) — no una pantalla con 3 acentos.
+  Fuentes verificadas clase por clase en el espécimen. Marcador data-kit="abc-v2" intacto.
+  Objeto 3D (carta / cristal) hecho con transform 3D + sombras y brillo reales, no imágenes.
+  La elegida (o la combinación) se vuelca en FICHA-ARTE.md y pasa al TOUR de la app antes de codear.
+</footer>
+
+</body>
+</html>

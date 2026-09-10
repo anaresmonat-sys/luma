@@ -1,7 +1,7 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 2 — v1 del tour RECHAZADA por el usuario (poco fiel); rehecha v2 corrigiendo contra la referencia real (más pálido, Lora, botones planos, emociones multicolor). FICHA-ARTE.md actualizada / Siguiente acción exacta: el usuario aprueba la v2 del tour (1=me encanta / 2=ajusta / 3=repensar) → cerrar FICHA-ARTE.md y pasar a Sesión 3
+⏸️ CHECKPOINT — Última acción completada: Sesión 2 — el usuario LIBERÓ el contrato de réplica (2 réplicas rechazadas) y pidió diseño propio con WOW / 3D cálido / romántico / esotérico. Hecho `direcciones-abc.html` con 3 direcciones: A Terciopelo&Oro (noche), B Amanecer de Cuarzo (claro clay), C Atardecer (degradado glass) / Siguiente acción exacta: el usuario elige A/B/C (o combina / pide otras 3 / ajusta) → volcar a FICHA-ARTE.md → TOUR de la app con la elegida
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -98,7 +98,9 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 
 ## Sesiones
 - ✅ Sesión 1 — validación, FICHA-MODELO (Nebula), FICHA-MERCADO, FICHA-AVATAR (borrador), monetización, arquitectura, unit economics. Aprobada por el usuario (precio + rango de edad 18-60+).
-- 🔧 Sesión 2 — identidad visual: FICHA-ARTE.md v2 (corregida tras rechazo del usuario). vista-previa-app.html v2 (9 frames, réplica fiel: pálido, Lora, botones planos, emociones multicolor). Pendiente: OK del usuario al tour v2 → cerrar FICHA-ARTE.
+- 🔧 Sesión 2 — identidad visual: 2 réplicas fieles rechazadas por el usuario. Cambio de rumbo a
+  PROPUESTA PROPIA (RUTA 1 del 54). `direcciones-abc.html` con 3 direcciones cálidas + 3D + románticas
+  (A noche vino/oro · B amanecer cuarzo claro · C atardecer degradado glass). Pendiente: elección del usuario.
 - 📋 Sesión 3: página de ventas (requiere FICHA-AVATAR APROBADA con ≥10 VoC).
 - 📋 Sesión 4: onboarding + paywall + login · 5: app interna · 6: integraciones + seguridad · 7: testing + pulido + rigor · 8: adquisición + lanzamiento + backoffice.
 

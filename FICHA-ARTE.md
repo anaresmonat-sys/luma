@@ -1,11 +1,25 @@
 # FICHA DE DIRECCIÓN DE ARTE — LUMA
 
-- Estado: BORRADOR (pendiente OK del usuario sobre el tour `vista-previa-app.html` — 54)
-- ⚠️ v2 de la extracción (2026-09-09): el usuario marcó que la 1ª réplica NO era fiel. Correcciones abajo.
+- Estado: BORRADOR — cambio de rumbo (2026-09-10): el usuario LIBERÓ el contrato de réplica fiel.
+  Tras 2 réplicas rechazadas, pidió explícitamente OTRA cosa: "un diseño espectacular, de efecto wow,
+  en tres dimensiones, elegante y con ese toque esotérico del tarot… cálido, romántico, llamativo,
+  con colores que den aspecto 3D pero cálidos", tomando ideas de las apps mejor valoradas por su
+  diseño. → Ruta CAMBIA a PROPUESTA PROPIA (RUTA 1 del 54): protocolo A/B/C.
 
-## Referencia del usuario (CONTRATO — ver 16, protocolo obligatorio)
-- ¿Hay imagen(es) de referencia del usuario?: SÍ → mockup de 10 pantallas de LUMA (pantalla completa,
-  reenviado el 2026-09-09). RUTA 2 del 54: RÉPLICA FIEL. Archivar en docs/revisiones/referencia-usuario-luma.png.
+## Brief nuevo (del usuario, 2026-09-10) — manda sobre la extracción de abajo
+- Efecto WOW a primera vista · profundidad 3D (sombras reales, degradados ricos, objeto flotante,
+  brillo suave) · elegante · toque esotérico del tarot (sin caer en neón/genérico) · CÁLIDO ·
+  ROMÁNTICO (nos enfocamos en relaciones) · invita a entrar y mirar dentro.
+- Referencias de las que fusionar (apps mejor valoradas por diseño): CHANI (editorial, cálida,
+  nutritiva, ritual, joya), The Pattern (profundidad de degradado, tono emocional/psicológico),
+  Taroscoper ("dark, mystical aesthetic"), + capa 3D/claymorphism cálida moderna.
+- A/B/C en curso: `direcciones-abc.html` (3 direcciones cálidas + 3D + románticas que divergen en
+  modo/tipografía/composición) sobre la pantalla Inicio. El usuario elige/combina.
+
+## Referencia del usuario ANTERIOR (ya NO es contrato — se guarda como insumo)
+- ¿Hay imagen(es) de referencia del usuario?: SÍ → mockup de 10 pantallas de LUMA (reenviado el
+  2026-09-09). Fue RÉPLICA FIEL hasta el 2026-09-10; el usuario la descartó pidiendo un diseño propio
+  con más wow. Se conserva su ARQUITECTURA de pantallas (qué pantallas y qué contienen), NO su estética plana.
 - Extracción CORREGIDA (mirada sobre la imagen):
   - Modo: claro, **muy pálido y aireado** (NO beige pesado). Fondo casi blanco cálido.
   - Fondo pantalla: #f5f1ea · Superficie/card: #fffdf9 (prácticamente blanco cálido) · Elevado sutil: #faf6f0 · Hundido/inputs: #f0ebe2
