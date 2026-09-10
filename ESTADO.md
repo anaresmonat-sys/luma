@@ -1,7 +1,7 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 2 — dirección A + 4 rondas de retoques del tour. Última (2026-09-10): pantalla se titula "Descifra la conversación"; modo "Texto" → "Pega texto"; los 3 modos (Pega texto/Captura/Voz) van en cajitas con ícono destacado; quitada la acción "Trabajar mis límites" del resultado → reubicada como ejercicio guiado dentro del Coach (chip en el chat); en Premium "Analizador de situaciones" → "Descifrar conversaciones" / Siguiente acción exacta: el usuario aprueba el tour (1=me encanta / 2=más ajustes / 3=repensar) → cerrar FICHA-ARTE.md → Sesión 3 (página de ventas)
+⏸️ CHECKPOINT — Última acción completada: Sesión 2 — dirección A + varias rondas de retoques. Última (2026-09-10): "Mis relaciones" MOVIDA A V2 (fuera de la nav V1); borde dorado en todas las cajitas; círculos de emoción con EMOJI, más grandes; coach renombrado a LUMA con emblema; caja de patrón del diario firmada "LUMA" + ícono de atención + botón "Ver mi patrón" aparte. Tour = 8 pantallas / Siguiente acción exacta: el usuario aprueba el tour (1=me encanta / 2=más ajustes / 3=repensar) → cerrar FICHA-ARTE.md → Sesión 3 (página de ventas); PENDIENTE de assets: retrato de LUMA para app + redes
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -71,12 +71,15 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
   Test "si borro tu historial ¿la app de mañana es idéntica?": NO. Primera semana D1-D7 y ritual diario M0 se diseñan en Sesión 4/5.
 - Pasarela: Hotmart + webhook a Supabase (default del SO). Reviews/competidores citados son apps nativas; se construye web app + Hotmart salvo que el usuario exija nativo.
 
-## ALCANCE V1 (aprobado por el usuario — ~8 pantallas núcleo + bienvenida + paywall)
+## ALCANCE V1 (aprobado por el usuario — 6 pantallas núcleo + bienvenida + paywall = 8)
 1. Bienvenida · 2. Recorrido de inicio (quiz) · 3. Inicio (check-in + carta del día) ·
-4. **DESCIFRAR / "Pega vuestra conversación"** (función estrella — antes "Analizador de situaciones";
-   renombrada 2026-09-10 para vender la fuerza real: pegar el chat de WhatsApp. Entradas: pegar
-   texto · subir captura · NOTA DE VOZ) · 5. Coach IA · 6. Tarot (tiradas contextuales 1-3 cartas) ·
-7. Mis relaciones (ligera: rol + contexto que alimenta al coach) · 8. Diario emocional · + Pantalla de planes.
+4. **DESCIFRA LA CONVERSACIÓN** (función estrella — antes "Analizador de situaciones"; título de
+   pantalla "Descifra la conversación". Entradas: pega texto · captura · NOTA DE VOZ) ·
+5. Coach IA (= **LUMA**, la tarotista/coach) · 6. Tarot (tiradas contextuales 1-3 cartas) ·
+7. Diario emocional (con "LUMA: veo un patrón…" + botón "Ver mi patrón") · + Pantalla de planes.
+- ⚠️ **"Mis relaciones" MOVIDA A V2** (decisión del usuario 2026-09-10). Sale de la barra inferior
+  (nav V1: Inicio · Coach · Tarot · Diario · Más). El contexto del coach en V1 es la sesión + el
+  onboarding; la memoria de vínculos con perfiles llega en V2.
 
 ### "Trabajar mis límites" — ubicación (decidido 2026-09-10)
 Es un EJERCICIO guiado, no una salida de análisis. Vive en el COACH (el coach lo propone y lo
@@ -99,17 +102,25 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
 - "Mis relaciones" guarda notas sobre TERCEROS → en V1 es el espacio privado de reflexión de ELLA (cómo lo vive ella), sin perfilar al otro, borrable; salvaguardas con 47. Solo 18+.
 - Alucinaciones IA / predicción de tarot → prompt con guardarraíles + gate 61.
 - CPA alto en ads → ganchos de chats reales (plan de canal).
-- Cancelación tras resolver la duda puntual → ritual diario + Mis relaciones + notificación nocturna.
+- Cancelación tras resolver la duda puntual → ritual diario (check-in + carta del día) + notificación nocturna + diario con patrones.
 - Nombre "LUMA": varias apps lo usan → verificar marca/dominio/stores; alt: "LUMA Tarot & Relaciones", "Claria IA".
 
-## Identidad visual — REFERENCIA DEL USUARIO = CONTRATO (16 / 54 RUTA 2 — se formaliza en Sesión 2)
-- El usuario envió mockup de 10 pantallas de LUMA (2026-09-09) → RÉPLICA FIEL. Extracción preliminar:
-  claro/cálido · fondo #f4eee4 · superficie #fbf7f1 · texto #3d342e / #9a8c7f · acento rosa empolvado #c88b84 ·
-  panel espresso #2a2320 (Premium) · display serif editorial (Fraunces/Playfair/Cormorant) + body sans humanista
-  (Hanken Grotesk/Figtree) · radio 18/14 · sombras sutiles cálidas · foto de atardecer · íconos de línea.
-  Mood: cálida · serena · femenina-editorial. Sin prohibiciones anti-IA que levantar.
-- Borrador de tour: `vista-previa-app.html` (7 frames; falta ajustar recorte en Inicio/Tarot y añadir Analizar + Mis relaciones al alcance V1).
-- Archivar la captura original en docs/revisiones/ cuando esté disponible.
+## Identidad visual — DIRECCIÓN A · TERCIOPELO & ORO (detalle en FICHA-ARTE.md)
+- El usuario descartó la réplica de su mockup plano y eligió una dirección propia (2026-09-10):
+  noche vino/cacao casi-negro con blooms suaves, ORO solo en la acción, carta de tarot de pergamino
+  que FLOTA con sombra+resplandor 3D. Display Cormorant Garamond · body Hanken Grotesk.
+- Rondas de retoque aplicadas: menos saturación/densidad · Descifra la conversación aligerada ·
+  borde dorado en todas las cajitas · círculos de emoción con EMOJI (😌🙂😰😢🥰 / 😄😌😰😢😠), más grandes
+  y visibles · caja de patrón del diario firmada "LUMA" con ícono de atención + botón "Ver mi patrón".
+- Tour: `vista-previa-app.html` (8 pantallas). Aprobación del usuario: PENDIENTE. FICHA-ARTE.md cerrada con retoques acordados.
+
+## LUMA — la persona (tarotista + coach)
+- La IA de la app se personifica como **LUMA** (mismo nombre que la app): "tu tarotista y coach".
+  Aparece así en el chat y en la caja de patrones del diario.
+- PENDIENTE (sesión de assets, archivo 20): ilustración/retrato de LUMA — una figura femenina
+  cálida y mística (no vidente estereotipada), en la paleta Terciopelo & Oro — para: avatar del
+  coach en la app + foto de perfil / mascota en redes sociales (TikTok, Instagram). Se compone el
+  prompt de imagen desde FICHA-ARTE.md. En el tour hay un emblema provisional (luna creciente + destello).
 
 ## Secuencia maestra de construcción (NO saltar)
 - Estado: nada de código. Ruta: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
@@ -134,6 +145,8 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
 
 ## Pendientes del usuario
 - [x] Sesión 1 aprobada: precio $9,99/mes + $71,99/año · rango de edad ampliado a 18-60+.
+- [ ] Aprobar el tour visual (dirección A) para cerrar la identidad y empezar a construir.
+- [ ] Assets: se necesitará un retrato/ilustración de LUMA (persona) para la app y redes — se produce en la sesión de assets.
 - [ ] Verificar disponibilidad del nombre "LUMA" (marca/dominio/stores) — te digo cómo cuando toque el dominio.
 - [ ] Ideal antes de la página de ventas: hablar 10-15 min con 5-10 mujeres del perfil (te preparo las preguntas).
 - [ ] Más adelante: crear cuentas (Hotmart, Supabase, Vercel, Resend) y comprar dominio — se avisará.

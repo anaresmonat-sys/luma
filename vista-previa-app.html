@@ -75,22 +75,22 @@
   .btn.ghost{background:none;color:var(--gold-lite);border:1px solid rgb(233 176 106/.4);box-shadow:none}
   .lnk{color:var(--gold-lite);font-weight:700;font-size:11.5px;letter-spacing:.02em}
 
-  .card{background:var(--surf);border:1px solid var(--hair);border-radius:16px;
+  .card{background:var(--surf);border:1px solid rgb(233 176 106/.3);border-radius:16px;
     box-shadow:0 16px 30px -18px rgb(0 0 0/.5), inset 0 1px 0 rgb(255 255 255/.06)}
   .card.p{padding:14px}
 
-  .opt{display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:13px;background:rgb(255 255 255/.03);border:1px solid rgb(255 255 255/.07);font-size:12.5px;color:var(--t1)}
-  .opt .hh{width:17px;height:17px;color:var(--gold);opacity:.85;flex-shrink:0}
-  .opt.on{border-color:rgb(216 164 65/.45);background:rgb(216 164 65/.07)}
+  .opt{display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:13px;background:rgb(255 255 255/.03);border:1px solid rgb(233 176 106/.3);font-size:12.5px;color:var(--t1)}
+  .opt .hh{width:17px;height:17px;color:var(--gold);opacity:.9;flex-shrink:0}
+  .opt.on{border-color:rgb(216 164 65/.62);background:rgb(216 164 65/.09)}
   .opt.on .hh{opacity:1}
   .prog{display:flex;gap:4px;margin:4px 0 14px}
   .prog i{height:3px;flex:1;border-radius:2px;background:rgb(255 255 255/.12)} .prog i.on{background:var(--gold)}
 
-  .moods{display:flex;justify-content:space-between;margin-top:12px}
-  .mc{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:9px;font-weight:600;color:var(--t2)}
-  .mc .rg{width:34px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;
-    border:1.4px solid color-mix(in oklab,var(--rc) 70%,transparent)}
-  .mc.sel .rg{border-color:var(--rc);background:color-mix(in oklab,var(--rc) 12%,transparent)}
+  .moods{display:flex;justify-content:space-between;margin-top:14px}
+  .mc{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:9px;font-weight:600;color:var(--t2)}
+  .mc .rg{width:44px;height:44px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1;
+    border:2px solid color-mix(in oklab,var(--rc) 78%,transparent);background:color-mix(in oklab,var(--rc) 13%,transparent)}
+  .mc.sel .rg{border-color:var(--rc);background:color-mix(in oklab,var(--rc) 26%,transparent);box-shadow:0 0 14px -4px color-mix(in oklab,var(--rc) 55%,transparent)}
   .mc.sel{color:var(--t1)}
 
   /* carta 3D — objeto héroe */
@@ -111,9 +111,9 @@
   .insight .lnk{display:inline-block;margin-top:7px}
 
   .g2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-  .act{display:flex;align-items:center;gap:8px;padding:11px 11px;border-radius:13px;font-size:11px;font-weight:600;color:#e2d2c2;
-    background:rgb(255 255 255/.035);border:1px solid rgb(255 255 255/.08)}
-  .act svg{color:var(--gold-lite);opacity:.85;flex-shrink:0}
+  .act{display:flex;align-items:center;gap:8px;padding:11px 11px;border-radius:13px;font-size:11px;font-weight:600;color:#e8d8c6;
+    background:rgb(255 255 255/.035);border:1px solid rgb(233 176 106/.34)}
+  .act svg{color:var(--gold-lite);flex-shrink:0}
 
   .nav{display:flex;justify-content:space-around;margin:8px -18px 0;padding:8px 6px 14px;border-top:1px solid var(--hair);background:rgb(20 10 15/.5);flex-shrink:0}
   .nav a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:8px;font-weight:600;color:#b79a86;text-decoration:none}
@@ -124,10 +124,12 @@
   .thread{display:flex;flex-direction:column;gap:9px;flex:1}
   .b-me{align-self:flex-end;max-width:82%;background:rgb(216 164 65/.16);border:1px solid rgb(216 164 65/.25);color:var(--t1);padding:10px 12px;border-radius:15px 15px 5px 15px;font-size:12px;line-height:1.42}
   .b-me .ts{display:block;text-align:right;font-size:9px;color:var(--t3);margin-top:3px}
-  .b-ai{align-self:flex-start;max-width:82%;background:var(--surf);border:1px solid var(--hair);padding:10px 12px;border-radius:15px 15px 15px 5px;font-size:12px;line-height:1.42;color:var(--t1)}
-  .qr{align-self:flex-start;padding:8px 12px;border-radius:999px;font-size:11.5px;font-weight:600;color:var(--gold-lite);background:rgb(233 176 106/.1);border:1px solid rgb(233 176 106/.28)}
-  .comp{display:flex;align-items:center;gap:8px;padding:8px 10px 8px 14px;border-radius:999px;background:var(--sunk);color:var(--t3);font-size:11.5px;flex-shrink:0}
+  .b-ai{align-self:flex-start;max-width:82%;background:var(--surf);border:1px solid rgb(233 176 106/.24);padding:10px 12px;border-radius:15px 15px 15px 5px;font-size:12px;line-height:1.42;color:var(--t1)}
+  .qr{align-self:flex-start;padding:8px 12px;border-radius:999px;font-size:11.5px;font-weight:600;color:var(--gold-lite);background:rgb(233 176 106/.1);border:1px solid rgb(233 176 106/.34)}
+  .comp{display:flex;align-items:center;gap:8px;padding:8px 10px 8px 14px;border-radius:999px;background:var(--sunk);border:1px solid rgb(233 176 106/.34);color:var(--t3);font-size:11.5px;flex-shrink:0}
   .comp .snd{margin-left:auto;width:28px;height:28px;border-radius:999px;background:linear-gradient(180deg,#eab765,#cf8f3f);display:flex;align-items:center;justify-content:center;color:#2a140f}
+  .luma-av{width:30px;height:30px;border-radius:999px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(120% 120% at 30% 18%, #52283a, #1c0d13);border:1px solid rgb(233 176 106/.55)}
 
   /* tarot list */
   .trow{display:flex;gap:11px;align-items:center;padding:9px 2px}
@@ -155,7 +157,7 @@
     font-size:10px;font-weight:600;color:var(--gold-lite);background:rgb(255 255 255/.03);border:1px solid rgb(233 176 106/.42)}
   .im svg{width:16px;height:16px;color:var(--gold-lite)}
   .im.on{background:rgb(233 176 106/.14);border-color:rgb(233 176 106/.7)}
-  .field{background:#2d1c26;border:1px solid rgb(233 176 106/.16);border-radius:14px;padding:12px;
+  .field{background:#2d1c26;border:1px solid rgb(233 176 106/.34);border-radius:14px;padding:12px;
     font-size:11.5px;color:var(--t1);line-height:1.5;box-shadow:inset 0 1px 0 rgb(255 255 255/.05)}
   .field .ff{display:flex;align-items:center;justify-content:space-between;margin-top:9px}
   .mic{width:26px;height:26px;border-radius:999px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
@@ -168,13 +170,17 @@
   .acts{display:flex;flex-direction:column;gap:7px}
   .acts span{padding:9px 12px;border-radius:999px;background:rgb(233 176 106/.09);color:var(--gold-lite);font-size:11px;font-weight:600;text-align:center;border:1px solid rgb(233 176 106/.2)}
 
-  .patt{display:flex;gap:9px;align-items:flex-start;padding:11px;border-radius:13px;background:rgb(216 164 65/.1);border:1px solid rgb(216 164 65/.25)}
+  .patt{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:13px;background:rgb(216 164 65/.1);border:1px solid rgb(233 176 106/.42)}
+  .patt .pi{width:27px;height:27px;border-radius:999px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:rgb(233 176 106/.22);color:var(--gold-lite)}
   .patt p{font-size:10.5px;line-height:1.42;color:var(--t1)} .patt b{color:var(--gold-lite)}
+  .verpat{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:9px;padding:11px;border-radius:13px;
+    border:1px solid rgb(233 176 106/.5);color:var(--gold-lite);font-size:11.5px;font-weight:700}
 
   /* paywall */
   .plans{display:grid;grid-template-columns:1fr 1fr;gap:9px}
   .pl{border-radius:15px;padding:13px 11px}
-  .pl.free{background:var(--surf);border:1px solid var(--hair)}
+  .pl.free{background:var(--surf);border:1px solid rgb(233 176 106/.3)}
   .pl.pro{background:linear-gradient(160deg,#331d2a,#221019);border:1px solid rgb(233 176 106/.32);position:relative;overflow:hidden;
     box-shadow:0 0 20px -14px rgb(233 176 106/.18)}
   .pl h5{font-size:11px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:5px;color:var(--t1)}
@@ -202,7 +208,7 @@
 <header class="head">
   <div class="mk">L U M A</div>
   <h1>Tu app por dentro — Terciopelo &amp; Oro</h1>
-  <p>La dirección que elegiste, aplicada a las 9 pantallas de la versión 1: noche de vino y cacao,
+  <p>La dirección que elegiste, aplicada a las 8 pantallas de la versión 1: noche de vino y cacao,
     oro en la acción, y una carta de tarot que flota con sombra y brillo reales. Retoques pendientes
     de acuerdo — esto es la base. Los "Programas de transformación" quedan para la versión 2.</p>
   <div class="outs">
@@ -278,11 +284,11 @@
           <p class="kick">Buenas noches, Ana</p>
           <h2 class="t sm" style="margin-top:4px">¿Cómo estás hoy?</h2>
           <div class="moods">
-            <div class="mc sel" style="--rc:#8faa78"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8faa78" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 14.5c1.2 1.2 5.8 1.2 7 0"/></svg></span>Bien</div>
-            <div class="mc" style="--rc:#d8a441"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d8a441" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 14.5h7"/></svg></span>Normal</div>
-            <div class="mc" style="--rc:#dd8f7a"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dd8f7a" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 15c1.2-1.2 5.8-1.2 7 0"/></svg></span>Ansiosa</div>
-            <div class="mc" style="--rc:#8fa6c6"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8fa6c6" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 15.5c1.2-1.8 5.8-1.8 7 0"/></svg></span>Triste</div>
-            <div class="mc" style="--rc:#d99db3"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d99db3" stroke-width="1.6" stroke-linecap="round"><path d="M8 9.5l1.2 1M16 9.5l-1.2 1M8.5 14c1.2 1.4 5.8 1.4 7 0"/></svg></span>Ilusión</div>
+            <div class="mc sel" style="--rc:#8faa78"><span class="rg">😌</span>Bien</div>
+            <div class="mc" style="--rc:#d8a441"><span class="rg">🙂</span>Normal</div>
+            <div class="mc" style="--rc:#dd8f7a"><span class="rg">😰</span>Ansiosa</div>
+            <div class="mc" style="--rc:#8fa6c6"><span class="rg">😢</span>Triste</div>
+            <div class="mc" style="--rc:#d99db3"><span class="rg">🥰</span>Ilusión</div>
           </div>
           <div class="stage">
             <div class="glow"></div>
@@ -305,7 +311,7 @@
           <a class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>Inicio</a>
           <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>Coach</a>
           <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2Z"/></svg>Tarot</a>
-          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/></svg>Relaciones</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2Z"/><path d="M9 8h7"/></svg>Diario</a>
           <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>Más</a>
         </nav>
       </div>
@@ -352,7 +358,7 @@
       <div class="pn">
         <div class="bar">
           <span class="bk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></span>
-          <div style="display:flex;align-items:center;gap:8px"><span style="width:24px;height:24px;border-radius:999px;background:linear-gradient(150deg,#e7b98a,#c07a5b)"></span><div><div class="ttl">Tu coach</div><div style="font-size:9px;color:var(--t2)">Siempre aquí para ti</div></div></div>
+          <div style="display:flex;align-items:center;gap:8px"><span class="luma-av" style="width:26px;height:26px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e9b06a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 3.5a7.5 7.5 0 1 0 4 10 5.8 5.8 0 0 1-4-10Z"/><path d="M8 6.5l.6 1.4L10 8.5l-1.4.6L8 10.5l-.6-1.4L6 8.5l1.4-.6Z"/></svg></span><div><div class="ttl">LUMA</div><div style="font-size:9px;color:var(--t2)">tu tarotista y coach</div></div></div>
           <span class="ic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></svg></span>
         </div>
         <div class="thread">
@@ -394,7 +400,7 @@
           <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>Inicio</a>
           <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>Coach</a>
           <a class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2Z"/></svg>Tarot</a>
-          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/></svg>Relaciones</a>
+          <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2Z"/><path d="M9 8h7"/></svg>Diario</a>
           <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>Más</a>
         </nav>
       </div>
@@ -402,70 +408,40 @@
     </div></div>
   </div>
 
-  <!-- 7 · MIS RELACIONES -->
+  <!-- 7 · DIARIO -->
   <div class="fw">
-    <div class="rot">7 · Mis relaciones<small>versión ligera: rol + contexto</small></div>
-    <div class="ph"><div class="scr">
-      <div class="sb"><span>9:41</span><span class="r"><svg width="16" height="10" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="3" width="3" height="8" rx=".8"/><rect x="13.5" y=".5" width="3" height="10.5" rx=".8"/></svg></span></div>
-      <div class="pn">
-        <div class="bar"><span class="bk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></span><span class="ttl">Mis relaciones</span><span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></div>
-        <div class="sc" style="gap:9px;margin-top:10px">
-          <div class="pr"><span class="pph y"></span><div style="flex:1"><h4>Carlos</h4><div class="rl">Persona que estoy conociendo</div><div class="dt">Desde: Abr 2025</div></div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></div>
-          <div class="pr"><span class="pph x"></span><div style="flex:1"><h4>Javier</h4><div class="rl">Ex pareja</div><div class="dt">2021 – 2023</div></div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></div>
-          <div class="pr"><span class="pph z"></span><div style="flex:1"><h4>Laura</h4><div class="rl">Mejor amiga</div><div class="dt">Desde: 2018</div></div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></div>
-          <div class="add">＋ Añadir nueva relación</div>
-          <p class="kick" style="margin-top:10px;color:var(--gold)">Pregúntale a tu coach sobre…</p>
-          <div class="askchips" style="margin-top:7px">
-            <span>¿Estoy interpretando demasiado sus mensajes?</span>
-            <span>¿Qué patrón estoy repitiendo?</span>
-            <span>¿Qué red flags debería observar?</span>
-          </div>
-        </div>
-      </div>
-      <nav class="nav">
-        <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>Inicio</a>
-        <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>Coach</a>
-        <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2Z"/></svg>Tarot</a>
-        <a class="on"><svg viewBox="0 0 24 24" fill="var(--gold-lite)" stroke="var(--gold-lite)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/></svg>Relaciones</a>
-        <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>Más</a>
-      </nav>
-      <div class="hi"></div>
-    </div></div>
-  </div>
-
-  <!-- 8 · DIARIO -->
-  <div class="fw">
-    <div class="rot">8 · Diario emocional<small>emoción · situación · pensamiento · necesidad</small></div>
+    <div class="rot">7 · Diario emocional<small>emoción · situación · pensamiento · necesidad</small></div>
     <div class="ph"><div class="scr">
       <div class="sb"><span>9:41</span><span class="r"><svg width="16" height="10" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="3" width="3" height="8" rx=".8"/><rect x="13.5" y=".5" width="3" height="10.5" rx=".8"/></svg></span></div>
       <div class="pn">
         <div class="bar"><span class="bk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></span><span class="ttl">Diario emocional</span><span class="ic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></span></div>
         <div class="sc">
           <p class="kick" style="margin-top:4px">¿Cómo te sientes hoy?</p>
-          <div class="moods" style="margin-top:10px">
-            <div class="mc" style="--rc:#d8a441"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d8a441" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 14c1.2 1.6 5.8 1.6 7 0"/></svg></span>Feliz</div>
-            <div class="mc sel" style="--rc:#8faa78"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8faa78" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 14.5c1.2 1 5.8 1 7 0"/></svg></span>Tranquila</div>
-            <div class="mc" style="--rc:#dd8f7a"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dd8f7a" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 15c1.2-1.2 5.8-1.2 7 0"/></svg></span>Ansiosa</div>
-            <div class="mc" style="--rc:#8fa6c6"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8fa6c6" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8.5 15.5c1.2-1.8 5.8-1.8 7 0"/></svg></span>Triste</div>
-            <div class="mc" style="--rc:#cf6f63"><span class="rg"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#cf6f63" stroke-width="1.6" stroke-linecap="round"><path d="M8 9l1.5 1M16 9l-1.5 1M8.5 15c1.2-1 5.8-1 7 0"/></svg></span>Enfadada</div>
+          <div class="moods" style="margin-top:12px">
+            <div class="mc" style="--rc:#d8a441"><span class="rg">😄</span>Feliz</div>
+            <div class="mc sel" style="--rc:#8faa78"><span class="rg">😌</span>Tranquila</div>
+            <div class="mc" style="--rc:#dd8f7a"><span class="rg">😰</span>Ansiosa</div>
+            <div class="mc" style="--rc:#8fa6c6"><span class="rg">😢</span>Triste</div>
+            <div class="mc" style="--rc:#cf6f63"><span class="rg">😠</span>Enfadada</div>
           </div>
-          <div class="field" style="margin-top:14px">Hoy me sentí insegura porque Laura no me contestó. Me dio vueltas toda la tarde y pensé que ya no le importo.
+          <div class="field" style="margin-top:14px">Hoy me sentí insegura porque no me contestó en todo el día. Me dio vueltas toda la tarde y pensé que ya no le importo.
             <div class="ff"><span class="mic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg></span><span class="cnt">escribe o cuéntalo en voz alta</span></div>
           </div>
           <div class="btn" style="margin-top:10px">Guardar</div>
-          <div class="patt" style="margin-top:11px">
-            <span style="width:22px;height:22px;border-radius:999px;background:rgb(233 176 106/.2);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--gold-lite)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></span>
-            <p><b>La IA ha detectado un patrón:</b> has sentido inseguridad ante la falta de respuesta 3 veces este mes. <span class="lnk">Ver mi patrón →</span></p>
+          <div class="patt" style="margin-top:12px">
+            <span class="pi"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg></span>
+            <p><b>LUMA:</b> veo un patrón que se repite — has sentido inseguridad ante la falta de respuesta <b>3 veces</b> este mes.</p>
           </div>
+          <div class="verpat">Ver mi patrón <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
         </div>
       </div>
       <div class="hi"></div>
     </div></div>
   </div>
 
-  <!-- 9 · PREMIUM -->
+  <!-- 8 · PREMIUM -->
   <div class="fw">
-    <div class="rot">9 · Suscripción Premium<small>aquí eliges tu plan</small></div>
+    <div class="rot">8 · Suscripción Premium<small>aquí eliges tu plan</small></div>
     <div class="ph"><div class="scr">
       <div class="sb"><span>9:41</span><span class="r"><svg width="16" height="10" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="3" width="3" height="8" rx=".8"/><rect x="13.5" y=".5" width="3" height="10.5" rx=".8"/></svg></span></div>
       <div class="pn">
@@ -490,7 +466,7 @@
                 <li><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e9b06a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Coach ilimitado</li>
                 <li><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e9b06a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Descifrar conversaciones</li>
                 <li><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e9b06a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Tarot ilimitado</li>
-                <li><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e9b06a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Mis relaciones</li>
+                <li><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e9b06a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Diario con detección de patrones</li>
                 <li><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e9b06a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Historial e insights</li>
               </ul>
             </div>
@@ -509,9 +485,10 @@
 </div>
 
 <div class="v2">
-  <b>Para la versión 2</b> (mismo estilo): Programas de transformación de 7-30 días (superar a tu ex,
-  dejar de sobrepensar, red flags, subir tus estándares, construir una relación segura) · detección
-  de patrones sobre todo tu historial · "Mis relaciones" con línea de tiempo completa.
+  <b>Para la versión 2</b> (mismo estilo): <b>Mis relaciones</b> (perfiles de vínculos: pareja, ex,
+  alguien que estás conociendo — con contexto que alimenta a LUMA) · Programas de transformación de
+  7-30 días (superar a tu ex, dejar de sobrepensar, red flags, subir tus estándares) · detección de
+  patrones sobre todo tu historial.
 </div>
 
 <footer class="pie">

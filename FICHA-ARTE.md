@@ -125,6 +125,14 @@
 - Ronda de densidad #2 sobre Descifrar 2026-09-10: sin encabezado "Pega vuestra conversación", sin
   la línea "el chat, una captura o un audio", y los items "Lo que sabemos" + "Lo que observamos"
   fusionados en uno ("Lo que vemos") → 3 items de resultado en vez de 4. Pantalla mucho más aireada.
+- Ronda #3 (2026-09-10): (a) "Mis relaciones" MOVIDA A V2 — tour = 8 pantallas, nav V1 =
+  Inicio·Coach·Tarot·Diario·Más. (b) BORDE DORADO en TODAS las cajitas (cards, filas de onboarding,
+  accesos de Home, burbujas del coach, composer, campo de texto, planes, cajitas de modo). (c) modo
+  "Texto"→"Pega texto". (d) círculos de emoción → EMOJI expresivos (😌🙂😰😢🥰 Home / 😄😌😰😢😠 Diario),
+  44px, aro 2px + relleno tintado. (e) caja de patrón del diario firmada "LUMA:" con ícono de
+  ATENCIÓN + cajita aparte "Ver mi patrón →". (f) Coach = LUMA ("tu tarotista y coach").
+- LUMA (persona): la IA se personifica como LUMA. PENDIENTE ilustración/retrato (figura femenina
+  cálida y mística, paleta Terciopelo & Oro) para avatar del coach + perfil de redes — archivo 20.
 - Paleta derivada de: propuesta propia (dirección A), fusionando calidez editorial (CHANI) + profundidad de degradado (The Pattern) + capa 3D cálida
 - Registro anti-repetición: paleta (vino/cacao #241019 + oro #d8a441) y par tipográfico (Cormorant Garamond + Hanken Grotesk) VETADOS para el próximo proyecto del SO
 - Modo (oscuro cálido) DERIVADO por: el brief del usuario (noche íntima, esotérico, romántico) + fusión de referencias — NO asumido por reflejo
