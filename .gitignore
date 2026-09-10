@@ -35,3 +35,7 @@ z*.png
 *-full.png
 tour*.png
 abc-*.png
+# capturas sueltas de dev
+landing-*.png
+l-*.png
+l[0-9]-*.png
