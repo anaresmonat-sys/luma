@@ -131,8 +131,18 @@
   "Texto"→"Pega texto". (d) círculos de emoción → EMOJI expresivos (😌🙂😰😢🥰 Home / 😄😌😰😢😠 Diario),
   44px, aro 2px + relleno tintado. (e) caja de patrón del diario firmada "LUMA:" con ícono de
   ATENCIÓN + cajita aparte "Ver mi patrón →". (f) Coach = LUMA ("tu tarotista y coach").
-- LUMA (persona): la IA se personifica como LUMA. PENDIENTE ilustración/retrato (figura femenina
-  cálida y mística, paleta Terciopelo & Oro) para avatar del coach + perfil de redes — archivo 20.
+- LUMA (persona): la IA se personifica como LUMA. En el tour lleva un RETRATO ILUSTRADO provisional
+  (mujer serena, pelo oscuro, luna creciente dorada en la frente) en el header del Coach. PENDIENTE
+  el retrato/arte final (figura femenina cálida y mística, paleta Terciopelo & Oro) para avatar del
+  coach dentro de la app + foto de perfil / mascota en redes (TikTok, Instagram) — archivo 20.
+- Ronda #4 (2026-09-10) — SISTEMA DE ÍCONOS = EMOJI (decisión del usuario, ANULA la regla anti-IA
+  "emojis como íconos" del 55/49 SOLO para este proyecto, con motivo escrito: el producto gira en
+  torno a pegar chats de WhatsApp, así que la iconografía se alinea con ese lenguaje). Emoji en:
+  barra inferior (🏠 💬 🔮 📔 ⋯), opciones del onboarding, modos de Descifra (📋 📸 🎤), items del
+  análisis (👀 ⚠️ 🤔), filas de tarot (❤️ 💔 🔀 🪞 ☀️), calendario del diario (📅), aviso de patrón (⚠️).
+  Los glifos de cromo (‹ volver, ✕ cerrar, ➤ enviar, ☰) se mantienen como glifos simples.
+- Home: las dos cajitas de "¿Qué necesitas hoy?" pasan a RELLENO ORO (mismo estilo que los botones
+  Empezar/Siguiente), a pedido del usuario.
 - Paleta derivada de: propuesta propia (dirección A), fusionando calidez editorial (CHANI) + profundidad de degradado (The Pattern) + capa 3D cálida
 - Registro anti-repetición: paleta (vino/cacao #241019 + oro #d8a441) y par tipográfico (Cormorant Garamond + Hanken Grotesk) VETADOS para el próximo proyecto del SO
 - Modo (oscuro cálido) DERIVADO por: el brief del usuario (noche íntima, esotérico, romántico) + fusión de referencias — NO asumido por reflejo

@@ -1,7 +1,7 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 2 — dirección A + varias rondas de retoques. Última (2026-09-10): "Mis relaciones" MOVIDA A V2 (fuera de la nav V1); borde dorado en todas las cajitas; círculos de emoción con EMOJI, más grandes; coach renombrado a LUMA con emblema; caja de patrón del diario firmada "LUMA" + ícono de atención + botón "Ver mi patrón" aparte. Tour = 8 pantallas / Siguiente acción exacta: el usuario aprueba el tour (1=me encanta / 2=más ajustes / 3=repensar) → cerrar FICHA-ARTE.md → Sesión 3 (página de ventas); PENDIENTE de assets: retrato de LUMA para app + redes
+⏸️ CHECKPOINT — Última acción completada: Sesión 2 — dirección A + varias rondas de retoques. Última (2026-09-10): SISTEMA DE ÍCONOS = EMOJI en toda la app (decisión del usuario, anula la regla anti-emoji con motivo escrito: el producto gira en torno a pegar chats de WhatsApp); las 2 cajitas de Home pasan a relleno ORO como los botones; LUMA (coach) lleva un retrato ilustrado de mujer en el header del chat / Siguiente acción exacta: el usuario aprueba el tour (1=me encanta / 2=más ajustes / 3=repensar) → cerrar FICHA-ARTE.md → Sesión 3 (página de ventas); PENDIENTE de assets: retrato final de LUMA para app + redes
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
