@@ -1,7 +1,7 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 2 — dirección A + 2 rondas de retoques del tour. Última ronda (2026-09-10): pasada de DENSIDAD — menos saturación (blooms de fondo más suaves, sin glow en emociones ni en botones), menos elementos arriba en Home (pregunta a 1 línea, sin párrafo redundante, 5 emociones, accesos al fondo), Descifrar más liviano (modos como texto, no botones) / Siguiente acción exacta: el usuario aprueba el tour (1=me encanta / 2=más ajustes / 3=repensar) → cerrar FICHA-ARTE.md → Sesión 3 (página de ventas)
+⏸️ CHECKPOINT — Última acción completada: Sesión 2 — dirección A + 3 rondas de retoques del tour. Última (2026-09-10): pantalla Descifrar aún más liviana — sin encabezado "Pega vuestra conversación", sin la línea "el chat, una captura o un audio", y "Lo que sabemos"+"Lo que observamos" fusionados en un solo item "Lo que vemos" (3 items en vez de 4) / Siguiente acción exacta: el usuario aprueba el tour (1=me encanta / 2=más ajustes / 3=repensar) → cerrar FICHA-ARTE.md → Sesión 3 (página de ventas)
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y

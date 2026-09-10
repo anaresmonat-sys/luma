@@ -122,6 +122,9 @@
   · Home: pregunta a 1 línea, sin el párrafo de insight redundante (queda solo el enlace), 5 emociones, accesos empujados al fondo con aire
   · Descifrar: subtítulo corto, modos de entrada como texto (Texto·Captura·Voz) en vez de botones, muestra de chat a 2 líneas
   · halo de la tarjeta Premium reducido
+- Ronda de densidad #2 sobre Descifrar 2026-09-10: sin encabezado "Pega vuestra conversación", sin
+  la línea "el chat, una captura o un audio", y los items "Lo que sabemos" + "Lo que observamos"
+  fusionados en uno ("Lo que vemos") → 3 items de resultado en vez de 4. Pantalla mucho más aireada.
 - Paleta derivada de: propuesta propia (dirección A), fusionando calidez editorial (CHANI) + profundidad de degradado (The Pattern) + capa 3D cálida
 - Registro anti-repetición: paleta (vino/cacao #241019 + oro #d8a441) y par tipográfico (Cormorant Garamond + Hanken Grotesk) VETADOS para el próximo proyecto del SO
 - Modo (oscuro cálido) DERIVADO por: el brief del usuario (noche íntima, esotérico, romántico) + fusión de referencias — NO asumido por reflejo
