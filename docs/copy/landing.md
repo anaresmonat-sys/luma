@@ -11,7 +11,7 @@
 ## 1 · HERO
 - **Kicker:** Tarot · inteligencia emocional · coaching
 - **H1** (≤10 palabras): Deja de releer sus mensajes. [acento]Entiende[/acento] qué está pasando.
-- **Subtítulo** (≤14): Pega la conversación y en un minuto sabes qué [b]sientes[/b], qué [b]arriesgas[/b] y qué hacer hoy.
+- **Subtítulo** (≤14): En un minuto: [b]hechos, riesgo y qué responder[/b], con tarot y coach.
 - **CTA:** Descifrar mi primera conversación
 - **CTA microcopy:** 3 días gratis · sin cobros por mensaje · cancela cuando quieras
 - **Social proof (slot):** — (SIN datos reales todavía: se deja vacío, no se inventa — 19 §1 / FICHA-AVATAR "inventario de prueba")
@@ -33,7 +33,7 @@
 - **Paso 3 — Sabes qué hacer.** Recibes el posible riesgo, una pregunta para ti y qué responder.
 
 ## 5 · POR DENTRO (carrusel — screenshots reales al cerrar la app; placeholder honesto mientras tanto)
-- **Título:** Así se ve por dentro
+- **(V1) Sección "Ejemplos reales"**: 3 mini-casos del mecanismo (mensaje → Lo que vemos / Posible riesgo / Qué responder). El carrusel de screenshots del kit (AppPorDentro) vuelve en Sesión 5 con capturas reales.
 - Vistas: Inicio con tu carta del día · Descifra la conversación · Chat con LUMA · Tarot · Diario emocional
 
 ## 6 · OFERTA  (4-6 features, ≤12 palabras — deseos de FICHA-AVATAR cubiertos por features reales)

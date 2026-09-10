@@ -9,11 +9,13 @@
 :root {
   /* ── SUPERFICIES (3 niveles: base / elevada / hundida) ── */
   --bg: #1a0d13;              /* noche vino/cacao casi-negro (nunca #000) */
-  --surface: #2c1a25;         /* secciones elevadas y cards (más separación del base) */
+  --surface: #33202c;         /* secciones elevadas y cards — separación real del base */
   --surface-2: #140a0f;       /* hundido: wells, frames de placeholder */
 
-  /* rim highlight de FICHA-ARTE (luz de vela en el borde superior de lo elevado) */
-  --rim: inset 0 1px 0 rgb(255 255 255 / 0.07);
+  /* rim highlight de FICHA-ARTE (luz de vela en el borde superior de lo elevado).
+     --rim-section: suave, para franjas anchas. --rim-card: el valor de la ficha (/.5) para cards. */
+  --rim-section: inset 0 1px 0 rgb(255 255 255 / 0.13);
+  --rim: inset 0 1px 0 rgb(255 255 255 / 0.5);
   --shadow-card: 0 20px 44px -18px rgb(10 5 8 / 0.66), var(--rim);
 
   /* ── TEXTO (crema cálida con tinte; ≥4.5:1 sobre las 3 superficies) ── */

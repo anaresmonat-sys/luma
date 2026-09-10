@@ -113,7 +113,7 @@ export function SectionShell({
     <section
       id={id}
       aria-label={ariaLabel}
-      className={`${elevacion === 'elevada' ? 'bg-[var(--surface)] shadow-[var(--rim)]' : ''} ${pt} ${pb} ${className}`}
+      className={`${elevacion === 'elevada' ? 'bg-[var(--surface)] shadow-[var(--rim-section)]' : ''} ${pt} ${pb} ${className}`}
     >
       <div className="mx-auto w-full max-w-[1140px] px-5">{children}</div>
     </section>

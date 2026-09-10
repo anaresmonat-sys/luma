@@ -8,11 +8,11 @@
 
 import { Clock, HelpCircle, Send, Repeat } from 'lucide-react';
 import { HeroDemoLuma } from '@/components/app/HeroDemoLuma';
+import { CasosLuma } from '@/components/app/CasosLuma';
 import { Hero } from '@/components/landing/Hero';
 import { Problema } from '@/components/landing/Problema';
 import { Agitacion } from '@/components/landing/Agitacion';
 import { Solucion } from '@/components/landing/Solucion';
-import { AppPorDentro } from '@/components/landing/AppPorDentro';
 import { Oferta } from '@/components/landing/Oferta';
 import { Garantia } from '@/components/landing/Garantia';
 import { Faq } from '@/components/landing/Faq';
@@ -31,7 +31,7 @@ export default function LandingLuma() {
         appName="LUMA"
         loginHref="/entrar"
         h1Marked="Deja de releer sus mensajes. [acento]Entiende[/acento] qué está pasando."
-        subtitleMarked="Pega la conversación y en un minuto sabes qué [b]sientes[/b] y qué [b]hacer[/b]."
+        subtitleMarked="En un minuto: [b]hechos, riesgo y qué responder[/b], con tarot y coach."
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
         socialProof={<span>Empieza gratis 3 días · sin cobros por mensaje · cancela cuando quieras</span>}
@@ -69,7 +69,7 @@ export default function LandingLuma() {
         kicker="Cómo funciona"
         tituloMarked="Tu conversación, [acento]vista con calma[/acento]"
         mecanismo="descifrar la conversación"
-        bigIdeaMarked="No piensas de más. Nadie te ayudó a [b]separar los hechos de las historias[/b] que tu mente construye."
+        bigIdeaMarked="No piensas de más. LUMA separa los hechos de las historias, y desde ahí eliges: [b]una tirada, hablar con tu coach o anotarlo[/b]."
         pasos={[
           {
             titulo: 'Pega el chat',
@@ -92,20 +92,9 @@ export default function LandingLuma() {
         }}
       />
 
-      {/* 5 · POR DENTRO — placeholders honestos hasta tener screenshots reales (pendiente en ESTADO.md) */}
-      <AppPorDentro
-        kicker="Por dentro"
-        tituloMarked="Así se ve [acento]por dentro[/acento]"
-        frames={[
-          { label: 'Tu carta del día', nombrePantalla: 'Inicio' },
-          { label: 'Descifra la conversación', nombrePantalla: 'Descifrar' },
-          { label: 'Chat con LUMA', nombrePantalla: 'Coach' },
-          { label: 'Tiradas para tu caso', nombrePantalla: 'Tarot' },
-          { label: 'Tus patrones, a la vista', nombrePantalla: 'Diario' },
-        ]}
-        ctaLabel={CTA_LABEL}
-        ctaHref={CTA_HREF}
-      />
+      {/* 5 · CASOS — 3 mini-casos reales del mecanismo (sustituye el carrusel del kit
+          mientras no exista la app interna; los screenshots reales van en Sesión 5 — ver ESTADO) */}
+      <CasosLuma ctaLabel={CTA_LABEL} ctaHref={CTA_HREF} />
 
       {/* 6 · OFERTA — anual primero, trial 3 días (02C), total visible */}
       <Oferta
@@ -120,7 +109,7 @@ export default function LandingLuma() {
           totalAnual: 'Se cobra $71,99/año',
           ahorro: 'más de 4 meses gratis',
           descomposicionDia: 'menos de $0,20 al día',
-          ctaLabel: 'Empezar mis 3 días gratis',
+          ctaLabel: CTA_LABEL,
           ctaHref: CTA_HREF,
           features: [
             'Descifra conversaciones sin límite: texto, captura o voz',
@@ -134,7 +123,7 @@ export default function LandingLuma() {
           nombre: 'Mensual',
           precioMes: '$9,99',
           sufijo: '/mes',
-          ctaLabel: 'Elegir mensual',
+          ctaLabel: CTA_LABEL,
           ctaHref: CTA_HREF,
           features: [
             'Descifra conversaciones sin límite: texto, captura o voz',
