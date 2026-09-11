@@ -1,7 +1,7 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 3 — landing construida; 1ª revisión = NO LISTA (29/40, 10/20, 14/20); aplicadas las 5 correcciones (reveal por mejora progresiva; visual del hero = carta de tarot flotante + demo "EJEMPLO"; rim highlight + profundidad; reverso de riesgo con jerarquía; kickers). tsc/build limpios. Lanzada la 2ª revisión (`revisor-visual`) / Siguiente acción exacta: recibir el 2º veredicto → si LISTA, PUERTA DE ETAPA de Landing + OK del usuario → `/onboarding`. Si NO, otra corrección.
+⏸️ CHECKPOINT — Última acción completada: Sesión 3 (reanudada 2026-09-11) — landing: 1ª revisión NO LISTA (29/10/14) → correcciones → 2ª revisión NO LISTA (31/15/15) → correcciones (sección "Ejemplos reales" con 3 casos reales sustituye el carrusel vacío; reveal firma de la carta + motivo repetido; rim de cards al valor de la ficha; puente hero→oferta; CTA con una sola etiqueta) → 3ª revisión relanzada sobre el código ya commiteado (tsc/build limpios, capturas frescas idénticas a las trackeadas) / Siguiente acción exacta: recibir el 3er veredicto → si LISTA, PUERTA DE ETAPA de Landing + OK del usuario → `/onboarding`. Si NO, otra corrección dirigida a los defectos que queden.
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
