@@ -23,6 +23,7 @@ import { TimelineTrial } from '@/components/paywall/Timeline';
 import { PlanCards, type PlanPaywall } from '@/components/paywall/PlanCards';
 import { leerRespuestas } from '@/lib/almacenamiento-onboarding';
 import { beneficiosPlan, contarRespuestas, type Respuestas } from '@/app/onboarding/flujo';
+import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 
 const TRIAL_DIAS = 3;
 
@@ -107,7 +108,7 @@ export default function PaywallLuma() {
   return (
     <div className="flex min-h-dvh flex-col [font-family:var(--font-body)]">
       {/* Header: X (44px, sale a /) + marca — nunca oculta/retardada (C5) */}
-      <div className="sticky top-0 z-20 flex h-14 items-center justify-between bg-[var(--bg)]/95 px-3 backdrop-blur-sm">
+      <div className="sticky top-0 z-20 flex h-14 items-center justify-between bg-[var(--bg)]/75 px-3 backdrop-blur-md">
         <a
           href="/"
           aria-label="Cerrar"
@@ -120,11 +121,25 @@ export default function PaywallLuma() {
       </div>
 
       <div className="mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pb-10 pt-4">
-        {/* Headline — fórmula única de 52 §4: LUMA + "calma" (deseo tangible #1 de FICHA-AVATAR) */}
+        {/* Dispositivo ownable de FICHA-ARTE — repite el motivo del funnel (Hero,
+            Casos, PlanListo), en tamaño reducido y sin animación de entrada. */}
         <motion.div
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="flex justify-center"
+        >
+          <div className="scale-[0.7] [transform-origin:top]">
+            <CartaSacerdotisa animar={false} />
+          </div>
+        </motion.div>
+
+        {/* Headline — fórmula única de 52 §4: LUMA + "calma" (deseo tangible #1 de FICHA-AVATAR) */}
+        <motion.div
+          initial={{ opacity: 0, y: reduce ? 0 : 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+          className="-mt-4"
         >
           <h1 className="text-balance text-[28px] font-bold leading-[1.15] text-[var(--text-primary)] [font-family:var(--font-display)]">
             <MarkedCopy text={`${TRIAL_DIAS} días para probar si LUMA te da la [acento]calma[/acento] que buscas`} />
@@ -174,8 +189,19 @@ export default function PaywallLuma() {
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-7"
+          className="relative mt-7"
         >
+          {/* 2º resplandor: la página es larga y el bloom del body (fijo, cerca
+              del header) no llega hasta aquí — sin esto la mitad inferior se
+              siente plana. Mismo lenguaje de "luz de vela" de FICHA-ARTE. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 -top-10 -z-10 h-[420px]"
+            style={{
+              background:
+                'radial-gradient(480px 300px at 50% 0%, color-mix(in oklab, var(--accent) 7%, transparent), transparent 70%)',
+            }}
+          />
           <PlanCards
             anual={PLAN_ANUAL}
             mensual={PLAN_MENSUAL}
