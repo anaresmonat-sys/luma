@@ -192,9 +192,15 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   "checkout" sin traducir → "pago"; header sticky duplicado en capturas fullPage → artefacto del
   script de captura, corregido; fill opaco tapaba los blooms → quitado; sin dispositivo ownable →
   se agregó la carta de tarot; 2º resplandor casi imperceptible → subido de 7% a 16%; pantalla
-  "confirmado" sin salida → se agregó X de cierre. Evidencia en docs/revisiones/paywall-*.png +
-  paywall-veredicto.md. Sesión interrumpida antes de la 6ª ronda — retomar relanzando el
-  revisor-visual con las capturas ya frescas.
+  "confirmado" sin salida → se agregó X de cierre. Rondas 6-7: 404 real en /entrar → se construyó
+  esa página (Sesión 4 paso 3, spec E); toques táctiles <44px en 4 links de texto → corregido; CTA
+  no reflejaba el plan → corregido; header inconsistente en "confirmado" → corregido. Craft (16/20)
+  y Copy (19/20) YA aprueban desde la ronda 5; solo Usabilidad sigue bajo el gate (29-31/40).
+  ⚠️ NOTA RECURRENTE: 3 rondas distintas midieron mal las proporciones de vacío de la pantalla
+  "confirmado" (afirmaron alturas de 2768px/1418px cuando el PNG real es 750×1624 = viewport móvil
+  estándar, verificado con `file` cada vez) — no seguir "corrigiendo" ese layout sin evidencia
+  nueva y verificada. Evidencia en docs/revisiones/paywall-*.png + paywall-veredicto.md,
+  docs/revisiones/entrar-*.png.
 - `vista-previa-app.html` es mockup pre-código (no es la app); recorte por ajustar en 2 frames.
 - FICHA-MERCADO: penetración de tarjeta por país y % compras >30 días quedaron NO ENCONTRADO — revisar 2027-03-09.
 
