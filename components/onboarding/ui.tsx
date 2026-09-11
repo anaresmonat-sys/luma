@@ -69,7 +69,7 @@ export function ChipOpcion({
       type="button"
       onClick={onClick}
       whileTap={{ scale: 0.98 }}
-      className={`flex min-h-[60px] w-full items-center gap-3 rounded-[var(--radius-button)] px-4 py-3 text-left transition-colors duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
+      className={`flex min-h-[60px] w-full items-center gap-3 rounded-[var(--radius-button)] px-4 py-3 text-left shadow-[var(--shadow-1)] transition-colors duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
         seleccionado
           ? 'border-[1.5px] border-[var(--accent)] bg-[var(--chip-bg)]'
           : 'border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)]'

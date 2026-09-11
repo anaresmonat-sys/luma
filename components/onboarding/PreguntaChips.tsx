@@ -6,6 +6,7 @@
 import { useState } from 'react';
 import { motion, useReducedMotion, type Variants } from 'motion/react';
 import { ChipOpcion, EscapeHatchInput } from './ui';
+import { MarkedCopy } from '@/components/landing/MarkedCopy';
 
 const contenedorChips: Variants = {
   oculto: {},
@@ -27,6 +28,7 @@ export function PreguntaChips({
   microcopy,
   opciones,
   otraCosa,
+  valorInicial,
   skipLabel,
   onSkip,
   onResponder,
@@ -36,12 +38,14 @@ export function PreguntaChips({
   opciones: OpcionChip[];
   /** Si existe, agrega el último chip "Otra cosa" con campo de texto propio. */
   otraCosa?: boolean;
+  /** Respuesta ya guardada (al volver con "Atrás" a una pregunta ya contestada). */
+  valorInicial?: string;
   /** Paso NO crítico (regla 7 de 02B): texto terciario de salida bajo las opciones. */
   skipLabel?: string;
   onSkip?: () => void;
   onResponder: (id: string, labelLibre?: string) => void;
 }) {
-  const [seleccionado, setSeleccionado] = useState<string | null>(null);
+  const [seleccionado, setSeleccionado] = useState<string | null>(valorInicial ?? null);
   const [mostrarLibre, setMostrarLibre] = useState(false);
   const [textoLibre, setTextoLibre] = useState('');
   const reduce = useReducedMotion();
@@ -59,7 +63,7 @@ export function PreguntaChips({
   return (
     <div className="flex flex-1 flex-col justify-center">
       <h1 className="text-balance text-[28px] font-bold leading-[1.1] tracking-[-0.02em] text-[var(--text-primary)] [font-family:var(--font-display)]">
-        {pregunta}
+        <MarkedCopy text={pregunta} />
       </h1>
       {microcopy && <p className="mt-2 text-[14px] leading-snug text-[var(--text-secondary)]">{microcopy}</p>}
 

@@ -6,6 +6,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
+import { MarkedCopy } from '@/components/landing/MarkedCopy';
 
 export function PreguntaSlider({
   pregunta,
@@ -63,7 +64,7 @@ export function PreguntaSlider({
   return (
     <div className="flex flex-1 flex-col justify-center">
       <h1 className="text-balance text-[28px] font-bold leading-[1.1] tracking-[-0.02em] text-[var(--text-primary)] [font-family:var(--font-display)]">
-        {pregunta}
+        <MarkedCopy text={pregunta} />
       </h1>
 
       <div className="mt-10 flex flex-col items-center">

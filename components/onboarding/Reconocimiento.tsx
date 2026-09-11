@@ -6,6 +6,7 @@
 // de LA ESCALERA en 02B): etiqueta con una identidad aspiracional.
 
 import { motion, useReducedMotion } from 'motion/react';
+import { MarkedCopy } from '@/components/landing/MarkedCopy';
 
 export function Reconocimiento({
   emoji,
@@ -43,7 +44,7 @@ export function Reconocimiento({
         transition={{ duration: reduce ? 0.2 : 0.35, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         className="mt-6 text-balance text-[28px] font-bold leading-[1.15] text-[var(--text-primary)] [font-family:var(--font-display)]"
       >
-        {titulo}
+        <MarkedCopy text={titulo} />
       </motion.h1>
 
       <motion.p

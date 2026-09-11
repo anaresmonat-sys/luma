@@ -74,6 +74,7 @@ export default function OnboardingLuma() {
             microcopy={paso.microcopy}
             opciones={paso.opciones}
             otraCosa={paso.otraCosa}
+            valorInicial={(respuestas as Record<string, unknown>)[paso.id] as string | undefined}
             skipLabel={paso.id === 'atribucion' ? 'Prefiero no decirlo' : undefined}
             onSkip={paso.id === 'atribucion' ? () => avanzar() : undefined}
             onResponder={(id, labelLibre) => {

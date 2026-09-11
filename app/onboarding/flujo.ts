@@ -57,7 +57,7 @@ export const PASOS: Paso[] = [
   {
     tipo: 'chip',
     id: 'motivo',
-    pregunta: '¿Qué te trae por aquí hoy?',
+    pregunta: '¿Qué te trae por aquí [acento]hoy[/acento]?',
     microcopy: 'Así personalizamos lo que ves primero.',
     otraCosa: true,
     opciones: [
@@ -70,7 +70,8 @@ export const PASOS: Paso[] = [
   {
     tipo: 'chip',
     id: 'momento',
-    pregunta: '¿Cuándo sientes más esa ansiedad?',
+    pregunta: '¿Cuándo sientes más esa [acento]ansiedad[/acento]?',
+    microcopy: 'Así sabemos en qué momento ayudarte más.',
     opciones: [
       { id: 'noche', emoji: '🌙', label: 'De noche, antes de dormir' },
       { id: 'tarda', emoji: '⏳', label: 'Cuando tarda en responder' },
@@ -83,7 +84,7 @@ export const PASOS: Paso[] = [
     id: 'reconocimiento-1',
     emoji: '🕊️',
     render: (r) => ({
-      titulo: 'No es que pienses de más',
+      titulo: 'No es que pienses [acento]de más[/acento]',
       cuerpo: `Nadie te enseñó a separar los hechos de las historias que arma tu mente — sobre todo ${
         r.momentoLabel ? r.momentoLabel.charAt(0).toLowerCase() + r.momentoLabel.slice(1) : 'en esos momentos'
       }. Eso es justo lo que LUMA hace por ti, en menos de un minuto.`,
@@ -92,7 +93,7 @@ export const PASOS: Paso[] = [
   {
     tipo: 'chip',
     id: 'ayuda',
-    pregunta: '¿Qué te ayudaría más ahora mismo?',
+    pregunta: '¿Qué te [acento]ayudaría[/acento] más ahora mismo?',
     microcopy: 'Con esto armamos tu plan.',
     opciones: [
       { id: 'analizar', emoji: '👀', label: 'Entender un mensaje o conversación confusa' },
@@ -104,7 +105,8 @@ export const PASOS: Paso[] = [
   {
     tipo: 'chip',
     id: 'temor',
-    pregunta: '¿Qué es lo que más temes que pase?',
+    pregunta: '¿Qué es lo que más [acento]temes[/acento] que pase?',
+    microcopy: 'No hay respuestas incorrectas.',
     opciones: [
       { id: 'equivocarme', emoji: '😟', label: 'Volver a equivocarme como antes' },
       { id: 'intensa', emoji: '😬', label: "Ser 'la intensa' que aleja a la gente" },
@@ -117,7 +119,7 @@ export const PASOS: Paso[] = [
     id: 'reconocimiento-2',
     emoji: '💛',
     render: () => ({
-      titulo: 'Ese miedo no te hace "la intensa"',
+      titulo: 'Ese miedo no te hace [acento]"la intensa"[/acento]',
       cuerpo:
         'Te hace alguien que presta atención — el problema nunca fue sentir tanto, fue no tener con quién revisarlo con calma. Para eso está LUMA.',
     }),
@@ -125,7 +127,7 @@ export const PASOS: Paso[] = [
   {
     tipo: 'slider',
     id: 'compromiso',
-    pregunta: '¿Cuántas veces por semana te gustaría hacer una pausa de 1 minuto?',
+    pregunta: '¿Cuántas veces por semana te gustaría hacer una [acento]pausa[/acento] de 1 minuto?',
     min: 1,
     max: 7,
     inicial: 4,
@@ -135,7 +137,8 @@ export const PASOS: Paso[] = [
   {
     tipo: 'chip',
     id: 'hora',
-    pregunta: '¿A qué hora te gustaría que te lo recordemos?',
+    pregunta: '¿A qué hora te gustaría que te lo [acento]recordemos[/acento]?',
+    microcopy: 'Así ajustamos tu recordatorio diario.',
     opciones: [
       { id: 'manana', emoji: '☀️', label: 'En la mañana, al despertar' },
       { id: 'mediodia', emoji: '🌤️', label: 'Al mediodía' },
@@ -146,7 +149,8 @@ export const PASOS: Paso[] = [
   {
     tipo: 'chip',
     id: 'atribucion',
-    pregunta: '¿Cómo llegaste a LUMA?',
+    pregunta: '¿Cómo llegaste a [acento]LUMA[/acento]?',
+    microcopy: 'Nos ayuda a mejorar — no es obligatorio.',
     opciones: [
       { id: 'instagram', emoji: '📸', label: 'Instagram' },
       { id: 'tiktok', emoji: '🎵', label: 'TikTok' },
@@ -161,7 +165,7 @@ export const PASOS: Paso[] = [
     id: 'reconocimiento-final',
     emoji: '✨',
     render: () => ({
-      titulo: 'Tus respuestas te describen',
+      titulo: 'Tus respuestas [acento]te describen[/acento]',
       cuerpo:
         'Eres alguien que prefiere entender antes de reaccionar — pocas personas se detienen a mirar sus patrones antes de que exploten. Tu plan usa exactamente esa fuerza.',
     }),

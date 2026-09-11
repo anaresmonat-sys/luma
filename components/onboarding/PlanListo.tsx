@@ -8,6 +8,7 @@
 import { motion } from 'motion/react';
 import { Check } from 'lucide-react';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
+import { MarkedCopy } from '@/components/landing/MarkedCopy';
 
 export interface BeneficioPlan {
   texto: string;
@@ -37,16 +38,7 @@ export function PlanListo({
         <CartaSacerdotisa />
 
         <h1 className="mt-6 text-balance text-[30px] font-bold leading-[1.15] text-[var(--text-primary)] [font-family:var(--font-display)]">
-          {tituloMarked.split('[acento]').map((parte, i) =>
-            i === 0 ? (
-              <span key={i}>{parte}</span>
-            ) : (
-              <span key={i}>
-                <span className="text-[var(--accent)]">{parte.split('[/acento]')[0]}</span>
-                {parte.split('[/acento]')[1]}
-              </span>
-            )
-          )}
+          <MarkedCopy text={tituloMarked} />
         </h1>
         <p className="mt-2 text-[14px] text-[var(--text-secondary)]">Hecho con tus {nRespuestas} respuestas</p>
 
