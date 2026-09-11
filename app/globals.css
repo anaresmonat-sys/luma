@@ -24,6 +24,51 @@
 /* Selección con el acento */
 ::selection { background: color-mix(in oklab, var(--accent) 30%, transparent); }
 
+/* Slider de compromiso del onboarding (50 → A6): track 8px pill, thumb 28px
+   con sombra sutil, fill acento hasta el valor actual (--slider-pct). */
+.onboarding-slider {
+  --track-h: 8px;
+  --thumb: 28px;
+}
+.onboarding-slider::-webkit-slider-runnable-track {
+  height: var(--track-h);
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--accent) var(--slider-pct),
+    color-mix(in oklab, var(--text-tertiary) 18%, transparent) var(--slider-pct)
+  );
+}
+.onboarding-slider::-moz-range-track {
+  height: var(--track-h);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--text-tertiary) 18%, transparent);
+}
+.onboarding-slider::-moz-range-progress {
+  height: var(--track-h);
+  border-radius: 999px;
+  background: var(--accent);
+}
+.onboarding-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--thumb);
+  height: var(--thumb);
+  margin-top: calc((var(--track-h) - var(--thumb)) / 2);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 2px 8px rgb(10 5 8 / 0.5);
+  border: 2px solid var(--bg);
+}
+.onboarding-slider::-moz-range-thumb {
+  width: var(--thumb);
+  height: var(--thumb);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 2px 8px rgb(10 5 8 / 0.5);
+  border: 2px solid var(--bg);
+}
+
 /* Fondo de página con profundidad: dos blooms cálidos muy tenues (luz de vela),
    nunca un fill plano. Fijo, no scrollea. */
 body {
