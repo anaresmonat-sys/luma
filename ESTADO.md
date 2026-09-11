@@ -1,13 +1,24 @@
 # ESTADO — LUMA (nombre de trabajo)
-Última actualización: 2026-09-11 | Sesión actual: 3
+Última actualización: 2026-09-11 | Sesión actual: 4
 
-✅ CHECKPOINT — Última acción completada: Sesión 3 — landing (`/`): **LISTA**. 8 rondas de
-revisor-visual (29/10/14 → 31/15/15 → 32/19/18 → 31/18/17 → 35/19/19 → 35/19/19 → 32/18/19 →
-**37/19/19 LISTA**, gate ≥36/40·≥16/20·≥16/20 cumplido). tsc/build limpios, evidencia en
-docs/revisiones/landing-*.png + landing-veredicto.md. Pendientes menores anotados abajo
-(testimonios reales, rutas /onboarding y /entrar aún no existen, legales en borrador). /
-Siguiente acción exacta: presentar la PUERTA DE ETAPA de Landing al usuario en simple y esperar
-su OK antes de empezar `/onboarding` (Sesión 4).
+✅ CHECKPOINT — Última acción completada: Sesión 4 — onboarding (`/onboarding`): construido y
+**ACEPTADO con criterio propio** (no LISTA por gate automático — el usuario cerró el ciclo de
+revisor-visual tras 5 rondas: 25/12 → 29/13 → 32/14 → 25/11 → 32/13, con el mismo patrón de
+rendimientos decrecientes/inconsistencia entre rondas que ya se vio en la landing; decidió
+detener el ciclo y aceptar el estado actual). Flujo completo: 7 preguntas (chips + 1 slider)
+trazadas a FICHA-AVATAR + 2 reconocimientos (uno valida con la respuesta real, el final etiqueta
+identidad positiva) + loading "Construyendo tu plan" + revelación del plan (el pico, sin precios,
+CTA a `/paywall`). tsc/build limpios, evidencia en docs/revisiones/onboarding-*.png +
+onboarding-veredicto.md. Bugs reales corregidos en el camino: selección de chip no se restauraba
+al volver "Atrás" (corregido), fondo plano tapaba los blooms del brand kit (corregido).
+Pendientes/limitaciones conocidas: (a) el balance vertical de las pantallas de pregunta recibió
+lecturas contradictorias entre rondas del revisor — medido a mano, el desbalance real es leve; no
+se seguirá ajustando sin evidencia más consistente; (b) iconografía emoji en las opciones — es la
+decisión YA vigente de FICHA-ARTE (Ronda #4), no un defecto nuevo, el revisor la reabrió sin que
+haya cambiado nada; (c) testimonios reales siguen pendientes (heredado de landing). /
+Siguiente acción exacta: presentar la PUERTA DE ETAPA de Onboarding al usuario en simple y
+preguntar cómo seguir — construir `/paywall` (siguiente etapa de la secuencia) o priorizar otra
+cosa (p.ej. las entrevistas de avatar pendientes).
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -131,7 +142,8 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
 ## Secuencia maestra de construcción (NO saltar)
 - Estado: identidad cerrada; **código en marcha**. Ruta: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
 - Landing (`/`): **LISTA** (revisor-visual: 37/40 · 19/20 · 19/20) — protagonista: el mecanismo "descifra la conversación"; CTA primario "Descifrar mi primera conversación" → `/onboarding`. Placeholders honestos que quedan: visual del hero + carrusel "Así se ve por dentro" (screenshots reales cuando exista la app interna, Sesión 5).
-- Onboarding/Paywall/Login/App interna: pendientes.
+- Onboarding (`/onboarding`): **construido, ACEPTADO con criterio propio** (ver checkpoint arriba y "Problemas conocidos"). 7 preguntas + 2 reconocimientos + loading + revelación del plan; CTA final → `/paywall`.
+- Paywall/Login/App interna: pendientes.
 - Servicios externos: bloqueados hasta que las puertas anteriores estén aprobadas.
 - Stack (51): Next.js 16 App Router + TS + Tailwind v4 (CSS-first, @theme) + shadcn/ui + Motion + Lucide.
   Kit de landing de `plantillas-codigo/landing/` → `components/landing/`. Tokens Terciopelo & Oro en globals.css.
@@ -162,9 +174,14 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   borrador (archivo 47).
 - [AppPorDentro] El carrusel de screenshots del kit sale de la V1 de la landing (lo reemplaza
   "Ejemplos reales"). Vuelve en Sesión 5 con capturas reales de la app interna (19 §5).
-- [veredicto onboarding] NO APLICA todavía: la pantalla de onboarding (`/onboarding`) NO está
-  construida (pendiente, Sesión 4). Sin código no hay screenshot ni veredicto. La secuencia
-  maestra (arriba) la lista como "pendiente", no como construida.
+- [veredicto:onboarding] ACEPTADO CON CRITERIO PROPIO (no LISTA por gate automático) — 5 rondas
+  de revisor-visual (25/12 → 29/13 → 32/14 → 25/11 → 32/13), sin converger al gate ≥36/40·≥16/20
+  por un patrón de feedback inconsistente entre rondas sobre el balance vertical de las pantallas
+  de pregunta (medido a mano dos veces por mí, el desbalance real es leve). El usuario decidió
+  cerrar el ciclo de revisión tras la 5ª ronda. Bugs reales SÍ corregidos en el camino: selección
+  de chip no se restauraba al volver "Atrás", fondo plano tapaba los blooms del brand kit. Emoji
+  en las opciones NO es un defecto nuevo: es la decisión ya vigente de FICHA-ARTE (Ronda #4).
+  Evidencia en docs/revisiones/onboarding-*.png + onboarding-veredicto.md.
 - [assets LUMA] Falta el retrato/ilustración final de LUMA (persona) para avatar del coach + redes — sesión de assets (20). No bloquea la construcción; en el código va un placeholder.
 - [veredicto:onboarding] Pospuesto — pantalla de recorrido de inicio NO iniciada (Sesión 4). Sin código no hay captura ni veredicto.
 - [veredicto:paywall] Pospuesto — pantalla de planes NO iniciada (Sesión 4).
