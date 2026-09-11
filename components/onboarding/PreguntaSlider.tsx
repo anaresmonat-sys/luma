@@ -4,7 +4,7 @@
 // que la app reutiliza en el loading y la revelación del plan (el eco es lo
 // que convierte el dato en compromiso).
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 
 export function PreguntaSlider({
@@ -28,8 +28,37 @@ export function PreguntaSlider({
   onResponder: (valor: number) => void;
 }) {
   const [valor, setValor] = useState(inicial);
-  const pct = ((valor - min) / (max - min)) * 100;
   const reduce = useReducedMotion();
+  const [mostrado, setMostrado] = useState(reduce ? inicial : min);
+  const pct = ((valor - min) / (max - min)) * 100;
+
+  // Conteo héroe al montar (baseline #2): el valor inicial cuenta desde el
+  // piso en vez de aparecer estático. Tras el conteo, refleja el arrastre 1:1.
+  useEffect(() => {
+    if (reduce) return;
+    let cancelado = false;
+    const pasos = inicial - min;
+    if (pasos <= 0) return;
+    const duracionMs = 500;
+    const porPaso = duracionMs / pasos;
+    let actual = min;
+    const id = window.setInterval(() => {
+      if (cancelado) return;
+      actual += 1;
+      setMostrado(actual);
+      if (actual >= inicial) window.clearInterval(id);
+    }, porPaso);
+    return () => {
+      cancelado = true;
+      window.clearInterval(id);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function onArrastrar(v: number) {
+    setValor(v);
+    setMostrado(v);
+  }
 
   return (
     <div className="flex flex-1 flex-col justify-center">
@@ -39,13 +68,13 @@ export function PreguntaSlider({
 
       <div className="mt-10 flex flex-col items-center">
         <motion.span
-          key={valor}
+          key={mostrado}
           initial={{ opacity: 0.4, y: reduce ? 0 : 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.15 }}
           className="text-[44px] font-bold leading-none tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]"
         >
-          {valor}
+          {mostrado}
         </motion.span>
         <span className="mt-1 text-[14px] text-[var(--text-secondary)]">{sufijo}</span>
 
@@ -56,7 +85,7 @@ export function PreguntaSlider({
             max={max}
             step={1}
             value={valor}
-            onChange={(e) => setValor(Number(e.target.value))}
+            onChange={(e) => onArrastrar(Number(e.target.value))}
             className="onboarding-slider h-8 w-full cursor-pointer appearance-none bg-transparent"
             style={{ ['--slider-pct' as string]: `${pct}%` }}
             aria-label={pregunta}

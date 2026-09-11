@@ -77,7 +77,11 @@ export function ChipOpcion({
     >
       <span
         aria-hidden="true"
-        className="flex size-10 shrink-0 items-center justify-center rounded-[12px] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] text-[20px]"
+        className="flex size-10 shrink-0 items-center justify-center rounded-[12px] text-[20px]"
+        style={{
+          background: 'color-mix(in oklab, var(--accent) 10%, transparent)',
+          boxShadow: seleccionado ? '0 0 12px color-mix(in oklab, var(--accent) 45%, transparent)' : 'none',
+        }}
       >
         {emoji}
       </span>
@@ -110,11 +114,12 @@ export function EscapeHatchInput({
   onContinuar: () => void;
   placeholder?: string;
 }) {
+  const reduce = useReducedMotion();
   return (
     <motion.div
-      initial={{ opacity: 0, height: 0 }}
+      initial={{ opacity: 0, height: reduce ? 'auto' : 0 }}
       animate={{ opacity: 1, height: 'auto' }}
-      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: reduce ? 0.15 : 0.25, ease: [0.16, 1, 0.3, 1] }}
       className="flex flex-col gap-3 overflow-hidden"
     >
       <input
@@ -172,25 +177,3 @@ export function PasoShell({
   );
 }
 
-export function usarSliderValor(inicial: number) {
-  const [valor, setValor] = useState(inicial);
-  return { valor, setValor };
-}
-
-/* ── <ContadorHero> — número héroe que cuenta al montar (baseline #2). ── */
-export function ContadorHero({ valor }: { valor: number }) {
-  const [mostrado, setMostrado] = useState(valor);
-  const reduce = useReducedMotion();
-  useEffect(() => {
-    if (reduce) {
-      setMostrado(valor);
-      return;
-    }
-    setMostrado(valor);
-  }, [valor, reduce]);
-  return (
-    <span className="text-[44px] font-bold leading-none tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]">
-      {mostrado}
-    </span>
-  );
-}
