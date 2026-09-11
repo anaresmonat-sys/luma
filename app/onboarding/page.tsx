@@ -5,7 +5,7 @@
 // índice de paso; el copy y el mapeo a FICHA-AVATAR viven en ./flujo.ts.
 // Termina en la revelación del plan (el PICO) — el paywall es la etapa siguiente.
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { PasoShell } from '@/components/onboarding/ui';
 import { PreguntaChips } from '@/components/onboarding/PreguntaChips';
@@ -14,6 +14,7 @@ import { Reconocimiento } from '@/components/onboarding/Reconocimiento';
 import { LoadingPlan } from '@/components/onboarding/LoadingPlan';
 import { PlanListo } from '@/components/onboarding/PlanListo';
 import { PASOS, LABEL_DE, feedbackCompromiso, beneficiosPlan, lineasLoading, type Respuestas } from './flujo';
+import { guardarRespuestas } from '@/lib/almacenamiento-onboarding';
 
 const N_RESPUESTAS_REALES = PASOS.filter((p) => p.tipo !== 'reconocimiento').length;
 const PISO_PROGRESO = 6; // endowed progress (Nunes & Drèze 2006) — nunca arranca en 0%
@@ -27,6 +28,11 @@ export default function OnboardingLuma() {
   const [respuestas, setRespuestas] = useState<Respuestas>({});
 
   const progreso = PISO_PROGRESO + (indice / PASOS.length) * (100 - PISO_PROGRESO);
+
+  useEffect(() => {
+    if (etapa === 'plan') guardarRespuestas(respuestas);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [etapa]);
 
   function irAtras() {
     if (indice === 0) {

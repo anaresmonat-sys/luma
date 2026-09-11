@@ -36,6 +36,9 @@ export type PasoReconocimiento = {
 
 export type Paso = PasoChip | PasoSlider | PasoReconocimiento;
 
+/** IDs de las 7 preguntas REALES (excluye reconocimientos, que no piden datos). */
+export const IDS_PREGUNTAS_REALES = ['motivo', 'momento', 'ayuda', 'temor', 'compromiso', 'hora', 'atribucion'] as const;
+
 export interface Respuestas {
   motivo?: string;
   motivoLabel?: string;
@@ -179,6 +182,11 @@ export const LABEL_DE = {
   temor: Object.fromEntries((PASOS.find((p) => p.id === 'temor') as PasoChip).opciones.map((o) => [o.id, o.label])),
   hora: Object.fromEntries((PASOS.find((p) => p.id === 'hora') as PasoChip).opciones.map((o) => [o.id, o.label])),
 };
+
+/** Cuenta solo las 7 preguntas reales respondidas (nunca las claves *Label ni reconocimientos). */
+export function contarRespuestas(r: Respuestas): number {
+  return IDS_PREGUNTAS_REALES.filter((id) => (r as Record<string, unknown>)[id] !== undefined).length;
+}
 
 export function feedbackCompromiso(valor: number): string {
   if (valor <= 2) return 'Para empezar con calma';
