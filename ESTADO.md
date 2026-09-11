@@ -1,20 +1,23 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-11 | Sesión actual: 4
 
-✅ CHECKPOINT — Última acción completada: Sesión 4 — onboarding (`/onboarding`) ACEPTADO con
-criterio propio (ver detalle en Problemas conocidos). Paywall (`/paywall`) EN CONSTRUCCIÓN: 5
-rondas del revisor-visual aplicadas con fixes reales (checkmarks custom, hairline degradé,
-fallback de beneficios sin datos, ancla emocional de FICHA-AVATAR, dispositivo ownable — carta de
-tarot —, 2º resplandor, X de cierre en pantalla "confirmado"; detalle completo en Problemas
-conocidos → [veredicto:paywall]). La sesión se interrumpió justo antes de lanzar la 6ª ronda del
-revisor-visual (código y capturas ya frescos, commiteados). Precio/moneda: el usuario preguntó
-por precios por país — respondido que Hotmart lo resuelve en su propio panel al conectar la
-cuenta real (Sesión 6) y que ajustar precio por país se revisa DESPUÉS de las primeras ventas
-(ya documentado así en FICHA-MERCADO §1); no bloquea el paywall actual (USD, precio único). /
-Siguiente acción exacta: relanzar el revisor-visual (6ª ronda) sobre
-docs/revisiones/paywall-*.png ya capturadas; si LISTA, PUERTA DE ETAPA de Paywall al usuario;
-si no, seguir el ciclo o preguntar al usuario si prefiere cerrar con criterio propio (mismo
-patrón que se usó con onboarding tras varias rondas sin converger).
+✅ CHECKPOINT — Última acción completada: Sesión 4 completa. Onboarding (`/onboarding`) y Paywall
+(`/paywall`) ACEPTADOS con criterio propio (no LISTA por gate automático — ver detalle de cada
+uno en Problemas conocidos). Paywall: 8 rondas del revisor-visual; Craft (16/20) y Copy (19/20)
+aprueban desde la ronda 5, Usabilidad se quedó en 28-31/40 (gate ≥36) sin converger — el usuario
+decidió cerrar el ciclo tras la 8ª ronda, pase lo que pase. En el camino se construyó `/entrar`
+(login con magic link, Sesión 4 paso 3 — no estaba planeada al empezar el paywall, pero
+"Restaurar compra" necesitaba un destino real) y se corrigieron bugs de verdad: conteo de
+respuestas mal calculado, 404 real en /entrar, header inconsistente entre pantallas, áreas
+táctiles <44px, validación de email floja, email/checkmarks sin label ni contraste explícito. Se
+intentó una lectura síncrona de localStorage que rompió la hidratación de React (confirmado en
+log, revertido — ver comentario en app/paywall/page.tsx). Precio/moneda: el usuario preguntó por
+precios por país — Hotmart lo resuelve en su panel al conectar la cuenta real (Sesión 6); ajustar
+precio por país se revisa DESPUÉS de las primeras ventas (ya en FICHA-MERCADO §1). /
+Siguiente acción exacta: presentar la PUERTA DE ETAPA de Sesión 4 (onboarding + paywall + entrar)
+al usuario en simple, y preguntar cómo seguir — construir la app interna (Sesión 5) es lo próximo
+en la secuencia maestra, pero también quedan pendientes las entrevistas de avatar y el retrato de
+LUMA.
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -139,7 +142,9 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
 - Estado: identidad cerrada; **código en marcha**. Ruta: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
 - Landing (`/`): **LISTA** (revisor-visual: 37/40 · 19/20 · 19/20) — protagonista: el mecanismo "descifra la conversación"; CTA primario "Descifrar mi primera conversación" → `/onboarding`. Placeholders honestos que quedan: visual del hero + carrusel "Así se ve por dentro" (screenshots reales cuando exista la app interna, Sesión 5).
 - Onboarding (`/onboarding`): **construido, ACEPTADO con criterio propio** (ver checkpoint arriba y "Problemas conocidos"). 7 preguntas + 2 reconocimientos + loading + revelación del plan; CTA final → `/paywall`.
-- Paywall/Login/App interna: pendientes.
+- Paywall (`/paywall`): **construido, ACEPTADO con criterio propio** (8 rondas, ver "Problemas conocidos" → [veredicto:paywall]). Headline+timeline del trial+2 plan cards tocables+CTA único.
+- Entrar (`/entrar`): **construido** (magic link por email, simula el envío — Sesión 6 conecta el backend real). No estaba planeada como pantalla propia de esta sesión; se adelantó porque "Restaurar compra" del paywall necesitaba un destino real.
+- Login completo (con sesión real)/App interna: pendientes (Sesión 5-6).
 - Servicios externos: bloqueados hasta que las puertas anteriores estén aprobadas.
 - Stack (51): Next.js 16 App Router + TS + Tailwind v4 (CSS-first, @theme) + shadcn/ui + Motion + Lucide.
   Kit de landing de `plantillas-codigo/landing/` → `components/landing/`. Tokens Terciopelo & Oro en globals.css.
@@ -184,23 +189,28 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   en las opciones NO es un defecto nuevo: es la decisión ya vigente de FICHA-ARTE (Ronda #4).
   Evidencia en docs/revisiones/onboarding-*.png + onboarding-veredicto.md.
 - [assets LUMA] Falta el retrato/ilustración final de LUMA (persona) para avatar del coach + redes — sesión de assets (20). No bloquea la construcción; en el código va un placeholder.
-- [veredicto:paywall] EN CONSTRUCCIÓN (Sesión 4, paso 2) — todavía sin veredicto LISTA. Rondas del
-  revisor-visual hasta ahora: 31/14/17 → 30/14/17 → 29/12/17 → 29/13/18 (subiendo craft/copy,
-  usabilidad estable ~29-31/40). Fixes reales aplicados: checkmarks sin círculo de acento →
-  CheckCustom; cero hairline degradé → Hairline en el timeline; sin fallback de beneficios sin
-  datos del onboarding → agregado; faltaba el ancla emocional literal de FICHA-AVATAR → agregada;
-  "checkout" sin traducir → "pago"; header sticky duplicado en capturas fullPage → artefacto del
-  script de captura, corregido; fill opaco tapaba los blooms → quitado; sin dispositivo ownable →
-  se agregó la carta de tarot; 2º resplandor casi imperceptible → subido de 7% a 16%; pantalla
-  "confirmado" sin salida → se agregó X de cierre. Rondas 6-7: 404 real en /entrar → se construyó
-  esa página (Sesión 4 paso 3, spec E); toques táctiles <44px en 4 links de texto → corregido; CTA
-  no reflejaba el plan → corregido; header inconsistente en "confirmado" → corregido. Craft (16/20)
-  y Copy (19/20) YA aprueban desde la ronda 5; solo Usabilidad sigue bajo el gate (29-31/40).
-  ⚠️ NOTA RECURRENTE: 3 rondas distintas midieron mal las proporciones de vacío de la pantalla
-  "confirmado" (afirmaron alturas de 2768px/1418px cuando el PNG real es 750×1624 = viewport móvil
-  estándar, verificado con `file` cada vez) — no seguir "corrigiendo" ese layout sin evidencia
-  nueva y verificada. Evidencia en docs/revisiones/paywall-*.png + paywall-veredicto.md,
-  docs/revisiones/entrar-*.png.
+- [veredicto:paywall] ACEPTADO CON CRITERIO PROPIO (no LISTA por gate automático) — 8 rondas de
+  revisor-visual: 31/14/17 → 30/14/17 → 29/12/17 → 29/13/18 → 31/16/19 → 29/16/19 → 28/16/19 →
+  29/16/19. Craft (16/20) y Copy (19/20) aprueban desde la ronda 5; Usabilidad se quedó en
+  28-31/40 (gate ≥36) sin converger tras 8 rondas — mismo patrón de rendimientos decrecientes que
+  onboarding y landing. El usuario decidió cerrar el ciclo tras la 8ª ronda, pase lo que pase.
+  Bugs reales corregidos en el camino (no defectos de gusto): checkmarks sin círculo de acento,
+  cero hairline degradé, sin fallback de beneficios sin datos del onboarding, ancla emocional de
+  FICHA-AVATAR ausente, "checkout" sin traducir, header sticky duplicado en capturas fullPage
+  (artefacto del script, no del producto), fill opaco tapando los blooms, sin dispositivo ownable
+  (se agregó la carta de tarot), 2º resplandor casi imperceptible, pantalla "confirmado" sin
+  salida, 404 real en /entrar (se construyó esa página, Sesión 4 paso 3), toques táctiles <44px en
+  varios links, CTA que no reflejaba el plan elegido, header inconsistente entre pantallas del
+  funnel, conteo de "N respuestas" mal calculado (contaba claves internas, no preguntas reales),
+  email sin validación real, sin label visible, Enter no enviaba el formulario, wordmark con la
+  fuente equivocada, plan seleccionado sin check visible (solo color/sombra). Un intento de leer
+  localStorage de forma síncrona para evitar un salto visual ROMPIÓ la hidratación de React
+  (confirmado en log de dev: "Hydration failed") — se revirtió, documentado en el código.
+  ⚠️ NOTA RECURRENTE (ya resuelta, dejar como referencia): 3 rondas distintas midieron mal las
+  proporciones de vacío de la pantalla "confirmado" (afirmaron alturas de 2768px/1418px cuando el
+  PNG real es 750×1624 = viewport móvil estándar, verificado con `file` cada vez) — si un futuro
+  revisor vuelve a señalar esto, verificar las dimensiones reales del archivo antes de "corregir".
+  Evidencia en docs/revisiones/paywall-*.png + paywall-veredicto.md, docs/revisiones/entrar-*.png.
 - `vista-previa-app.html` es mockup pre-código (no es la app); recorte por ajustar en 2 frames.
 - FICHA-MERCADO: penetración de tarjeta por país y % compras >30 días quedaron NO ENCONTRADO — revisar 2027-03-09.
 
