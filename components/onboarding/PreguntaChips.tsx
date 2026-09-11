@@ -4,7 +4,17 @@
 // Auto-avanza 300ms después de marcar el chip (A3 — selección única).
 
 import { useState } from 'react';
+import { motion, useReducedMotion, type Variants } from 'motion/react';
 import { ChipOpcion, EscapeHatchInput } from './ui';
+
+const contenedorChips: Variants = {
+  oculto: {},
+  visible: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } },
+};
+const itemChip: Variants = {
+  oculto: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } },
+};
 
 export interface OpcionChip {
   id: string;
@@ -34,6 +44,7 @@ export function PreguntaChips({
   const [seleccionado, setSeleccionado] = useState<string | null>(null);
   const [mostrarLibre, setMostrarLibre] = useState(false);
   const [textoLibre, setTextoLibre] = useState('');
+  const reduce = useReducedMotion();
 
   function elegir(id: string) {
     if (seleccionado) return;
@@ -46,24 +57,32 @@ export function PreguntaChips({
   }
 
   return (
-    <div className="flex flex-1 flex-col justify-center pb-16">
+    <div className="flex flex-1 flex-col justify-center">
       <h1 className="text-balance text-[28px] font-bold leading-[1.1] tracking-[-0.02em] text-[var(--text-primary)] [font-family:var(--font-display)]">
         {pregunta}
       </h1>
       {microcopy && <p className="mt-2 text-[14px] leading-snug text-[var(--text-secondary)]">{microcopy}</p>}
 
-      <div className="mt-7 flex flex-col gap-3">
+      <motion.div
+        variants={reduce ? undefined : contenedorChips}
+        initial={reduce ? undefined : 'oculto'}
+        animate={reduce ? undefined : 'visible'}
+        className="mt-7 flex flex-col gap-3"
+      >
         {opciones.map((op) => (
-          <ChipOpcion
-            key={op.id}
-            emoji={op.emoji}
-            label={op.label}
-            seleccionado={seleccionado === op.id}
-            onClick={() => elegir(op.id)}
-          />
+          <motion.div key={op.id} variants={reduce ? undefined : itemChip}>
+            <ChipOpcion
+              emoji={op.emoji}
+              label={op.label}
+              seleccionado={seleccionado === op.id}
+              onClick={() => elegir(op.id)}
+            />
+          </motion.div>
         ))}
         {otraCosa && !mostrarLibre && (
-          <ChipOpcion emoji="✍️" label="Otra cosa (cuéntamelo)" seleccionado={false} onClick={() => elegir('__otra__')} />
+          <motion.div variants={reduce ? undefined : itemChip}>
+            <ChipOpcion emoji="✍️" label="Otra cosa (cuéntamelo)" seleccionado={false} onClick={() => elegir('__otra__')} />
+          </motion.div>
         )}
         {mostrarLibre && (
           <EscapeHatchInput
@@ -72,7 +91,7 @@ export function PreguntaChips({
             onContinuar={() => onResponder('__otra__', textoLibre.trim())}
           />
         )}
-      </div>
+      </motion.div>
 
       {skipLabel && onSkip && !seleccionado && !mostrarLibre && (
         <button

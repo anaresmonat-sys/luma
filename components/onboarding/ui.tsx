@@ -133,6 +133,9 @@ export function EscapeHatchInput({
       >
         Continuar
       </button>
+      {valor.trim().length === 0 && (
+        <p className="text-center text-[12px] text-[var(--text-tertiary)]">Escribe algo para continuar</p>
+      )}
     </motion.div>
   );
 }

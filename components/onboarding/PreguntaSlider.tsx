@@ -5,7 +5,7 @@
 // que convierte el dato en compromiso).
 
 import { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 
 export function PreguntaSlider({
   pregunta,
@@ -29,9 +29,10 @@ export function PreguntaSlider({
 }) {
   const [valor, setValor] = useState(inicial);
   const pct = ((valor - min) / (max - min)) * 100;
+  const reduce = useReducedMotion();
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col justify-center">
       <h1 className="text-balance text-[28px] font-bold leading-[1.1] tracking-[-0.02em] text-[var(--text-primary)] [font-family:var(--font-display)]">
         {pregunta}
       </h1>
@@ -39,7 +40,7 @@ export function PreguntaSlider({
       <div className="mt-10 flex flex-col items-center">
         <motion.span
           key={valor}
-          initial={{ opacity: 0.4, y: 4 }}
+          initial={{ opacity: 0.4, y: reduce ? 0 : 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.15 }}
           className="text-[44px] font-bold leading-none tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]"
@@ -69,7 +70,7 @@ export function PreguntaSlider({
         <p className="mt-6 text-center text-[14px] font-medium text-[var(--accent)]">{feedback(valor)}</p>
       </div>
 
-      <div className="mt-auto pt-10">
+      <div className="mt-10">
         <motion.button
           type="button"
           onClick={() => onResponder(valor)}

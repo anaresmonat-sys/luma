@@ -5,7 +5,7 @@
 // La variante `etiquetado` es la ÚLTIMA, obligatoria antes del loading (regla b
 // de LA ESCALERA en 02B): etiqueta con una identidad aspiracional.
 
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 
 export function Reconocimiento({
   emoji,
@@ -20,12 +20,13 @@ export function Reconocimiento({
   ctaLabel?: string;
   onContinuar: () => void;
 }) {
+  const reduce = useReducedMotion();
   return (
-    <div className="flex flex-1 flex-col items-center pt-6 text-center">
+    <div className="flex flex-1 flex-col items-center justify-center text-center">
       <motion.span
-        initial={{ opacity: 0, scale: 0.7 }}
+        initial={{ opacity: 0, scale: reduce ? 1 : 0.7 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: reduce ? 0.2 : 0.4, ease: [0.16, 1, 0.3, 1] }}
         aria-hidden="true"
         className="flex size-20 items-center justify-center rounded-full text-[40px]"
         style={{
@@ -37,28 +38,28 @@ export function Reconocimiento({
       </motion.span>
 
       <motion.h1
-        initial={{ opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: reduce ? 0 : 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: reduce ? 0.2 : 0.35, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         className="mt-6 text-balance text-[28px] font-bold leading-[1.15] text-[var(--text-primary)] [font-family:var(--font-display)]"
       >
         {titulo}
       </motion.h1>
 
       <motion.p
-        initial={{ opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: reduce ? 0 : 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: reduce ? 0.2 : 0.35, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
         className="mt-3 max-w-[340px] text-[15px] leading-relaxed text-[var(--text-secondary)]"
       >
         {cuerpo}
       </motion.p>
 
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: reduce ? 0 : 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-auto w-full pt-10"
+        transition={{ duration: reduce ? 0.2 : 0.35, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
+        className="mt-10 w-full"
       >
         <motion.button
           type="button"
