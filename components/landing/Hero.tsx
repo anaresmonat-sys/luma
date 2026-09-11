@@ -56,7 +56,7 @@ export function SiteHeader({
         {loginHref && (
           <a
             href={loginHref}
-            className="rounded-[4px] px-2 py-3 text-[14px] font-medium text-[var(--text-tertiary)] transition-colors duration-150 hover:text-[var(--text-secondary)] focus-visible:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            className="flex min-h-11 items-center rounded-[4px] px-2 text-[14px] font-medium text-[var(--text-tertiary)] transition-colors duration-150 hover:text-[var(--text-secondary)] focus-visible:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             {loginLabel}
           </a>

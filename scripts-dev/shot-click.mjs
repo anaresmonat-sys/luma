@@ -1,0 +1,13 @@
+import { chromium } from 'playwright';
+const [url, out, scrollY = '2000', clickSel, w = '375', h = '900'] = process.argv.slice(2);
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: +w, height: +h }, deviceScaleFactor: 2 });
+await p.goto(url, { waitUntil: 'networkidle' });
+await p.waitForTimeout(800);
+await p.evaluate((y) => window.scrollTo(0, y), +scrollY);
+await p.waitForTimeout(500);
+await p.click(clickSel);
+await p.waitForTimeout(500);
+await p.screenshot({ path: out });
+await b.close();
+console.log('saved', out);

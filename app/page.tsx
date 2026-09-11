@@ -26,8 +26,14 @@ const CTA_LABEL = 'Descifrar mi primera conversación';
 export default function LandingLuma() {
   return (
     <div className="min-h-dvh bg-[var(--bg)] text-[var(--text-primary)] [font-family:var(--font-body)]">
+      <a
+        href="#contenido"
+        className="fixed left-4 top-4 z-50 -translate-y-16 rounded-[4px] bg-[var(--accent)] px-4 py-2 text-[14px] font-semibold text-[var(--bg)] transition-transform duration-150 focus:translate-y-0"
+      >
+        Saltar al contenido
+      </a>
       <SiteHeader appName="LUMA" loginHref="/entrar" />
-      <main>
+      <main id="contenido">
       {/* 1 · HERO */}
       <Hero
         h1Marked="Deja de releer sus mensajes. [acento]Entiende[/acento] qué está pasando."

@@ -8,7 +8,7 @@
 
 import { useEffect, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion, useReducedMotion, type Variants } from 'motion/react';
-import { ArrowUp, Check, ChevronUp } from 'lucide-react';
+import { ArrowUp, Check, ChevronUp, X } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 /* ── <Accent> — la palabra que vende, en el acento del kit ─────────────────── */
@@ -201,6 +201,7 @@ export function StickyCtaMobile({
   const [ofertaVisible, setOfertaVisible] = useState(false);
   const [ofertaVista, setOfertaVista] = useState(false);
   const [finalVisible, setFinalVisible] = useState(false);
+  const [descartada, setDescartada] = useState(false);
 
   useEffect(() => {
     const observar = (id: string, onChange: (visible: boolean) => void): IntersectionObserver | null => {
@@ -229,7 +230,7 @@ export function StickyCtaMobile({
     };
   }, [heroId, ofertaId, ctaFinalId]);
 
-  const visible = !heroVisible && !ofertaVisible && !finalVisible;
+  const visible = !heroVisible && !ofertaVisible && !finalVisible && !descartada;
 
   return (
     <AnimatePresence>
@@ -253,10 +254,19 @@ export function StickyCtaMobile({
           <motion.a
             whileTap={{ scale: 0.97 }}
             href={ofertaVista ? href : `#${ofertaId}`}
-            className="flex h-[52px] flex-1 items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            className="flex min-h-[52px] flex-1 items-center justify-center text-balance rounded-[var(--radius-button)] bg-[var(--accent)] px-2 py-2 text-center text-[15px] font-semibold leading-snug text-[var(--bg)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             {ofertaVista ? labelComercial : labelPre}
           </motion.a>
+          <motion.button
+            type="button"
+            aria-label="Cerrar esta barra"
+            onClick={() => setDescartada(true)}
+            whileTap={{ scale: 0.92 }}
+            className="flex size-11 shrink-0 items-center justify-center rounded-[var(--radius-button)] text-[var(--text-tertiary)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+          >
+            <X size={18} strokeWidth={2} aria-hidden="true" />
+          </motion.button>
         </motion.div>
       )}
     </AnimatePresence>
