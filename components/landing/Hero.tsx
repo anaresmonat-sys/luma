@@ -49,7 +49,7 @@ export function SiteHeader({
   return (
     <div className="mx-auto w-full max-w-[1140px] px-5">
       <header className="flex h-16 items-center justify-between">
-        <a href="/" className="flex items-center gap-2 text-[16px] font-semibold text-[var(--text-primary)]">
+        <a href="/" className="flex min-h-11 items-center gap-2 text-[16px] font-semibold text-[var(--text-primary)]">
           {logo ?? <span aria-hidden="true" className="size-6 rounded-[8px] bg-[var(--accent)]" />}
           {appName}
         </a>

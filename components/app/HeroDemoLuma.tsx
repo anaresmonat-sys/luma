@@ -40,7 +40,7 @@ export function CartaSacerdotisa({ animar = true }: { animar?: boolean }) {
             '0 30px 44px -14px rgb(10 5 8 / 0.6), 0 12px 18px -8px rgb(10 5 8 / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.55), inset 0 0 0 1px rgb(255 255 255 / 0.28)',
         }}
       >
-        <span className="text-[8.5px] font-bold uppercase tracking-[0.16em]" style={{ color: 'var(--card-label)' }}>
+        <span className="text-[11px] font-bold uppercase tracking-[0.1em]" style={{ color: 'var(--card-label)' }}>
           II · La Sacerdotisa
         </span>
         <svg width="46" height="60" viewBox="0 0 46 60" fill="none" stroke="var(--card-line)" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true">
@@ -93,7 +93,7 @@ export function TarjetaEjemplo({
       className="w-full max-w-[21rem] rounded-[var(--radius-card)] p-4 text-left"
       style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-card)' }}
     >
-      <p className="text-[9.5px] font-bold uppercase tracking-[0.14em] text-[var(--accent)]">{rotulo}</p>
+      <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--accent)]">{rotulo}</p>
       <p className="mt-2 rounded-[var(--radius-button)] bg-[var(--surface-2)] px-3 py-2 text-[11.5px] leading-snug text-[var(--text-primary)]">
         {mensaje}
       </p>

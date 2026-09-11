@@ -236,6 +236,7 @@ export function StickyCtaMobile({
     <AnimatePresence>
       {visible && (
         <motion.div
+          layout={!reduce}
           initial={{ y: reduce ? 0 : 88, opacity: reduce ? 0 : 1 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: reduce ? 0 : 88, opacity: 0 }}
