@@ -1,7 +1,13 @@
 # ESTADO — LUMA (nombre de trabajo)
-Última actualización: 2026-09-09 | Sesión actual: 1 (cerrando)
+Última actualización: 2026-09-11 | Sesión actual: 3
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 3 (reanudada 2026-09-11) — landing: 1ª revisión NO LISTA (29/10/14) → correcciones → 2ª revisión NO LISTA (31/15/15) → correcciones (sección "Ejemplos reales" con 3 casos reales sustituye el carrusel vacío; reveal firma de la carta + motivo repetido; rim de cards al valor de la ficha; puente hero→oferta; CTA con una sola etiqueta) → 3ª revisión relanzada sobre el código ya commiteado (tsc/build limpios, capturas frescas idénticas a las trackeadas) / Siguiente acción exacta: recibir el 3er veredicto → si LISTA, PUERTA DE ETAPA de Landing + OK del usuario → `/onboarding`. Si NO, otra corrección dirigida a los defectos que queden.
+✅ CHECKPOINT — Última acción completada: Sesión 3 — landing (`/`): **LISTA**. 8 rondas de
+revisor-visual (29/10/14 → 31/15/15 → 32/19/18 → 31/18/17 → 35/19/19 → 35/19/19 → 32/18/19 →
+**37/19/19 LISTA**, gate ≥36/40·≥16/20·≥16/20 cumplido). tsc/build limpios, evidencia en
+docs/revisiones/landing-*.png + landing-veredicto.md. Pendientes menores anotados abajo
+(testimonios reales, rutas /onboarding y /entrar aún no existen, legales en borrador). /
+Siguiente acción exacta: presentar la PUERTA DE ETAPA de Landing al usuario en simple y esperar
+su OK antes de empezar `/onboarding` (Sesión 4).
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -124,7 +130,7 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
 
 ## Secuencia maestra de construcción (NO saltar)
 - Estado: identidad cerrada; **código en marcha**. Ruta: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
-- Landing (`/`): CONSTRUIDA — protagonista: el mecanismo "descifra la conversación"; CTA primario "Descifrar mi primera conversación" → `/onboarding`. En revisión (revisor-visual). Placeholders: visual del hero + carrusel "Así se ve por dentro" (screenshots reales cuando exista la app interna).
+- Landing (`/`): **LISTA** (revisor-visual: 37/40 · 19/20 · 19/20) — protagonista: el mecanismo "descifra la conversación"; CTA primario "Descifrar mi primera conversación" → `/onboarding`. Placeholders honestos que quedan: visual del hero + carrusel "Así se ve por dentro" (screenshots reales cuando exista la app interna, Sesión 5).
 - Onboarding/Paywall/Login/App interna: pendientes.
 - Servicios externos: bloqueados hasta que las puertas anteriores estén aprobadas.
 - Stack (51): Next.js 16 App Router + TS + Tailwind v4 (CSS-first, @theme) + shadcn/ui + Motion + Lucide.
@@ -147,12 +153,13 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   reemplazan con screenshots reales de la app interna (Sesión 5). CTAs → `/onboarding` (aún no existe: Sesión 4).
 - [legal] /privacidad /terminos /cookies /reembolsos /aviso-ia son BORRADOR — contenido legal
   definitivo antes del lanzamiento (archivo 47).
-- [veredicto landing] La landing NO está lista. Revisiones del revisor-visual: 1ª NO LISTA
-  (29/10/14) → 2ª NO LISTA (31/15/15) → 3ª EN CURSO. Ronda 3 de correcciones aplicada: sección
-  "Ejemplos reales" (3 mini-casos del mecanismo) sustituye el carrusel de placeholders; reveal
-  firma de la carta + motivo repetido; rim de cards al valor de la ficha; puente hero→oferta
-  (tarot+coach); una sola etiqueta de CTA primario. La PUERTA DE ETAPA de Landing sigue BLOQUEADA
-  hasta un veredicto LISTA con ≥36/40 y ≥16/20 (+ copy ≥16/20). No se pasa a /onboarding antes.
+- [veredicto:landing] RESUELTO — 8ª revisión del revisor-visual: **LISTA** (Usabilidad 37/40,
+  Craft 19/20, Copy 19/20 — pasa los 3 gates). Historial completo: 29/10/14 → 31/15/15 → 32/19/18
+  → 31/18/17 → 35/19/19 → 35/19/19 → 32/18/19 → 37/19/19 LISTA. Evidencia en
+  docs/revisiones/landing-375.png + landing-veredicto.md. Pendientes menores que el propio
+  revisor anotó sin bloquear el gate: testimonios reales (ver punto de FICHA-AVATAR arriba),
+  /onboarding y /entrar aún no existen (404 hoy, esperable en esta etapa), páginas legales en
+  borrador (archivo 47).
 - [AppPorDentro] El carrusel de screenshots del kit sale de la V1 de la landing (lo reemplaza
   "Ejemplos reales"). Vuelve en Sesión 5 con capturas reales de la app interna (19 §5).
 - [veredicto onboarding] NO APLICA todavía: la pantalla de onboarding (`/onboarding`) NO está
@@ -160,7 +167,6 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   maestra (arriba) la lista como "pendiente", no como construida.
 - [assets LUMA] Falta el retrato/ilustración final de LUMA (persona) para avatar del coach + redes — sesión de assets (20). No bloquea la construcción; en el código va un placeholder.
 - [veredicto:onboarding] Pospuesto — pantalla de recorrido de inicio NO iniciada (Sesión 4). Sin código no hay captura ni veredicto.
-- [veredicto:landing] Pospuesto — página de ventas NO iniciada (Sesión 3).
 - [veredicto:paywall] Pospuesto — pantalla de planes NO iniciada (Sesión 4).
 - `vista-previa-app.html` es mockup pre-código (no es la app); recorte por ajustar en 2 frames.
 - FICHA-MERCADO: penetración de tarjeta por país y % compras >30 días quedaron NO ENCONTRADO — revisar 2027-03-09.
