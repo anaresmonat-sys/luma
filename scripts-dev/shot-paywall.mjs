@@ -37,6 +37,9 @@ await p.waitForTimeout(6500);
 
 await p.locator('a:has-text("Ver mi plan completo")').click();
 await p.waitForTimeout(900);
+// Neutraliza position:sticky antes de fullPage: Chromium puede duplicar un
+// elemento sticky al compositar capturas de página completa.
+await p.addStyleTag({ content: '.sticky { position: static !important; }' });
 await p.screenshot({ path: 'docs/revisiones/paywall-375.png', fullPage: true });
 console.log('saved paywall-375 (personalizado, full page)');
 

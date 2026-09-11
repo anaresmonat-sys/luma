@@ -8,6 +8,11 @@
 //
 // C3ter (mockups honestos pre-Hotmart): el CTA de pago SIMULA el flujo con
 // estado local — Hotmart se conecta en Sesión 6. Nunca se finge un cobro real.
+//
+// Iconografía: Lock/ShieldCheck/Star/Check son glifos de sistema (confianza,
+// checkmarks), no "opciones" — misma categoría que los glifos de cromo que
+// FICHA-ARTE (Ronda #4) exceptúa del emoji ('‹ volver, ✕ cerrar'). Coherente
+// con cómo la landing (ya LISTA, 8 rondas) resolvió el mismo tipo de ícono.
 
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
@@ -66,7 +71,7 @@ export default function PaywallLuma() {
 
   if (confirmado) {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center bg-[var(--bg)] px-6 text-center [font-family:var(--font-body)]">
+      <div className="flex min-h-dvh flex-col items-center justify-center px-6 text-center [font-family:var(--font-body)]">
         <motion.div
           initial={{ opacity: 0, scale: reduce ? 1 : 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -100,7 +105,7 @@ export default function PaywallLuma() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-[var(--bg)] [font-family:var(--font-body)]">
+    <div className="flex min-h-dvh flex-col [font-family:var(--font-body)]">
       {/* Header: X (44px, sale a /) + marca — nunca oculta/retardada (C5) */}
       <div className="sticky top-0 z-20 flex h-14 items-center justify-between bg-[var(--bg)]/95 px-3 backdrop-blur-sm">
         <a
@@ -222,7 +227,7 @@ export default function PaywallLuma() {
             Pago seguro con Hotmart
             <span aria-hidden="true">·</span>
             <ShieldCheck size={14} aria-hidden="true" />
-            la Garantía de Calma de 7 Días
+            Garantía de Calma de 7 días
           </p>
         </motion.div>
       </div>
