@@ -6,7 +6,7 @@ await p.goto('http://127.0.0.1:3000/onboarding', { waitUntil: 'networkidle' });
 await p.waitForTimeout(500);
 
 async function shot(name) {
-  await p.waitForTimeout(400);
+  await p.waitForTimeout(900);
   await p.screenshot({ path: `docs/revisiones/onboarding-${name}.png` });
   console.log('saved', name);
 }
