@@ -96,10 +96,26 @@ export default function PaywallLuma() {
             Vista previa de tu pago
           </h1>
           <p className="mt-3 text-[15px] leading-relaxed text-[var(--text-secondary)]">
-            Aquí se abrirá Hotmart para activar tu prueba de {TRIAL_DIAS} días gratis del plan{' '}
-            {seleccionado === 'anual' ? 'anual' : 'mensual'} ({PRECIO_TEXTO[seleccionado]}). La conexión con Hotmart
-            llega en una etapa posterior — nada se cobró.
+            Aquí se abrirá Hotmart para activar tu prueba — nada se cobró todavía.
           </p>
+
+          <div className="mt-5 w-full rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_18%,transparent)] bg-[var(--surface)] p-4 text-left">
+            <div className="flex items-center justify-between text-[14px]">
+              <span className="text-[var(--text-secondary)]">Plan</span>
+              <span className="font-semibold text-[var(--text-primary)]">
+                {seleccionado === 'anual' ? 'Anual' : 'Mensual'}
+              </span>
+            </div>
+            <div className="mt-2 flex items-center justify-between text-[14px]">
+              <span className="text-[var(--text-secondary)]">Hoy</span>
+              <span className="font-semibold text-[var(--accent)]">$0,00</span>
+            </div>
+            <div className="mt-2 flex items-center justify-between text-[14px]">
+              <span className="text-[var(--text-secondary)]">1er cobro (día {TRIAL_DIAS})</span>
+              <span className="font-semibold text-[var(--text-primary)]">{PRECIO_TEXTO[seleccionado]}</span>
+            </div>
+          </div>
+
           <button
             type="button"
             onClick={() => setConfirmado(false)}
@@ -245,27 +261,32 @@ export default function PaywallLuma() {
           <div className="mt-4 flex items-center justify-center gap-5">
             <a
               href="/"
-              className="text-[14px] font-medium text-[var(--text-tertiary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              className="text-[13px] font-medium text-[var(--text-tertiary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
               Ahora no
             </a>
             <span aria-hidden="true" className="text-[var(--text-tertiary)]">
               ·
             </span>
+            {/* Más peso que "Ahora no": recuperar una compra ya hecha no es lo
+                mismo que abandonar el flujo (defecto de jerarquía de conversión). */}
             <a
               href="/entrar"
-              className="text-[14px] font-medium text-[var(--text-tertiary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              className="text-[14px] font-semibold text-[var(--text-secondary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
               Restaurar compra
             </a>
           </div>
 
-          <p className="mt-5 flex items-center justify-center gap-1.5 text-[12px] text-[var(--text-tertiary)]">
-            <Lock size={14} aria-hidden="true" />
-            Pago seguro con Hotmart
-            <span aria-hidden="true">·</span>
-            <ShieldCheck size={14} aria-hidden="true" />
-            Garantía de Calma de 7 días
+          <p className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[12px] text-[var(--text-tertiary)]">
+            <span className="flex items-center gap-1.5 whitespace-nowrap">
+              <Lock size={14} aria-hidden="true" />
+              Pago seguro con Hotmart
+            </span>
+            <span className="flex items-center gap-1.5 whitespace-nowrap">
+              <ShieldCheck size={14} aria-hidden="true" />
+              Garantía de Calma de 7 días
+            </span>
           </p>
         </motion.div>
       </div>
