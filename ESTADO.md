@@ -162,7 +162,8 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   LANZAMIENTO: 5-10 conversaciones reales del avatar (archivo 44) para validar/afinar el copy de venta.
   Guía de entrevistas + mensajes de WhatsApp listos: docs/investigacion/guia-entrevistas-avatar.md.
 - [landing] Placeholders honestos: (a) visual del hero, (b) carrusel "Así se ve por dentro" — se
-  reemplazan con screenshots reales de la app interna (Sesión 5). CTAs → `/onboarding` (aún no existe: Sesión 4).
+  reemplazan con screenshots reales de la app interna (Sesión 5). CTAs → `/onboarding` (ya existe,
+  construido en Sesión 4); `/entrar` (login) aún no existe (Sesión 4, paso 3).
 - [legal] /privacidad /terminos /cookies /reembolsos /aviso-ia son BORRADOR — contenido legal
   definitivo antes del lanzamiento (archivo 47).
 - [veredicto:landing] RESUELTO — 8ª revisión del revisor-visual: **LISTA** (Usabilidad 37/40,
@@ -170,8 +171,12 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   → 31/18/17 → 35/19/19 → 35/19/19 → 32/18/19 → 37/19/19 LISTA. Evidencia en
   docs/revisiones/landing-375.png + landing-veredicto.md. Pendientes menores que el propio
   revisor anotó sin bloquear el gate: testimonios reales (ver punto de FICHA-AVATAR arriba),
-  /onboarding y /entrar aún no existen (404 hoy, esperable en esta etapa), páginas legales en
-  borrador (archivo 47).
+  `/entrar` aún no existe (404 hoy, esperable en esta etapa), páginas legales en borrador
+  (archivo 47). NOTA sobre "veredicto caducado": el código .tsx de `app/onboarding/` y
+  `components/onboarding/` es MÁS NUEVO que landing-veredicto.md porque se escribió después
+  (Sesión 4) — no toca ningún archivo de la landing (`app/page.tsx`, `components/landing/*`,
+  `components/app/HeroDemoLuma.tsx`, `components/app/CasosLuma.tsx` no cambiaron desde el
+  veredicto LISTA). El veredicto de landing sigue vigente; no hace falta re-renderizar.
 - [AppPorDentro] El carrusel de screenshots del kit sale de la V1 de la landing (lo reemplaza
   "Ejemplos reales"). Vuelve en Sesión 5 con capturas reales de la app interna (19 §5).
 - [veredicto:onboarding] ACEPTADO CON CRITERIO PROPIO (no LISTA por gate automático) — 5 rondas
@@ -183,8 +188,7 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   en las opciones NO es un defecto nuevo: es la decisión ya vigente de FICHA-ARTE (Ronda #4).
   Evidencia en docs/revisiones/onboarding-*.png + onboarding-veredicto.md.
 - [assets LUMA] Falta el retrato/ilustración final de LUMA (persona) para avatar del coach + redes — sesión de assets (20). No bloquea la construcción; en el código va un placeholder.
-- [veredicto:onboarding] Pospuesto — pantalla de recorrido de inicio NO iniciada (Sesión 4). Sin código no hay captura ni veredicto.
-- [veredicto:paywall] Pospuesto — pantalla de planes NO iniciada (Sesión 4).
+- [veredicto:paywall] Pospuesto — pantalla de planes NO iniciada (Sesión 4, paso 2).
 - `vista-previa-app.html` es mockup pre-código (no es la app); recorte por ajustar en 2 frames.
 - FICHA-MERCADO: penetración de tarjeta por país y % compras >30 días quedaron NO ENCONTRADO — revisar 2027-03-09.
 
