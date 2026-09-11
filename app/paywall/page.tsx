@@ -72,7 +72,14 @@ export default function PaywallLuma() {
 
   if (confirmado) {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center px-6 text-center [font-family:var(--font-body)]">
+      <div className="relative flex min-h-dvh flex-col items-center justify-center px-6 text-center [font-family:var(--font-body)]">
+        <a
+          href="/"
+          aria-label="Cerrar"
+          className="absolute left-3 top-3 flex size-11 items-center justify-center rounded-[var(--radius-button)] text-[var(--text-secondary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+        >
+          <X size={20} strokeWidth={2} aria-hidden="true" />
+        </a>
         <motion.div
           initial={{ opacity: 0, scale: reduce ? 1 : 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -169,13 +176,18 @@ export default function PaywallLuma() {
           ))}
         </motion.ul>
 
-        {/* Visual del valor: TIMELINE del trial (default C4) — responde por qué ahora / puedo cancelar */}
+        {/* Visual del valor: TIMELINE del trial (default C4) — responde por qué ahora / puedo cancelar.
+            Micro-encabezado propio para no leerse como el mismo componente que
+            el value stack de arriba (2 bloques seguidos de marcador circular). */}
         <motion.div
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="mt-7"
         >
+          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.08em] text-[var(--accent)]">
+            Cómo funciona tu prueba
+          </p>
           {/* Único hairline degradé de la pantalla (gate binario de conversión) */}
           <Hairline surface="surface">
             <div className="p-5">
@@ -199,7 +211,7 @@ export default function PaywallLuma() {
             className="pointer-events-none absolute inset-x-0 -top-10 -z-10 h-[420px]"
             style={{
               background:
-                'radial-gradient(480px 300px at 50% 0%, color-mix(in oklab, var(--accent) 7%, transparent), transparent 70%)',
+                'radial-gradient(480px 320px at 50% 0%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 70%)',
             }}
           />
           <PlanCards
