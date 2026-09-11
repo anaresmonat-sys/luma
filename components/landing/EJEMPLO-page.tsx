@@ -14,7 +14,7 @@
 // proyecto real puedes mantener la página igual: la landing es interactiva.
 
 import { AlarmClock, BatteryLow, Inbox, Repeat } from 'lucide-react';
-import { Hero } from './Hero';
+import { Hero, SiteHeader } from './Hero';
 import { Problema } from './Problema';
 import { Agitacion } from './Agitacion';
 import { Solucion } from './Solucion';
@@ -34,10 +34,9 @@ const CTA_LABEL = 'Crear mi plan de mañana gratis';
 export default function EjemploLandingDespeja() {
   return (
     <div className="min-h-dvh bg-[var(--bg)] text-[var(--text-primary)] [font-family:var(--font-body)]">
+      <SiteHeader appName="Despeja" loginHref="/entrar" />
       {/* 1. HERO — copy marcado: bold completo + la palabra que vende en [acento] */}
       <Hero
-        appName="Despeja"
-        loginHref="/entrar"
         h1Marked="Vuelca tu caos y empieza con [acento]3 prioridades claras[/acento]"
         subtitleMarked="El Filtro de 3 Prioridades ordena tu mañana [b]en 3 minutos[/b]"
         ctaLabel={CTA_LABEL}

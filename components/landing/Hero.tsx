@@ -12,12 +12,15 @@ import { Camera } from 'lucide-react';
 import { CtaButton } from './ui';
 import { MarkedCopy, truncarMarcado, warnCopy } from './MarkedCopy';
 
-export interface HeroProps {
+export interface SiteHeaderProps {
   appName: string;
   /** Logo real del proyecto; sin él, marca mínima con el acento. */
   logo?: ReactNode;
   loginHref?: string;
   loginLabel?: string;
+}
+
+export interface HeroProps {
   /** Copy MARCADO de docs/copy/landing.md — máx 8-10 palabras, 1-3 en [acento]. */
   h1Marked: string;
   /** Copy MARCADO — máx 14 palabras (52): el kit trunca y avisa si excede. */
@@ -35,11 +38,35 @@ export interface HeroProps {
   id?: string;
 }
 
-export function Hero({
+/** Marca + "Entrar" — HERMANO de `<main>` en page.tsx (no anidado en una
+   `<section>`), para que conserve el rol de landmark "banner" (revisor-visual). */
+export function SiteHeader({
   appName,
   logo,
   loginHref,
   loginLabel = 'Entrar',
+}: SiteHeaderProps) {
+  return (
+    <div className="mx-auto w-full max-w-[1140px] px-5">
+      <header className="flex h-16 items-center justify-between">
+        <a href="/" className="flex items-center gap-2 text-[16px] font-semibold text-[var(--text-primary)]">
+          {logo ?? <span aria-hidden="true" className="size-6 rounded-[8px] bg-[var(--accent)]" />}
+          {appName}
+        </a>
+        {loginHref && (
+          <a
+            href={loginHref}
+            className="rounded-[4px] px-2 py-3 text-[14px] font-medium text-[var(--text-tertiary)] transition-colors duration-150 hover:text-[var(--text-secondary)] focus-visible:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+          >
+            {loginLabel}
+          </a>
+        )}
+      </header>
+    </div>
+  );
+}
+
+export function Hero({
   h1Marked,
   subtitleMarked,
   ctaLabel,
@@ -67,22 +94,6 @@ export function Hero({
       />
 
       <div className="mx-auto w-full max-w-[1140px] px-5">
-        {/* Header 64px: marca a la izquierda, SOLO "Entrar" terciario a la derecha (19) */}
-        <header className="flex h-16 items-center justify-between">
-          <a href="/" className="flex items-center gap-2 text-[16px] font-semibold text-[var(--text-primary)]">
-            {logo ?? <span aria-hidden="true" className="size-6 rounded-[8px] bg-[var(--accent)]" />}
-            {appName}
-          </a>
-          {loginHref && (
-            <a
-              href={loginHref}
-              className="rounded-[4px] px-2 py-3 text-[14px] font-medium text-[var(--text-tertiary)] transition-colors duration-150 hover:text-[var(--text-secondary)] focus-visible:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-            >
-              {loginLabel}
-            </a>
-          )}
-        </header>
-
         {/* Carga inmediata: fade simple 300ms — el LCP manda (55 T4) */}
         <motion.div
           initial={{ opacity: 0 }}

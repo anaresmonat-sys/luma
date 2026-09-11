@@ -9,7 +9,7 @@
 import { Clock, HelpCircle, Send, Repeat } from 'lucide-react';
 import { HeroDemoLuma } from '@/components/app/HeroDemoLuma';
 import { CasosLuma } from '@/components/app/CasosLuma';
-import { Hero } from '@/components/landing/Hero';
+import { Hero, SiteHeader } from '@/components/landing/Hero';
 import { Problema } from '@/components/landing/Problema';
 import { Agitacion } from '@/components/landing/Agitacion';
 import { Solucion } from '@/components/landing/Solucion';
@@ -26,11 +26,10 @@ const CTA_LABEL = 'Descifrar mi primera conversación';
 export default function LandingLuma() {
   return (
     <div className="min-h-dvh bg-[var(--bg)] text-[var(--text-primary)] [font-family:var(--font-body)]">
+      <SiteHeader appName="LUMA" loginHref="/entrar" />
       <main>
       {/* 1 · HERO */}
       <Hero
-        appName="LUMA"
-        loginHref="/entrar"
         h1Marked="Deja de releer sus mensajes. [acento]Entiende[/acento] qué está pasando."
         subtitleMarked="En un minuto: [b]hechos, riesgo y qué responder[/b], con tarot y coach."
         ctaLabel={CTA_LABEL}
@@ -106,7 +105,7 @@ export default function LandingLuma() {
           nombre: 'Anual',
           badge: 'LA MÁS ELEGIDA',
           precioMes: '$6,00',
-          sufijo: '/mes',
+          sufijo: '/mes aprox.',
           totalAnual: 'Se cobra $71,99/año',
           ahorro: 'más de 4 meses gratis',
           descomposicionDia: 'menos de $0,20 al día',

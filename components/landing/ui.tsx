@@ -167,7 +167,7 @@ export function CtaButton({
     <motion.a
       whileTap={{ scale: 0.97 }}
       href={href}
-      className={`inline-flex items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] px-8 text-[17px] font-semibold text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] transition-colors duration-150 hover:bg-[color-mix(in_oklab,var(--accent)_88%,var(--text-primary))] [touch-action:manipulation] ${
+      className={`inline-flex items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] px-8 text-[17px] font-semibold text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] transition-colors duration-150 hover:bg-[color-mix(in_oklab,var(--accent)_88%,var(--text-primary))] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] ${
         alto === 56 ? 'h-14' : 'h-[52px]'
       } ${fullMobile ? 'w-full sm:w-auto' : ''}`}
     >
@@ -246,14 +246,14 @@ export function StickyCtaMobile({
             aria-label="Volver arriba"
             onClick={() => window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })}
             whileTap={{ scale: 0.92 }}
-            className="flex size-[52px] shrink-0 items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--text-tertiary)_28%,transparent)] text-[var(--text-secondary)] [touch-action:manipulation]"
+            className="flex size-[52px] shrink-0 items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--text-tertiary)_28%,transparent)] text-[var(--text-secondary)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             <ChevronUp size={20} strokeWidth={2} aria-hidden="true" />
           </motion.button>
           <motion.a
             whileTap={{ scale: 0.97 }}
             href={ofertaVista ? href : `#${ofertaId}`}
-            className="flex h-[52px] flex-1 items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] [touch-action:manipulation]"
+            className="flex h-[52px] flex-1 items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             {ofertaVista ? labelComercial : labelPre}
           </motion.a>
@@ -299,7 +299,7 @@ export function BackToTop({ heroId = 'hero' }: { heroId?: string }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: reduce ? 0 : 12 }}
           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed right-6 bottom-6 z-30 hidden size-11 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--text-tertiary)_25%,transparent)] bg-[var(--surface)] text-[var(--text-primary)] shadow-[var(--shadow-card)] [touch-action:manipulation] md:inline-flex"
+          className="fixed right-6 bottom-6 z-30 hidden size-11 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--text-tertiary)_25%,transparent)] bg-[var(--surface)] text-[var(--text-primary)] shadow-[var(--shadow-card)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] md:inline-flex"
         >
           <ArrowUp size={20} strokeWidth={2} aria-hidden="true" />
         </motion.button>
