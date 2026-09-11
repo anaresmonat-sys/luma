@@ -48,7 +48,7 @@
 - **Trial:** 3 días gratis (02C)
 
 ## 7 · GARANTÍA  (condición ≤30 palabras — FICHA-MERCADO §4: garantía 7 días > prueba 3 días)
-Si tras el primer cobro sientes que LUMA no es para ti, tienes [b]7 días[/b] para pedir el reembolso completo. Sin explicaciones.
+Empiezas con 3 días gratis. Si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, la [b]Garantía de Calma de 7 Días[/b] te da el reembolso completo.
 
 ## 8 · FAQ  (4-6 ítems, respuesta ≤40 palabras — objeciones reales de FICHA-AVATAR)
 - **P: ¿Es un chatbot genérico que responde lo mismo a todo el mundo?**

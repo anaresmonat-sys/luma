@@ -18,7 +18,7 @@ import { Garantia } from '@/components/landing/Garantia';
 import { Faq } from '@/components/landing/Faq';
 import { CtaFinal } from '@/components/landing/CtaFinal';
 import { FooterLegal } from '@/components/landing/FooterLegal';
-import { StickyCtaMobile } from '@/components/landing/ui';
+import { BackToTop, StickyCtaMobile } from '@/components/landing/ui';
 
 const CTA_HREF = '/onboarding';
 const CTA_LABEL = 'Descifrar mi primera conversación';
@@ -137,7 +137,7 @@ export default function LandingLuma() {
 
       {/* 7 · GARANTÍA — FICHA-MERCADO §4: garantía 7 días > prueba 3 días */}
       <Garantia
-        nombre="Empieza gratis, sin riesgo"
+        nombre="la Garantía de Calma de 7 Días"
         condicionMarked="Pruebas [b]3 días gratis[/b]: si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, tienes [b]7 días[/b] para el reembolso completo."
         pisoLegal="Respaldada por la garantía de Hotmart"
       />
@@ -197,6 +197,7 @@ export default function LandingLuma() {
       />
 
       <StickyCtaMobile labelComercial={CTA_LABEL} href={CTA_HREF} />
+      <BackToTop />
     </div>
   );
 }
