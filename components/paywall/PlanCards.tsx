@@ -6,7 +6,7 @@
 // seleccionado. Anual recomendado y PRE-SELECCIONADO (+15-20% eligen anual, 02C).
 
 import { motion } from 'motion/react';
-import { Star } from 'lucide-react';
+import { Check, Star } from 'lucide-react';
 
 export interface PlanPaywall {
   id: 'anual' | 'mensual';
@@ -56,7 +56,21 @@ function Card({
         </span>
       )}
       <div className="flex items-center justify-between gap-3">
-        <h3 className="text-[16px] font-semibold text-[var(--text-primary)]">{plan.nombre}</h3>
+        <span className="flex items-center gap-2">
+          {/* Check visible del plan seleccionado — antes solo el borde/sombra
+              distinguían la card activa (defecto de accesibilidad de color). */}
+          <span
+            aria-hidden="true"
+            className={`flex size-5 shrink-0 items-center justify-center rounded-full transition-colors duration-150 ${
+              seleccionado
+                ? 'bg-[var(--accent)]'
+                : 'border border-[color-mix(in_oklab,var(--text-tertiary)_40%,transparent)]'
+            }`}
+          >
+            {seleccionado && <Check size={12} strokeWidth={2.5} color="var(--bg)" aria-hidden="true" />}
+          </span>
+          <h3 className="text-[16px] font-semibold text-[var(--text-primary)]">{plan.nombre}</h3>
+        </span>
         <TrialBadge dias={trialDias} />
       </div>
       <p className="mt-3 flex items-baseline gap-1">

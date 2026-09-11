@@ -61,7 +61,9 @@ export default function EntrarLuma() {
       >
         <X size={20} strokeWidth={2} aria-hidden="true" />
       </a>
-      <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--text-tertiary)]">LUMA</span>
+      <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--text-tertiary)] [font-family:var(--font-display)]">
+        LUMA
+      </span>
       <span className="size-11" aria-hidden="true" />
     </div>
   );
@@ -136,34 +138,45 @@ export default function EntrarLuma() {
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
           className="mt-7 flex flex-col gap-3"
         >
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              if (estado === 'error') setEstado('reposo');
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (estado !== 'enviando') enviar();
             }}
-            placeholder="tu@correo.com"
-            autoFocus
-            className={`h-14 w-full rounded-[var(--radius-button)] border bg-[var(--surface)] px-4 text-[16px] text-[var(--text-primary)] outline-none placeholder:text-[var(--text-tertiary)] focus-visible:border-[var(--accent)] ${
-              estado === 'error'
-                ? 'border-[var(--accent-2)]'
-                : 'border-[color-mix(in_oklab,var(--accent)_28%,transparent)]'
-            }`}
-          />
-          {estado === 'error' && (
-            <p className="text-[13px] text-[var(--accent-2)]">Escribe un correo válido para continuar.</p>
-          )}
-
-          <motion.button
-            type="button"
-            onClick={enviar}
-            disabled={estado === 'enviando'}
-            whileTap={{ scale: 0.97 }}
-            className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] transition-opacity duration-200 disabled:opacity-70 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            className="flex flex-col gap-3"
           >
-            {estado === 'enviando' ? 'Enviando…' : 'Enviarme mi enlace de acceso'}
-          </motion.button>
+            <label htmlFor="email-entrar" className="text-[13px] font-medium text-[var(--text-secondary)]">
+              Correo electrónico
+            </label>
+            <input
+              id="email-entrar"
+              type="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (estado === 'error') setEstado('reposo');
+              }}
+              placeholder="tu@correo.com"
+              autoFocus
+              className={`h-14 w-full rounded-[var(--radius-button)] border bg-[var(--surface)] px-4 text-[16px] text-[var(--text-primary)] outline-none placeholder:text-[var(--text-tertiary)] focus-visible:border-[var(--accent)] ${
+                estado === 'error'
+                  ? 'border-[var(--accent-2)]'
+                  : 'border-[color-mix(in_oklab,var(--accent)_28%,transparent)]'
+              }`}
+            />
+            {estado === 'error' && (
+              <p className="text-[13px] text-[var(--accent-2)]">Escribe un correo válido para continuar.</p>
+            )}
+
+            <motion.button
+              type="submit"
+              disabled={estado === 'enviando'}
+              whileTap={{ scale: 0.97 }}
+              className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] transition-opacity duration-200 disabled:opacity-70 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            >
+              {estado === 'enviando' ? 'Enviando…' : 'Enviarme mi enlace de acceso'}
+            </motion.button>
+          </form>
 
           <button
             type="button"

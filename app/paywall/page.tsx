@@ -63,6 +63,11 @@ export default function PaywallLuma() {
   const [respuestas, setRespuestas] = useState<Respuestas | null>(null);
   const [confirmado, setConfirmado] = useState(false);
 
+  // Lectura en efecto (no lazy initializer): localStorage es client-only —
+  // leerlo de forma síncrona en el render inicial rompe la hidratación
+  // (el HTML que sirve el servidor no puede conocer ese valor). Se probó y
+  // confirmó: React marcaba "Hydration failed" en dev. El costo aceptado es
+  // un salto breve de beneficios genéricos → personalizados tras montar.
   useEffect(() => {
     setRespuestas(leerRespuestas());
   }, []);
@@ -82,7 +87,9 @@ export default function PaywallLuma() {
           >
             <X size={20} strokeWidth={2} aria-hidden="true" />
           </a>
-          <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--text-tertiary)]">LUMA</span>
+          <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--text-tertiary)] [font-family:var(--font-display)]">
+          LUMA
+        </span>
           <span className="size-11" aria-hidden="true" />
         </div>
         <div className="flex flex-1 flex-col items-center justify-center px-6 pb-14 text-center">
@@ -146,7 +153,9 @@ export default function PaywallLuma() {
         >
           <X size={20} strokeWidth={2} aria-hidden="true" />
         </a>
-        <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--text-tertiary)]">LUMA</span>
+        <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--text-tertiary)] [font-family:var(--font-display)]">
+          LUMA
+        </span>
         <span className="size-11" aria-hidden="true" />
       </div>
 
