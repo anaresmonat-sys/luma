@@ -8,7 +8,7 @@
 
 import { useEffect, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion, useReducedMotion, type Variants } from 'motion/react';
-import { ArrowUp, Check } from 'lucide-react';
+import { ArrowUp, Check, ChevronUp } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 /* ── <Accent> — la palabra que vende, en el acento del kit ─────────────────── */
@@ -239,12 +239,21 @@ export function StickyCtaMobile({
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: reduce ? 0 : 88, opacity: 0 }}
           transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-x-0 bottom-0 z-40 border-t border-[color-mix(in_oklab,var(--text-tertiary)_25%,transparent)] bg-[var(--surface)] px-4 pt-2 pb-[max(12px,env(safe-area-inset-bottom))] md:hidden"
+          className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-2 border-t border-[color-mix(in_oklab,var(--text-tertiary)_25%,transparent)] bg-[var(--surface)] px-4 pt-2 pb-[max(12px,env(safe-area-inset-bottom))] md:hidden"
         >
+          <motion.button
+            type="button"
+            aria-label="Volver arriba"
+            onClick={() => window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })}
+            whileTap={{ scale: 0.92 }}
+            className="flex size-[52px] shrink-0 items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--text-tertiary)_28%,transparent)] text-[var(--text-secondary)] [touch-action:manipulation]"
+          >
+            <ChevronUp size={20} strokeWidth={2} aria-hidden="true" />
+          </motion.button>
           <motion.a
             whileTap={{ scale: 0.97 }}
             href={ofertaVista ? href : `#${ofertaId}`}
-            className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] [touch-action:manipulation]"
+            className="flex h-[52px] flex-1 items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] [touch-action:manipulation]"
           >
             {ofertaVista ? labelComercial : labelPre}
           </motion.a>
@@ -254,10 +263,12 @@ export function StickyCtaMobile({
   );
 }
 
-/* ── <BackToTop> — botón flotante circular que aparece tras salir del hero
-   (revisor-visual, defecto #1: ~21 pantallas de scroll a 375px sin forma de
-   volver arriba). Se separa de StickyCtaMobile (bottom-24 en mobile) para no
-   superponerse con su barra. */
+/* ── <BackToTop> — botón flotante circular, SOLO desktop (md:). En mobile
+   el volver-arriba vive DENTRO de la barra de StickyCtaMobile (mismo fixed,
+   sin duplicar): a 375px el contenido corre borde a borde y un círculo
+   flotante independiente terminaba tapando texto centrado (headlines de
+   Garantía/Casos) — en desktop el contenido tiene margen lateral de sobra
+   y el círculo flota en el margen vacío, sin superponer nada. */
 export function BackToTop({ heroId = 'hero' }: { heroId?: string }) {
   const reduce = useReducedMotion();
   const [visible, setVisible] = useState(false);
@@ -288,7 +299,7 @@ export function BackToTop({ heroId = 'hero' }: { heroId?: string }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: reduce ? 0 : 12 }}
           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed right-4 bottom-24 z-30 inline-flex size-11 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--text-tertiary)_25%,transparent)] bg-[var(--surface)] text-[var(--text-primary)] shadow-[var(--shadow-card)] [touch-action:manipulation] md:right-6 md:bottom-6"
+          className="fixed right-6 bottom-6 z-30 hidden size-11 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--text-tertiary)_25%,transparent)] bg-[var(--surface)] text-[var(--text-primary)] shadow-[var(--shadow-card)] [touch-action:manipulation] md:inline-flex"
         >
           <ArrowUp size={20} strokeWidth={2} aria-hidden="true" />
         </motion.button>

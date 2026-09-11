@@ -43,12 +43,12 @@ export function CasosLuma({ ctaLabel, ctaHref }: { ctaLabel: string; ctaHref: st
     <SectionShell id="casos" elevacion="elevada" ariaLabel="Ejemplos del análisis">
       <motion.div variants={contenedor} initial="hidden" whileInView="visible" viewport={VIEWPORT_ONCE}>
         <motion.div variants={item} className="mx-auto max-w-[720px] text-center">
-          <Kicker>Ejemplos reales</Kicker>
+          <Kicker>Cómo se ve en la práctica</Kicker>
           <h2 className="text-balance text-[28px] font-medium leading-tight text-[var(--text-primary)] [font-family:var(--font-display)] md:text-[38px]">
             Un mensaje confuso, <span className="text-[var(--accent)]">tres respuestas claras</span>
           </h2>
           <p className="mx-auto mt-3 max-w-[520px] text-[15px] leading-relaxed text-[var(--text-secondary)]">
-            Pega lo que te escribieron. Esto es lo que recibes de vuelta.
+            Pega lo que te escribieron. Esto es lo que recibes de vuelta. (Ejemplos ilustrativos del mecanismo.)
           </p>
         </motion.div>
 

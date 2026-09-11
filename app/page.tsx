@@ -26,6 +26,7 @@ const CTA_LABEL = 'Descifrar mi primera conversación';
 export default function LandingLuma() {
   return (
     <div className="min-h-dvh bg-[var(--bg)] text-[var(--text-primary)] [font-family:var(--font-body)]">
+      <main>
       {/* 1 · HERO */}
       <Hero
         appName="LUMA"
@@ -104,7 +105,7 @@ export default function LandingLuma() {
         anual={{
           nombre: 'Anual',
           badge: 'LA MÁS ELEGIDA',
-          precioMes: '$5,99',
+          precioMes: '$6,00',
           sufijo: '/mes',
           totalAnual: 'Se cobra $71,99/año',
           ahorro: 'más de 4 meses gratis',
@@ -182,6 +183,7 @@ export default function LandingLuma() {
         recap="Descifra chats · Chat con LUMA · Tarot para tu caso · Diario de patrones · sin cobros por mensaje"
         psMarked="PS — Empiezas gratis. Los 3 días de prueba son de verdad: si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, tienes 7 días para el reembolso completo."
       />
+      </main>
 
       {/* 10 · FOOTER LEGAL — las páginas enlazadas existen como borrador (contenido pendiente, archivo 47) */}
       <FooterLegal

@@ -1,14 +1,14 @@
 # VEREDICTO revisor-visual — landing
 Fecha: 2026-09-11 00:00
 Screenshot: docs/revisiones/landing-375.png
-Usabilidad: 32/40
-Craft: 19/20
-Copy (si vende): 18/20
+Usabilidad: 31/40
+Craft: 18/20
+Copy (si vende): 17/20
 Fidelidad (si hubo referencia): N-A
 Veredicto: NO LISTA
 Top defectos:
-1. [Toda la página, ~21 pantallas de scroll a 375px] Sin tabla de contenidos ni "volver arriba": quien ya vio la oferta y quiere releer el FAQ o los casos solo tiene scroll manual largo → agregar mini-nav de anclas o botón flotante "volver arriba" tras cierto scroll (heurística 7).
-2. [Sección Garantía, tras Oferta] "Empieza gratis, sin riesgo" no es un nombre PROPIO de garantía (el propio componente Garantia.tsx lo pide así) — sub-check "garantía nombrada" queda débil → renombrar a algo memorable tipo "Garantía de Calma de 7 Días" manteniendo la condición actual.
-3. [StickyCtaMobile, barra fija inferior] Altura 48px (h-12) vs CtaButton estándar 52-56px en el resto de la página — un ojo entrenado nota el CTA fijo más liviano que los demás → unificar a 52px o documentar la excepción de espacio.
-4. [Sección "Ejemplos reales" + hero] Los 4 casos mostrados (hero + 3 de Casos) siguen siendo demos rotuladas "EJEMPLO", sin ningún testimonio o dato real de usuarias todavía — para una avatar escéptica (consciencia 3-4 según FICHA-AVATAR) sigue siendo el punto más débil de especificidad/prueba, aunque ya resuelve el defecto anterior del carrusel vacío → acelerar las 5-10 entrevistas de docs/investigacion/guia-entrevistas-avatar.md para sumar 1-2 citas reales antes del lanzamiento.
-5. [Header, "Entrar"] Enlace terciario sin estado hover/focus definido (a diferencia del resto de interactivos, que sí tienen whileTap/hover) → agregar transición de color en hover/focus-visible.
+1. [Sección "Casos" (Kicker "Ejemplos reales" sobre "Un mensaje confuso, tres respuestas claras")] El kicker llama "Ejemplos reales" a tres mensajes inventados por el equipo (mismo patrón que el rótulo "EJEMPLO" del hero) — no hay testimonios ni casos de usuarias reales: la propia FICHA-AVATAR.md reconoce "sin resultados de fundador aún" y "¿Hubo entrevistas del 44?: NO". Etiquetar contenido fabricado como "real" es un claim de prueba no verificable (Copy Eje 2) y roza dark pattern de prueba social falsa → renombrar el kicker (ej. "Así lo descifra LUMA" / "El mecanismo en acción") y quitar la palabra "reales" hasta tener casos verificados de usuarias.
+2. [Sección Oferta, plan Mensual, botón CTA] Mide 48px (`h-12`, `<motion.a>` custom) mientras TODOS los demás CTA de la página (Hero, Casos, plan Anual, CtaFinal, StickyCtaMobile) usan `CtaButton` a 52-56px — repite la misma clase de inconsistencia que ya se corrigió en el sticky la ronda pasada, ahora en otro componente → reemplazar por una variante outline de `CtaButton` que conserve 52px.
+3. [app/page.tsx, estructura global] Las 8 secciones entre el `<header>` del Hero y el `<footer>` cuelgan de un `<div>` plano — no existe `<main>` envolviendo el contenido primario, rompiendo el landmark principal para navegación por lectores de pantalla (regla UX #9 del sistema, HTML semántico) → envolver Problema…CtaFinal en `<main>`.
+4. [Sección Oferta, card Anual] "$5,99/mes" no cuadra con "Se cobra $71,99/año" (5,99 × 12 = $71,88, no $71,99) — un usuario que hace la cuenta detecta el desajuste de 11 centavos, lo que resta credibilidad justo en la cifra más escrutada de la página → hacer que el precio mensual mostrado sea el cociente exacto del total anual real, o ajustar el total para que cuadre con el mensual mostrado.
+5. [Toda la página, transversal — limitación reconocida, sigue abierta] Cero testimonios y cero datos de usuarias reales; los únicos "casos" son sintéticos (ver defecto #1). Para una avatar escéptica (consciencia 3-4 según FICHA-AVATAR.md) esto sigue siendo el punto más débil de especificidad/prueba (Copy Eje 2) y de H6/H9 → priorizar las 5-10 entrevistas del archivo 44 y reemplazar al menos 1-2 casos por citas/capturas reales antes de escalar tráfico pago.
