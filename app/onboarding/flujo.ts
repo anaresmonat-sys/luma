@@ -191,9 +191,10 @@ export function beneficiosPlan(r: Respuestas): { texto: string }[] {
     diario: 'Tu diario emocional para ver tus patrones con el tiempo',
   };
   const principal = (r.ayuda && porAyuda[r.ayuda]) || porAyuda.analizar;
+  const secundaria = r.ayuda === 'tarot' ? porAyuda.analizar : porAyuda.tarot;
   return [
     { texto: principal },
-    { texto: 'Tiradas de tarot leídas para tu caso, no genéricas' },
+    { texto: secundaria },
     { texto: 'Un espacio privado, sin juicio, para desahogarte' },
   ];
 }

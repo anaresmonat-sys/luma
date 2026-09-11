@@ -72,7 +72,7 @@ export function ChipOpcion({
       className={`flex min-h-[60px] w-full items-center gap-3 rounded-[var(--radius-button)] px-4 py-3 text-left transition-colors duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
         seleccionado
           ? 'border-[1.5px] border-[var(--accent)] bg-[var(--chip-bg)]'
-          : 'border border-[color-mix(in_oklab,var(--text-tertiary)_25%,transparent)] bg-[var(--surface)]'
+          : 'border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)]'
       }`}
     >
       <span
@@ -123,7 +123,7 @@ export function EscapeHatchInput({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         autoFocus
-        className="h-14 w-full rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--text-tertiary)_28%,transparent)] bg-[var(--surface)] px-4 text-[16px] text-[var(--text-primary)] outline-none placeholder:text-[var(--text-tertiary)] focus-visible:border-[var(--accent)]"
+        className="h-14 w-full rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-4 text-[16px] text-[var(--text-primary)] outline-none placeholder:text-[var(--text-tertiary)] focus-visible:border-[var(--accent)]"
       />
       <button
         type="button"
@@ -153,7 +153,7 @@ export function PasoShell({
 }) {
   const reduce = useReducedMotion();
   return (
-    <div className="flex min-h-dvh flex-col bg-[var(--bg)] [font-family:var(--font-body)]">
+    <div className="flex min-h-dvh flex-col [font-family:var(--font-body)]">
       <OnboardingHeader progreso={progreso} onBack={onBack} />
       <motion.div
         key={direccion + '-frame'}

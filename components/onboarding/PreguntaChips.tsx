@@ -46,7 +46,7 @@ export function PreguntaChips({
   }
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col justify-center pb-16">
       <h1 className="text-balance text-[28px] font-bold leading-[1.1] tracking-[-0.02em] text-[var(--text-primary)] [font-family:var(--font-display)]">
         {pregunta}
       </h1>

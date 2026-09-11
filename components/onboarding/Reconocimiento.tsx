@@ -60,13 +60,14 @@ export function Reconocimiento({
         transition={{ duration: 0.35, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
         className="mt-auto w-full pt-10"
       >
-        <button
+        <motion.button
           type="button"
           onClick={onContinuar}
+          whileTap={{ scale: 0.97 }}
           className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
         >
           {ctaLabel}
-        </button>
+        </motion.button>
       </motion.div>
     </div>
   );

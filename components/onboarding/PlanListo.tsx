@@ -27,7 +27,7 @@ export function PlanListo({
   ctaHref: string;
 }) {
   return (
-    <div className="flex min-h-dvh flex-col bg-[var(--bg)] px-5 pb-8 pt-10 [font-family:var(--font-body)]">
+    <div className="flex min-h-dvh flex-col px-5 pb-8 pt-10 [font-family:var(--font-body)]">
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
@@ -71,12 +71,13 @@ export function PlanListo({
         </ul>
 
         <div className="mt-auto w-full pt-10">
-          <a
+          <motion.a
             href={ctaHref}
+            whileTap={{ scale: 0.97 }}
             className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             {ctaLabel}
-          </a>
+          </motion.a>
           <p className="mt-3 text-center text-[13px] text-[var(--text-tertiary)]">
             Sin cobros todavía — en la siguiente pantalla eliges tu plan
           </p>

@@ -55,7 +55,7 @@ export function LoadingPlan({ lineas, onCompletar }: { lineas: LineaPlan[]; onCo
 
   return (
     <div
-      className="flex min-h-dvh flex-col items-center justify-center bg-[var(--bg)] px-6 [font-family:var(--font-body)]"
+      className="flex min-h-dvh flex-col items-center justify-center px-6 [font-family:var(--font-body)]"
       role="status"
       aria-live="polite"
       aria-busy={pct < 100}

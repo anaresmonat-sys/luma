@@ -70,13 +70,14 @@ export function PreguntaSlider({
       </div>
 
       <div className="mt-auto pt-10">
-        <button
+        <motion.button
           type="button"
           onClick={() => onResponder(valor)}
+          whileTap={{ scale: 0.97 }}
           className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
         >
           {ctaLabel}
-        </button>
+        </motion.button>
       </div>
     </div>
   );
