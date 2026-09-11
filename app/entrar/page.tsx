@@ -10,7 +10,9 @@
 
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { Mail } from 'lucide-react';
+import { Mail, X } from 'lucide-react';
+
+const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type Estado = 'reposo' | 'enviando' | 'enviado' | 'error';
 
@@ -37,7 +39,7 @@ export default function EntrarLuma() {
   }, [segundosRestantes]);
 
   function enviar() {
-    if (!email.includes('@')) {
+    if (!REGEX_EMAIL.test(email)) {
       setEstado('error');
       return;
     }
@@ -48,9 +50,27 @@ export default function EntrarLuma() {
     }, 700);
   }
 
+  const salidaHref = vieneDePaywall ? '/paywall' : '/';
+
+  const header = (
+    <div className="sticky top-0 z-20 flex h-14 items-center justify-between bg-[var(--bg)]/75 px-3 backdrop-blur-md">
+      <a
+        href={salidaHref}
+        aria-label="Cerrar"
+        className="flex size-11 items-center justify-center rounded-[var(--radius-button)] text-[var(--text-secondary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+      >
+        <X size={20} strokeWidth={2} aria-hidden="true" />
+      </a>
+      <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--text-tertiary)]">LUMA</span>
+      <span className="size-11" aria-hidden="true" />
+    </div>
+  );
+
   if (estado === 'enviado') {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center px-6 text-center [font-family:var(--font-body)]">
+      <div className="flex min-h-dvh flex-col [font-family:var(--font-body)]">
+        {header}
+        <div className="flex flex-1 flex-col items-center justify-center px-6 pb-14 text-center">
         <motion.div
           initial={{ opacity: 0, scale: reduce ? 1 : 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -87,18 +107,14 @@ export default function EntrarLuma() {
             {vieneDePaywall ? '‹ Volver a los planes' : 'Volver al inicio'}
           </a>
         </motion.div>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="flex min-h-dvh flex-col [font-family:var(--font-body)]">
-      <div className="mx-auto flex h-16 w-full max-w-[480px] items-center px-5">
-        <a href="/" className="flex items-center gap-2 text-[16px] font-semibold text-[var(--text-primary)]">
-          <span aria-hidden="true" className="size-6 rounded-[8px] bg-[var(--accent)]" />
-          LUMA
-        </a>
-      </div>
+      {header}
 
       <div className="mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pt-6">
         <motion.div
@@ -152,9 +168,10 @@ export default function EntrarLuma() {
           <button
             type="button"
             onClick={() => setAvisoGoogle(true)}
-            className="flex h-[52px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--text-tertiary)_28%,transparent)] text-[15px] font-medium text-[var(--text-primary)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            className="flex h-[52px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--text-tertiary)_28%,transparent)] text-[15px] font-medium text-[var(--text-secondary)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             Continuar con Google
+            <span className="text-[12px] text-[var(--text-tertiary)]">(disponible pronto)</span>
           </button>
           {avisoGoogle && (
             <p className="text-center text-[13px] text-[var(--text-tertiary)]">

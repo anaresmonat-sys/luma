@@ -60,7 +60,7 @@ function Card({
         <TrialBadge dias={trialDias} />
       </div>
       <p className="mt-3 flex items-baseline gap-1">
-        <span className="text-[28px] font-bold leading-none tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]">
+        <span className="text-[24px] font-bold leading-none tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]">
           {plan.precioMes}
         </span>
         <span className="text-[13px] text-[var(--text-secondary)]">{plan.sufijo ?? '/mes'}</span>
