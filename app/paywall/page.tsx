@@ -72,14 +72,20 @@ export default function PaywallLuma() {
 
   if (confirmado) {
     return (
-      <div className="relative flex min-h-dvh flex-col items-center justify-center px-6 text-center [font-family:var(--font-body)]">
-        <a
-          href="/"
-          aria-label="Cerrar"
-          className="absolute left-3 top-3 flex size-11 items-center justify-center rounded-[var(--radius-button)] text-[var(--text-secondary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-        >
-          <X size={20} strokeWidth={2} aria-hidden="true" />
-        </a>
+      <div className="flex min-h-dvh flex-col [font-family:var(--font-body)]">
+        {/* Mismo header que el resto del funnel (antes solo dejaba la X flotando sin marca) */}
+        <div className="flex h-14 items-center justify-between px-3">
+          <a
+            href="/"
+            aria-label="Cerrar"
+            className="flex size-11 items-center justify-center rounded-[var(--radius-button)] text-[var(--text-secondary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+          >
+            <X size={20} strokeWidth={2} aria-hidden="true" />
+          </a>
+          <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--text-tertiary)]">LUMA</span>
+          <span className="size-11" aria-hidden="true" />
+        </div>
+        <div className="flex flex-1 flex-col items-center justify-center px-6 pb-14 text-center">
         <motion.div
           initial={{ opacity: 0, scale: reduce ? 1 : 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -119,11 +125,12 @@ export default function PaywallLuma() {
           <button
             type="button"
             onClick={() => setConfirmado(false)}
-            className="mt-6 text-[14px] font-medium text-[var(--accent)] underline-offset-4 hover:underline"
+            className="mt-6 flex min-h-11 items-center px-3 text-[14px] font-medium text-[var(--accent)] underline-offset-4 hover:underline"
           >
             Volver a los planes
           </button>
         </motion.div>
+        </div>
       </div>
     );
   }
@@ -252,16 +259,16 @@ export default function PaywallLuma() {
             whileTap={{ scale: 0.97 }}
             className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
-            Empezar mis {TRIAL_DIAS} días gratis
+            Empezar mi plan {seleccionado === 'anual' ? 'Anual' : 'Mensual'} gratis
           </motion.button>
           <p className="mt-3 text-center text-[13px] text-[var(--text-tertiary)]">
             Cancela cuando quieras. Te avisamos antes de cualquier cobro.
           </p>
 
-          <div className="mt-4 flex items-center justify-center gap-5">
+          <div className="mt-4 flex items-center justify-center gap-2">
             <a
               href="/"
-              className="text-[13px] font-medium text-[var(--text-tertiary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              className="flex min-h-11 items-center px-3 text-[13px] font-medium text-[var(--text-tertiary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
               Ahora no
             </a>
@@ -271,8 +278,8 @@ export default function PaywallLuma() {
             {/* Más peso que "Ahora no": recuperar una compra ya hecha no es lo
                 mismo que abandonar el flujo (defecto de jerarquía de conversión). */}
             <a
-              href="/entrar"
-              className="text-[14px] font-semibold text-[var(--text-secondary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              href="/entrar?desde=paywall"
+              className="flex min-h-11 items-center px-3 text-[14px] font-semibold text-[var(--text-secondary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
               Restaurar compra
             </a>

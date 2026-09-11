@@ -50,7 +50,7 @@ await p.screenshot({ path: 'docs/revisiones/paywall-mensual-seleccionado.png', f
 console.log('saved paywall-mensual-seleccionado');
 
 // Verificar estado confirmado (CTA simulado)
-await p.locator('button:has-text("Empezar mis 3 días gratis")').click();
+await p.locator('button:has-text("Empezar mi plan")').click();
 await p.waitForTimeout(600);
 await p.screenshot({ path: 'docs/revisiones/paywall-confirmado.png' });
 console.log('saved paywall-confirmado');

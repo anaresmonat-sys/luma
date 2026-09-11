@@ -22,6 +22,13 @@ export default function EntrarLuma() {
   const [estado, setEstado] = useState<Estado>('reposo');
   const [segundosRestantes, setSegundosRestantes] = useState(0);
   const [avisoGoogle, setAvisoGoogle] = useState(false);
+  // ?desde=paywall (enlace de "Restaurar compra"): ofrece volver ahí en vez
+  // de perder el contexto de compra con un genérico "Volver al inicio".
+  const [vieneDePaywall, setVieneDePaywall] = useState(false);
+
+  useEffect(() => {
+    setVieneDePaywall(new URLSearchParams(window.location.search).get('desde') === 'paywall');
+  }, []);
 
   useEffect(() => {
     if (segundosRestantes <= 0) return;
@@ -69,12 +76,15 @@ export default function EntrarLuma() {
             onClick={() => {
               setSegundosRestantes(REENVIAR_SEGUNDOS);
             }}
-            className="mt-6 text-[14px] font-medium text-[var(--accent)] underline-offset-4 hover:underline disabled:text-[var(--text-tertiary)] disabled:no-underline"
+            className="mt-6 flex min-h-11 items-center px-3 text-[14px] font-medium text-[var(--accent)] underline-offset-4 hover:underline disabled:text-[var(--text-tertiary)] disabled:no-underline"
           >
             {segundosRestantes > 0 ? `Reenviar en ${segundosRestantes}s` : 'Reenviar'}
           </button>
-          <a href="/" className="mt-4 text-[13px] text-[var(--text-tertiary)] underline-offset-4 hover:underline">
-            Volver al inicio
+          <a
+            href={vieneDePaywall ? '/paywall' : '/'}
+            className="mt-4 flex min-h-11 items-center px-3 text-[13px] text-[var(--text-tertiary)] underline-offset-4 hover:underline"
+          >
+            {vieneDePaywall ? '‹ Volver a los planes' : 'Volver al inicio'}
           </a>
         </motion.div>
       </div>
