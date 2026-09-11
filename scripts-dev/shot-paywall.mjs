@@ -34,7 +34,6 @@ await p.locator('button:has-text("Continuar")').click();
 await p.waitForTimeout(500);
 // loading (4-6s) + espera adicional
 await p.waitForTimeout(6500);
-await p.screenshot({ path: 'docs/revisiones/paywall-plan-listo-previo.png' });
 
 await p.locator('a:has-text("Ver mi plan completo")').click();
 await p.waitForTimeout(900);

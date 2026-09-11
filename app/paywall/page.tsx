@@ -12,6 +12,7 @@
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { X, Lock, ShieldCheck, Check } from 'lucide-react';
+import { CheckCustom, Hairline } from '@/components/landing/ui';
 import { MarkedCopy } from '@/components/landing/MarkedCopy';
 import { TimelineTrial } from '@/components/paywall/Timeline';
 import { PlanCards, type PlanPaywall } from '@/components/paywall/PlanCards';
@@ -42,6 +43,14 @@ const PRECIO_TEXTO: Record<'anual' | 'mensual', string> = {
   mensual: '$9,99/mes',
 };
 
+// Fallback honesto cuando no hay respuestas del onboarding (llegó directo a /paywall):
+// mismos 3 pilares del producto, sin fingir personalización que no existe.
+const BENEFICIOS_GENERICOS = [
+  { texto: 'Descifra conversaciones confusas: hechos, riesgo y qué responder' },
+  { texto: 'Tiradas de tarot leídas para tu caso, no genéricas' },
+  { texto: 'Un espacio privado, sin juicio, para desahogarte' },
+];
+
 export default function PaywallLuma() {
   const reduce = useReducedMotion();
   const [seleccionado, setSeleccionado] = useState<'anual' | 'mensual'>('anual');
@@ -53,7 +62,7 @@ export default function PaywallLuma() {
   }, []);
 
   const nRespuestas = respuestas ? contarRespuestas(respuestas) : 0;
-  const beneficios = respuestas ? beneficiosPlan(respuestas) : null;
+  const beneficios = respuestas ? beneficiosPlan(respuestas) : BENEFICIOS_GENERICOS;
 
   if (confirmado) {
     return (
@@ -71,7 +80,7 @@ export default function PaywallLuma() {
             <Check size={28} strokeWidth={2.5} color="var(--accent)" aria-hidden="true" />
           </span>
           <h1 className="mt-5 text-[24px] font-bold text-[var(--text-primary)] [font-family:var(--font-display)]">
-            Vista previa del checkout
+            Vista previa de tu pago
           </h1>
           <p className="mt-3 text-[15px] leading-relaxed text-[var(--text-secondary)]">
             Aquí se abrirá Hotmart para activar tu prueba de {TRIAL_DIAS} días gratis del plan{' '}
@@ -115,36 +124,44 @@ export default function PaywallLuma() {
           <h1 className="text-balance text-[28px] font-bold leading-[1.15] text-[var(--text-primary)] [font-family:var(--font-display)]">
             <MarkedCopy text={`${TRIAL_DIAS} días para probar si LUMA te da la [acento]calma[/acento] que buscas`} />
           </h1>
+          {/* Ancla emocional de FICHA-AVATAR (se repite landing+onboarding+paywall):
+              "obsesionada mirando el teléfono" → "en 1 minuto entiendes qué pasa" */}
+          <p className="mt-2 text-[15px] leading-snug text-[var(--text-secondary)]">
+            <MarkedCopy text="Para esas noches [b]mirando el teléfono[/b], esperando que responda." />
+          </p>
           {respuestas && nRespuestas > 0 && (
             <p className="mt-2 text-[14px] text-[var(--text-secondary)]">Hecho con tus {nRespuestas} respuestas</p>
           )}
         </motion.div>
 
-        {/* Beneficios personalizados (solo si hay datos del onboarding) */}
-        {beneficios && (
-          <motion.ul
-            initial={{ opacity: 0, y: reduce ? 0 : 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-5 flex flex-col gap-2"
-          >
-            {beneficios.map((b, i) => (
-              <li key={i} className="flex items-start gap-2.5 text-[14px] leading-snug text-[var(--text-primary)]">
-                <Check size={16} strokeWidth={2.5} color="var(--accent)" className="mt-0.5 shrink-0" aria-hidden="true" />
-                <span>{b.texto}</span>
-              </li>
-            ))}
-          </motion.ul>
-        )}
+        {/* Beneficios: personalizados si hay datos del onboarding, genéricos si no */}
+        <motion.ul
+          initial={{ opacity: 0, y: reduce ? 0 : 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-5 flex flex-col gap-3"
+        >
+          {beneficios.map((b, i) => (
+            <li key={i} className="flex items-start gap-3 text-[14px] leading-snug text-[var(--text-primary)]">
+              <CheckCustom />
+              <span>{b.texto}</span>
+            </li>
+          ))}
+        </motion.ul>
 
         {/* Visual del valor: TIMELINE del trial (default C4) — responde por qué ahora / puedo cancelar */}
         <motion.div
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-7 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_18%,transparent)] bg-[var(--surface)] p-5"
+          className="mt-7"
         >
-          <TimelineTrial diasPrueba={TRIAL_DIAS} precioTexto={PRECIO_TEXTO[seleccionado]} />
+          {/* Único hairline degradé de la pantalla (gate binario de conversión) */}
+          <Hairline surface="surface">
+            <div className="p-5">
+              <TimelineTrial diasPrueba={TRIAL_DIAS} precioTexto={PRECIO_TEXTO[seleccionado]} />
+            </div>
+          </Hairline>
         </motion.div>
 
         {/* Plan cards tocables — anual pre-seleccionado */}
