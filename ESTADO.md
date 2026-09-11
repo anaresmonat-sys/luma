@@ -1,24 +1,20 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-11 | Sesión actual: 4
 
-✅ CHECKPOINT — Última acción completada: Sesión 4 — onboarding (`/onboarding`): construido y
-**ACEPTADO con criterio propio** (no LISTA por gate automático — el usuario cerró el ciclo de
-revisor-visual tras 5 rondas: 25/12 → 29/13 → 32/14 → 25/11 → 32/13, con el mismo patrón de
-rendimientos decrecientes/inconsistencia entre rondas que ya se vio en la landing; decidió
-detener el ciclo y aceptar el estado actual). Flujo completo: 7 preguntas (chips + 1 slider)
-trazadas a FICHA-AVATAR + 2 reconocimientos (uno valida con la respuesta real, el final etiqueta
-identidad positiva) + loading "Construyendo tu plan" + revelación del plan (el pico, sin precios,
-CTA a `/paywall`). tsc/build limpios, evidencia en docs/revisiones/onboarding-*.png +
-onboarding-veredicto.md. Bugs reales corregidos en el camino: selección de chip no se restauraba
-al volver "Atrás" (corregido), fondo plano tapaba los blooms del brand kit (corregido).
-Pendientes/limitaciones conocidas: (a) el balance vertical de las pantallas de pregunta recibió
-lecturas contradictorias entre rondas del revisor — medido a mano, el desbalance real es leve; no
-se seguirá ajustando sin evidencia más consistente; (b) iconografía emoji en las opciones — es la
-decisión YA vigente de FICHA-ARTE (Ronda #4), no un defecto nuevo, el revisor la reabrió sin que
-haya cambiado nada; (c) testimonios reales siguen pendientes (heredado de landing). /
-Siguiente acción exacta: presentar la PUERTA DE ETAPA de Onboarding al usuario en simple y
-preguntar cómo seguir — construir `/paywall` (siguiente etapa de la secuencia) o priorizar otra
-cosa (p.ej. las entrevistas de avatar pendientes).
+✅ CHECKPOINT — Última acción completada: Sesión 4 — onboarding (`/onboarding`) ACEPTADO con
+criterio propio (ver detalle en Problemas conocidos). Paywall (`/paywall`) EN CONSTRUCCIÓN: 5
+rondas del revisor-visual aplicadas con fixes reales (checkmarks custom, hairline degradé,
+fallback de beneficios sin datos, ancla emocional de FICHA-AVATAR, dispositivo ownable — carta de
+tarot —, 2º resplandor, X de cierre en pantalla "confirmado"; detalle completo en Problemas
+conocidos → [veredicto:paywall]). La sesión se interrumpió justo antes de lanzar la 6ª ronda del
+revisor-visual (código y capturas ya frescos, commiteados). Precio/moneda: el usuario preguntó
+por precios por país — respondido que Hotmart lo resuelve en su propio panel al conectar la
+cuenta real (Sesión 6) y que ajustar precio por país se revisa DESPUÉS de las primeras ventas
+(ya documentado así en FICHA-MERCADO §1); no bloquea el paywall actual (USD, precio único). /
+Siguiente acción exacta: relanzar el revisor-visual (6ª ronda) sobre
+docs/revisiones/paywall-*.png ya capturadas; si LISTA, PUERTA DE ETAPA de Paywall al usuario;
+si no, seguir el ciclo o preguntar al usuario si prefiere cerrar con criterio propio (mismo
+patrón que se usó con onboarding tras varias rondas sin converger).
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -188,7 +184,17 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   en las opciones NO es un defecto nuevo: es la decisión ya vigente de FICHA-ARTE (Ronda #4).
   Evidencia en docs/revisiones/onboarding-*.png + onboarding-veredicto.md.
 - [assets LUMA] Falta el retrato/ilustración final de LUMA (persona) para avatar del coach + redes — sesión de assets (20). No bloquea la construcción; en el código va un placeholder.
-- [veredicto:paywall] Pospuesto — pantalla de planes NO iniciada (Sesión 4, paso 2).
+- [veredicto:paywall] EN CONSTRUCCIÓN (Sesión 4, paso 2) — todavía sin veredicto LISTA. Rondas del
+  revisor-visual hasta ahora: 31/14/17 → 30/14/17 → 29/12/17 → 29/13/18 (subiendo craft/copy,
+  usabilidad estable ~29-31/40). Fixes reales aplicados: checkmarks sin círculo de acento →
+  CheckCustom; cero hairline degradé → Hairline en el timeline; sin fallback de beneficios sin
+  datos del onboarding → agregado; faltaba el ancla emocional literal de FICHA-AVATAR → agregada;
+  "checkout" sin traducir → "pago"; header sticky duplicado en capturas fullPage → artefacto del
+  script de captura, corregido; fill opaco tapaba los blooms → quitado; sin dispositivo ownable →
+  se agregó la carta de tarot; 2º resplandor casi imperceptible → subido de 7% a 16%; pantalla
+  "confirmado" sin salida → se agregó X de cierre. Evidencia en docs/revisiones/paywall-*.png +
+  paywall-veredicto.md. Sesión interrumpida antes de la 6ª ronda — retomar relanzando el
+  revisor-visual con las capturas ya frescas.
 - `vista-previa-app.html` es mockup pre-código (no es la app); recorte por ajustar en 2 frames.
 - FICHA-MERCADO: penetración de tarjeta por país y % compras >30 días quedaron NO ENCONTRADO — revisar 2027-03-09.
 
