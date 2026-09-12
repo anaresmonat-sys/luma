@@ -59,24 +59,32 @@ export default function CoachPage() {
       </div>
 
       <div className="flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-y-auto py-2">
-        {hilo.map((m) =>
-          m.autor === 'yo' ? (
-            <div
-              key={m.id}
-              className="max-w-[82%] self-end rounded-[15px_15px_5px_15px] border border-[color-mix(in_oklab,var(--accent)_25%,transparent)] bg-[color-mix(in_oklab,var(--accent)_16%,transparent)] px-3 py-2.5 text-[13px] leading-snug text-[var(--text-primary)]"
-            >
-              {m.texto}
-              {m.hora && <span className="mt-1 block text-right text-[11px] text-[var(--text-tertiary)]">{m.hora}</span>}
-            </div>
-          ) : (
-            <div
-              key={m.id}
-              className="max-w-[82%] self-start rounded-[15px_15px_15px_5px] border border-[color-mix(in_oklab,var(--accent)_24%,transparent)] bg-[var(--surface)] px-3 py-2.5 text-[13px] leading-snug text-[var(--text-primary)]"
-            >
-              {m.texto}
-            </div>
-          )
-        )}
+        <AnimatePresence initial={false}>
+          {hilo.map((m) =>
+            m.autor === 'yo' ? (
+              <motion.div
+                key={m.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
+                className="max-w-[82%] self-end rounded-[15px_15px_5px_15px] border border-[color-mix(in_oklab,var(--accent)_25%,transparent)] bg-[color-mix(in_oklab,var(--accent)_16%,transparent)] px-3 py-2.5 text-[14px] leading-snug text-[var(--text-primary)]"
+              >
+                {m.texto}
+                {m.hora && <span className="mt-1 block text-right text-[11px] text-[var(--text-tertiary)]">{m.hora}</span>}
+              </motion.div>
+            ) : (
+              <motion.div
+                key={m.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
+                className="max-w-[82%] self-start rounded-[15px_15px_15px_5px] border border-[color-mix(in_oklab,var(--accent)_24%,transparent)] bg-[var(--surface)] px-3 py-2.5 text-[14px] leading-snug text-[var(--text-primary)]"
+              >
+                {m.texto}
+              </motion.div>
+            )
+          )}
+        </AnimatePresence>
 
         <AnimatePresence>
           {escribiendo && (
@@ -94,14 +102,15 @@ export default function CoachPage() {
         {!escribiendo && hilo.length <= HILO_COACH_EJEMPLO.length && (
           <div className="flex flex-col items-start gap-2 pt-1">
             {RESPUESTAS_RAPIDAS_COACH.map((r) => (
-              <button
+              <motion.button
                 key={r}
+                whileTap={{ scale: 0.97 }}
                 type="button"
                 onClick={() => enviar(r)}
                 className="rounded-full border border-[color-mix(in_oklab,var(--accent)_34%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2 text-[11.5px] font-semibold text-[var(--accent-lite)]"
               >
                 {r}
-              </button>
+              </motion.button>
             ))}
           </div>
         )}
@@ -129,22 +138,24 @@ export default function CoachPage() {
         }}
         className="flex shrink-0 items-center gap-1.5 rounded-full border border-[color-mix(in_oklab,var(--accent)_34%,transparent)] bg-[var(--surface-2)] py-1 pl-2 pr-1"
       >
-        <button
+        <motion.button
+          whileTap={{ scale: 0.9 }}
           type="button"
           onClick={tocarMic}
           aria-label="Grabar nota de voz"
           className="flex size-11 shrink-0 items-center justify-center rounded-full text-[15px] text-[var(--accent-lite)]"
         >
           🎤
-        </button>
+        </motion.button>
         <input
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
           placeholder="Escribe un mensaje…"
           aria-label="Mensaje para LUMA"
-          className="h-11 flex-1 bg-transparent text-[13px] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
+          className="h-11 flex-1 bg-transparent text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
         />
-        <button
+        <motion.button
+          whileTap={texto.trim() ? { scale: 0.9 } : undefined}
           type="submit"
           disabled={!texto.trim()}
           aria-label="Enviar mensaje"
@@ -153,7 +164,7 @@ export default function CoachPage() {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z" />
           </svg>
-        </button>
+        </motion.button>
       </form>
     </div>
   );

@@ -4,33 +4,62 @@
 // 5 tiradas; tocar una revela la carta + lectura in situ (acordeón) — sin inventar
 // una ruta nueva no aprobada en el mockup. Reutiliza CartaSacerdotisa con props.
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppLinkButton } from '@/components/app/AppButton';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { TIRADAS_TAROT, LECTURAS_TAROT } from '@/lib/seed-datos';
+import { guardarEntradaPendiente } from '@/lib/almacenamiento-diario';
+
+const contenedor = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.06 } },
+};
+const item = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { opacity: 1, y: 0 },
+};
 
 export default function TarotPage() {
   const [abierta, setAbierta] = useState<string | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+
+  function alternar(id: string) {
+    const abrir = abierta !== id;
+    setAbierta(abrir ? id : null);
+    if (abrir) {
+      window.setTimeout(() => panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 320);
+    }
+  }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col pb-4 pt-3">
+    <div className="relative flex min-h-0 flex-1 flex-col pb-4 pt-3">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            'radial-gradient(500px 40dvh at 50% 28%, color-mix(in oklab, var(--bloom-vino) 50%, transparent), transparent 68%), ' +
+            'radial-gradient(480px 34dvh at 50% 100%, color-mix(in oklab, var(--bloom-vino) 40%, transparent), transparent 70%)',
+        }}
+      />
       <ScreenHeader titulo="Tarot" volverHref="/app" />
       <h1 className="mt-1 text-[20px] font-semibold text-[var(--text-primary)] [font-family:var(--font-display)]">
         ¿Qué tipo de tirada necesitas?
       </h1>
 
-      <div className="mt-4 flex flex-col">
+      <motion.div variants={contenedor} initial="hidden" animate="visible" className="mt-4 flex flex-col">
         {TIRADAS_TAROT.map((t, i) => {
           const abierto = abierta === t.id;
           const lectura = LECTURAS_TAROT[t.id];
           return (
-            <div key={t.id}>
+            <motion.div key={t.id} variants={item}>
               {i > 0 && <div className="h-px bg-[color-mix(in_oklab,var(--text-tertiary)_18%,transparent)]" />}
-              <button
+              <motion.button
+                whileTap={{ scale: 0.98 }}
                 type="button"
-                onClick={() => setAbierta(abierto ? null : t.id)}
+                onClick={() => alternar(t.id)}
                 aria-expanded={abierto}
                 className="flex w-full items-center gap-3 py-3 text-left"
               >
@@ -51,11 +80,12 @@ export default function TarotPage() {
                   </span>
                   <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">{t.pregunta}</span>
                 </span>
-              </button>
+              </motion.button>
 
               <AnimatePresence>
                 {abierto && lectura && (
                   <motion.div
+                    ref={panelRef}
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
@@ -70,7 +100,11 @@ export default function TarotPage() {
                         {lectura.lectura}
                       </p>
                       <div className="w-full">
-                        <AppLinkButton href="/app/diario" compact>
+                        <AppLinkButton
+                          href="/app/diario"
+                          compact
+                          onClick={() => guardarEntradaPendiente(lectura.lectura)}
+                        >
                           Guardar en mi diario
                         </AppLinkButton>
                       </div>
@@ -78,10 +112,10 @@ export default function TarotPage() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           );
         })}
-      </div>
+      </motion.div>
     </div>
   );
 }

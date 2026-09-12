@@ -50,10 +50,21 @@ export function AppButton({
   );
 }
 
-export function AppLinkButton({ href, children, compact }: { href: string; children: ReactNode; compact?: boolean }) {
+export function AppLinkButton({
+  href,
+  children,
+  compact,
+  onClick,
+}: {
+  href: string;
+  children: ReactNode;
+  compact?: boolean;
+  /** se dispara antes de navegar (ej. guardar algo en localStorage) — no reemplaza la navegación. */
+  onClick?: () => void;
+}) {
   return (
     <motion.div whileTap={{ scale: 0.97 }}>
-      <Link href={href} className={clase(compact)}>
+      <Link href={href} onClick={onClick} className={clase(compact)}>
         {children}
       </Link>
     </motion.div>

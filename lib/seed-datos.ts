@@ -73,18 +73,29 @@ export const HILO_COACH_EJEMPLO: MensajeCoach[] = [
   {
     id: '1',
     autor: 'yo',
+    texto: 'Hola LUMA, necesito hablar con alguien de esto.',
+    hora: 'Hoy, 10:21',
+  },
+  {
+    id: '2',
+    autor: 'luma',
+    texto: 'Aquí estoy. Cuéntame qué está pasando, con calma.',
+  },
+  {
+    id: '3',
+    autor: 'yo',
     texto:
       'Estoy conociendo a un chico y al principio me escribía muchísimo. Ahora tarda horas en responder y estoy obsesionada mirando el móvil.',
     hora: 'Hoy, 10:24',
   },
   {
-    id: '2',
+    id: '4',
     autor: 'luma',
     texto:
       'Entiendo por qué se te está activando. Antes de interpretar su comportamiento, separemos hechos de las historias que tu mente está construyendo.',
   },
   {
-    id: '3',
+    id: '5',
     autor: 'luma',
     texto: '¿Exploramos juntas qué está pasando realmente y qué necesitas tú en esta situación?',
   },
