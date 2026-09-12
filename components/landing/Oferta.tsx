@@ -186,13 +186,11 @@ export function Oferta({
               <Precio plan={mensual} />
             </div>
             <Features items={mensual.features} origen="Oferta → mensual" />
-            <motion.a
-              whileTap={{ scale: 0.97 }}
-              href={mensual.ctaHref}
-              className="mt-6 flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[16px] font-semibold text-[var(--accent)] transition-colors duration-150 hover:bg-[var(--chip-bg)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-            >
-              {mensual.ctaLabel}
-            </motion.a>
+            <div className="mt-6">
+              <CtaButton href={mensual.ctaHref} variant="outline" fullMobile>
+                {mensual.ctaLabel}
+              </CtaButton>
+            </div>
           </motion.div>
         </div>
       </motion.div>

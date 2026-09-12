@@ -1,23 +1,24 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-12 | Sesión actual: 4 (continuación)
 
-✅ CHECKPOINT — 4ª ronda de ajustes de la landing (`/`), ciclo de fixes iniciado por feedback visual
-DIRECTO del usuario. Historial resumido: ronda 3 unificó el sistema de íconos de Problema+Agitación
-a emoji y arregló el borde roto del chip "descifrar la conversación" (Hairline degradé → borde
-sólido); el revisor de esa ronda dio NO LISTA 33/40·17/20 señalando que dentro de Windows/Segoe UI
-Emoji dos de los 4 emoji nuevos de Problema rompían la paleta: 🔁 se veía como un cuadrado azul
-saturado fuera de tono, y 💬 tenía un estilo "sticker" distinto a los demás; también pidió subir el
-fill del chip de Solución (8%→más) porque quedaba casi imperceptible. Esta 4ª ronda corrige los 3:
-🤔→😕, 💬→😳, 🔁→😩 (los 4 emoji de Problema ahora comparten el mismo lenguaje "sticker a color"
-amarillo, verificado con el Browser pane a 375px) + el fill del chip de Solución subió a 13% con
-una sombra tintada sutil (ahora se distingue claramente de los chips numerados 01/02/03). Evidencia
-regenerada: docs/revisiones/landing-problema-375.png, landing-solucion-375.png, landing-375.png
-(landing-agitacion-375.png no cambió esta ronda). Onboarding y Paywall siguen ACEPTADOS con
-criterio propio (sin cambios esta sesión — ver Problemas conocidos). /
-Siguiente acción exacta: relanzar revisor-visual (5ª ronda) sobre estos 3 fixes; si aprueba,
-actualizar landing-veredicto.md y este checkpoint con el score final, y volver a preguntarle al
-usuario cómo seguir (app interna Sesión 5 / entrevistas de avatar / retrato de LUMA — sigue sin
-responder esa pregunta, pendiente de re-plantear tras cerrar este ciclo).
+✅ CHECKPOINT — 5ª ronda de ajustes de la landing (`/`), mismo ciclo iniciado por feedback visual
+DIRECTO del usuario (ya resuelto por completo desde la ronda 4: LUMA/frases sin recorte real,
+chip de Solución con borde completo, íconos unificados a emoji con paleta correcta — todo
+CONFIRMADO por el revisor en la ronda 5, sin regresiones). Lo único que sigue bajando el score
+(33/40·15/20, bajo el gate ≥36/40·≥16/20) es un defecto HEREDADO de rondas anteriores a este ciclo
+(no reportado por el usuario): en Oferta (§6), el CTA del plan Mensual era un `<a>` hecho a mano en
+vez de una variante del componente compartido `CtaButton`. Corregido: `CtaButton` ahora acepta
+`variant: 'solid' | 'outline'` (ui.tsx) y Oferta.tsx usa `<CtaButton variant="outline">` para el
+plan Mensual — mismo motion/focus-ring que el resto del kit, sin duplicar código. El plan Anual ya
+tenía señal de "recomendado" (badge "LA MÁS ELEGIDA" + hairline + fondo acento), que es el
+mecanismo de selección visual que pedía el doctrina 55 §6. Evidencia: nueva
+docs/revisiones/landing-oferta-375.png + landing-375.png regenerado. Onboarding y Paywall siguen
+ACEPTADOS con criterio propio (sin cambios esta sesión — ver Problemas conocidos). /
+Siguiente acción exacta: relanzar revisor-visual (6ª ronda) sobre este fix de Oferta. Si esta vez
+alcanza el gate automático (≥36/40·≥16/20·≥16/20) o si el usuario decide cerrar el ciclo con
+criterio propio (mismo patrón que onboarding/paywall), actualizar landing-veredicto.md y este
+checkpoint con el score final, y volver a preguntarle al usuario cómo seguir (app interna Sesión 5
+/ entrevistas de avatar / retrato de LUMA — sigue sin responder esa pregunta).
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
