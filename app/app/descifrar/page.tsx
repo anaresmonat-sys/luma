@@ -140,7 +140,7 @@ export default function DescifrarPage() {
               </AnimatePresence>
 
               <div className="mt-3">
-                <AppButton onClick={analizar} disabled={estado === 'cargando'}>
+                <AppButton onClick={analizar} disabled={estado === 'cargando'} busy={estado === 'cargando'}>
                   {estado === 'cargando' && (
                     <motion.span
                       aria-hidden="true"

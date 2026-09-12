@@ -14,26 +14,36 @@ corregidos en el camino: animación de la carta apagada por error, botones de 2 
 cita duplicada, hamburguesa redundante, confirmación de ánimo invisible/débil, carta sin Link
 propio, franja plana sin profundidad, avatar sin inicial, `prefers-reduced-motion` no respetado
 fuera de la carta (resuelto GLOBAL con `<MotionConfig reducedMotion="user">` en `app/layout.tsx`,
-beneficia a toda la app). **Descifra la conversación**
-(`/app/descifrar` — 3 modos de entrada, texto/captura/voz; captura y voz muestran "Próximamente"
-honesto hasta que haya OCR/voz→texto real en Sesión 6; analizar simula el loop con datos semilla y
-muestra los 3 items del análisis + 2 acciones cruzadas) — construida, auto-revisada contra el
-checklist, sin ronda de revisor-visual todavía. **Coach** (`/app/coach` — chat con LUMA, hilo
-semilla + respuestas rápidas + "escribiendo…" simulado + mic con aviso "Próximamente") —
-construida. **Tarot** (`/app/tarot` — lista de 5 tiradas, cada una se expande in situ mostrando la
-carta + una lectura corta, sin inventar una ruta de resultado nueva no aprobada) — construida.
-**Diario** (`/app/diario` — check-in + entrada libre + patrón detectado semilla + calendario con
-aviso "Próximamente") — construida. Componentes nuevos compartidos: `AppButton`/`AppLinkButton`
-(variante `compact` para grillas de 2 columnas), `BottomNav`, `ScreenHeader`, `MoodPicker`,
-`LumaAvatar` (retrato provisional). `CartaSacerdotisa` (antes solo de la landing) ahora acepta
-props reales (numero/nombre/cita) y un modo de disparo por montaje — se comparte entre landing,
-Inicio y Tarot. Pantalla "Más" (cuenta/ajustes) AÚN NO EXISTE — el avatar y el nav apuntan a
-`/app/mas`, que hoy da 404 (esperable en esta etapa, mismo patrón que `/entrar` durante la landing).
-Siguiente acción exacta: correr revisor-visual sobre Descifra la
-conversación (función estrella, probablemente amerita revisión aunque no sea una de las 4
-pantallas-dinero, por ser el mecanismo central del producto), construir la pantalla "Más", y
-decidir con el usuario si Coach/Tarot/Diario necesitan su propia ronda de revisor o si el
-presupuesto de tokens no lo justifica dado que comparten componentes ya revisados en Inicio.
+beneficia a toda la app). **Descifra la conversación** (`/app/descifrar` — función estrella; 3
+modos de entrada, texto/captura/voz; captura y voz muestran "Próximamente" honesto hasta que haya
+OCR/voz→texto real en Sesión 6; analizar simula el loop con datos semilla, estado de error real si
+el texto es muy corto, CTA nunca disabled por vacío) — **construida, ACEPTADA con criterio propio**
+(ver [veredicto:descifrar]). 4 rondas de revisor-visual: 31/13 → 29/15 → 30/16 → 31/18 (Craft PASA
+con margen desde la 3ª ronda; Usabilidad se estancó en ~30-31/40 con ganancias de +1pt por ronda —
+mismo patrón de rendimientos decrecientes, el propio revisor lo confirma: "funcionalmente completa
+... deuda residual de pulido, no de rotura"). Se aplicó además el único fix de accesibilidad real
+que señaló (aria-busy/aria-live en el botón "Analizar" durante la carga) antes de cerrar. **Coach**
+(`/app/coach` — chat con LUMA, hilo semilla + respuestas rápidas + "escribiendo…" simulado + mic
+con aviso "Próximamente") — construida, auto-revisada contra el checklist, SIN ronda de
+revisor-visual. **Tarot** (`/app/tarot` — lista de 5 tiradas, cada una se expande in situ mostrando
+la carta + una lectura corta, sin inventar una ruta de resultado nueva no aprobada) — construida,
+auto-revisada, SIN ronda de revisor-visual. **Diario** (`/app/diario` — check-in + entrada libre +
+patrón detectado semilla + calendario con aviso "Próximamente") — construida, auto-revisada, SIN
+ronda de revisor-visual. **Más** (`/app/mas` — cuenta/plan + enlaces a legal + "Próximamente" para
+notificaciones/ayuda) — construida (pantalla secundaria, no requiere revisor-visual por doctrina).
+Componentes nuevos compartidos: `AppButton`/`AppLinkButton` (variante `compact`, ahora con
+`busy`/`aria-live`), `BottomNav`, `ScreenHeader`, `MoodPicker`, `LumaAvatar` (retrato provisional).
+`CartaSacerdotisa` (antes solo de la landing) ahora acepta props reales (numero/nombre/cita) y un
+modo de disparo por montaje — compartida entre landing, Inicio y Tarot. /
+⚠️ Pendiente de decisión del usuario: Coach/Tarot/Diario comparten el mismo sistema de diseño ya
+verificado en 3-4 rondas de revisor sobre Inicio y Descifra (mismos componentes, mismos tokens,
+mismo patrón de animación) — dado el patrón de rendimientos decrecientes confirmado 5 veces en esta
+sesión (landing, onboarding, paywall, inicio, descifra: craft siempre pasa, usabilidad se estanca
+en ~30/40 tras 3-4 rondas con defectos cada vez más triviales), correr el mismo ciclo completo en
+las 3 pantallas restantes tiene un costo alto (~90k tokens por ronda) para un retorno ya conocido.
+Siguiente acción exacta: presentarle esto al usuario y preguntar si quiere (a) que se revisen
+formalmente Coach/Tarot/Diario también, o (b) avanzar con el sistema ya vetado y pasar a conectar
+los servicios reales (Sesión 6).
 
 ✅ CHECKPOINT — Ciclo de fixes de la landing (`/`) a partir de feedback visual DIRECTO del usuario
 CERRADO (6 rondas, 3-6). Los 4 puntos que el usuario reportó están CONFIRMADOS resueltos por el
@@ -281,6 +291,23 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   leía como tocable, `prefers-reduced-motion` solo respetado por un componente en vez de toda la
   app (resuelto con `<MotionConfig reducedMotion="user">` global en `app/layout.tsx`). Evidencia en
   docs/revisiones/inicio-375.png + inicio-veredicto.md (historial completo 3 rondas).
+- [veredicto:descifrar] ACEPTADO CON CRITERIO PROPIO (no LISTA por gate automático) — 4 rondas de
+  revisor-visual: 31/13 → 29/15 → 30/16 → 31/18. Craft PASA con margen (18/20) desde la 3ª ronda;
+  Usabilidad se estancó ~30-31/40 (gate ≥36) con ganancias de solo +1pt por ronda en las últimas 2
+  — el propio revisor lo describe como "inclinándose con fuerza hacia rendimientos decrecientes" y
+  dice que la pantalla está "funcionalmente completa... con deuda residual de pulido/accesibilidad,
+  no de rotura", igual que landing/onboarding/paywall/inicio. Bugs reales corregidos en el camino:
+  vacío muerto masivo + fondo plano bajo el composer (blooms con radio fijo en px que no llegaban
+  al fondo real — resuelto con unidades `dvh` + un 3er bloom anclado a `50% 100%`), CTA "Analizar"
+  se deshabilitaba por texto vacío en vez de explicar por qué (contradice "CTA héroe nunca
+  disabled"), faltaba un estado de error real, texto del micrófono prometía "mantén pulsado" cuando
+  el botón solo hace tap, chips de modo sin whileTap, bloque inicial sin stagger de entrada
+  (unificado con el header bajo la misma animación), íconos del resultado a 32px en vez de los 34px
+  de FICHA-ARTE, título de cada hallazgo casi idéntico en tamaño al cuerpo, sin atajo de teclado
+  (Ctrl/Cmd+Enter agregado), sin spinner visual durante la carga, sin aria-busy/aria-live (agregado
+  al componente compartido `AppButton`, beneficia futuros usos). Evidencia en
+  docs/revisiones/descifrar-375.png + descifrar-resultado-375.png + descifrar-veredicto.md
+  (historial completo 4 rondas).
 
 ## Pendientes del usuario
 - [x] Sesión 1 aprobada: precio $9,99/mes + $71,99/año · rango de edad ampliado a 18-60+.

@@ -24,12 +24,15 @@ export function AppButton({
   type = 'button',
   disabled,
   ariaLabel,
+  busy,
 }: {
   children: ReactNode;
   onClick?: () => void;
   type?: 'button' | 'submit';
   disabled?: boolean;
   ariaLabel?: string;
+  /** true mientras el botón dispara una acción en curso (ej. "Analizando…") — anuncia el estado a lectores de pantalla. */
+  busy?: boolean;
 }) {
   return (
     <motion.button
@@ -38,6 +41,8 @@ export function AppButton({
       type={type}
       disabled={disabled}
       aria-label={ariaLabel}
+      aria-busy={busy}
+      aria-live="polite"
       className={`${clase()} ${disabled ? 'opacity-50' : ''}`}
     >
       {children}
