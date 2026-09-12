@@ -3,21 +3,22 @@
 // KIT DE LANDING — §3 AGITACIÓN (blueprint: 55 §3)
 // Cada frase lleva su ícono de dolor — regla de escaneabilidad: los dolores
 // NUNCA van como lista de texto plano, necesitan un ancla visual para el ojo.
-// A propósito NO usa <IconChip> (el chip de 44px con caja de Problema.tsx):
-// un ícono suelto de 20px, sin borde ni fondo, para que Agitación se lea
-// como el mismo movimiento elevado que §2 pero un peldaño MÁS callado — la
-// intensidad sube en el texto, no en el envoltorio. Cada frase es corta
-// (máx 2 líneas; warn a las 18 palabras). El NÚMERO del costo va en
-// [b]/[acento] desde el copy marcado (es el dato héroe).
+// Emoji (no SVG de Lucide): pedido explícito del usuario para que el ícono
+// se sienta "acorde con el resto de la app, más divertido" — coherente con
+// la decisión ya vigente de FICHA-ARTE (Ronda #4: toda la app usa emoji).
+// A propósito sin IconChip/caja (el chip de 44px con borde de Problema.tsx):
+// el emoji va suelto para que Agitación se lea como el mismo movimiento
+// elevado que §2 pero un peldaño MÁS callado — la intensidad sube en el
+// texto, no en el envoltorio. Cada frase es corta (máx 2 líneas; warn a
+// las 18 palabras). El NÚMERO del costo va en [b]/[acento] (dato héroe).
 
 import { motion } from 'motion/react';
-import type { LucideIcon } from 'lucide-react';
 import { SectionShell, useReveal, VIEWPORT_ONCE } from './ui';
 import { MarkedCopy, warnCopy, warnRango } from './MarkedCopy';
 
 export interface FraseAgitacion {
-  /** Ícono de dolor de Lucide (tono muted, igual que Problema) — jamás emoji. */
-  icon: LucideIcon;
+  /** Emoji del dolor (mismo sistema que el resto de la app) — 1 glifo. */
+  emoji: string;
   /** Copy MARCADO y corto — máx 18 palabras, warn. */
   textoMarked: string;
 }
@@ -52,8 +53,10 @@ export function Agitacion({ frases, contraste, id }: AgitacionProps) {
         <div className="flex flex-col gap-5">
           {frases.map((f, i) => (
             <motion.div key={i} variants={item} className="flex items-start gap-3">
-              <f.icon size={20} strokeWidth={1.75} color="var(--text-tertiary)" className="mt-1 shrink-0" aria-hidden="true" />
-              <p className="text-[17px] leading-[1.6] text-[var(--text-secondary)]">
+              <span className="shrink-0 text-[22px] leading-none" aria-hidden="true">
+                {f.emoji}
+              </span>
+              <p className="pt-0.5 text-[17px] leading-[1.6] text-[var(--text-secondary)]">
                 <MarkedCopy text={f.textoMarked} />
               </p>
             </motion.div>

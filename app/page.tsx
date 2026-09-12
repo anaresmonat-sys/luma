@@ -6,7 +6,7 @@
 // Estilo: FICHA-ARTE.md → Dirección A "Terciopelo & Oro" (tokens en components/landing/tokens.css).
 // Modelo 02C: freemium onboarding-first → TODOS los CTA van a /onboarding.
 
-import { Clock, HelpCircle, Send, Repeat, RotateCcw, Moon, HeartCrack } from 'lucide-react';
+import { Clock, HelpCircle, Send, Repeat } from 'lucide-react';
 import { HeroDemoLuma } from '@/components/app/HeroDemoLuma';
 import { CasosLuma } from '@/components/app/CasosLuma';
 import { Hero, SiteHeader } from '@/components/landing/Hero';
@@ -59,15 +59,15 @@ export default function LandingLuma() {
       <Agitacion
         frases={[
           {
-            icon: RotateCcw,
+            emoji: '😵‍💫',
             textoMarked: 'Cada mensaje ambiguo te manda a la misma espiral: releer, suponer, preguntar a amigas igual de perdidas.',
           },
           {
-            icon: Moon,
+            emoji: '🌙',
             textoMarked: 'Son las 23:00 y sigues en la cama releyendo la conversación por décima vez, con el estómago apretado.',
           },
           {
-            icon: HeartCrack,
+            emoji: '💔',
             textoMarked: 'No es que pienses de más. Es que [b]nadie te ayudó a ver la conversación con calma[/b].',
           },
         ]}

@@ -8,7 +8,7 @@
 // escalonados (whileInView + stagger, reduced-motion respetado).
 
 import { motion } from 'motion/react';
-import { Accent, Hairline, Kicker, SectionShell, useReveal, VIEWPORT_ONCE } from './ui';
+import { Accent, Kicker, SectionShell, useReveal, VIEWPORT_ONCE } from './ui';
 import { MarkedCopy, warnCopy } from './MarkedCopy';
 
 export interface PasoMecanismo {
@@ -69,13 +69,15 @@ export function Solucion({
           </h2>
         </motion.div>
 
-        {/* El chip del mecanismo bautizado — hairline + <Accent> (55 §4) */}
+        {/* El chip del mecanismo bautizado (55 §4). Borde SÓLIDO a propósito:
+            el Hairline degradé (borde que se desvanece a transparente) se ve
+            genial en cards grandes (Oferta/Garantía) pero en un chip tan
+            chico el desvanecido se lee como "le falta el borde" — feedback
+            directo del usuario. */}
         <motion.div variants={item} className="mt-4">
-          <Hairline surface="bg" className="w-fit">
-            <span className="block px-4 py-2 text-[15px] font-semibold">
-              <Accent>{mecanismo}</Accent>
-            </span>
-          </Hairline>
+          <span className="inline-block w-fit rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_40%,transparent)] px-4 py-2 text-[15px] font-semibold">
+            <Accent>{mecanismo}</Accent>
+          </span>
         </motion.div>
 
         <motion.p variants={item} className="mt-5 max-w-[620px] text-[17px] leading-relaxed text-[var(--text-secondary)] md:text-[18px]">
