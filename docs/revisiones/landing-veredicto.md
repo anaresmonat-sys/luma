@@ -43,3 +43,28 @@ Top defectos:
 2. [Solución, chip "descifrar la conversación"] El fill subió de 8% a 13%, pero sigue cerca del 10% de --chip-bg que usan los chips numerados 01/02/03: la distinción depende sobre todo de la forma (pill) y la posición, no de un salto de color contundente → fix: subir a ~18-20% o usar un fill menos diluido para que gane autoridad de color, no solo geométrica.
 3. [Problema, lista de 4 preguntas] El set mezcla un emoji-objeto (⏳) con 3 emoji-cara (😕😳😩): ya no hay error de render ni choque de estilo, pero la categoría del glifo no es 100% homogénea dentro de la misma lista de 4 → fix opcional de pulido: sustituir ⏳ por una cara equivalente si se busca máxima uniformidad; no bloquea.
 4. [Craft general] Ningún eje llega a 4/4 (ejemplar): jerarquía, profundidad, identidad, movimiento y encaje se sostienen en un 3 sólido pero ninguno tiene el detalle de showcase que lo lleve al top decile → fix: una vez resuelto el defecto 1, llevar el eje de Encaje a un acabado de referencia antes de la próxima revisión.
+
+---
+
+# VEREDICTO revisor-visual — landing (Ronda 6)
+Fecha: 2026-09-12 00:00
+Screenshot: docs/revisiones/landing-375.png
+Usabilidad: 34/40
+Craft: 16/20
+Copy (si vende): 19/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:3 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:4 h10:3
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:4
+Detalle copy: idea:4 especificidad:4 emoción:4 oferta:3 acción:4 (sin cambios de copy esta ronda — Oferta no tocó ningún texto, solo el componente del CTA)
+Verificación del fix reportado (defecto 1 de la Ronda 5, único abierto de este ciclo):
+- CONFIRMADO en código (Oferta.tsx línea 190: `<CtaButton href={mensual.ctaHref} variant="outline" fullMobile>`) y visualmente en landing-oferta-375.png — el CTA "Mensual" ya NO es un `<a>` hecho a mano: es el mismo `CtaButton` compartido con `variant="outline"` (mismo radius, mismo alto 52px, mismo whileTap 0.97, mismo focus-ring) que usa toda la app. Cero variante accidental.
+- Señal de distinción Anual (recomendado) vs Mensual: CONFIRMADO visualmente — badge "LA MÁS ELEGIDA", Hairline emphasis (borde 2px degradado + sombra tintada), fondo con tinte de acento 5% y CTA sólido en Anual, contra card con borde plano, sin badge y CTA outline en Mensual. La jerarquía visual entre planes es clara e inequívoca (esto ya existía antes de esta ronda, sin cambios, y sigue funcionando sin regresión).
+- Efecto en el puntaje: el defecto que I) rompía la consistencia de componentes (h4) y II) aplanaba el encaje óptico de Oferta queda resuelto → craft/encaje sube 3→4 (mecanismo ahora idéntico en construcción a cualquier otro CTA del kit). h1 sube 2→3 porque el botón Mensual ahora da feedback de tap consistente con el resto del sitio (antes era un `<a>` sin `whileTap`, una superficie "muda" al lado de botones que sí responden).
+- Con esto, el defecto ÚNICO que venía arrastrando el ciclo desde la Ronda 3 (ver defecto 5/1/1 en las tres rondas previas) queda cerrado sin regresiones en las secciones ya aprobadas (Problema/Agitación/Solución reconfirmadas sin cambios en landing-problema-375.png / landing-agitacion-375.png / landing-solucion-375.png).
+Top defectos:
+1. [Usabilidad general, transversal] El total de 34/40 queda 2 puntos por debajo del gate (≥36) NO por un bug puntual sino porque varios criterios (h3 control y libertad, h7 flexibilidad, h8 estético/minimalista, h10 ayuda contextual) se sostienen en un 3 sólido ("bien, solo un ojo entrenado detecta qué afinar") sin ningún defecto visible específico que los tire abajo → fix: no hay un fix de una línea; requiere una pasada de pulido fino sección por sección (microcopy de ayuda contextual, algún atajo/default adicional) si se quiere cruzar el gate numérico — evaluar si vale la pena vs. lanzar con este nivel, que ya es sólido para producción real.
+2. [Oferta, ambos CTA] "Descifrar mi primera conversación" es IDÉNTICO en la card Anual y en la Mensual — no hay ninguna palabra que referencie el plan elegido (ni siquiera "(plan anual)"/"(plan mensual)" en el mismo botón) → fix: diferenciar el copy del CTA por plan, o al menos agregar el nombre del plan en el botón, para que quien mira solo los dos botones (sin leer el card completo) sepa qué está por elegir.
+3. [Solución, chip "descifrar la conversación" — heredado, sin tocar esta ronda] Sigue con fill de acento ~13%, muy cerca del 10% de --chip-bg de los chips numerados 01/02/03 → la distinción se apoya más en forma/posición que en un salto de color contundente → fix: subir a ~18-20% (pendiente desde Ronda 4, confirmado sin cambios en landing-solucion-375.png de esta ronda).
+4. [Problema, lista de 4 preguntas — heredado, cosmético] ⏳ sigue siendo emoji-objeto contra 😕😳😩 emoji-cara: mezcla de categoría menor, no bloqueante → fix opcional, sin prisa.
+5. [Craft general] jerarquía, profundidad, identidad y movimiento siguen en 3/4 (sólidos, no ejemplares); solo encaje llegó a 4 esta ronda gracias al fix de Oferta → fix: si se busca craft de showcase (18-20/20), sería la siguiente prioridad, pero ya cumple el gate de craft (≥16/20).

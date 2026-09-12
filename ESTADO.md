@@ -1,24 +1,26 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-12 | Sesión actual: 4 (continuación)
 
-✅ CHECKPOINT — 5ª ronda de ajustes de la landing (`/`), mismo ciclo iniciado por feedback visual
-DIRECTO del usuario (ya resuelto por completo desde la ronda 4: LUMA/frases sin recorte real,
-chip de Solución con borde completo, íconos unificados a emoji con paleta correcta — todo
-CONFIRMADO por el revisor en la ronda 5, sin regresiones). Lo único que sigue bajando el score
-(33/40·15/20, bajo el gate ≥36/40·≥16/20) es un defecto HEREDADO de rondas anteriores a este ciclo
-(no reportado por el usuario): en Oferta (§6), el CTA del plan Mensual era un `<a>` hecho a mano en
-vez de una variante del componente compartido `CtaButton`. Corregido: `CtaButton` ahora acepta
-`variant: 'solid' | 'outline'` (ui.tsx) y Oferta.tsx usa `<CtaButton variant="outline">` para el
-plan Mensual — mismo motion/focus-ring que el resto del kit, sin duplicar código. El plan Anual ya
-tenía señal de "recomendado" (badge "LA MÁS ELEGIDA" + hairline + fondo acento), que es el
-mecanismo de selección visual que pedía el doctrina 55 §6. Evidencia: nueva
-docs/revisiones/landing-oferta-375.png + landing-375.png regenerado. Onboarding y Paywall siguen
-ACEPTADOS con criterio propio (sin cambios esta sesión — ver Problemas conocidos). /
-Siguiente acción exacta: relanzar revisor-visual (6ª ronda) sobre este fix de Oferta. Si esta vez
-alcanza el gate automático (≥36/40·≥16/20·≥16/20) o si el usuario decide cerrar el ciclo con
-criterio propio (mismo patrón que onboarding/paywall), actualizar landing-veredicto.md y este
-checkpoint con el score final, y volver a preguntarle al usuario cómo seguir (app interna Sesión 5
-/ entrevistas de avatar / retrato de LUMA — sigue sin responder esa pregunta).
+✅ CHECKPOINT — Ciclo de fixes de la landing (`/`) a partir de feedback visual DIRECTO del usuario
+CERRADO (6 rondas, 3-6). Los 4 puntos que el usuario reportó están CONFIRMADOS resueltos por el
+revisor sin regresiones: (1-2) "LUMA/frases cortadas" eran un artefacto de ver la miniatura del
+screenshot completo, el render real nunca tuvo recorte; (3) el chip "descifrar la conversación"
+con "la mitad sin borde" era un bug real (Hairline degradé no funciona en un chip chico) — corregido
+con borde sólido + fill de acento; (4) "los íconos deben ser emoji, más divertidos" — se unificó
+Problema+Agitación a emoji y se ajustó la paleta de 3 de ellos que se veían mal en Windows/Segoe UI
+Emoji. Un defecto heredado adicional (no reportado por el usuario, lo encontró el revisor) también
+se corrigió: el CTA del plan Mensual de Oferta pasó de un `<a>` hecho a mano a la variante
+`outline` del componente compartido `CtaButton`. Score final (ronda 6): **NO LISTA por el gate
+automático — Usabilidad 34/40 (gate ≥36) · Craft 16/20 (PASA, gate ≥16) · Copy 19/20 (PASA, gate
+≥16)**. El propio revisor describe la brecha de usabilidad como difusa (varios criterios en "3
+sólido" sin un defecto puntual identificable) y la llama "decisión de producto, no bug pendiente"
+— mismo patrón de rendimientos decrecientes que onboarding (5 rondas) y paywall (8 rondas).
+Evidencia: docs/revisiones/landing-375.png + landing-problema/agitacion/solucion/oferta-375.png +
+landing-veredicto.md (historial completo rondas 3-6). Onboarding y Paywall sin cambios esta sesión. /
+Siguiente acción exacta: presentarle al usuario el cierre de este ciclo en simple (sus 4 puntos
+resueltos + el score) y preguntar si prefiere seguir puliendo usabilidad o cerrar con criterio
+propio y avanzar — y retomar la pregunta pendiente de qué sigue (app interna Sesión 5 / entrevistas
+de avatar / retrato de LUMA).
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -141,7 +143,7 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
 
 ## Secuencia maestra de construcción (NO saltar)
 - Estado: identidad cerrada; **código en marcha**. Ruta: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
-- Landing (`/`): **LISTA** (revisor-visual: 37/40 · 17/20 · 19/20 — elevada por escaneabilidad mobile 2026-09-12, ver checkpoint) — protagonista: el mecanismo "descifra la conversación"; CTA primario "Descifrar mi primera conversación" → `/onboarding`. Placeholders honestos que quedan: visual del hero + carrusel "Así se ve por dentro" (screenshots reales cuando exista la app interna, Sesión 5).
+- Landing (`/`): **construida, ACEPTADO con criterio propio** (revisor-visual ronda 6: 34/40 · 16/20 · 19/20 — ver checkpoint y [veredicto:landing]) — protagonista: el mecanismo "descifra la conversación"; CTA primario "Descifrar mi primera conversación" → `/onboarding`. Placeholders honestos que quedan: visual del hero + carrusel "Así se ve por dentro" (screenshots reales cuando exista la app interna, Sesión 5).
 - Onboarding (`/onboarding`): **construido, ACEPTADO con criterio propio** (ver checkpoint arriba y "Problemas conocidos"). 7 preguntas + 2 reconocimientos + loading + revelación del plan; CTA final → `/paywall`.
 - Paywall (`/paywall`): **construido, ACEPTADO con criterio propio** (8 rondas, ver "Problemas conocidos" → [veredicto:paywall]). Headline+timeline del trial+2 plan cards tocables+CTA único.
 - Entrar (`/entrar`): **construido** (magic link por email, simula el envío — Sesión 6 conecta el backend real). No estaba planeada como pantalla propia de esta sesión; se adelantó porque "Restaurar compra" del paywall necesitaba un destino real.
@@ -168,18 +170,30 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   construido en Sesión 4); `/entrar` (login) aún no existe (Sesión 4, paso 3).
 - [legal] /privacidad /terminos /cookies /reembolsos /aviso-ia son BORRADOR — contenido legal
   definitivo antes del lanzamiento (archivo 47).
-- [veredicto:landing] RESUELTO — LISTA vigente: **37/40 · 17/20 · 19/20**. Historial hasta la 1ª
-  aprobación (8ª ronda, 2026-09-11): 29/10/14 → 31/15/15 → 32/19/18 → 31/18/17 → 35/19/19 →
-  35/19/19 → 32/18/19 → 37/19/19 LISTA. El 2026-09-12 se elevó la escaneabilidad mobile
-  (Agitación pasó de texto plano a íconos por frase) y se relanzó: 1ª repasada NO LISTA (falso
-  positivo de un skip-link "superpuesto" — artefacto del script de captura con páginas muy largas,
-  corregido en scripts-dev/shot.mjs; + Craft bajó a 16/20 porque el ícono nuevo copiaba el chip con
-  caja de Problema y las 7 filas se leían como una sola lista) → corregido (ícono suelto de 20px,
-  deliberadamente distinto) → 2ª repasada **LISTA: 37/40 · 17/20 · 19/20**. Evidencia en
-  docs/revisiones/landing-375.png + landing-veredicto.md. Pendientes menores que el propio
-  revisor anotó sin bloquear el gate: testimonios reales (ver punto de FICHA-AVATAR arriba),
-  `/entrar` aún no existe (404 hoy, esperable en esta etapa), páginas legales en borrador
-  (archivo 47). NOTA sobre "veredicto caducado": el código .tsx de `app/onboarding/` y
+- [veredicto:landing] ACEPTADO CON CRITERIO PROPIO desde la 6ª ronda del 2º ciclo (ver detalle
+  abajo) — no LISTA por el gate automático de Usabilidad, mismo patrón que onboarding/paywall.
+  Historial 1er ciclo hasta la 1ª aprobación (8ª ronda, 2026-09-11): 29/10/14 → 31/15/15 →
+  32/19/18 → 31/18/17 → 35/19/19 → 35/19/19 → 32/18/19 → 37/19/19 LISTA. El 2026-09-12 se elevó
+  la escaneabilidad mobile (Agitación pasó de texto plano a íconos por frase) y se relanzó: 1ª
+  repasada NO LISTA (falso positivo de un skip-link "superpuesto" — artefacto del script de
+  captura, corregido en scripts-dev/shot.mjs; + Craft bajó a 16/20 por repetición de ícono) →
+  corregido → 2ª repasada **LISTA: 37/40 · 17/20 · 19/20**. 2º CICLO (mismo día, feedback visual
+  DIRECTO del usuario tras ver esa aprobación — 4 puntos: "LUMA cortada", "frases cortadas al
+  final", chip de Solución "mitad sin borde", "íconos deben ser emoji"): ronda 3 (unificó íconos a
+  emoji en Problema+Agitación, arregló Hairline roto del chip) → NO LISTA 33/17/19 (emoji fuera de
+  paleta en Windows + ZWJ) → ronda 4 (ZWJ→😖, fill del chip 8%) → NO LISTA 33/17/19 (2 emoji de
+  Problema seguían fuera de paleta) → ronda 5 (🤔💬🔁→😕😳😩, fill del chip 8%→13%) → NO LISTA
+  33/15/19 (confirma los 4 puntos del usuario resueltos; único defecto restante es heredado: CTA
+  Mensual de Oferta con `<a>` hecho a mano) → ronda 6 (CtaButton con variant outline) → **NO LISTA
+  34/40 · 16/20 (PASA) · 19/20 (PASA)** — Craft y Copy pasan su gate; Usabilidad queda 2 puntos
+  bajo el gate (≥36) sostenida por varios criterios en "3 sólido" sin defecto puntual identificable
+  (el propio revisor lo describe como decisión de producto, no bug). El usuario decide si seguir
+  puliendo o cerrar aquí. Evidencia: docs/revisiones/landing-375.png +
+  landing-problema/agitacion/solucion/oferta-375.png + landing-veredicto.md (historial rondas 3-6).
+  Pendientes menores sin bloquear: testimonios reales (ver FICHA-AVATAR arriba), `/entrar` ya
+  existe, páginas legales en borrador (archivo 47), copy de CTA idéntico entre planes de Oferta,
+  fill del chip de Solución podría subir más (13%→18-20%) en una pasada de pulido futura.
+  NOTA sobre "veredicto caducado": el código .tsx de `app/onboarding/` y
   `components/onboarding/` es MÁS NUEVO que landing-veredicto.md porque se escribió después
   (Sesión 4) — no toca ningún archivo de la landing (`app/page.tsx`, `components/landing/*`,
   `components/app/HeroDemoLuma.tsx`, `components/app/CasosLuma.tsx` no cambiaron desde el
