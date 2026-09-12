@@ -17,15 +17,18 @@
 - **Social proof (slot):** — (SIN datos reales todavía: se deja vacío, no se inventa — 19 §1 / FICHA-AVATAR "inventario de prueba")
 
 ## 2 · PROBLEMA  (3-5 preguntas, ≤12 palabras — dolores #1-#4 de FICHA-AVATAR)
-- ¿Por qué me escribía todo el día y ahora tarda horas?
-- ¿Estoy exagerando o de verdad cambió algo?
-- ¿Qué le respondo sin quedar como que me importa demasiado?
-- ¿Otra vez estoy repitiendo el mismo patrón de siempre?
+  Cada pregunta lleva su emoji de dolor en chip (mismo sistema que Agitación —
+  emoji por pedido directo del usuario, acorde al resto de la app).
+- ⏳ ¿Por qué me escribía todo el día y ahora tarda horas?
+- 🤔 ¿Estoy exagerando o de verdad cambió algo?
+- 💬 ¿Qué le respondo sin quedar como que me importa demasiado?
+- 🔁 ¿Otra vez estoy repitiendo el mismo patrón de siempre?
 
 ## 3 · AGITACIÓN  (2-4 frases, ≤18 palabras — "costo de la inacción" de FICHA-AVATAR)
-  Cada frase lleva emoji de dolor (regla de escaneabilidad — nunca texto plano; emoji por pedido
-  directo del usuario, acorde al sistema de íconos del resto de la app).
-- 😵‍💫 Cada mensaje ambiguo te manda a la misma espiral: releer, suponer, preguntar a amigas igual de perdidas.
+  Cada frase lleva emoji de dolor suelto, sin chip (regla de escaneabilidad —
+  nunca texto plano; emoji por pedido directo del usuario, acorde al sistema
+  de íconos del resto de la app).
+- 😖 Cada mensaje ambiguo te manda a la misma espiral: releer, suponer, preguntar a amigas igual de perdidas.
 - 🌙 Son las 23:00 y sigues en la cama releyendo la conversación por décima vez, con el estómago apretado.
 - 💔 No es que pienses de más. Es que [b]nadie te ayudó a ver la conversación con calma[/b].
 

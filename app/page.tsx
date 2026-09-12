@@ -6,7 +6,6 @@
 // Estilo: FICHA-ARTE.md → Dirección A "Terciopelo & Oro" (tokens en components/landing/tokens.css).
 // Modelo 02C: freemium onboarding-first → TODOS los CTA van a /onboarding.
 
-import { Clock, HelpCircle, Send, Repeat } from 'lucide-react';
 import { HeroDemoLuma } from '@/components/app/HeroDemoLuma';
 import { CasosLuma } from '@/components/app/CasosLuma';
 import { Hero, SiteHeader } from '@/components/landing/Hero';
@@ -48,10 +47,10 @@ export default function LandingLuma() {
       <Problema
         titulo="¿Te suena?"
         preguntas={[
-          { icon: Clock, textoMarked: '¿Por qué me escribía todo el día y ahora [b]tarda horas[/b]?' },
-          { icon: HelpCircle, textoMarked: '¿Estoy exagerando o de verdad cambió algo?' },
-          { icon: Send, textoMarked: '¿Qué le respondo sin quedar como que me importa demasiado?' },
-          { icon: Repeat, textoMarked: '¿Otra vez estoy repitiendo el [b]mismo patrón[/b] de siempre?' },
+          { emoji: '⏳', textoMarked: '¿Por qué me escribía todo el día y ahora [b]tarda horas[/b]?' },
+          { emoji: '🤔', textoMarked: '¿Estoy exagerando o de verdad cambió algo?' },
+          { emoji: '💬', textoMarked: '¿Qué le respondo sin quedar como que me importa demasiado?' },
+          { emoji: '🔁', textoMarked: '¿Otra vez estoy repitiendo el [b]mismo patrón[/b] de siempre?' },
         ]}
       />
 
@@ -59,7 +58,7 @@ export default function LandingLuma() {
       <Agitacion
         frases={[
           {
-            emoji: '😵‍💫',
+            emoji: '😖',
             textoMarked: 'Cada mensaje ambiguo te manda a la misma espiral: releer, suponer, preguntar a amigas igual de perdidas.',
           },
           {

@@ -73,9 +73,11 @@ export function Solucion({
             el Hairline degradé (borde que se desvanece a transparente) se ve
             genial en cards grandes (Oferta/Garantía) pero en un chip tan
             chico el desvanecido se lee como "le falta el borde" — feedback
-            directo del usuario. */}
+            directo del usuario. Fill sutil (8%) para que conserve algo del
+            peso "especial" que tenía el hairline, sin reintroducir el borde
+            que se desvanece. */}
         <motion.div variants={item} className="mt-4">
-          <span className="inline-block w-fit rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_40%,transparent)] px-4 py-2 text-[15px] font-semibold">
+          <span className="inline-block w-fit rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_40%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] px-4 py-2 text-[15px] font-semibold">
             <Accent>{mecanismo}</Accent>
           </span>
         </motion.div>

@@ -25,11 +25,13 @@ export function Kicker({ children }: { children: ReactNode }) {
   );
 }
 
-/* ── <IconChip> — ícono SVG 22px dentro de chip 44px (55: jamás emoji) ──────
-   tone 'accent' para secciones cálidas · 'muted' para íconos de dolor (§2:
-   neutro apagado, nunca checks verdes). La FORMA la decide --radius-button:
-   una sola forma de chip por página. */
-export function IconChip({ icon: Icono, tone = 'accent' }: { icon: LucideIcon; tone?: 'accent' | 'muted' }) {
+/* ── <IconChip> — ícono dentro de chip 44px. tone 'accent' para secciones
+   cálidas · 'muted' para íconos de dolor (§2: neutro apagado, nunca checks
+   verdes). La FORMA la decide --radius-button: una sola forma de chip por
+   página. `icon` acepta un componente Lucide O un emoji (string) — LUMA
+   usa emoji como sistema de íconos en toda la app (FICHA-ARTE Ronda #4,
+   decisión del usuario), esta landing incluida. */
+export function IconChip({ icon: Icono, tone = 'accent' }: { icon: LucideIcon | string; tone?: 'accent' | 'muted' }) {
   const acento = tone === 'accent';
   return (
     <span
@@ -40,7 +42,11 @@ export function IconChip({ icon: Icono, tone = 'accent' }: { icon: LucideIcon; t
           : 'border-[color-mix(in_oklab,var(--text-tertiary)_35%,transparent)] bg-[color-mix(in_oklab,var(--text-tertiary)_12%,transparent)]'
       }`}
     >
-      <Icono size={22} strokeWidth={2} color={acento ? 'var(--accent)' : 'var(--text-secondary)'} aria-hidden="true" />
+      {typeof Icono === 'string' ? (
+        <span className="text-[22px] leading-none">{Icono}</span>
+      ) : (
+        <Icono size={22} strokeWidth={2} color={acento ? 'var(--accent)' : 'var(--text-secondary)'} aria-hidden="true" />
+      )}
     </span>
   );
 }

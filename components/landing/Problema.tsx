@@ -2,18 +2,18 @@
 
 // KIT DE LANDING — §2 PROBLEMA (blueprint: 55 §2)
 // 3-5 PREGUNTAS que hacen asentir, apiladas — NUNCA párrafo corrido. Cada una con
-// su ícono de dolor SVG en IconChip tone="muted" (neutro apagado: los checks son
-// de la solución, no del problema). Máx 12 palabras por card (warn). Fondo
-// ELEVADO: abre el bloque problema+agitación (un solo movimiento visual, T1).
+// su emoji de dolor en IconChip tone="muted" (neutro apagado: los checks son de
+// la solución, no del problema) — mismo sistema de íconos que Agitación, para
+// que el bloque 2+3 se lea como un solo movimiento visual sin salto de sistema.
+// Máx 12 palabras por card (warn). Fondo ELEVADO (T1).
 
 import { motion } from 'motion/react';
-import type { LucideIcon } from 'lucide-react';
 import { IconChip, SectionShell, useReveal, VIEWPORT_ONCE } from './ui';
 import { MarkedCopy, warnCopy, warnRango } from './MarkedCopy';
 
 export interface PreguntaProblema {
-  /** Ícono de dolor de Lucide (Inbox, AlarmClock, Repeat…) — jamás emoji. */
-  icon: LucideIcon;
+  /** Emoji de dolor (mismo sistema que el resto de la app y que Agitación). */
+  emoji: string;
   /** Copy MARCADO — pregunta directa al lector, máx 12 palabras. */
   textoMarked: string;
 }
@@ -55,7 +55,7 @@ export function Problema({ titulo, preguntas, id }: ProblemaProps) {
               variants={item}
               className="flex items-start gap-4 rounded-[var(--radius-card)] bg-[var(--bg)] p-4 shadow-[var(--shadow-1)]"
             >
-              <IconChip icon={p.icon} tone="muted" />
+              <IconChip icon={p.emoji} tone="muted" />
               <p className="pt-2 text-[17px] font-medium leading-snug text-[var(--text-primary)]">
                 <MarkedCopy text={p.textoMarked} />
               </p>

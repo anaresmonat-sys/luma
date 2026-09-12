@@ -1,23 +1,25 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-12 | Sesión actual: 4 (continuación)
 
-✅ CHECKPOINT — Última acción completada: elevación de escaneabilidad mobile de la landing (`/`),
-pedida por el usuario con reglas nuevas y explícitas (límite de 4 líneas, ícono como ancla visual
-en dolores/beneficios/pasos, prueba de "solo-titulares", oferta/garantía en cajas, FAQ en
-acordeón). Auditoría sección por sección a 375px: 9 de 10 secciones ya cumplían todo; el único
-hallazgo real fue Agitación (§3) con sus 3 frases como texto plano sin ícono — corregido con un
-ícono Lucide de 20px por frase (RotateCcw/Moon/HeartCrack), deliberadamente MÁS CALLADO que el
-IconChip con caja de Problema (para no leerse como una sola lista de 7 ítems). Relanzado el
-revisor-visual 2 veces: 1ª ronda NO LISTA por un falso positivo (skip-link "superpuesto" en el
-screenshot — confirmado artefacto del script de captura, no del producto real; corregido
-ocultándolo durante la captura fullPage) + un defecto real de jerarquía (ya descrito); 2ª ronda
-**LISTA: 37/40 · 17/20 (sube de 16 a 17) · 19/20**. Evidencia en docs/revisiones/landing-375.png +
-landing-veredicto.md. Onboarding y Paywall siguen ACEPTADOS con criterio propio (sin cambios esta
-sesión — ver detalle en Problemas conocidos). /
-Siguiente acción exacta: presentar la PUERTA DE ETAPA de Sesión 4 (landing elevada + onboarding +
-paywall + entrar) al usuario en simple, y preguntar cómo seguir — construir la app interna
-(Sesión 5) es lo próximo en la secuencia maestra, pero también quedan pendientes las entrevistas
-de avatar y el retrato de LUMA.
+✅ CHECKPOINT — 3ª ronda de ajustes de la landing (`/`) a partir de feedback visual DIRECTO del
+usuario tras ver la 2ª aprobación: (1) "LUMA cortada por bordes redondos" y "frases cortadas al
+final" — investigado en vivo con el Browser pane a 375px: el render real NO tiene ningún recorte;
+es casi seguro un artefacto de ver la miniatura del PNG de 16000px de alto escalada (falso positivo,
+no se tocó nada); (2) caja "descifrar la conversación" con "la mitad sin borde" — BUG REAL: el
+Hairline degradé (borde que se desvanece) no funciona a ese tamaño chico — corregido con borde
+sólido + fill sutil 8% acento; (3) "los iconos deben ser emoji, más divertidos" — Agitación ya
+tenía emoji; se extendió a Problema también (antes SVG Lucide) para unificar el sistema de íconos
+de todo el bloque 2+3 (mismo movimiento visual, ver `IconChip` en ui.tsx que ahora acepta
+`LucideIcon | string`). 3ª ronda de revisor-visual: NO LISTA 33/40·17/20·19/20 (defecto principal:
+inconsistencia de sistema de íconos SVG/emoji entre Problema y Agitación — ya corregido arriba;
+también pidió reemplazar el emoji ZWJ 😵‍💫 por uno de un solo glifo — corregido a 😖). Evidencia
+nueva: docs/revisiones/landing-problema-375.png, landing-agitacion-375.png,
+landing-solucion-375.png (crops dedicados) + landing-375.png regenerado. Onboarding y Paywall
+siguen ACEPTADOS con criterio propio (sin cambios esta sesión — ver Problemas conocidos). /
+Siguiente acción exacta: relanzar revisor-visual (4ª ronda) sobre los 3 fixes de esta ronda; si
+aprueba, actualizar landing-veredicto.md y el checkpoint, y volver a preguntarle al usuario cómo
+seguir (app interna Sesión 5 / entrevistas de avatar / retrato de LUMA — sigue sin responder esa
+pregunta, pendiente de re-plantear tras cerrar este ciclo).
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
