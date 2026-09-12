@@ -23,9 +23,10 @@
 - ¿Otra vez estoy repitiendo el mismo patrón de siempre?
 
 ## 3 · AGITACIÓN  (2-4 frases, ≤18 palabras — "costo de la inacción" de FICHA-AVATAR)
-- Cada mensaje ambiguo te manda a la misma espiral: releer, suponer, preguntarle a amigas que están igual de perdidas.
-- Llegas ansiosa al trabajo, revisas el teléfono cada cinco minutos y a veces mandas el mensaje del que te arrepientes.
-- No es que pienses de más. Es que [b]nadie te ayudó a ver la conversación con calma[/b].
+  Cada frase lleva ícono de dolor (IconChip tone="muted", regla de escaneabilidad — nunca texto plano).
+- 🔁 (RotateCcw) Cada mensaje ambiguo te manda a la misma espiral: releer, suponer, preguntar a amigas igual de perdidas.
+- 🌙 (Moon) Son las 23:00 y sigues en la cama releyendo la conversación por décima vez, con el estómago apretado.
+- 💔 (HeartCrack) No es que pienses de más. Es que [b]nadie te ayudó a ver la conversación con calma[/b].
 
 ## 4 · SOLUCIÓN  (exactamente 3 pasos, detalle ≤14 palabras)
 - **Paso 1 — Pega el chat.** Copias la conversación de WhatsApp, subes una captura o lo cuentas por voz.
