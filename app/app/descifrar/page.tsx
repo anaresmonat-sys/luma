@@ -54,19 +54,21 @@ export default function DescifrarPage() {
     <div className="relative flex min-h-dvh flex-col px-5 pb-6 pt-3">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-1/4 -z-10 h-[30rem]"
+        className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(520px 380px at 50% 45%, color-mix(in oklab, var(--bloom-vino) 55%, transparent), transparent 68%)',
+            'radial-gradient(520px 420px at 50% 32%, color-mix(in oklab, var(--bloom-vino) 55%, transparent), transparent 68%), ' +
+            'radial-gradient(480px 360px at 50% 82%, color-mix(in oklab, var(--bloom-vino) 42%, transparent), transparent 70%)',
         }}
       />
       <ScreenHeader titulo="Descifra la conversación" tituloDisplay />
 
-      <div className="flex flex-1 flex-col justify-center">
-        <div className="grid grid-cols-3 gap-2">
+      <motion.div variants={contenedor} initial="hidden" animate="visible" className="flex flex-1 flex-col justify-center">
+        <motion.div variants={item} className="grid grid-cols-3 gap-2">
           {MODOS.map((m) => (
-            <button
+            <motion.button
               key={m.id}
+              whileTap={{ scale: 0.97 }}
               type="button"
               onClick={() => setModo(m.id)}
               aria-pressed={modo === m.id}
@@ -80,18 +82,18 @@ export default function DescifrarPage() {
                 {m.emoji}
               </span>
               {m.label}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
         <AnimatePresence mode="wait">
           {modo === 'texto' ? (
             <motion.div
               key="texto"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.2, delay: 0.07 }}
             >
               <div className="mt-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] p-3">
                 <textarea
@@ -113,7 +115,7 @@ export default function DescifrarPage() {
                   >
                     🎤
                   </button>
-                  <span className="text-[11px] text-[var(--text-tertiary)]">o mantén pulsado para hablar</span>
+                  <span className="text-[11px] text-[var(--text-tertiary)]">o toca para grabar — próximamente</span>
                 </div>
               </div>
 
@@ -192,7 +194,7 @@ export default function DescifrarPage() {
                 <motion.div key={a.id} variants={item} className="flex items-start gap-3">
                   <span
                     aria-hidden="true"
-                    className="flex size-8 shrink-0 items-center justify-center rounded-full text-[15px]"
+                    className="flex size-[34px] shrink-0 items-center justify-center rounded-full text-[15px]"
                     style={{
                       background: `color-mix(in oklab, ${a.color} 24%, transparent)`,
                       border: `1px solid color-mix(in oklab, ${a.color} 55%, transparent)`,
@@ -219,7 +221,7 @@ export default function DescifrarPage() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </div>
   );
 }
