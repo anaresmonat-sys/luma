@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Hanken_Grotesk } from "next/font/google";
+import { MotionConfig } from "motion/react";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -29,7 +30,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="es"
       className={`${cormorant.variable} ${hanken.variable} h-full antialiased`}
     >
-      <body className="min-h-dvh flex flex-col bg-bg text-text-primary">{children}</body>
+      <body className="min-h-dvh flex flex-col bg-bg text-text-primary">
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
+      </body>
     </html>
   );
 }

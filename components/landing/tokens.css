@@ -25,6 +25,8 @@
 
   /* ── MARCA ── */
   --accent: #d8a441;          /* ORO — SOLO en CTA y dato clave */
+  --accent-lite: #e9b06a;     /* realce/enlace (FICHA-ARTE §brand kit) */
+  --on-accent: #2a140f;       /* texto sobre relleno de acento (botones oro) */
   --accent-2: #d98a86;        /* 2ª nota: rosa cálido (detalle romántico puntual) */
 
   /* ── FORMA ── */
@@ -53,6 +55,30 @@
   /* Colores propios del analizador (FICHA-ARTE §items del analizador) */
   --an-eye: #7fb0aa;
   --an-risk: #d9776a;
+  --an-question: #8aa4c6;
+
+  /* Círculos de emoción (FICHA-ARTE §dispositivo ownable #2) — funcionales, no decorativos */
+  --mood-bien: #8faa78;
+  --mood-normal: #d8a441;
+  --mood-ansiosa: #dd8f7a;
+  --mood-triste: #8fa6c6;
+  --mood-ilusion: #d99db3;
+  --mood-confundida: #7fb3ad;
+  --mood-enfadada: #cf6f63;
+  --mood-otra: #a89f95;
+
+  /* Bloom cálido del fondo (mismo tono que el radial-gradient de app/globals.css
+     body — reutilizable como token para blooms locales en pantallas largas). */
+  --bloom-vino: #6d2f3e;
+
+  /* Retrato ilustrado provisional de LUMA (persona) — pigmento del personaje,
+     no color de UI; el retrato final llega en la sesión de assets (20). */
+  --luma-avatar-bg: #2a1420;
+  --luma-avatar-hair: #3a2230;
+  --luma-avatar-hair-dark: #241019;
+  --luma-avatar-skin: #e6bd9c;
+  --luma-avatar-eyeline: #3a2028;
+  --luma-avatar-mouth: #b06a5a;
 }
 
 /* Base mínima que el kit asume (no tematizar) */

@@ -7,16 +7,35 @@
 
 import { motion, useReducedMotion } from 'motion/react';
 
-export function CartaSacerdotisa({ animar = true }: { animar?: boolean }) {
+export function CartaSacerdotisa({
+  animar = true,
+  disparo = 'scroll',
+  numero = 'II',
+  nombre = 'La Sacerdotisa',
+  cita = 'Escucha antes de responder.',
+}: {
+  animar?: boolean;
+  /** 'scroll' = revela al entrar en viewport (landing) · 'montaje' = revela al abrir la pantalla (Inicio, sin scroll de por medio). */
+  disparo?: 'scroll' | 'montaje';
+  numero?: string;
+  nombre?: string;
+  cita?: string;
+}) {
   const reduce = useReducedMotion();
   const anim = animar && !reduce;
+  const props =
+    disparo === 'montaje'
+      ? { initial: anim ? { opacity: 0, y: 26, rotate: -8 } : false, animate: { opacity: 1, y: 0, rotate: 0 } }
+      : {
+          initial: anim ? { opacity: 0, y: 26, rotate: -8 } : false,
+          whileInView: anim ? { opacity: 1, y: 0, rotate: 0 } : undefined,
+          viewport: { once: true, amount: 0.3 },
+        };
   return (
     <motion.div
       className="relative shrink-0"
       style={{ perspective: '900px' }}
-      initial={anim ? { opacity: 0, y: 26, rotate: -8 } : false}
-      whileInView={anim ? { opacity: 1, y: 0, rotate: 0 } : undefined}
-      viewport={{ once: true, amount: 0.3 }}
+      {...props}
       transition={{ type: 'spring', stiffness: 90, damping: 14 }}
     >
       {/* resplandor ámbar detrás (firma de FICHA-ARTE) */}
@@ -41,7 +60,7 @@ export function CartaSacerdotisa({ animar = true }: { animar?: boolean }) {
         }}
       >
         <span className="text-[11px] font-bold uppercase tracking-[0.1em]" style={{ color: 'var(--card-label)' }}>
-          II · La Sacerdotisa
+          {numero} · {nombre}
         </span>
         <svg width="46" height="60" viewBox="0 0 46 60" fill="none" stroke="var(--card-line)" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true">
           <path d="M7 58V8M39 58V8" />
@@ -50,7 +69,7 @@ export function CartaSacerdotisa({ animar = true }: { animar?: boolean }) {
           <path d="M18 12a6 6 0 0 1 10 0" />
         </svg>
         <span className="text-center text-[12px] font-medium leading-tight [font-family:var(--font-display)]" style={{ color: 'var(--card-title)' }}>
-          &ldquo;Escucha antes<br />de responder.&rdquo;
+          &ldquo;{cita}&rdquo;
         </span>
       </div>
       {/* sombra de contacto */}

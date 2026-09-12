@@ -1,5 +1,36 @@
 # ESTADO — LUMA (nombre de trabajo)
-Última actualización: 2026-09-12 | Sesión actual: 4 (continuación)
+Última actualización: 2026-09-12 | Sesión actual: 5 (app interna, en curso)
+
+✅ CHECKPOINT — Arranque de Sesión 5 (app interna). El usuario confirmó "procede" tras ver el plan
+de 5 pantallas. Construidas hasta ahora, con datos semilla reales (Ana, mismo caso de la landing):
+**Inicio** (`/app` — check-in de ánimo con confirmación real + carta del día tocable, dispositivo
+ownable, revelada al montar con `disparo="montaje"` en `CartaSacerdotisa`) — en su 3ª ronda de
+revisor-visual (rondas 1-2: NO LISTA 30/40·13/20 → 32/40·14/20, con 10 defectos reales corregidos:
+animación de la carta apagada por error, botones de 2 col desbordando, cita duplicada, hamburguesa
+redundante, confirmación de ánimo invisible/débil, carta sin Link propio, franja plana sin
+profundidad, avatar sin inicial, `prefers-reduced-motion` no respetado fuera de la carta — este
+último se resolvió GLOBAL con `<MotionConfig reducedMotion="user">` en `app/layout.tsx`, beneficia
+a toda la app). 3ª ronda en curso, resultado aún no conocido. **Descifra la conversación**
+(`/app/descifrar` — 3 modos de entrada, texto/captura/voz; captura y voz muestran "Próximamente"
+honesto hasta que haya OCR/voz→texto real en Sesión 6; analizar simula el loop con datos semilla y
+muestra los 3 items del análisis + 2 acciones cruzadas) — construida, auto-revisada contra el
+checklist, sin ronda de revisor-visual todavía. **Coach** (`/app/coach` — chat con LUMA, hilo
+semilla + respuestas rápidas + "escribiendo…" simulado + mic con aviso "Próximamente") —
+construida. **Tarot** (`/app/tarot` — lista de 5 tiradas, cada una se expande in situ mostrando la
+carta + una lectura corta, sin inventar una ruta de resultado nueva no aprobada) — construida.
+**Diario** (`/app/diario` — check-in + entrada libre + patrón detectado semilla + calendario con
+aviso "Próximamente") — construida. Componentes nuevos compartidos: `AppButton`/`AppLinkButton`
+(variante `compact` para grillas de 2 columnas), `BottomNav`, `ScreenHeader`, `MoodPicker`,
+`LumaAvatar` (retrato provisional). `CartaSacerdotisa` (antes solo de la landing) ahora acepta
+props reales (numero/nombre/cita) y un modo de disparo por montaje — se comparte entre landing,
+Inicio y Tarot. Pantalla "Más" (cuenta/ajustes) AÚN NO EXISTE — el avatar y el nav apuntan a
+`/app/mas`, que hoy da 404 (esperable en esta etapa, mismo patrón que `/entrar` durante la landing).
+Siguiente acción exacta: cerrar la 3ª ronda de Inicio (o decidir cerrar con criterio propio si el
+patrón de rendimientos decrecientes se repite), correr revisor-visual sobre Descifra la
+conversación (función estrella, probablemente amerita revisión aunque no sea una de las 4
+pantallas-dinero, por ser el mecanismo central del producto), construir la pantalla "Más", y
+decidir con el usuario si Coach/Tarot/Diario necesitan su propia ronda de revisor o si el
+presupuesto de tokens no lo justifica dado que comparten componentes ya revisados en Inicio.
 
 ✅ CHECKPOINT — Ciclo de fixes de la landing (`/`) a partir de feedback visual DIRECTO del usuario
 CERRADO (6 rondas, 3-6). Los 4 puntos que el usuario reportó están CONFIRMADOS resueltos por el
