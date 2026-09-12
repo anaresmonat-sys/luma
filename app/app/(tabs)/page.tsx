@@ -37,10 +37,10 @@ export default function InicioPage() {
           como fill plano (defecto de profundidad, revisor ronda 2). */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-1/3 -z-10 h-[26rem]"
+        className="pointer-events-none absolute inset-x-0 top-1/4 -z-10 h-[26rem]"
         style={{
           background:
-            'radial-gradient(480px 320px at 50% 50%, color-mix(in oklab, var(--bloom-vino) 40%, transparent), transparent 68%)',
+            'radial-gradient(480px 320px at 50% 50%, color-mix(in oklab, var(--bloom-vino) 58%, transparent), transparent 68%)',
         }}
       />
       {/* header: wordmark + avatar → único punto de entrada a "Más" (cuenta) */}

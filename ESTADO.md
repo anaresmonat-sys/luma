@@ -4,13 +4,17 @@
 ✅ CHECKPOINT — Arranque de Sesión 5 (app interna). El usuario confirmó "procede" tras ver el plan
 de 5 pantallas. Construidas hasta ahora, con datos semilla reales (Ana, mismo caso de la landing):
 **Inicio** (`/app` — check-in de ánimo con confirmación real + carta del día tocable, dispositivo
-ownable, revelada al montar con `disparo="montaje"` en `CartaSacerdotisa`) — en su 3ª ronda de
-revisor-visual (rondas 1-2: NO LISTA 30/40·13/20 → 32/40·14/20, con 10 defectos reales corregidos:
-animación de la carta apagada por error, botones de 2 col desbordando, cita duplicada, hamburguesa
-redundante, confirmación de ánimo invisible/débil, carta sin Link propio, franja plana sin
-profundidad, avatar sin inicial, `prefers-reduced-motion` no respetado fuera de la carta — este
-último se resolvió GLOBAL con `<MotionConfig reducedMotion="user">` en `app/layout.tsx`, beneficia
-a toda la app). 3ª ronda en curso, resultado aún no conocido. **Descifra la conversación**
+ownable, revelada al montar con `disparo="montaje"` en `CartaSacerdotisa`) — **construida, ACEPTADA
+con criterio propio** (no LISTA por el gate automático — ver [veredicto:inicio] en Problemas
+conocidos). 3 rondas de revisor-visual: 30/40·13/20 → 32/40·14/20 → 31/40·16/20 (Craft PASA el
+gate ≥16/20 desde la 3ª ronda; Usabilidad se estancó en 31 sin defectos puntuales nuevos — mismo
+patrón de rendimientos decrecientes que landing/onboarding/paywall, y el propio revisor lo dice
+explícitamente: "cerrar con criterio propio en este punto es defendible"). 10 defectos reales
+corregidos en el camino: animación de la carta apagada por error, botones de 2 col desbordando,
+cita duplicada, hamburguesa redundante, confirmación de ánimo invisible/débil, carta sin Link
+propio, franja plana sin profundidad, avatar sin inicial, `prefers-reduced-motion` no respetado
+fuera de la carta (resuelto GLOBAL con `<MotionConfig reducedMotion="user">` en `app/layout.tsx`,
+beneficia a toda la app). **Descifra la conversación**
 (`/app/descifrar` — 3 modos de entrada, texto/captura/voz; captura y voz muestran "Próximamente"
 honesto hasta que haya OCR/voz→texto real en Sesión 6; analizar simula el loop con datos semilla y
 muestra los 3 items del análisis + 2 acciones cruzadas) — construida, auto-revisada contra el
@@ -25,8 +29,7 @@ aviso "Próximamente") — construida. Componentes nuevos compartidos: `AppButto
 props reales (numero/nombre/cita) y un modo de disparo por montaje — se comparte entre landing,
 Inicio y Tarot. Pantalla "Más" (cuenta/ajustes) AÚN NO EXISTE — el avatar y el nav apuntan a
 `/app/mas`, que hoy da 404 (esperable en esta etapa, mismo patrón que `/entrar` durante la landing).
-Siguiente acción exacta: cerrar la 3ª ronda de Inicio (o decidir cerrar con criterio propio si el
-patrón de rendimientos decrecientes se repite), correr revisor-visual sobre Descifra la
+Siguiente acción exacta: correr revisor-visual sobre Descifra la
 conversación (función estrella, probablemente amerita revisión aunque no sea una de las 4
 pantallas-dinero, por ser el mecanismo central del producto), construir la pantalla "Más", y
 decidir con el usuario si Coach/Tarot/Diario necesitan su propia ronda de revisor o si el
@@ -264,6 +267,20 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   Evidencia en docs/revisiones/paywall-*.png + paywall-veredicto.md, docs/revisiones/entrar-*.png.
 - `vista-previa-app.html` es mockup pre-código (no es la app); recorte por ajustar en 2 frames.
 - FICHA-MERCADO: penetración de tarjeta por país y % compras >30 días quedaron NO ENCONTRADO — revisar 2027-03-09.
+- [veredicto:inicio] ACEPTADO CON CRITERIO PROPIO (no LISTA por gate automático) — 3 rondas de
+  revisor-visual: 30/13 → 32/14 → 31/16. Craft PASA (≥16/20) desde la 3ª ronda; Usabilidad se
+  estancó en 31/40 (gate ≥36) sin defecto puntual nuevo en la última ronda — el propio revisor lo
+  describe como "zona de retorno decreciente" y dice textualmente "cerrar con criterio propio en
+  este punto es defendible". Mismo patrón que landing (6 rondas), onboarding (5) y paywall (8).
+  10 bugs reales corregidos en el camino (no defectos de gusto): animación de la carta del día
+  apagada por error (`animar={false}` residual de un fix anterior), botones de accesos rápidos
+  desbordando a 2 líneas y rompiendo su altura fija, cita de la carta duplicada (hardcodeada +
+  repetida en un párrafo aparte), ícono de hamburguesa prometiendo un menú que no existía, chip de
+  confirmación "Guardado en tu diario" invisible/muy débil, la carta del día se veía tocable pero
+  no tenía acción, franja de la pantalla sin profundidad (fill plano), avatar sin inicial/no se
+  leía como tocable, `prefers-reduced-motion` solo respetado por un componente en vez de toda la
+  app (resuelto con `<MotionConfig reducedMotion="user">` global en `app/layout.tsx`). Evidencia en
+  docs/revisiones/inicio-375.png + inicio-veredicto.md (historial completo 3 rondas).
 
 ## Pendientes del usuario
 - [x] Sesión 1 aprobada: precio $9,99/mes + $71,99/año · rango de edad ampliado a 18-60+.
