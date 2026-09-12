@@ -16,6 +16,7 @@ export default function CoachPage() {
   const [texto, setTexto] = useState('');
   const [escribiendo, setEscribiendo] = useState(false);
   const [avisoVoz, setAvisoVoz] = useState(false);
+  const [error, setError] = useState(false);
 
   function tocarMic() {
     setAvisoVoz(true);
@@ -27,6 +28,32 @@ export default function CoachPage() {
     const mensaje: MensajeCoach = { id: crypto.randomUUID(), autor: 'yo', texto: contenido.trim() };
     setHilo((h) => [...h, mensaje]);
     setTexto('');
+    setError(false);
+    setEscribiendo(true);
+    window.setTimeout(() => {
+      // Sin backend real aún (Sesión 6): simula una falla ocasional de red para
+      // dejar el estado de error probado desde ahora, no improvisado después.
+      if (Math.random() < 0.15) {
+        setError(true);
+        setEscribiendo(false);
+        return;
+      }
+      setHilo((h) => [
+        ...h,
+        {
+          id: crypto.randomUUID(),
+          autor: 'luma',
+          texto: 'Te escucho. Vamos paso a paso — cuéntame un poco más de lo que sientes ahora mismo.',
+        },
+      ]);
+      setEscribiendo(false);
+    }, 1100);
+  }
+
+  function reintentar() {
+    const ultimoMio = [...hilo].reverse().find((m) => m.autor === 'yo');
+    if (!ultimoMio) return;
+    setError(false);
     setEscribiendo(true);
     window.setTimeout(() => {
       setHilo((h) => [
@@ -38,7 +65,7 @@ export default function CoachPage() {
         },
       ]);
       setEscribiendo(false);
-    }, 1100);
+    }, 900);
   }
 
   return (
@@ -59,14 +86,14 @@ export default function CoachPage() {
       </div>
 
       <div className="flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-y-auto py-2">
-        <AnimatePresence initial={false}>
-          {hilo.map((m) =>
+        <AnimatePresence>
+          {hilo.map((m, i) =>
             m.autor === 'yo' ? (
               <motion.div
                 key={m.id}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.2, delay: i * 0.05 }}
                 className="max-w-[82%] self-end rounded-[15px_15px_5px_15px] border border-[color-mix(in_oklab,var(--accent)_25%,transparent)] bg-[color-mix(in_oklab,var(--accent)_16%,transparent)] px-3 py-2.5 text-[14px] leading-snug text-[var(--text-primary)]"
               >
                 {m.texto}
@@ -77,12 +104,28 @@ export default function CoachPage() {
                 key={m.id}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.2, delay: i * 0.05 }}
                 className="max-w-[82%] self-start rounded-[15px_15px_15px_5px] border border-[color-mix(in_oklab,var(--accent)_24%,transparent)] bg-[var(--surface)] px-3 py-2.5 text-[14px] leading-snug text-[var(--text-primary)]"
               >
                 {m.texto}
               </motion.div>
             )
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="flex items-center gap-2 self-start rounded-[15px_15px_15px_5px] border border-[color-mix(in_oklab,var(--an-risk)_45%,transparent)] bg-[color-mix(in_oklab,var(--an-risk)_14%,transparent)] px-3 py-2.5 text-[13px] text-[var(--text-primary)]"
+            >
+              No se pudo enviar.
+              <button type="button" onClick={reintentar} className="font-bold text-[var(--accent-lite)] underline">
+                Reintentar
+              </button>
+            </motion.div>
           )}
         </AnimatePresence>
 
@@ -107,7 +150,7 @@ export default function CoachPage() {
                 whileTap={{ scale: 0.97 }}
                 type="button"
                 onClick={() => enviar(r)}
-                className="rounded-full border border-[color-mix(in_oklab,var(--accent)_34%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2 text-[11.5px] font-semibold text-[var(--accent-lite)]"
+                className="rounded-full border border-[color-mix(in_oklab,var(--accent)_34%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2 text-[12.5px] font-semibold text-[var(--accent-lite)]"
               >
                 {r}
               </motion.button>
@@ -143,7 +186,7 @@ export default function CoachPage() {
           type="button"
           onClick={tocarMic}
           aria-label="Grabar nota de voz"
-          className="flex size-11 shrink-0 items-center justify-center rounded-full text-[15px] text-[var(--accent-lite)]"
+          className="flex size-12 shrink-0 items-center justify-center rounded-full text-[15px] text-[var(--accent-lite)]"
         >
           🎤
         </motion.button>
@@ -159,7 +202,7 @@ export default function CoachPage() {
           type="submit"
           disabled={!texto.trim()}
           aria-label="Enviar mensaje"
-          className="flex size-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[var(--accent-lite)] to-[var(--accent)] text-[var(--on-accent)] disabled:opacity-50"
+          className="flex size-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[var(--accent-lite)] to-[var(--accent)] text-[var(--on-accent)] disabled:opacity-50"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z" />

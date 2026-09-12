@@ -40,8 +40,8 @@ export default function TarotPage() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(500px 40dvh at 50% 28%, color-mix(in oklab, var(--bloom-vino) 50%, transparent), transparent 68%), ' +
-            'radial-gradient(480px 34dvh at 50% 100%, color-mix(in oklab, var(--bloom-vino) 40%, transparent), transparent 70%)',
+            'radial-gradient(520px 42dvh at 50% 26%, color-mix(in oklab, var(--bloom-vino) 52%, transparent), transparent 70%), ' +
+            'radial-gradient(560px 46dvh at 50% 96%, color-mix(in oklab, var(--bloom-vino) 50%, transparent), transparent 74%)',
         }}
       />
       <ScreenHeader titulo="Tarot" volverHref="/app" />
@@ -61,11 +61,11 @@ export default function TarotPage() {
                 type="button"
                 onClick={() => alternar(t.id)}
                 aria-expanded={abierto}
-                className="flex w-full items-center gap-3 py-3 text-left"
+                className="flex w-full items-center gap-3 py-4 text-left"
               >
                 <span
                   aria-hidden="true"
-                  className="h-[52px] w-10 shrink-0 rounded-[7px]"
+                  className="h-[52px] w-10 shrink-0 rounded-[12px]"
                   style={{
                     background: 'linear-gradient(160deg, var(--card-paper), var(--card-paper-2))',
                     boxShadow: '0 8px 16px -8px rgb(10 5 8 / 0.5), inset 0 1px 0 rgb(255 255 255 / 0.5)',

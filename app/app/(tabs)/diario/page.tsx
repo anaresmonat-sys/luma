@@ -28,14 +28,23 @@ export default function DiarioPage() {
   const [texto, setTexto] = useState('');
   const [guardado, setGuardado] = useState(false);
   const [aviso, setAviso] = useState<string | null>(null);
+  const [trajoLectura, setTrajoLectura] = useState(false);
+  const [errorVacio, setErrorVacio] = useState(false);
 
   useEffect(() => {
     const pendiente = leerYLimpiarEntradaPendiente();
-    if (pendiente) setTexto(pendiente);
+    if (pendiente) {
+      setTexto(pendiente);
+      setTrajoLectura(true);
+    }
   }, []);
 
   function guardar() {
-    if (!texto.trim()) return;
+    if (!texto.trim()) {
+      setErrorVacio(true);
+      window.setTimeout(() => setErrorVacio(false), 2200);
+      return;
+    }
     setGuardado(true);
     window.setTimeout(() => setGuardado(false), 2200);
   }
@@ -53,25 +62,28 @@ export default function DiarioPage() {
         style={{
           background:
             'radial-gradient(500px 40dvh at 50% 30%, color-mix(in oklab, var(--bloom-vino) 50%, transparent), transparent 68%), ' +
+            'radial-gradient(480px 30dvh at 50% 78%, color-mix(in oklab, var(--bloom-vino) 36%, transparent), transparent 68%), ' +
             'radial-gradient(480px 34dvh at 50% 100%, color-mix(in oklab, var(--bloom-vino) 40%, transparent), transparent 70%)',
         }}
       />
-      <ScreenHeader
-        titulo="Diario emocional"
-        volverHref="/app"
-        derecha={
-          <button
-            type="button"
-            onClick={() => tocarProximamente('Próximamente: historial de tu diario')}
-            aria-label="Historial del diario"
-            className="flex size-11 items-center justify-center text-[16px]"
-          >
-            📅
-          </button>
-        }
-      />
 
       <motion.div variants={contenedor} initial="hidden" animate="visible" className="flex flex-col">
+        <motion.div variants={item}>
+          <ScreenHeader
+            titulo="Diario emocional"
+            volverHref="/app"
+            derecha={
+              <button
+                type="button"
+                onClick={() => tocarProximamente('Próximamente: historial de tu diario')}
+                aria-label="Historial del diario"
+                className="flex size-11 items-center justify-center text-[16px]"
+              >
+                📅
+              </button>
+            }
+          />
+        </motion.div>
         <div className="h-4 shrink-0 text-center">
           <AnimatePresence>
             {aviso && (
@@ -90,6 +102,15 @@ export default function DiarioPage() {
           <MoodPicker emociones={EMOCIONES_DIARIO} seleccion={animo} onSeleccionar={setAnimo} />
         </motion.div>
 
+        {trajoLectura && (
+          <motion.p
+            variants={item}
+            className="mt-3 rounded-full bg-[color-mix(in_oklab,var(--accent)_14%,transparent)] px-3 py-2 text-center text-[11px] font-semibold text-[var(--accent-lite)]"
+          >
+            Trajimos tu lectura de tarot — edítala y guarda cuando quieras
+          </motion.p>
+        )}
+
         <motion.div
           variants={item}
           className="mt-4 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] p-3"
@@ -97,6 +118,9 @@ export default function DiarioPage() {
           <textarea
             value={texto}
             onChange={(e) => setTexto(e.target.value)}
+            onKeyDown={(e) => {
+              if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') guardar();
+            }}
             placeholder={ENTRADA_DIARIO_EJEMPLO}
             rows={4}
             className="w-full resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
@@ -115,9 +139,16 @@ export default function DiarioPage() {
         </motion.div>
 
         <motion.div variants={item} className="mt-3">
-          <AppButton onClick={guardar} disabled={!texto.trim()}>
-            {guardado ? 'Guardado ✓' : 'Guardar'}
-          </AppButton>
+          <AppButton onClick={guardar}>{guardado ? 'Guardado ✓' : 'Guardar'}</AppButton>
+          <div className="mt-1.5 h-4 text-center">
+            <AnimatePresence>
+              {errorVacio && (
+                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-[11px] font-semibold text-[var(--an-risk)]">
+                  Escribe algo antes de guardar
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </div>
         </motion.div>
 
         <motion.div
@@ -143,6 +174,10 @@ export default function DiarioPage() {
         >
           Ver mi patrón →
         </motion.button>
+
+        <motion.p variants={item} className="mt-6 text-center text-[11px] leading-relaxed text-[var(--text-tertiary)]">
+          💡 Escribir aunque sean 2 líneas ayuda a que LUMA vea tus patrones con el tiempo.
+        </motion.p>
       </motion.div>
     </div>
   );
