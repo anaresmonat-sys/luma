@@ -1,23 +1,23 @@
 # ESTADO — LUMA (nombre de trabajo)
-Última actualización: 2026-09-11 | Sesión actual: 4
+Última actualización: 2026-09-12 | Sesión actual: 4 (continuación)
 
-✅ CHECKPOINT — Última acción completada: Sesión 4 completa. Onboarding (`/onboarding`) y Paywall
-(`/paywall`) ACEPTADOS con criterio propio (no LISTA por gate automático — ver detalle de cada
-uno en Problemas conocidos). Paywall: 8 rondas del revisor-visual; Craft (16/20) y Copy (19/20)
-aprueban desde la ronda 5, Usabilidad se quedó en 28-31/40 (gate ≥36) sin converger — el usuario
-decidió cerrar el ciclo tras la 8ª ronda, pase lo que pase. En el camino se construyó `/entrar`
-(login con magic link, Sesión 4 paso 3 — no estaba planeada al empezar el paywall, pero
-"Restaurar compra" necesitaba un destino real) y se corrigieron bugs de verdad: conteo de
-respuestas mal calculado, 404 real en /entrar, header inconsistente entre pantallas, áreas
-táctiles <44px, validación de email floja, email/checkmarks sin label ni contraste explícito. Se
-intentó una lectura síncrona de localStorage que rompió la hidratación de React (confirmado en
-log, revertido — ver comentario en app/paywall/page.tsx). Precio/moneda: el usuario preguntó por
-precios por país — Hotmart lo resuelve en su panel al conectar la cuenta real (Sesión 6); ajustar
-precio por país se revisa DESPUÉS de las primeras ventas (ya en FICHA-MERCADO §1). /
-Siguiente acción exacta: presentar la PUERTA DE ETAPA de Sesión 4 (onboarding + paywall + entrar)
-al usuario en simple, y preguntar cómo seguir — construir la app interna (Sesión 5) es lo próximo
-en la secuencia maestra, pero también quedan pendientes las entrevistas de avatar y el retrato de
-LUMA.
+✅ CHECKPOINT — Última acción completada: elevación de escaneabilidad mobile de la landing (`/`),
+pedida por el usuario con reglas nuevas y explícitas (límite de 4 líneas, ícono como ancla visual
+en dolores/beneficios/pasos, prueba de "solo-titulares", oferta/garantía en cajas, FAQ en
+acordeón). Auditoría sección por sección a 375px: 9 de 10 secciones ya cumplían todo; el único
+hallazgo real fue Agitación (§3) con sus 3 frases como texto plano sin ícono — corregido con un
+ícono Lucide de 20px por frase (RotateCcw/Moon/HeartCrack), deliberadamente MÁS CALLADO que el
+IconChip con caja de Problema (para no leerse como una sola lista de 7 ítems). Relanzado el
+revisor-visual 2 veces: 1ª ronda NO LISTA por un falso positivo (skip-link "superpuesto" en el
+screenshot — confirmado artefacto del script de captura, no del producto real; corregido
+ocultándolo durante la captura fullPage) + un defecto real de jerarquía (ya descrito); 2ª ronda
+**LISTA: 37/40 · 17/20 (sube de 16 a 17) · 19/20**. Evidencia en docs/revisiones/landing-375.png +
+landing-veredicto.md. Onboarding y Paywall siguen ACEPTADOS con criterio propio (sin cambios esta
+sesión — ver detalle en Problemas conocidos). /
+Siguiente acción exacta: presentar la PUERTA DE ETAPA de Sesión 4 (landing elevada + onboarding +
+paywall + entrar) al usuario en simple, y preguntar cómo seguir — construir la app interna
+(Sesión 5) es lo próximo en la secuencia maestra, pero también quedan pendientes las entrevistas
+de avatar y el retrato de LUMA.
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y
@@ -140,7 +140,7 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
 
 ## Secuencia maestra de construcción (NO saltar)
 - Estado: identidad cerrada; **código en marcha**. Ruta: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
-- Landing (`/`): **LISTA** (revisor-visual: 37/40 · 19/20 · 19/20) — protagonista: el mecanismo "descifra la conversación"; CTA primario "Descifrar mi primera conversación" → `/onboarding`. Placeholders honestos que quedan: visual del hero + carrusel "Así se ve por dentro" (screenshots reales cuando exista la app interna, Sesión 5).
+- Landing (`/`): **LISTA** (revisor-visual: 37/40 · 17/20 · 19/20 — elevada por escaneabilidad mobile 2026-09-12, ver checkpoint) — protagonista: el mecanismo "descifra la conversación"; CTA primario "Descifrar mi primera conversación" → `/onboarding`. Placeholders honestos que quedan: visual del hero + carrusel "Así se ve por dentro" (screenshots reales cuando exista la app interna, Sesión 5).
 - Onboarding (`/onboarding`): **construido, ACEPTADO con criterio propio** (ver checkpoint arriba y "Problemas conocidos"). 7 preguntas + 2 reconocimientos + loading + revelación del plan; CTA final → `/paywall`.
 - Paywall (`/paywall`): **construido, ACEPTADO con criterio propio** (8 rondas, ver "Problemas conocidos" → [veredicto:paywall]). Headline+timeline del trial+2 plan cards tocables+CTA único.
 - Entrar (`/entrar`): **construido** (magic link por email, simula el envío — Sesión 6 conecta el backend real). No estaba planeada como pantalla propia de esta sesión; se adelantó porque "Restaurar compra" del paywall necesitaba un destino real.
@@ -167,9 +167,14 @@ análisis, pero desde el coach, no como acción suelta de la pantalla Descifrar.
   construido en Sesión 4); `/entrar` (login) aún no existe (Sesión 4, paso 3).
 - [legal] /privacidad /terminos /cookies /reembolsos /aviso-ia son BORRADOR — contenido legal
   definitivo antes del lanzamiento (archivo 47).
-- [veredicto:landing] RESUELTO — 8ª revisión del revisor-visual: **LISTA** (Usabilidad 37/40,
-  Craft 19/20, Copy 19/20 — pasa los 3 gates). Historial completo: 29/10/14 → 31/15/15 → 32/19/18
-  → 31/18/17 → 35/19/19 → 35/19/19 → 32/18/19 → 37/19/19 LISTA. Evidencia en
+- [veredicto:landing] RESUELTO — LISTA vigente: **37/40 · 17/20 · 19/20**. Historial hasta la 1ª
+  aprobación (8ª ronda, 2026-09-11): 29/10/14 → 31/15/15 → 32/19/18 → 31/18/17 → 35/19/19 →
+  35/19/19 → 32/18/19 → 37/19/19 LISTA. El 2026-09-12 se elevó la escaneabilidad mobile
+  (Agitación pasó de texto plano a íconos por frase) y se relanzó: 1ª repasada NO LISTA (falso
+  positivo de un skip-link "superpuesto" — artefacto del script de captura con páginas muy largas,
+  corregido en scripts-dev/shot.mjs; + Craft bajó a 16/20 porque el ícono nuevo copiaba el chip con
+  caja de Problema y las 7 filas se leían como una sola lista) → corregido (ícono suelto de 20px,
+  deliberadamente distinto) → 2ª repasada **LISTA: 37/40 · 17/20 · 19/20**. Evidencia en
   docs/revisiones/landing-375.png + landing-veredicto.md. Pendientes menores que el propio
   revisor anotó sin bloquear el gate: testimonios reales (ver punto de FICHA-AVATAR arriba),
   `/entrar` aún no existe (404 hoy, esperable en esta etapa), páginas legales en borrador
