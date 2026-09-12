@@ -57,13 +57,17 @@ export default function DescifrarPage() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(520px 420px at 50% 32%, color-mix(in oklab, var(--bloom-vino) 55%, transparent), transparent 68%), ' +
-            'radial-gradient(480px 360px at 50% 82%, color-mix(in oklab, var(--bloom-vino) 42%, transparent), transparent 70%)',
+            'radial-gradient(520px 40dvh at 50% 32%, color-mix(in oklab, var(--bloom-vino) 55%, transparent), transparent 68%), ' +
+            'radial-gradient(480px 36dvh at 50% 78%, color-mix(in oklab, var(--bloom-vino) 42%, transparent), transparent 70%), ' +
+            'radial-gradient(600px 24dvh at 50% 100%, color-mix(in oklab, var(--bloom-vino) 38%, transparent), transparent 72%)',
         }}
       />
-      <ScreenHeader titulo="Descifra la conversación" tituloDisplay />
 
-      <motion.div variants={contenedor} initial="hidden" animate="visible" className="flex flex-1 flex-col justify-center">
+      <motion.div variants={contenedor} initial="hidden" animate="visible" className="flex min-h-0 flex-1 flex-col">
+        <motion.div variants={item} className="shrink-0">
+          <ScreenHeader titulo="Descifra la conversación" tituloDisplay />
+        </motion.div>
+        <div className="flex flex-1 flex-col justify-center">
         <motion.div variants={item} className="grid grid-cols-3 gap-2">
           {MODOS.map((m) => (
             <motion.button
@@ -102,6 +106,9 @@ export default function DescifrarPage() {
                     setTexto(e.target.value);
                     if (estado !== 'cargando') setEstado('reposo');
                   }}
+                  onKeyDown={(e) => {
+                    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') analizar();
+                  }}
                   placeholder="Pega aquí la conversación…"
                   rows={4}
                   className="w-full resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
@@ -134,6 +141,14 @@ export default function DescifrarPage() {
 
               <div className="mt-3">
                 <AppButton onClick={analizar} disabled={estado === 'cargando'}>
+                  {estado === 'cargando' && (
+                    <motion.span
+                      aria-hidden="true"
+                      className="size-3.5 rounded-full border-2 border-[var(--on-accent)] border-t-transparent"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 0.7, repeat: Infinity, ease: 'linear' }}
+                    />
+                  )}
                   {estado === 'cargando' ? 'Analizando…' : 'Analizar'}
                 </AppButton>
               </div>
@@ -204,7 +219,7 @@ export default function DescifrarPage() {
                     {a.emoji}
                   </span>
                   <div>
-                    <h3 className="text-[11px] font-bold text-[var(--text-primary)]">{a.titulo}</h3>
+                    <h3 className="text-[12.5px] font-bold text-[var(--text-primary)]">{a.titulo}</h3>
                     <p className="mt-0.5 text-[11.5px] leading-snug text-[var(--text-secondary)]">{a.texto}</p>
                   </div>
                 </motion.div>
@@ -221,6 +236,7 @@ export default function DescifrarPage() {
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </motion.div>
     </div>
   );
