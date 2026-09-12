@@ -48,9 +48,9 @@ export default function LandingLuma() {
         titulo="¿Te suena?"
         preguntas={[
           { emoji: '⏳', textoMarked: '¿Por qué me escribía todo el día y ahora [b]tarda horas[/b]?' },
-          { emoji: '🤔', textoMarked: '¿Estoy exagerando o de verdad cambió algo?' },
-          { emoji: '💬', textoMarked: '¿Qué le respondo sin quedar como que me importa demasiado?' },
-          { emoji: '🔁', textoMarked: '¿Otra vez estoy repitiendo el [b]mismo patrón[/b] de siempre?' },
+          { emoji: '😕', textoMarked: '¿Estoy exagerando o de verdad cambió algo?' },
+          { emoji: '😳', textoMarked: '¿Qué le respondo sin quedar como que me importa demasiado?' },
+          { emoji: '😩', textoMarked: '¿Otra vez estoy repitiendo el [b]mismo patrón[/b] de siempre?' },
         ]}
       />
 

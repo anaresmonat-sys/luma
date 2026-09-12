@@ -1,25 +1,23 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-12 | Sesión actual: 4 (continuación)
 
-✅ CHECKPOINT — 3ª ronda de ajustes de la landing (`/`) a partir de feedback visual DIRECTO del
-usuario tras ver la 2ª aprobación: (1) "LUMA cortada por bordes redondos" y "frases cortadas al
-final" — investigado en vivo con el Browser pane a 375px: el render real NO tiene ningún recorte;
-es casi seguro un artefacto de ver la miniatura del PNG de 16000px de alto escalada (falso positivo,
-no se tocó nada); (2) caja "descifrar la conversación" con "la mitad sin borde" — BUG REAL: el
-Hairline degradé (borde que se desvanece) no funciona a ese tamaño chico — corregido con borde
-sólido + fill sutil 8% acento; (3) "los iconos deben ser emoji, más divertidos" — Agitación ya
-tenía emoji; se extendió a Problema también (antes SVG Lucide) para unificar el sistema de íconos
-de todo el bloque 2+3 (mismo movimiento visual, ver `IconChip` en ui.tsx que ahora acepta
-`LucideIcon | string`). 3ª ronda de revisor-visual: NO LISTA 33/40·17/20·19/20 (defecto principal:
-inconsistencia de sistema de íconos SVG/emoji entre Problema y Agitación — ya corregido arriba;
-también pidió reemplazar el emoji ZWJ 😵‍💫 por uno de un solo glifo — corregido a 😖). Evidencia
-nueva: docs/revisiones/landing-problema-375.png, landing-agitacion-375.png,
-landing-solucion-375.png (crops dedicados) + landing-375.png regenerado. Onboarding y Paywall
-siguen ACEPTADOS con criterio propio (sin cambios esta sesión — ver Problemas conocidos). /
-Siguiente acción exacta: relanzar revisor-visual (4ª ronda) sobre los 3 fixes de esta ronda; si
-aprueba, actualizar landing-veredicto.md y el checkpoint, y volver a preguntarle al usuario cómo
-seguir (app interna Sesión 5 / entrevistas de avatar / retrato de LUMA — sigue sin responder esa
-pregunta, pendiente de re-plantear tras cerrar este ciclo).
+✅ CHECKPOINT — 4ª ronda de ajustes de la landing (`/`), ciclo de fixes iniciado por feedback visual
+DIRECTO del usuario. Historial resumido: ronda 3 unificó el sistema de íconos de Problema+Agitación
+a emoji y arregló el borde roto del chip "descifrar la conversación" (Hairline degradé → borde
+sólido); el revisor de esa ronda dio NO LISTA 33/40·17/20 señalando que dentro de Windows/Segoe UI
+Emoji dos de los 4 emoji nuevos de Problema rompían la paleta: 🔁 se veía como un cuadrado azul
+saturado fuera de tono, y 💬 tenía un estilo "sticker" distinto a los demás; también pidió subir el
+fill del chip de Solución (8%→más) porque quedaba casi imperceptible. Esta 4ª ronda corrige los 3:
+🤔→😕, 💬→😳, 🔁→😩 (los 4 emoji de Problema ahora comparten el mismo lenguaje "sticker a color"
+amarillo, verificado con el Browser pane a 375px) + el fill del chip de Solución subió a 13% con
+una sombra tintada sutil (ahora se distingue claramente de los chips numerados 01/02/03). Evidencia
+regenerada: docs/revisiones/landing-problema-375.png, landing-solucion-375.png, landing-375.png
+(landing-agitacion-375.png no cambió esta ronda). Onboarding y Paywall siguen ACEPTADOS con
+criterio propio (sin cambios esta sesión — ver Problemas conocidos). /
+Siguiente acción exacta: relanzar revisor-visual (5ª ronda) sobre estos 3 fixes; si aprueba,
+actualizar landing-veredicto.md y este checkpoint con el score final, y volver a preguntarle al
+usuario cómo seguir (app interna Sesión 5 / entrevistas de avatar / retrato de LUMA — sigue sin
+responder esa pregunta, pendiente de re-plantear tras cerrar este ciclo).
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y

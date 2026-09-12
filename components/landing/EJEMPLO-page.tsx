@@ -50,8 +50,8 @@ export default function EjemploLandingDespeja() {
         preguntas={[
           { emoji: '📥', textoMarked: '¿Tu lista tiene 40 tareas y [b]ninguna decidida[/b]?' },
           { emoji: '⏰', textoMarked: '¿Empiezas el día respondiendo correos que no importan?' },
-          { emoji: '🔁', textoMarked: '¿Replanificas todo cada vez que algo se atrasa?' },
-          { emoji: '🔋', textoMarked: '¿Llegas a la noche sin saber qué avanzaste?' },
+          { emoji: '😩', textoMarked: '¿Replanificas todo cada vez que algo se atrasa?' },
+          { emoji: '🪫', textoMarked: '¿Llegas a la noche sin saber qué avanzaste?' },
         ]}
       />
 

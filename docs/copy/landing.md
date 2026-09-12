@@ -20,9 +20,9 @@
   Cada pregunta lleva su emoji de dolor en chip (mismo sistema que Agitación —
   emoji por pedido directo del usuario, acorde al resto de la app).
 - ⏳ ¿Por qué me escribía todo el día y ahora tarda horas?
-- 🤔 ¿Estoy exagerando o de verdad cambió algo?
-- 💬 ¿Qué le respondo sin quedar como que me importa demasiado?
-- 🔁 ¿Otra vez estoy repitiendo el mismo patrón de siempre?
+- 😕 ¿Estoy exagerando o de verdad cambió algo?
+- 😳 ¿Qué le respondo sin quedar como que me importa demasiado?
+- 😩 ¿Otra vez estoy repitiendo el mismo patrón de siempre?
 
 ## 3 · AGITACIÓN  (2-4 frases, ≤18 palabras — "costo de la inacción" de FICHA-AVATAR)
   Cada frase lleva emoji de dolor suelto, sin chip (regla de escaneabilidad —
