@@ -69,7 +69,16 @@ export default function CoachPage() {
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col pb-3 pt-3">
+    <div className="relative flex min-h-0 flex-1 flex-col pb-3 pt-3">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            'radial-gradient(500px 36dvh at 50% 22%, color-mix(in oklab, var(--bloom-vino) 42%, transparent), transparent 66%), ' +
+            'radial-gradient(520px 40dvh at 50% 96%, color-mix(in oklab, var(--bloom-vino) 46%, transparent), transparent 72%)',
+        }}
+      />
       <div className="flex shrink-0 items-center justify-between py-2">
         <Link href="/app" aria-label="Volver" className="flex size-11 shrink-0 items-center justify-center text-[var(--text-primary)]">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

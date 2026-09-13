@@ -4,13 +4,15 @@
 // 5 tiradas; tocar una revela la carta + lectura in situ (acordeón) — sin inventar
 // una ruta nueva no aprobada en el mockup. Reutiliza CartaSacerdotisa con props.
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppLinkButton } from '@/components/app/AppButton';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { TIRADAS_TAROT, LECTURAS_TAROT } from '@/lib/seed-datos';
 import { guardarEntradaPendiente } from '@/lib/almacenamiento-diario';
+
+const CLAVE_ULTIMA_TIRADA = 'luma_ultima_tirada';
 
 const contenedor = {
   hidden: {},
@@ -23,12 +25,26 @@ const item = {
 
 export default function TarotPage() {
   const [abierta, setAbierta] = useState<string | null>(null);
+  const [ultima, setUltima] = useState<string | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    try {
+      setUltima(window.localStorage.getItem(CLAVE_ULTIMA_TIRADA));
+    } catch {
+      // localStorage puede fallar (modo privado, cuota) — sin acceso rápido, no bloquea el flujo.
+    }
+  }, []);
 
   function alternar(id: string) {
     const abrir = abierta !== id;
     setAbierta(abrir ? id : null);
     if (abrir) {
+      try {
+        window.localStorage.setItem(CLAVE_ULTIMA_TIRADA, id);
+      } catch {
+        // ver nota de arriba.
+      }
       window.setTimeout(() => panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 320);
     }
   }
@@ -48,6 +64,21 @@ export default function TarotPage() {
       <h1 className="mt-1 text-[20px] font-semibold text-[var(--text-primary)] [font-family:var(--font-display)]">
         ¿Qué tipo de tirada necesitas?
       </h1>
+
+      {ultima && LECTURAS_TAROT[ultima] && (
+        <button
+          type="button"
+          onClick={() => alternar(ultima)}
+          className="mt-3 flex items-center justify-between rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3 text-left"
+        >
+          <span className="text-[12.5px] font-semibold text-[var(--accent-lite)]">
+            Repetir tu última tirada: {TIRADAS_TAROT.find((t) => t.id === ultima)?.nombre}
+          </span>
+          <span aria-hidden="true" className="text-[var(--accent-lite)]">
+            →
+          </span>
+        </button>
+      )}
 
       <motion.div variants={contenedor} initial="hidden" animate="visible" className="mt-4 flex flex-col">
         {TIRADAS_TAROT.map((t, i) => {

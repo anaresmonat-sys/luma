@@ -45,6 +45,11 @@ export default function DiarioPage() {
       window.setTimeout(() => setErrorVacio(false), 2200);
       return;
     }
+    try {
+      window.localStorage.setItem('luma_diario_ultima_entrada', JSON.stringify({ texto, animo, fecha: Date.now() }));
+    } catch {
+      // localStorage puede fallar (modo privado, cuota) — no bloquea el flujo.
+    }
     setGuardado(true);
     window.setTimeout(() => setGuardado(false), 2200);
   }
@@ -139,7 +144,19 @@ export default function DiarioPage() {
         </motion.div>
 
         <motion.div variants={item} className="mt-3">
-          <AppButton onClick={guardar}>{guardado ? 'Guardado ✓' : 'Guardar'}</AppButton>
+          <AppButton onClick={guardar}>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={guardado ? 'ok' : 'guardar'}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                {guardado ? 'Guardado ✓' : 'Guardar'}
+              </motion.span>
+            </AnimatePresence>
+          </AppButton>
           <div className="mt-1.5 h-4 text-center">
             <AnimatePresence>
               {errorVacio && (
@@ -175,7 +192,7 @@ export default function DiarioPage() {
           Ver mi patrón →
         </motion.button>
 
-        <motion.p variants={item} className="mt-6 text-center text-[11px] leading-relaxed text-[var(--text-tertiary)]">
+        <motion.p variants={item} className="mt-8 text-center text-[11px] leading-relaxed text-[var(--text-tertiary)]">
           💡 Escribir aunque sean 2 líneas ayuda a que LUMA vea tus patrones con el tiempo.
         </motion.p>
       </motion.div>

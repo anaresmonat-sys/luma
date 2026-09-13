@@ -122,3 +122,86 @@ Descifra ya resolvió" antes de considerar el cierre por criterio propio. Usabil
 (25→30) y Craft subió 3 (11→14): salto sano para una 2ª ronda, pero ambos siguen lejos del gate
 (36/40 y 16/20) — recomendable una 3ª ronda dirigida a los 5 puntos de arriba antes de evaluar
 cierre por criterio propio.
+
+---
+
+# VEREDICTO revisor-visual — Diario emocional (3ª ronda)
+Fecha: 2026-09-12 00:00
+Screenshot: docs/revisiones/diario-375.png
+Usabilidad: 34/40  (detalle: h1:3 h2:4 h3:3 h4:4 h5:3 h6:4 h7:3 h8:3 h9:4 h10:3)
+Craft: 15/20  (detalle: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3)
+Copy (si vende): N-A
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+
+Verificación de los 5 defectos de la 2ª ronda (los 5, uno por uno, en código + screenshot):
+1. `disabled={!texto.trim()}` en "Guardar" → CORREGIDO. `AppButton` en `diario/page.tsx` línea 142
+   ya NO recibe prop `disabled`; `guardar()` (líneas 42-50) valida y muestra un hint inline
+   ("Escribe algo antes de guardar", con `AnimatePresence`, líneas 143-151) sin apagar el botón.
+   Verificado también en `AppButton.tsx`: sin `disabled`, `whileTap={{ scale: 0.97 }}` queda activo
+   y sin `opacity-50` — el mismo patrón que ya usa `descifrar/page.tsx`. Se confirma además que el
+   CTA cumple ahora las 4 anclas del "CTA héroe vivo": contraste alto (oro sobre vino), `whileTap`
+   definido, nunca disabled por defecto, área táctil `h-[48px]` + ancho completo.
+2. Radial intermedio ~78% → CORREGIDO. Línea 65: `radial-gradient(480px 30dvh at 50% 78%,
+   color-mix(in oklab, var(--bloom-vino) 36%, transparent), transparent 68%)` — ahora hay 3 radiales
+   (30% / 78% / 100%), mismo patrón que `descifrar/page.tsx`. En el screenshot la franja bajo "Ver
+   mi patrón →" ya no se lee como un fill plano aislado.
+3. `<ScreenHeader>` fuera del stagger → CORREGIDO. Líneas 71-86: envuelto en
+   `<motion.div variants={item}>` dentro del mismo `motion.div variants={contenedor}` (línea 70)
+   que el resto de bloques — un solo sistema de animación para toda la pantalla.
+4. Atajo Ctrl/Cmd+Enter → CORREGIDO. Líneas 121-123, `onKeyDown` en el `textarea`:
+   `if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') guardar();` — mismo patrón que Descifra.
+5. Tip contextual bajo "Ver mi patrón →" → CORREGIDO. Línea 178-180: `motion.p` con
+   "💡 Escribir aunque sean 2 líneas ayuda a que LUMA vea tus patrones con el tiempo." dentro del
+   stagger general.
+
+Los 5 defectos de la 2ª ronda están genuinamente cerrados, verificados línea por línea en el código
+actual, sin regresiones nuevas detectables en el resto de la pantalla (mood picker, puente
+Tarot→Diario, avisos "Próximamente" del micrófono/calendario/patrón siguen intactos y funcionando).
+
+Defectos remanentes (nuevos, de esta 3ª ronda — ninguno es una regresión de los 5 anteriores):
+1. [Franja final, entre el tip 💡 y la bottom nav, aprox. último 15-20% de la altura de pantalla]
+   Sigue siendo el tramo con menos "trabajo" visual: el radial final de Diario
+   (`480px 34dvh at 50% 100%`, 40% de mezcla) es más angosto que el de Descifra
+   (`600px 24dvh at 50% 100%`) y el tip de una línea no alcanza a ocupar el espacio — se percibe
+   aire sobrante, ya no muerto (tiene color y un mensaje) pero sí subutilizado → agregar un elemento
+   más de valor ahí (ej. contador "3 registros esta semana") o comprimir el espaciado superior para
+   que el contenido llegue más abajo.
+2. [Heurística 1/5, botón "Guardar" en éxito] `guardar()` (líneas 42-50) no persiste el texto en
+   ningún almacenamiento — solo cambia el label a "Guardado ✓" por 2200ms vía `setGuardado`. No
+   existe una función equivalente a `guardarEntradaPendiente` para las entradas del diario mismo
+   (ese helper en `lib/almacenamiento-diario.ts` es solo el puente Tarot→Diario). Si el usuario
+   navega a otra pestaña y vuelve, la entrada "guardada" desapareció sin aviso de que era temporal.
+   El comentario de cabecera del archivo (línea 5) documenta que el cálculo de patrones real llega
+   con backend en Sesión 6, lo cual es una decisión de fase legítima — pero mientras tanto,
+   "Guardado ✓" es una promesa que la app no cumple ni con `localStorage` → como mínimo, persistir
+   la entrada en `localStorage` con el mismo patrón ya usado en el archivo, hasta que llegue el
+   backend real.
+3. [Eje movimiento] La confirmación de éxito es solo un cambio de texto ("Guardar" → "Guardado ✓"),
+   sin transición ni ícono animado — comparado con la firma de movimiento del proyecdo (celebración
+   N1 "check suave con el nombre" de la Ficha de Arte), esta pantalla se queda en la versión mínima
+   de feedback de éxito → envolver el check en su propia animación (scale+fade con
+   `AnimatePresence`) al confirmar guardado.
+4. [Mood picker, accesibilidad de teclado] Los 5 `role="radio"` (`MoodPicker.tsx` líneas 31-54) son
+   botones independientes en el orden de tabulación — funciona con Tab+Enter, pero no seguidor el
+   patrón ARIA completo de `radiogroup` (flechas para moverse dentro del grupo, un solo elemento en
+   el tab order) → no bloqueante para el usuario promedio, pero un lector de pantalla avanzado lo
+   notará.
+5. [Craft — encaje, cadencia de espaciado] La franja final rompe la cadencia `mt-3`/`mt-4` del resto
+   de la pantalla con un salto a `mt-6` antes del tip (línea 178) — funciona, pero no sigue
+   estrictamente la escala 4·8·12·16·24·32 de forma uniforme con el resto de los bloques → alinear a
+   `mt-8` (32px, el siguiente escalón de la escala) o justificar el salto con más contenido ahí.
+
+Lectura de la brecha (¿bugs concretos o ya es zona de rendimientos decrecientes?):
+Los 5 defectos de la 2ª ronda están cerrados de forma limpia, incluida la regresión real (`disabled`
+en el CTA) — no quedan bugs de la familia "elemento no responde" ni "confirmación falsa por vacío"
+ni "violación de ancla de CTA". Los 5 puntos remanentes de esta ronda son de otra naturaleza: craft
+(cadencia de espaciado, densidad de la franja final, riqueza de la animación de éxito) y un caso
+límite de expectativa (persistencia real del "Guardado"), no fallos evidentes para un usuario
+promedio en 3 segundos de mirar la pantalla. Es zona de rendimientos decrecientes en el sentido de
+que ya no hay elementos rotos o inertes — pero el puntaje (34/40 y 15/20) sigue por debajo del gate
+(36/40 y 16/20) por un margen estrecho: 2 puntos en usabilidad y 1 en craft. Recomendación: cerrar
+el punto #2 (persistencia del "Guardado") por ser el único con sabor a bug real, y decidir con
+criterio propio si los 4 restantes (polish de franja final, animación de éxito, roving-tabindex,
+escala de espaciado) ameritan una 4ª ronda o se aceptan como pulido menor de un producto ya
+consistente con el resto de la app.

@@ -49,3 +49,36 @@ TOP DEFECTOS (2ª ronda):
 5. [Header] El único indicio del alcance del coach es el subtítulo a 11px "tu tarotista y coach" — sin un primer mensaje de bienvenida algo más explícito sobre para qué sirve el chat, heurística 10 pasa raspando gracias solo a los quick replies (prioridad baja, solo si sobra tiempo).
 
 Nota sobre el gate: NO es zona de rendimientos decrecientes todavía — hay 2 defectos concretos y accionables en código (el bug de `initial={false}` que invalida la mitad del fix de animación, y la heurística 9 completamente vacía) que por sí solos explican por qué el total no sube pese a que 3 de los 5 defectos originales sí quedaron resueltos de verdad. Corregir esos 2 puntualmente (sin tocar el resto) debería mover la aguja de forma medible; recién si tras esa ronda el total se estanca de nuevo alrededor de 30-32 correspondería declarar rendimientos decrecientes con criterio propio, como se hizo en landing/onboarding.
+
+---
+
+# VEREDICTO revisor-visual — Coach (3ª ronda)
+Fecha: 2026-09-12 00:00
+Screenshot: docs/revisiones/coach-375.png
+Usabilidad: 31/40
+Craft: 15/20
+Copy (si vende): N-A
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+
+Detalle usabilidad: h1:3 h2:4 h3:3 h4:3 h5:3 h6:3 h7:3 h8:3 h9:3 h10:3
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+
+Verificación de los 5 defectos de la 2ª ronda:
+1. `initial={false}` anulaba la entrada de los 5 mensajes semilla → CORREGIDO, verificado en código. La prop fue eliminada del `<AnimatePresence>` que envuelve el `.map(hilo)` (línea 89); cada burbuja conserva `transition={{ duration: 0.2, delay: i * 0.05 }}` (líneas 96 y 107), y con `initial` en su valor por defecto (`true`), AnimatePresence SÍ anima los elementos presentes al montar. El screenshot es un frame estático posterior a la animación (no se puede fotografiar el stagger en curso), pero el código confirma que ya no hay ninguna prop que lo desactive — el bug de raíz (la mitad del fix de la ronda anterior que quedaba sin cubrir) está resuelto.
+2. Sin camino de error → CORREGIDO. Bloque `error` (líneas 116-130): burbuja con borde/fondo en el tono de riesgo (`--an-risk`), copy "No se pudo enviar." + botón "Reintentar" que llama a `reintentar()` (líneas 53-69), la cual reenvía el ÚLTIMO mensaje del usuario sin duplicar la burbuja original. El disparo es una probabilidad simulada del 15% tras enviar (líneas 34-40) — explícito en el comentario como solución temporal mientras no hay backend real. Heurística 9 pasa de "ausente" a "presente y funcional".
+3. Pills a 11.5px → CORREGIDO. `text-[12.5px]` confirmado en el código (línea 153), dentro del rango 11-13px que el propio sistema permite para labels/chips (no para cuerpo de lectura). Se acepta como chip, no como texto de lectura larga.
+4. Botones de mic/enviar a 44px → CORREGIDO. Ambos son `size-12` (48px) — mic en línea 189, enviar en línea 205 — confirmado en código y visualmente coherentes en el screenshot (círculos dorados/tenues de tamaño idéntico, alineados con el input).
+5. Header con poco contexto → NO SE TOCÓ (documentado como prioridad baja desde la 2ª ronda). Sigue igual.
+
+No se detectaron regresiones de los defectos de las rondas 1 y 2.
+
+TOP DEFECTOS (3ª ronda):
+1. [Fondo, franja inferior ~35-40% de la pantalla — quick replies, composer, nav] Los únicos blooms del fondo están definidos a nivel global (`app/globals.css` líneas 76-78) y ANCLADOS cerca del borde superior del viewport (`-6%` y `4%` desde arriba, radio ~420-460px, `background-attachment: fixed`) — en una pantalla con contenido que llena el viewport como Coach, esa franja inferior (donde viven las 3 pills, el composer y la nav) queda fuera del alcance de ambos radiales y se percibe como un fill casi plano, el mismo patrón de "profundidad incompleta" ya señalado y corregido en Inicio (ronda 2) y Descifra (rondas 1-4) → replicar aquí el mismo fix: un tercer bloom anclado cerca del borde inferior real del contenedor, con unidad relativa (`dvh`) en vez de `px` fijos.
+2. [Header] Sigue sin dar contexto sobre el alcance del chat más allá del subtítulo "tu tarotista y coach" (11px) — 3 rondas sin tocarse, prioridad baja documentada desde la 2ª ronda → si se retoma, un primer mensaje o chip que aclare de qué puede hablarse con LUMA (relaciones, ansiedad, límites) subiría h10 de 3 a un margen más cómodo.
+3. [Burbuja de error, copy] "No se pudo enviar." cumple el mínimo de la heurística 9 (qué pasó) pero no da ninguna pista de causa (¿sin conexión? ¿error del servidor?) antes del botón "Reintentar" — funcional pero no ejemplar → sumar una razón breve ("parece que se cortó la conexión") acercaría esta heurística a un 4.
+4. [Composer, heurística 7] El único "atajo" es que Enter envía por comportamiento nativo del `<form>` — no hay pista visual de que existe, ni atajos adicionales (editar/reenviar el último mensaje con una tecla) — se mantiene en el piso funcional de "3", sin pulir hacia "4".
+5. [General] No se detectaron bugs nuevos ni regresiones: los 2 defectos concretos de la 2ª ronda (bug de animación, ausencia de heurística 9) están genuinamente resueltos y verificados en código. Lo que queda repartido entre los puntos 1-4 de arriba ya no son roturas que un usuario note de inmediato, sino matices — se acerca a zona de rendimientos decrecientes pero el punto #1 (cobertura del fondo) sigue siendo un defecto concreto y accionable (una medida de CSS), no gusto puro.
+
+Lectura de la brecha (¿bugs concretos o zona de pulido de rendimientos decrecientes?):
+Los 2 defectos reales de la 2ª ronda (el bug de `initial={false}` y la heurística 9 vacía) están corregidos de forma verificable en código, sin regresiones — son la razón principal del salto de usabilidad (28→31) y craft (14→15). Lo que queda ya no es del mismo calibre: el punto #1 (cobertura del bloom en la franja inferior) es el único con relación esfuerzo/impacto clara y es EXACTAMENTE el mismo patrón que tomó 2-4 rondas resolver en Inicio y Descifra — vale la pena una 4ª ronda dirigida solo a ese punto antes de considerar el cierre por criterio propio, porque moverlo probablemente cruce el gate de craft (15→16) igual que ocurrió en las pantallas hermanas. Los puntos #2-#4 son de impacto menor/disperso (contexto de header, causa del error, descubribilidad de un atajo) y son candidatos razonables para cerrar como deuda de pulido conocida en ESTADO.md si una 4ª ronda dirigida al bloom no mueve la aguja de forma clara — todavía no es momento de invocar criterio propio: la pantalla está a solo 1 punto del gate de craft y a 5 del de usabilidad, con un fix conocido y de bajo costo pendiente.

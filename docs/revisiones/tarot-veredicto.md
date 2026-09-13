@@ -50,3 +50,34 @@ TOP DEFECTOS (ronda 2):
 Notas menores (no bloqueantes, heredadas de ronda 1, siguen sin penalizar):
 - Miniaturas de carta lisas sin glifo — coincide con el mockup aprobado.
 - Las 5 lecturas reutilizan el mismo glifo ilustrado de "La Sacerdotisa" — simplificación de V1 documentada.
+
+---
+
+## RONDA 3 (RE-REVISIÓN) — 2026-09-12
+Screenshot: docs/revisiones/tarot-375.png (+ docs/revisiones/tarot-abierta-375.png, tirada "Amor" expandida)
+Usabilidad: 30/40
+Craft: 15/20
+Copy (si vende): N-A
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:3 h5:3 h6:4 h7:2 h8:3 h9:3 h10:3
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+
+Verificación de los 3 defectos de la ronda 2:
+1. Bloom inferior ampliado (52%/42dvh arriba, 50%/46dvh abajo anclado a 50% 96%) + `py-4` en cada fila (línea 64) — MEJORADO Y VERIFICADO en código y en screenshot: la franja baja ya no se ve como un corte plano, el calor del gradiente llega más cerca del nav y las filas ocupan más alto real. Sigue existiendo una banda (~y 1050-1300 de 1567) perceptiblemente más apagada que el tercio superior, pero ya no es un "corte" — es gradual. Diagnóstico: esto ya es zona de rendimientos decrecientes para un ajuste de GRADIENTE; seguir subiendo opacidad/alcance no va a cerrar el hueco de raíz porque el problema de fondo (solo 5 filas de contenido real) sigue igual. La siguiente mejora real es de CONTENIDO, no de degradado — ver defecto #1 de esta ronda.
+2. Banner "Trajimos tu lectura de tarot — edítala y guarda cuando quieras" — CORREGIDO Y VERIFICADO EN CÓDIGO (`app/app/(tabs)/diario/page.tsx` líneas 31-40 y 105-112): `leerYLimpiarEntradaPendiente()` se lee en `useEffect` al montar, setea `trajoLectura=true`, y el banner (`rounded-full`, acento, texto exacto citado arriba) se renderiza condicionalmente antes del textarea ya prellenado. Cierra el hueco de comunicación señalado en ronda 2: el usuario ahora entiende que es un borrador para editar, no algo ya guardado. Sin efectos secundarios negativos detectados (el botón "Guardar" de Diario sigue validando texto vacío con `errorVacio`, independiente de este flujo).
+3. `rounded-[7px]` → `rounded-[12px]` (línea 68) — CORREGIDO Y VERIFICADO en código. Se acerca a la familia de radios de la ficha (14-16px cards) sin quedar idéntico; a simple vista ya no rompe la lectura de la pantalla — solo un ojo entrenado nota el faltante de 2-4px contra el resto de superficies redondeadas (panel, CTA, carta flotante).
+
+Diagnóstico general: los 3 defectos puntuales de la ronda 2 están cerrados o en el límite superior de lo que un ajuste de ese tipo puede dar (2 y 3 cerrados sin matices; 1 mejorado pero con techo alcanzado). No hay bugs nuevos introducidos por los cambios. Lo que sigue reteniendo la pantalla debajo del gate (36/40 y 16/20) no son ya estos 3 puntos sino heurísticas de fondo que ninguna de las 3 rondas tocó: h7 (flexibilidad/atajos) sigue en 2/4 sin ningún default ni recuerdo de la última tirada, y la sensación de "pantalla llena de valor" (h8/profundidad) sigue tope en 3 porque el hueco es de contenido, no de estilo. Para cerrar el gate hace falta una intervención estructural (agregar una pieza de valor real en la franja baja, o un atajo para el usuario recurrente), no una 4ª ronda de retoque fino sobre los mismos 3 puntos — seguir iterando ahí sería, en efecto, rendimiento decreciente.
+
+TOP DEFECTOS (ronda 3):
+1. [Pantalla cerrada, franja ≈y:1050-1300px de 1567 totales] El bloom ya no corta en seco pero la franja sigue más apagada que el resto — techo alcanzado para un fix de gradiente. Fix: reemplazar el intento de "llenar con más glow" por una pieza de contenido real (ej. "Tu última tirada: Amor — hace 2 días" o un tip corto de una línea) en esa zona; deja de tocar el radial.
+2. [Heurística 7, código, pantalla completa] Ninguna de las 3 rondas agregó atajos/defaults: no hay recuerdo de última tirada, no hay pre-selección para el usuario recurrente. Sigue siendo la heurística más floja (2/4) y el techo real para subir usabilidad del bloque 27-32 al 36+. Fix: guardar en localStorage la última tirada consultada y ofrecer un chip "Repetir: Amor" o similar arriba de la lista.
+3. [Lista de 5 tiradas, decisión] 5 opciones en una sola decisión sigue un punto por encima de la guía "≤4 opciones antes de generar parálisis" del gate de carga cognitiva — no crítico aislado (no llega a las 4 fallas necesarias para gate crítico) pero suma fricción en una decisión emocional. No se tocó en ninguna ronda. Fix: agrupar "Amor"+"Ruptura" bajo una sub-etiqueta o dejarlo así si el dato de uso real muestra que las 5 se usan parejo.
+4. [Miniatura de carta, radio 12px, todas las filas] Resuelto en código (línea 68) pero sigue siendo el único elemento de la pantalla con un radio distinto (12 vs 14-16 del resto) — diferencia menor, ajuste fino no bloqueante, se puede dejar así o subir a 14 en una futura pasada de consistencia global.
+5. [Puente Tarot→Diario] Sin defectos nuevos — el banner + prellenado + botón "Guardar" con validación de vacío en Diario forman un flujo coherente de punta a punta. Se anota como resuelto, no como pendiente.
+
+Notas menores (no bloqueantes, heredadas de rondas previas):
+- Miniaturas de carta lisas sin glifo — coincide con el mockup aprobado.
+- Las 5 lecturas reutilizan el mismo glifo ilustrado de "La Sacerdotisa" — simplificación de V1 documentada.
