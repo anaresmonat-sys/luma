@@ -51,6 +51,11 @@ export default function DiarioPage() {
       setRegistrosMostrados(0);
       return;
     }
+    const prefiereReducido = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (prefiereReducido) {
+      setRegistrosMostrados(registros);
+      return;
+    }
     const inicio = performance.now();
     const duracion = 700;
     let cuadro: number;

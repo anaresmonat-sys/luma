@@ -283,3 +283,104 @@ usuario cualquiera note sin lupa. Dado que el propio criterio de esta rúbrica e
 califican como "3" (ya reflejado en los puntajes), el veredicto formal se mantiene en NO LISTA por
 el margen estrecho de 1 punto en cada rúbrica — pero ya no es una brecha de bugs, es literalmente
 el borde del gate.
+
+---
+
+# VEREDICTO revisor-visual — Diario emocional (5ª ronda)
+Fecha: 2026-09-13 00:00
+Screenshot: docs/revisiones/diario-375.png
+Usabilidad: 36/40  (detalle: h1:4 h2:4 h3:3 h4:4 h5:3 h6:4 h7:3 h8:3 h9:4 h10:4)
+Craft: 15/20  (detalle: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3)
+Copy (si vende): N-A
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+
+Verificación del fix aplicado esta ronda (el único defecto #1 pendiente desde la 3ª ronda: "agregar
+contador de valor" en la franja final):
+CORREGIDO, y bien resuelto. Verificado en código y en el screenshot (capturado con 1 registro real
+guardado, tal como se pidió):
+- `page.tsx` líneas 33-34, 42-47: nuevo estado `registros`/`registrosMostrados`, leído de
+  `window.localStorage.getItem('luma_diario_contador')` en el montaje inicial, con `try/catch`
+  defensivo — no rompe si `localStorage` falla (modo privado/cuota).
+- Líneas 66-76 (`guardar()`): al guardar, incrementa el contador real
+  (`registros + 1`) y lo persiste en `luma_diario_contador` — es un conteo genuino de guardados
+  reales, no un número decorativo ni inflado.
+- Líneas 49-64: efecto que anima `registrosMostrados` de 0 al valor real vía
+  `requestAnimationFrame` en ~700ms — cumple la baseline de movimiento "conteo animado de números
+  héroe" tal como pide el sistema.
+- Líneas 222-238: si `registros > 0`, se reemplaza el tip de texto plano por una tarjeta con el
+  número (28px, `tabular-nums`, `font-display`, centrado) + la etiqueta correctamente pluralizada
+  ("registro guardado" / "registros guardados"); si `registros === 0` (usuario nuevo, sin guardar
+  nada aún), se conserva el tip original — el fix NO infla valor donde no lo hay, un detalle que
+  evita convertir un defecto de "aire vacío" en uno de "honestidad falsa".
+- El conteo es de TOTAL histórico (vía `localStorage`), no "esta semana" como sugería el ejemplo de
+  la 3ª/4ª ronda — decisión razonable: no hay timestamps por entrada individual en el almacenamiento
+  actual (solo se persiste la última entrada, según ronda 4), así que un contador "esta semana"
+  sería un dato inventado. El total histórico es el único número que la app puede respaldar con
+  honestidad hoy — correcto no sobre-prometer.
+
+En el screenshot, la franja final (tarjeta con "1" + "registro guardado en tu diario") ya no se lee
+como aire sobrante: es un elemento con el mismo tratamiento visual (radius, borde, tipografía) que
+el resto de tarjetas de la pantalla, centrado ópticamente, con padding simétrico.
+
+Impacto en la puntuación:
+- h8 (estético y minimalista, "cada elemento se gana su lugar"): se mantiene en 3, NO sube a 4. El
+  fix introduce una inconsistencia nueva de movimiento (ver abajo) que toca directamente la última
+  cláusula de este mismo criterio ("jerarquía, espaciado, color, tipografía y MOVIMIENTO son
+  consistentes entre sí") — no se puede premiar con el máximo un criterio que la propia ronda
+  deja con una costura nueva sin cerrar.
+- h10 (ayuda contextual, "0 pantalla muda"): 3→4. El defecto específico que sostenía el 3 desde la
+  1ª ronda —la franja final sin ningún elemento informativo real— está genuinamente cerrado: ya no
+  hay ningún tramo de la pantalla sin contenido con valor, en ninguno de los dos estados (con o sin
+  registros).
+- Craft total SIN CAMBIOS (15/20). Se evaluó subir "encaje" a 4 (la tarjeta nueva respeta radius,
+  padding simétrico y centrado óptico) pero se decide NO subirlo: el mismo fix introduce un defecto
+  nuevo en "movimiento" (abajo) que different del anterior pero de la misma familia — cuando una
+  ronda resuelve un problema y abre uno nuevo dentro del mismo eje de craft, el eje se queda donde
+  estaba, no sube. Craft sigue exactamente en el mismo punto que la 3ª y 4ª ronda: 15/20.
+
+Defecto NUEVO encontrado esta ronda (verificado en código, no estaba antes porque el elemento que lo
+causa no existía antes):
+1. [Código — `page.tsx` líneas 49-64, animación del contador] La animación del conteo (0 → N vía
+   `requestAnimationFrame`) NO respeta `prefers-reduced-motion`. El resto de animaciones de la app
+   está gobernado globalmente por `<MotionConfig reducedMotion="user">` en `app/layout.tsx` línea 34
+   — pero esta animación es JavaScript puro (`requestAnimationFrame`), fuera del sistema `motion/
+   react`, por lo que el `MotionConfig` global NO la alcanza. Un usuario con "reducir movimiento"
+   activado en su sistema seguirá viendo el conteo animarse igual que todos los demás — inconsistencia
+   real, y viola la regla explícita del proyecto ("`prefers-reduced-motion` siempre") → verificar
+   `window.matchMedia('(prefers-reduced-motion: reduce)').matches` al inicio del efecto y, si es
+   `true`, fijar `registrosMostrados` directamente al valor final sin animar.
+
+Defectos remanentes sin tocar esta ronda (ya catalogados como pulido menor en rondas previas, no
+bloqueantes para el usuario promedio):
+2. [MoodPicker, accesibilidad de teclado] Sigue sin roving-tabindex/navegación por flechas dentro
+   del `radiogroup` — no bloqueante, solo lo nota un lector de pantalla avanzado.
+3. [Heurística 6/alcance de fase] El contador ahora SÍ confirma indirectamente que hubo guardados
+   reales (mejora respecto a la 4ª ronda, donde no había ninguna señal visible de la persistencia) —
+   pero sigue sin existir una vista de historial real; aceptable mientras el calendario avise
+   "Próximamente" y el backend de Sesión 6 no haya llegado.
+
+¿Alcanza este fix para cruzar el gate?
+Parcialmente. Usabilidad cruza el umbral por primera vez: 35/40 → 36/40 (el mínimo exacto exigido,
+≥36). Craft NO cruza: se mantiene en 15/20 (el fix resuelve la queja de craft más citada en 3
+rondas seguidas —franja final subutilizada— pero abre, dentro del mismo eje de movimiento, un
+defecto de nueva naturaleza —`reduced-motion` no respetado— que impide subir el eje que se
+esperaba subir). El gate pide AMBOS (≥36/40 Y ≥16/20); con craft en 15/20, la pantalla sigue, por
+un solo punto, NO LISTA — quinta ronda consecutiva en el borde exacto del gate de craft.
+
+Lectura honesta de si conviene una 6ª ronda o cerrar por criterio propio:
+Cinco rondas de revisión han cerrado, en orden, todos los bugs concretos de esta pantalla:
+elementos sin respuesta (ronda 1→2), confirmación falsa de guardado (ronda 1, luego su regresión de
+`disabled` en ronda 2→3), radiales de fondo faltantes (ronda 2→3), stagger de header roto (ronda
+2→3), atajo de teclado ausente (ronda 2→3), persistencia real del guardado (ronda 3→4), y ahora la
+franja final sin valor (ronda 4→5). Lo que queda —roving-tabindex de un `radiogroup` y un
+`reduced-motion` no respetado en una animación de menos de un segundo sobre un solo dígito— es
+accesibilidad avanzada, no un defecto que un usuario cualquiera note sin lupa (la propia definición
+de "3" en esta rúbrica). El único punto objetivamente accionable y barato es el `matchMedia` de
+`prefers-reduced-motion`: es un fix de una línea, con precedente ya usado en el resto del proyecto
+vía `MotionConfig`, y es el tipo de corrección que, a diferencia de "aire subutilizado", sí tiene
+una solución concreta y verificable. Recomendación: aplicar ese fix puntual (probablemente suficiente
+para destrabar el punto de craft que falta, dado que es la única costura nueva y concreta que
+sostiene el "3" en movimiento/encaje esta ronda) antes de considerar el cierre por criterio propio,
+igual que se hizo con inicio/descifra/coach en este mismo proyecto cuando el margen restante ya era
+de accesibilidad avanzada y no de bugs visibles.
