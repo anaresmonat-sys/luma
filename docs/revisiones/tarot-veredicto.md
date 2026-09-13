@@ -73,7 +73,7 @@ Diagnóstico general: los 3 defectos puntuales de la ronda 2 están cerrados o e
 
 TOP DEFECTOS (ronda 3):
 1. [Pantalla cerrada, franja ≈y:1050-1300px de 1567 totales] El bloom ya no corta en seco pero la franja sigue más apagada que el resto — techo alcanzado para un fix de gradiente. Fix: reemplazar el intento de "llenar con más glow" por una pieza de contenido real (ej. "Tu última tirada: Amor — hace 2 días" o un tip corto de una línea) en esa zona; deja de tocar el radial.
-2. [Heurística 7, código, pantalla completa] Ninguna de las 3 rondas agregó atajos/defaults: no hay recuerdo de última tirada, no hay pre-selección para el usuario recurrente. Sigue siendo la heurística más floja (2/4) y el techo real para subir usabilidad del bloque 27-32 al 36+. Fix: guardar en localStorage la última tirada consultada y ofrecer un chip "Repetir: Amor" o similar arriba de la lista.
+2. [Heurística 7, código, pantalla completa] Ninguna de las 3 rondas agregó atajos/defaults: no hay recuerdo de última tirada consultada, no hay pre-selección para el usuario recurrente. Sigue siendo la heurística más floja (2/4) y el techo real para subir usabilidad del bloque 27-32 al 36+. Fix: guardar en localStorage la última tirada consultada y ofrecer un chip "Repetir: Amor" o similar arriba de la lista.
 3. [Lista de 5 tiradas, decisión] 5 opciones en una sola decisión sigue un punto por encima de la guía "≤4 opciones antes de generar parálisis" del gate de carga cognitiva — no crítico aislado (no llega a las 4 fallas necesarias para gate crítico) pero suma fricción en una decisión emocional. No se tocó en ninguna ronda. Fix: agrupar "Amor"+"Ruptura" bajo una sub-etiqueta o dejarlo así si el dato de uso real muestra que las 5 se usan parejo.
 4. [Miniatura de carta, radio 12px, todas las filas] Resuelto en código (línea 68) pero sigue siendo el único elemento de la pantalla con un radio distinto (12 vs 14-16 del resto) — diferencia menor, ajuste fino no bloqueante, se puede dejar así o subir a 14 en una futura pasada de consistencia global.
 5. [Puente Tarot→Diario] Sin defectos nuevos — el banner + prellenado + botón "Guardar" con validación de vacío en Diario forman un flujo coherente de punta a punta. Se anota como resuelto, no como pendiente.
@@ -118,3 +118,42 @@ TOP DEFECTOS (ronda 4):
 Notas menores (no bloqueantes, heredadas de rondas previas):
 - Miniaturas de carta lisas sin glifo — coincide con el mockup aprobado.
 - Las 5 lecturas reutilizan el mismo glifo ilustrado de "La Sacerdotisa" — simplificación de V1 documentada.
+
+---
+
+## RONDA 5 (RE-REVISIÓN) — 2026-09-13
+Screenshot: docs/revisiones/tarot-375.png (lista cerrada, sin historial en este navegador — estado por defecto correcto)
+Usabilidad: 31/40
+Craft: 15/20
+Copy (si vende): N-A
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:3 h5:3 h6:4 h7:3 h8:3 h9:3 h10:3
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+
+Verificación del bug único reportado en la ronda 4 (`alternar()` no llamaba `setUltima(id)`):
+- CORREGIDO Y VERIFICADO EN CÓDIGO. Línea 48 del archivo actual: `setUltima(id);` vive dentro del bloque `if (abrir) { ... }` de `alternar()` (líneas 42-50), inmediatamente después de `window.localStorage.setItem(CLAVE_ULTIMA_TIRADA, id)`. El estado en memoria y el valor persistido ahora se actualizan en el mismo tick cada vez que se abre cualquier tirada — no solo al montar la página. El escenario que reportó la ronda 4 (abrir "Ruptura" y luego "Decisión" en la misma sesión, sin recargar) queda resuelto: el chip debe re-renderizar con el nuevo `ultima` de inmediato porque `TIRADAS_TAROT.find((t) => t.id === ultima)?.nombre` (línea 76) lee directo del state que ahora sí cambia. Sin regresiones: el `try/catch` alrededor del `localStorage.setItem` sigue intacto (líneas 43-47), y `setUltima(id)` se ejecuta fuera del `try` pero después de que este ya corrió — si `localStorage` falla (modo privado/cuota), el chip en memoria de todos modos se actualiza para la sesión actual, lo cual es correcto (mejor esfuerzo, consistente con el resto del archivo).
+- Screenshot de cierre (navegador limpio, sin `luma_ultima_tirada`): el chip NO aparece — coincide exactamente con el comportamiento esperado y con las capturas de rondas 2-4. No hay regresión visual.
+
+Impacto en las puntuaciones:
+- h1 (visibilidad del estado del sistema) se mantiene en 3. El bug corregido era real pero de bajo disparo (solo visible si el usuario abre una segunda tirada distinta en la misma sesión y vuelve a mirar el chip) y las rondas anteriores ya lo habían tratado como un matiz que no bajaba el número por sí solo — corregirlo cierra un riesgo de regresión futura y es higiene de código correcta, pero no había estado empujando la pantalla a un nivel "ejemplar" que ahora se alcance; sigue habiendo otros huecos de feedback más visibles (franja baja sin contenido) que mantienen el techo en 3.
+- h7 (flexibilidad y eficiencia) se mantiene en 3, NO sube a 4. La ronda 4 ya había fijado el techo de h7 en 3 por DOS razones: el bug de reactividad Y que el atajo cubre un solo caso (no hay, p. ej., accesos directos por tipo de tirada más frecuente ni más de un default inteligente). Esta ronda resuelve la primera razón pero no la segunda, así que el heurístico no cruza a "ejemplar, decil superior" — sigue siendo "bien, solo un ojo entrenado nota qué falta".
+- Craft y el resto de heurísticas: sin cambios de código que los afecten; se mantienen en los valores de la ronda 4.
+
+Verificación del defecto estructural (franja baja sin historial, fuera de alcance esta ronda por decisión explícita):
+El screenshot entregado (navegador limpio, sin `luma_ultima_tirada`) confirma que el chip correctamente NO aparece y que la franja baja de la pantalla cerrada sigue exactamente igual a las rondas 2-4: perceptiblemente más apagada y sin ninguna pieza de contenido propia para el usuario de primera sesión. Esto es fiel a lo declarado por el equipo — no se tocó esta ronda — y sigue siendo el defecto que sostiene tanto h8 como el eje de craft "profundidad" en 3/4 y 3/4 respectivamente.
+
+TOP DEFECTOS (ronda 5):
+1. [Pantalla cerrada, franja ≈y:1050-1300px de 1567 — escenario sin historial, el más común en cualquier usuario nuevo] Techo estructural confirmado en 4 rondas consecutivas (2, 3, 4 y 5): el chip de la ronda 3-4 nunca la toca por diseño (solo aparece con historial), y ningún cambio de contenido se ha aplicado a esa zona para el caso sin historial. Fix: agregar una pieza de contenido real ahí para el usuario sin tiradas previas (ej. un tip corto o una franja "sugerido para ti"), no un ajuste más de gradiente.
+2. [Lista de 5 tiradas, decisión — heredado de rondas 3-4] Sigue un punto por encima de la guía de ≤4 opciones; no se tocó en ninguna ronda hasta ahora.
+3. [Chip "Repetir tu última tirada", caso ultima = primera tirada de la lista — heredado de ronda 4] Redundancia menor sin ser error: el chip puede quedar encima de la misma fila visible un scroll más abajo.
+4. [Miniatura de carta, radio 12px — heredado de rondas 3-4] Sigue siendo el único radio fuera de familia (12 vs 14-16 del resto de superficies); ajuste fino no bloqueante.
+5. [Bug de reactividad de `alternar()` — heredado de ronda 4] Sin defectos nuevos: RESUELTO Y VERIFICADO en código esta ronda, sin regresiones. Se anota como cerrado, no como pendiente.
+
+Notas menores (no bloqueantes, heredadas de rondas previas):
+- Miniaturas de carta lisas sin glifo — coincide con el mockup aprobado.
+- Las 5 lecturas reutilizan el mismo glifo ilustrado de "La Sacerdotisa" — simplificación de V1 documentada.
+
+¿Corresponde cerrar esta pantalla con criterio propio en esta ronda?
+No. El fix puntual que se pidió está genuinamente resuelto y verificado — pero a diferencia de Coach (que en su ronda 4 ya había cruzado el gate propio de craft, 16/20, con la usabilidad dispersa en matices de accesibilidad de bajo impacto) o de Diario (que llegó a 35/40 y 15/20, a exactamente 1 punto de cada gate), Tarot se queda en 31/40 y 15/20 — 5 puntos por debajo del gate de usabilidad y 1 por debajo del de craft, la MISMA distancia que tenía antes de esta ronda. La razón es simple: el defecto que domina el techo actual (franja baja sin contenido para el caso sin historial, que sostiene h8 y "profundidad" en 3/4) es el mismo que las rondas 2, 3 y 4 ya diagnosticaron sin resolver, y esta ronda —correctamente— no lo tocó porque no era su alcance. Cerrar por "rendimientos decrecientes" aplica cuando lo que queda son matices dispersos de bajo impacto (el patrón de Coach/Diario); aquí lo que queda es UN defecto concreto, accionable y de impacto claro (afecta directamente h8 y el eje de profundidad, y es visible para cualquier usuario de primera sesión, no solo "quien mira con lupa"). El veredicto formal se mantiene NO LISTA porque el gate numérico (≥36/40 y ≥16/20) no se cumple — pero, a diferencia de rondas anteriores, ya no queda ambigüedad sobre cuál es el único punto que falta: una ronda dirigida EXCLUSIVAMENTE a poblar esa franja baja con contenido real (no gradiente) para el caso sin historial es la vía más corta para cruzar ambos gates. Si tras esa ronda dirigida el total se estanca de nuevo por debajo de 36/20 pese a resolver ese punto, ahí sí correspondería evaluar el cierre por criterio propio, como se hizo en Coach.

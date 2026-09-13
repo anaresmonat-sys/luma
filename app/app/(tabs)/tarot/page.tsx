@@ -148,6 +148,29 @@ export default function TarotPage() {
           );
         })}
       </motion.div>
+
+      {!abierta && !ultima && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.3 }}
+          className="mt-6 flex flex-col items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-4 py-6 text-center"
+        >
+          <div className="scale-[0.6]">
+            <CartaSacerdotisa animar={false} numero={LECTURAS_TAROT['carta-del-dia'].numero} nombre={LECTURAS_TAROT['carta-del-dia'].nombre} cita={LECTURAS_TAROT['carta-del-dia'].cita} />
+          </div>
+          <p className="text-[12.5px] leading-relaxed text-[var(--text-secondary)]">
+            ¿Primera vez aquí? Empieza con tu carta del día — es la tirada más corta y no necesita contexto previo.
+          </p>
+          <button
+            type="button"
+            onClick={() => alternar('carta-del-dia')}
+            className="text-[12.5px] font-bold text-[var(--accent-lite)]"
+          >
+            Ver mi carta del día →
+          </button>
+        </motion.div>
+      )}
     </div>
   );
 }
