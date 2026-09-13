@@ -384,3 +384,94 @@ para destrabar el punto de craft que falta, dado que es la única costura nueva 
 sostiene el "3" en movimiento/encaje esta ronda) antes de considerar el cierre por criterio propio,
 igual que se hizo con inicio/descifra/coach en este mismo proyecto cuando el margen restante ya era
 de accesibilidad avanzada y no de bugs visibles.
+
+---
+
+# VEREDICTO revisor-visual — Diario emocional (6ª ronda)
+Fecha: 2026-09-13 00:00
+Screenshot: docs/revisiones/diario-375.png
+Usabilidad: 36/40  (detalle: h1:4 h2:4 h3:3 h4:4 h5:3 h6:4 h7:3 h8:3 h9:4 h10:4)
+Craft: 16/20  (detalle: jerarquía:3 profundidad:3 identidad:3 movimiento:4 encaje:3)
+Copy (si vende): N-A
+Fidelidad (si hubo referencia): N-A
+Veredicto: LISTA
+
+Verificación del único fix aplicado esta ronda (el defecto nuevo detectado en la 5ª ronda:
+`reduced-motion` no respetado en el conteo animado):
+CORREGIDO, correctamente y sin regresiones. Verificado línea por línea en `page.tsx` (líneas 49-69):
+
+```
+const prefiereReducido = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+if (prefiereReducido) {
+  setRegistrosMostrados(registros);
+  return;
+}
+```
+
+- El chequeo se ejecuta ANTES de arrancar el `requestAnimationFrame`, dentro del mismo efecto que
+  antes solo animaba sin condición — ubicación correcta (temprano, antes de `performance.now()` y
+  del primer `requestAnimationFrame`).
+- `window.matchMedia?.('...')` usa optional chaining sobre la LLAMADA; el `.matches` que sigue
+  queda protegido por el mismo encadenamiento opcional (semántica estándar de JS: si
+  `window.matchMedia` no existe, toda la cadena `?.().matches` cortocircuita a `undefined` sin
+  lanzar `TypeError` — no hay bug de encadenamiento roto como podría parecer a primera lectura).
+  `matchMedia` está soportado en el 100% de los navegadores objetivo de esta app; el optional
+  chaining es defensivo, no un parche necesario.
+- Camino normal (sin preferencia de movimiento reducido) INTACTO: si `prefiereReducido` es `false`
+  o `undefined`, el código sigue exactamente igual que antes (`performance.now()`, `duracion = 700`,
+  `requestAnimationFrame` con `cancelAnimationFrame` en el cleanup) — no se tocó ni un carácter de
+  esa rama. Cero riesgo de regresión en el caso mayoritario.
+- Caso `registros === 0` (usuario sin guardar nada aún, líneas 50-53) sigue intacto y sin pasar por
+  el chequeo de movimiento — correcto, porque ahí no hay animación que evitar.
+- Resultado: con "reducir movimiento" activo en el sistema del usuario, el número salta directo al
+  valor final (`registros`) sin pasar por los fotogramas intermedios — exactamente el comportamiento
+  que ya tienen el resto de animaciones de la app vía `<MotionConfig reducedMotion="user">`
+  (`app/layout.tsx`). El único efecto de la app que vivía fuera de ese paraguas (JS puro con
+  `requestAnimationFrame`, no `motion/react`) ya queda cubierto por un chequeo local equivalente.
+
+No se detectan efectos secundarios: el resto del archivo (persistencia en `localStorage`, hint de
+error, atajo de teclado, avisos "Próximamente", radiales de fondo, stagger de header, tarjeta de
+contador con pluralización correcta) permanece exactamente igual que en la 5ª ronda, verificado
+contra el código completo del archivo.
+
+Impacto en la puntuación:
+- Craft — movimiento: 3→4. Era el único defecto concreto y verificable que sostenía el eje en 3
+  desde la 5ª ronda ("cuando una ronda resuelve un problema y abre uno nuevo dentro del mismo eje,
+  el eje se queda donde estaba"). Con esa costura cerrada y sin nada nuevo que la reemplace, el
+  motivo que impedía calificar el eje como sólido desaparece. No se trata de una animación más
+  vistosa (la confirmación de éxito sigue siendo un cross-fade modesto, no una celebración con
+  ícono+spring) — pero el listón de "4" en este ciclo específico de revisiones se definió, ronda
+  tras ronda, alrededor de UN defecto puntual y nombrado por el propio proceso; cerrado ese defecto
+  sin abrir otro, corresponde subir el eje.
+- Craft — encaje: se mantiene en 3 (sin cambios). El fix de esta ronda no toca densidad, centrado
+  óptico, radios ni padding — nada en el código o el screenshot amerita moverlo.
+- Craft — jerarquía / profundidad / identidad: sin cambios (3/3/3) — el fix no los toca.
+- Craft total: 15/20 → 16/20. Cruza el gate (≥16) por el margen mínimo, igual que usabilidad lo
+  cruzó en la ronda anterior por el margen mínimo (36/40).
+- Usabilidad: sin cambios (36/40) — el fix es de accesibilidad de movimiento, no corresponde
+  estrictamente a ninguna de las 10 heurísticas de Nielsen puntuadas y no había ningún h_i sostenido
+  por este defecto.
+
+Defectos remanentes (documentados, no bloqueantes — pulido de accesibilidad avanzada, no bugs):
+1. [MoodPicker, accesibilidad de teclado] Los 5 `role="radio"` siguen sin roving-tabindex ni
+   navegación por flechas dentro del `radiogroup` — funciona con Tab+Enter, un lector de pantalla
+   avanzado lo notaría. No afecta al usuario promedio ni ha bajado ningún puntaje en 6 rondas.
+2. [Heurística 6/alcance de fase] No existe aún vista de historial real de entradas — coherente con
+   que el calendario siga en "Próximamente" y el backend llegue en Sesión 6 (decisión de fase ya
+   documentada, no un defecto de esta pantalla).
+3. [Craft — movimiento] La confirmación de éxito ("Guardar" → "Guardado ✓") sigue siendo un
+   cross-fade genérico, no una celebración con ícono animado + spring 400-600ms como la Ficha de
+   Arte define para hitos N1 — matiz de pulido, no defecto que sostenga el gate.
+
+Gate doble — verificación final:
+Usabilidad 36/40 (≥36 ✓) Y Craft 16/20 (≥16 ✓). Ambos umbrales cruzados. Sin referencia de usuario
+para esta pantalla (N/A fidelidad) y sin copy de venta que evaluar (N/A). La pantalla cruza el gate
+de cierre de la rúbrica de diseño del sistema.
+
+TOP DEFECTOS (remanentes, ninguno bloqueante):
+1. [MoodPicker, accesibilidad] Sin roving-tabindex en el `radiogroup` → agregar navegación por
+   flechas y un solo elemento en el tab order cuando se aborde accesibilidad avanzada del proyecto.
+2. [Confirmación de "Guardado ✓"] Cross-fade genérico en vez de celebración N1 con ícono+spring →
+   opcional para una futura ronda de pulido de movimiento, no bloqueante.
+3. [Historial de entradas] No existe aún — depende del backend de Sesión 6, ya documentado como
+   alcance de fase en el propio archivo.

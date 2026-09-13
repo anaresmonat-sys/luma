@@ -162,13 +162,14 @@ export default function TarotPage() {
           <p className="text-[12.5px] leading-relaxed text-[var(--text-secondary)]">
             ¿Primera vez aquí? Empieza con tu carta del día — es la tirada más corta y no necesita contexto previo.
           </p>
-          <button
+          <motion.button
+            whileTap={{ scale: 0.97 }}
             type="button"
             onClick={() => alternar('carta-del-dia')}
-            className="text-[12.5px] font-bold text-[var(--accent-lite)]"
+            className="flex min-h-11 items-center justify-center px-4 text-[12.5px] font-bold text-[var(--accent-lite)]"
           >
             Ver mi carta del día →
-          </button>
+          </motion.button>
         </motion.div>
       )}
     </div>
