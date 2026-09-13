@@ -81,3 +81,40 @@ TOP DEFECTOS (ronda 3):
 Notas menores (no bloqueantes, heredadas de rondas previas):
 - Miniaturas de carta lisas sin glifo — coincide con el mockup aprobado.
 - Las 5 lecturas reutilizan el mismo glifo ilustrado de "La Sacerdotisa" — simplificación de V1 documentada.
+
+---
+
+## RONDA 4 (RE-REVISIÓN) — 2026-09-13
+Screenshot: docs/revisiones/tarot-375.png (lista cerrada, navegador limpio, sin tirada previa) + docs/revisiones/tarot-abierta-375.png (tirada "Amor" expandida)
+Usabilidad: 31/40
+Craft: 15/20
+Copy (si vende): N-A
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:3 h5:3 h6:4 h7:3 h8:3 h9:3 h10:3
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+
+Verificación del fix de la ronda 3 (heurística 7 — atajo/recuerdo de última tirada):
+- Confirmado en código (`app/app/(tabs)/tarot/page.tsx`): `CLAVE_ULTIMA_TIRADA = 'luma_ultima_tirada'`, `useEffect` de montaje lee la clave con `try/catch` (líneas 31-37, no bloquea si localStorage falla), y `alternar()` escribe el id al abrir cualquier tirada (línea 44). El chip condicional (líneas 68-81) solo se renderiza si `ultima && LECTURAS_TAROT[ultima]` existe — defensivo contra id corrupto/obsoleto. Al tocarlo, reutiliza el MISMO `alternar()` que las filas normales, así que hereda el auto-scroll (`scrollIntoView` sobre `panelRef`, línea 48) — cumple exactamente lo pedido: "localStorage con la última tirada + chip 'Repetir: Amor' que abre esa tirada directamente con el mismo auto-scroll".
+- Screenshot de navegador limpio (sin `luma_ultima_tirada` en localStorage): el chip NO aparece — correcto, es el comportamiento esperado y evita el falso-vacío ("Repetir: null").
+- BUG NUEVO (real, no cosmético): `alternar()` escribe en `localStorage` pero **nunca llama a `setUltima(id)`** — el estado `ultima` en memoria solo se fija una vez, al montar la página (línea 33). Si el usuario abre una tirada distinta de la que tenía el chip (p. ej. el chip decía "Ruptura" y el usuario ahora abre "Carta del día"), `localStorage` queda actualizado a "carta-dia" pero el chip visible en pantalla sigue mostrando "Ruptura" hasta que la pantalla se desmonta y se vuelve a montar (cambio de tab y vuelta, o recarga). Es una inconsistencia real entre el dato guardado y lo que el chip comunica — heurística 1 (visibilidad del estado) rota en ese escenario, pero solo se dispara si el usuario abre una segunda tirada distinta en la MISMA sesión y vuelve a mirar el chip — un ojo entrenado lo encuentra leyendo el código, un usuario promedio rara vez lo dispara/nota. Fix de una línea: agregar `setUltima(id)` dentro del `if (abrir) { ... }` de `alternar()`.
+- Redundancia sin bug: si la última tirada guardada es "Amor" (primera de la lista, el caso más común en un uso real temprano), el chip queda literalmente encima de la fila "Amor" que se ve un scroll más abajo — no rompe nada, pero no aporta atajo real en ese caso puntual (el usuario ya la tiene a la vista). No se penaliza como defecto de heurística, sí se anota como pulido posible.
+
+Impacto en las puntuaciones:
+- h7 (flexibilidad y eficiencia) sube de 2→3: el atajo pedido existe, es funcional para su caso de uso principal (usuario que vuelve otro día y ve "Repetir tu última tirada: X →" apenas entra), y reutiliza el patrón de auto-scroll ya probado. No llega a 4 por el bug de reactividad dentro de sesión y por cubrir un solo atajo (no hay, por ejemplo, un acceso directo por tipo de tirada más frecuente).
+- h8 y el eje de craft "profundidad" NO se mueven: el screenshot de cierre (navegador limpio, el escenario más común para cualquier usuario NUEVO o de primera sesión) sigue sin mostrar el chip por diseño correcto, así que la franja baja plana señalada en rondas 2-3 sigue exactamente igual — el fix ayuda al usuario RECURRENTE pero no toca el problema de contenido/profundidad para quien todavía no tiene una tirada guardada, que sigue siendo la mayoría de las capturas de este tipo. Se mantiene en 3/3.
+- El resto de heurísticas y ejes de craft no tuvo cambios de código que los afecten; se mantienen en los valores de la ronda 3.
+
+Diagnóstico: el fix estructural pedido está bien encaminado y correctamente acotado a su propósito (atajo para el usuario recurrente), con un bug de reactividad concreto y de arreglo trivial. Pero el gate (≥36/40 y ≥16/20) sigue sin alcanzarse porque el defecto de fondo señalado en rondas 2-3 — la franja baja de la pantalla CERRADA se percibe menos "llena de valor" que el resto de la app — es independiente del atajo agregado: se manifiesta en el escenario más común (usuario sin historial) y ningún cambio de esta ronda lo toca. Esto YA es zona de rendimientos decrecientes para seguir iterando heurística por heurística sobre la MISMA captura de cierre: la ronda 4 resolvió lo que se le pidió (h7), pero el techo real de la pantalla vuelve a ser el mismo defecto de contenido de la franja baja que las rondas 2 y 3 ya diagnosticaron y no llegaron a resolver de raíz. Recomendación de cierre de ciclo: o se acepta una revisión más para atacar EXCLUSIVAMENTE ese defecto de contenido (con datos semilla que simulen un `luma_ultima_tirada` ya existente en el screenshot de cierre, para que la franja baja muestre el chip real en la evidencia), o se declara este techo aceptable por criterio de producto y se pasa a otra pantalla — seguir puntuando micro-ajustes sobre exactamente los mismos 2-3 puntos ya diagnosticados en 3 rondas consecutivas es, en efecto, rendimiento decreciente.
+
+TOP DEFECTOS (ronda 4):
+1. [`app/app/(tabs)/tarot/page.tsx`, función `alternar()`, líneas 39-50] Bug de reactividad: escribe en `localStorage` pero nunca actualiza el estado `ultima` en memoria — el chip puede quedar mostrando una tirada vieja si el usuario abre una tirada distinta en la misma sesión. Fix: añadir `setUltima(id)` dentro del bloque `if (abrir)`.
+2. [Pantalla cerrada, franja ≈y:1050-1300px de 1567 — screenshot `tarot-375.png`, el escenario de usuario sin historial] Sigue exactamente igual que en rondas 2-3: el nuevo chip no la toca porque solo aparece con `luma_ultima_tirada` ya en localStorage. Es el verdadero techo actual de la pantalla. Fix: agregar contenido real en esa zona para el caso SIN historial (ej. un tip corto o una franja de "sugerido para ti"), no seguir tocando el gradiente.
+3. [Chip "Repetir tu última tirada", caso ultima = primera tirada de la lista] Si la última guardada es "Amor" (primera fila), el chip queda inmediatamente encima de esa misma fila visible un scroll más abajo — redundante sin ser un error, oportunidad de pulido menor.
+4. [Lista de 5 tiradas, decisión — heredado de ronda 3] Sigue un punto por encima de la guía de ≤4 opciones; no se tocó esta ronda.
+5. [Miniatura de carta, radio 12px — heredado de ronda 3] Sigue siendo el único radio fuera de familia (12 vs 14-16); ajuste fino no bloqueante.
+
+Notas menores (no bloqueantes, heredadas de rondas previas):
+- Miniaturas de carta lisas sin glifo — coincide con el mockup aprobado.
+- Las 5 lecturas reutilizan el mismo glifo ilustrado de "La Sacerdotisa" — simplificación de V1 documentada.

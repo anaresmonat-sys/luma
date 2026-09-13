@@ -45,6 +45,7 @@ export default function TarotPage() {
       } catch {
         // ver nota de arriba.
       }
+      setUltima(id);
       window.setTimeout(() => panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 320);
     }
   }

@@ -30,6 +30,8 @@ export default function DiarioPage() {
   const [aviso, setAviso] = useState<string | null>(null);
   const [trajoLectura, setTrajoLectura] = useState(false);
   const [errorVacio, setErrorVacio] = useState(false);
+  const [registros, setRegistros] = useState(0);
+  const [registrosMostrados, setRegistrosMostrados] = useState(0);
 
   useEffect(() => {
     const pendiente = leerYLimpiarEntradaPendiente();
@@ -37,7 +39,29 @@ export default function DiarioPage() {
       setTexto(pendiente);
       setTrajoLectura(true);
     }
+    try {
+      setRegistros(Number(window.localStorage.getItem('luma_diario_contador') ?? 0));
+    } catch {
+      // localStorage puede fallar (modo privado, cuota) — no bloquea el flujo.
+    }
   }, []);
+
+  useEffect(() => {
+    if (registros === 0) {
+      setRegistrosMostrados(0);
+      return;
+    }
+    const inicio = performance.now();
+    const duracion = 700;
+    let cuadro: number;
+    function paso(ahora: number) {
+      const progreso = Math.min(1, (ahora - inicio) / duracion);
+      setRegistrosMostrados(Math.round(progreso * registros));
+      if (progreso < 1) cuadro = requestAnimationFrame(paso);
+    }
+    cuadro = requestAnimationFrame(paso);
+    return () => cancelAnimationFrame(cuadro);
+  }, [registros]);
 
   function guardar() {
     if (!texto.trim()) {
@@ -47,6 +71,9 @@ export default function DiarioPage() {
     }
     try {
       window.localStorage.setItem('luma_diario_ultima_entrada', JSON.stringify({ texto, animo, fecha: Date.now() }));
+      const nuevoContador = registros + 1;
+      window.localStorage.setItem('luma_diario_contador', String(nuevoContador));
+      setRegistros(nuevoContador);
     } catch {
       // localStorage puede fallar (modo privado, cuota) — no bloquea el flujo.
     }
@@ -192,9 +219,23 @@ export default function DiarioPage() {
           Ver mi patrón →
         </motion.button>
 
-        <motion.p variants={item} className="mt-8 text-center text-[11px] leading-relaxed text-[var(--text-tertiary)]">
-          💡 Escribir aunque sean 2 líneas ayuda a que LUMA vea tus patrones con el tiempo.
-        </motion.p>
+        {registros > 0 ? (
+          <motion.div
+            variants={item}
+            className="mt-8 flex flex-col items-center gap-1 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-4 py-5 text-center"
+          >
+            <span className="text-[28px] font-bold tabular-nums text-[var(--accent-lite)] [font-family:var(--font-display)]">
+              {registrosMostrados}
+            </span>
+            <span className="text-[11px] leading-relaxed text-[var(--text-secondary)]">
+              {registros === 1 ? 'registro guardado en tu diario' : 'registros guardados en tu diario'}
+            </span>
+          </motion.div>
+        ) : (
+          <motion.p variants={item} className="mt-8 text-center text-[11px] leading-relaxed text-[var(--text-tertiary)]">
+            💡 Escribir aunque sean 2 líneas ayuda a que LUMA vea tus patrones con el tiempo.
+          </motion.p>
+        )}
       </motion.div>
     </div>
   );

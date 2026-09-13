@@ -205,3 +205,81 @@ el punto #2 (persistencia del "Guardado") por ser el único con sabor a bug real
 criterio propio si los 4 restantes (polish de franja final, animación de éxito, roving-tabindex,
 escala de espaciado) ameritan una 4ª ronda o se aceptan como pulido menor de un producto ya
 consistente con el resto de la app.
+
+---
+
+# VEREDICTO revisor-visual — Diario emocional (4ª ronda)
+Fecha: 2026-09-13 00:00
+Screenshot: docs/revisiones/diario-375.png
+Usabilidad: 35/40  (detalle: h1:4 h2:4 h3:3 h4:4 h5:3 h6:4 h7:3 h8:3 h9:4 h10:3)
+Craft: 15/20  (detalle: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3)
+Copy (si vende): N-A
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+
+Verificación de los 3 fixes aplicados esta ronda (los más baratos de la lista de la 3ª ronda):
+1. [BUG REAL — defecto #2 de la 3ª ronda] CORREGIDO de verdad. `guardar()` (líneas 42-55) ahora
+   ejecuta `window.localStorage.setItem('luma_diario_ultima_entrada', JSON.stringify({ texto, animo,
+   fecha: Date.now() }))` dentro de un `try/catch` defensivo ANTES de `setGuardado(true)` — mismo
+   patrón que ya usa `lib/almacenamiento-diario.ts` para el puente Tarot→Diario, sin colisión de
+   clave (`luma_diario_pendiente` vs `luma_diario_ultima_entrada`). "Guardado ✓" ya no es una
+   confirmación falsa: hay un valor real en `localStorage` tras el guardado. Limitación honesta que
+   permanece (no es defecto nuevo, es alcance de fase): solo se persiste la ÚLTIMA entrada, no un
+   historial — coherente con que el calendario siga en "Próximamente" y con el comentario de
+   cabecera del archivo (línea 5) que documenta el cálculo real de patrones para Sesión 6.
+2. [Craft — movimiento, defecto #3 de la 3ª ronda] CORREGIDO parcialmente. Líneas 146-159:
+   `AnimatePresence mode="wait" initial={false}` con `key={guardado ? 'ok' : 'guardar'}` y
+   transición `scale 0.9→1` + `opacity 0→1`, `duration 0.15`. Ya no es un cambio de texto seco; hay
+   una transición perceptible. No llega a ser una "celebración" (no hay ícono de check ni el spring
+   400-600ms que la Ficha de Arte define para hitos N1) — es un cross-fade de UI genérico, correcto
+   pero modesto. No sube el eje de movimiento a un nivel superior por sí solo.
+3. [Craft — encaje, defecto #5 de la 3ª ronda] CORREGIDO. Línea 195: `mt-8` en vez de `mt-6` antes
+   del tip final — vuelve a la escala 4·8·12·16·24·32. Corrección puntual y verificada, pero de
+   8px de diferencia real en pantalla: no resuelve por sí sola la sensación de aire subutilizado de
+   la franja final (defecto #1 de la 3ª ronda, no tocado esta ronda — ver abajo).
+
+Impacto en la puntuación:
+- h1 (visibilidad del estado del sistema): 3→4. Era el único defecto verificado que sostenía el 3:
+  el sistema ahora refleja honestamente lo que dice ("Guardado ✓" = hay un dato real guardado). Es
+  un cambio sustantivo (bug cerrado), no cosmético — se trata distinto de los otros dos fixes.
+- Craft total sin cambios (15/20): tanto el cross-fade de movimiento como el ajuste de `mt-8` son
+  correcciones reales pero de magnitud menor a la requerida para subir un eje completo de 3 a 4 bajo
+  el criterio "ante la duda, el problema visible baja el puntaje" — ninguno de los dos convierte su
+  eje en "ejemplar, decil superior"; ambos siguen siendo "bien, solo un ojo entrenado lo nota".
+
+Defectos remanentes (ninguno nuevo — los dos que la propia 3ª ronda marcó como de menor prioridad y
+no se tocaron esta ronda, por decisión explícita):
+1. [Franja final, entre el tip 💡 y la bottom nav, último ~15-20% de la altura] SIN TOCAR. El radial
+   final (`480px 34dvh at 50% 100%`, 40% de mezcla, línea 71) sigue siendo más angosto que el de
+   Descifra y el tip de una línea no llena el espacio — aire subutilizado, no muerto → agregar un
+   elemento de valor (ej. contador de entradas de la semana) o comprimir el espaciado superior.
+2. [MoodPicker, accesibilidad de teclado] SIN TOCAR. Los 5 `role="radio"` siguen en el tab order
+   como botones independientes, sin roving-tabindex ni navegación por flechas dentro del grupo →
+   no bloqueante para el usuario promedio, pero un lector de pantalla avanzado lo nota.
+3. [Heurística 6, reconocer vs recordar] Matiz nuevo, de severidad baja: la entrada persistida en
+   `localStorage` (fix #1) no se lee de vuelta en ningún lado de la UI — no hay historial visible,
+   así que el usuario no tiene manera de VERIFICAR que su "Guardado ✓" fue real más allá de confiar
+   en el toast de 2200ms. Aceptable como alcance de fase (el calendario ya avisa "Próximamente"),
+   pero vale la pena anotarlo para cuando llegue el historial real en Sesión 6.
+
+¿Alcanzan estos 3 fixes para cruzar el gate?
+No. Usabilidad pasó de 34/40 a 35/40 (+1, por el cierre del bug real de persistencia) y Craft se
+mantuvo en 15/20 (los otros dos fixes son correctos pero de magnitud insuficiente para mover un eje
+completo). El gate exige ≥36/40 y ≥16/20 — la pantalla queda a exactamente 1 punto de cada uno.
+
+Lectura honesta de dónde está parada esta pantalla: de los 5 puntos que la 3ª ronda dejó abiertos,
+se cerró el único con sabor a bug real (persistencia falsa) tal como esa ronda recomendó, y se
+aplicaron 2 de los 4 puntos de pulido restantes (movimiento del check, escala de espaciado). Quedan
+2 sin tocar por decisión explícita de prioridad (aire de la franja final, roving-tabindex) — ambos
+ya estaban catalogados por el propio revisor anterior como "pulido menor de un producto ya
+consistente con el resto de la app", no como fallos que un usuario promedio note sin buscarlos.
+Con este diagnóstico, hay dos caminos igualmente defendibles: (a) una 5ª ronda mínima que solo
+ataque la franja final (el ítem con más impacto visual de los dos restantes, y el que más se repite
+entre rondas) probablemente cruce el gate por el margen de 1 punto que falta en cada rúbrica; o
+(b) cerrar aquí por criterio propio, documentando que lo que queda es accesibilidad de teclado
+avanzada y densidad visual de una franja secundaria — ninguno de los dos es un defecto que un
+usuario cualquiera note sin lupa. Dado que el propio criterio de esta rúbrica exige que un "2" sea
+"lo nota un usuario cualquiera" y un "3" sea "solo lo nota quien revisa con lupa", y ambos pendientes
+califican como "3" (ya reflejado en los puntajes), el veredicto formal se mantiene en NO LISTA por
+el margen estrecho de 1 punto en cada rúbrica — pero ya no es una brecha de bugs, es literalmente
+el borde del gate.

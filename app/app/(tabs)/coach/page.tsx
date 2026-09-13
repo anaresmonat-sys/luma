@@ -94,7 +94,7 @@ export default function CoachPage() {
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-y-auto py-2">
+      <div role="log" aria-live="polite" className="flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-y-auto py-2">
         <AnimatePresence>
           {hilo.map((m, i) =>
             m.autor === 'yo' ? (
