@@ -45,7 +45,8 @@ export default function InicioPage() {
       />
       {/* header: wordmark + avatar → único punto de entrada a "Más" (cuenta) */}
       <div className="flex shrink-0 items-center justify-between py-2">
-        <span className="text-[16px] font-semibold tracking-[0.24em] text-[var(--accent-lite)] [font-family:var(--font-display)]">
+        <span className="flex items-center gap-2 text-[16px] font-semibold tracking-[0.24em] text-[var(--accent-lite)] [font-family:var(--font-display)]">
+          <img src="/luma-icon.png" alt="" aria-hidden="true" className="h-6 w-auto" />
           LUMA
         </span>
         <Link href="/app/mas" aria-label="Tu cuenta" className="flex size-11 items-center justify-center">

@@ -31,7 +31,11 @@ export default function LandingLuma() {
       >
         Saltar al contenido
       </a>
-      <SiteHeader appName="LUMA" loginHref="/entrar" />
+      <SiteHeader
+        appName="LUMA"
+        loginHref="/entrar"
+        logo={<img src="/luma-icon.png" alt="" aria-hidden="true" className="h-6 w-auto" />}
+      />
       <main id="contenido">
       {/* 1 · HERO */}
       <Hero

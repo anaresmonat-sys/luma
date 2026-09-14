@@ -119,10 +119,20 @@ export default function EntrarLuma() {
       {header}
 
       <div className="mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pt-6">
-        <motion.div
+        <motion.img
+          src="/luma-lockup.png"
+          alt="LUMA"
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="mx-auto h-36 w-auto"
+        />
+
+        <motion.div
+          initial={{ opacity: 0, y: reduce ? 0 : 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-6 text-center"
         >
           <h1 className="text-[26px] font-bold leading-[1.15] text-[var(--text-primary)] [font-family:var(--font-display)]">
             Entra a tu plan
@@ -135,7 +145,7 @@ export default function EntrarLuma() {
         <motion.div
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="mt-7 flex flex-col gap-3"
         >
           <form
