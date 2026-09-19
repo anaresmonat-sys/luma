@@ -216,14 +216,34 @@ export default function TarotPage() {
                 disabled={cargando === t.id}
                 className="flex w-full items-center gap-3 py-4 text-left disabled:opacity-70"
               >
-                <span
-                  aria-hidden="true"
-                  className="h-[52px] w-10 shrink-0 rounded-[12px]"
-                  style={{
-                    background: 'linear-gradient(160deg, var(--card-paper), var(--card-paper-2))',
-                    boxShadow: '0 8px 16px -8px rgb(10 5 8 / 0.5), inset 0 1px 0 rgb(255 255 255 / 0.5)',
-                  }}
-                />
+                {tirada?.imagen ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={tirada.imagen}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-16 w-11 shrink-0 rounded-md object-cover shadow-[0_8px_16px_-8px_rgb(10_5_8/0.6)]"
+                    style={{ transform: tirada.invertida ? 'rotate(180deg)' : undefined }}
+                  />
+                ) : (
+                  // Reverso en miniatura: la carta que saldrá es al azar, así que no se anticipa ninguna.
+                  <span
+                    aria-hidden="true"
+                    className="relative flex h-16 w-11 shrink-0 items-center justify-center rounded-md"
+                    style={{
+                      background: 'linear-gradient(160deg, color-mix(in oklab, var(--bloom-vino) 75%, var(--bg)), var(--bg) 70%)',
+                      boxShadow:
+                        '0 8px 16px -8px rgb(10 5 8 / 0.6), inset 0 0 0 1px color-mix(in oklab, var(--accent) 85%, transparent)',
+                    }}
+                  >
+                    <span
+                      className="absolute inset-1 rounded-sm"
+                      style={{ border: '1px solid color-mix(in oklab, var(--accent) 40%, transparent)' }}
+                    />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/luma-icon.png" alt="" className="relative h-6 w-auto" />
+                  </span>
+                )}
                 <span className="text-[15px] leading-none text-[var(--accent-lite)]" aria-hidden="true">
                   {t.emoji}
                 </span>

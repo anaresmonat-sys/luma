@@ -448,3 +448,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 - Enfoque ACTUAL: LUMA con Insumo C como fuente principal. No re-validar concepto.
 - El ANALIZADOR DE CHATS/CAPTURAS (Descifra la conversación) es la función estrella — ya construida.
 - Sesión 6 conecta los servicios reales: define ahí el proveedor de OCR y de voz→texto.
+
+- 2026-09-19: Tarot — las cajitas de la lista muestran el reverso de carta (miniatura) antes de tirar y la carta real que salió después (historial de tiradas). Landing/paywall usan el reverso liso con logo; foto de Inicio del carrusel regenerada con la carta real (las otras 4 fotos del carrusel siguen siendo las viejas).
