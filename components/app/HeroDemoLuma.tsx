@@ -13,6 +13,8 @@ export function CartaSacerdotisa({
   numero = 'II',
   nombre = 'La Sacerdotisa',
   cita = 'Escucha antes de responder.',
+  imagen,
+  invertida = false,
 }: {
   animar?: boolean;
   /** 'scroll' = revela al entrar en viewport (landing) · 'montaje' = revela al abrir la pantalla (Inicio, sin scroll de por medio). */
@@ -20,6 +22,10 @@ export function CartaSacerdotisa({
   numero?: string;
   nombre?: string;
   cita?: string;
+  /** Ilustración real de la carta (/public/tarot). Sin ella, se dibuja el pergamino de siempre. */
+  imagen?: string;
+  /** Con `imagen`, gira la ilustración 180° como en una tirada real. */
+  invertida?: boolean;
 }) {
   const reduce = useReducedMotion();
   const anim = animar && !reduce;
@@ -32,6 +38,7 @@ export function CartaSacerdotisa({
           viewport: { once: true, amount: 0.3 },
         };
   return (
+    <div className="flex shrink-0 flex-col items-center">
     <motion.div
       className="relative shrink-0"
       style={{ perspective: '900px' }}
@@ -49,7 +56,9 @@ export function CartaSacerdotisa({
         }}
       />
       <div
-        className="relative flex h-[13rem] w-[8.75rem] flex-col items-center justify-between rounded-[var(--radius-button)] px-3 py-4"
+        className={`relative flex w-[8.75rem] flex-col items-center justify-between rounded-[var(--radius-button)] ${
+          imagen ? 'h-[15rem] overflow-hidden' : 'h-[13rem] px-3 py-4'
+        }`}
         style={{
           transform: 'rotateX(6deg) rotateY(-14deg) rotate(-3deg)',
           transformStyle: 'preserve-3d',
@@ -59,18 +68,30 @@ export function CartaSacerdotisa({
             '0 30px 44px -14px rgb(10 5 8 / 0.6), 0 12px 18px -8px rgb(10 5 8 / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.55), inset 0 0 0 1px rgb(255 255 255 / 0.28)',
         }}
       >
-        <span className="text-[11px] font-bold uppercase tracking-[0.1em]" style={{ color: 'var(--card-label)' }}>
-          {numero} · {nombre}
-        </span>
-        <svg width="46" height="60" viewBox="0 0 46 60" fill="none" stroke="var(--card-line)" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true">
-          <path d="M7 58V8M39 58V8" />
-          <circle cx="23" cy="17" r="5.5" />
-          <path d="M23 23v22M14 45h18M16 34h14" />
-          <path d="M18 12a6 6 0 0 1 10 0" />
-        </svg>
-        <span className="text-center text-[12px] font-medium leading-tight [font-family:var(--font-display)]" style={{ color: 'var(--card-title)' }}>
-          &ldquo;{cita}&rdquo;
-        </span>
+        {imagen ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={imagen}
+            alt={invertida ? `${nombre} (invertida)` : nombre}
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ transform: invertida ? 'rotate(180deg)' : undefined }}
+          />
+        ) : (
+          <>
+            <span className="text-[11px] font-bold uppercase tracking-[0.1em]" style={{ color: 'var(--card-label)' }}>
+              {numero} · {nombre}
+            </span>
+            <svg width="46" height="60" viewBox="0 0 46 60" fill="none" stroke="var(--card-line)" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true">
+              <path d="M7 58V8M39 58V8" />
+              <circle cx="23" cy="17" r="5.5" />
+              <path d="M23 23v22M14 45h18M16 34h14" />
+              <path d="M18 12a6 6 0 0 1 10 0" />
+            </svg>
+            <span className="text-center text-[12px] font-medium leading-tight [font-family:var(--font-display)]" style={{ color: 'var(--card-title)' }}>
+              &ldquo;{cita}&rdquo;
+            </span>
+          </>
+        )}
       </div>
       {/* sombra de contacto */}
       <div
@@ -79,6 +100,16 @@ export function CartaSacerdotisa({
         style={{ background: 'rgb(10 5 8 / 0.55)' }}
       />
     </motion.div>
+    {imagen && (
+      <div className="mt-6 max-w-[11rem] text-center">
+        <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--accent)]">
+          {numero} · {nombre}
+          {invertida ? ' (invertida)' : ''}
+        </p>
+        <p className="mt-1 text-[12px] leading-snug text-[var(--text-secondary)]">{cita}</p>
+      </div>
+    )}
+    </div>
   );
 }
 

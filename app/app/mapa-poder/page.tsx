@@ -26,6 +26,7 @@ import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { calcularNumeroVida, arcanoDeNumero } from '@/lib/numerologyUtils';
 import { calcularNumeroExpresion, calcularNumeroAlma } from '@/lib/numerologiaNombre';
 import { signoDeFecha } from '@/lib/zodiaco';
+import { imagenDeCarta } from '@/lib/tarotDeck';
 import { guardarMapaPoder, leerMapaPoder, type MapaPoder } from '@/lib/almacenamiento-numerologia';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { leerPerfilSupabase, guardarPerfilSupabase } from '@/lib/supabase/perfilNumerologia';
@@ -168,7 +169,7 @@ export default function MapaPoderPage() {
         <AnimatePresence>
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-4 flex flex-col gap-4">
             <div className="flex flex-col items-center gap-3">
-              <CartaSacerdotisa disparo="montaje" numero={String(mapa!.numero)} nombre={mapa!.arcanoNombre} cita="Tu arcano de nacimiento" />
+              <CartaSacerdotisa disparo="montaje" numero={String(mapa!.numero)} nombre={mapa!.arcanoNombre} cita="Tu arcano de nacimiento" imagen={imagenDeCarta(mapa!.arcanoId)} />
               <p className="text-center text-[13px] font-semibold text-[var(--text-secondary)]">
                 {mapa!.signoNombre} · Camino de Vida <span className="text-[var(--accent-lite)]">{mapa!.numero}</span> ·
                 Número del Alma <span className="text-[var(--accent-lite)]">{mapa!.numeroAlma}</span>

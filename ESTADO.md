@@ -1,5 +1,24 @@
 # ESTADO — LUMA (nombre de trabajo)
 Última actualización: 2026-09-19 | Sesión actual: 6 (servicios externos) — EN CURSO
+PUBLICADA (2026-09-19): app en Vercel (proyecto `luma`, team LUMA) → luma-luma-e7c1.vercel.app, desplegando
+desde `main` (commit c573c7d). Variables en Vercel: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+ANTHROPIC_API_KEY. El usuario la mostrará a algunas personas para recoger opiniones; el recorrido de inicio
+se deja SIN cambios por ahora (decisión suya). PENDIENTES tras publicar: (1) Supabase → Authentication → URL
+Configuration: agregar el dominio de Vercel, si no el login por correo no funciona en producción; (2) existe un
+proyecto duplicado `luma-app` en Vercel, borrarlo cuando se confirme que `luma` funciona; (3) protección de las
+rutas de IA en el servidor (hoy cualquiera con la URL puede gastar el crédito de $10; tope natural = saldo).
+✅ CHECKPOINT — Ilustraciones reales del mazo (pedido del usuario): 78 imágenes Rider-Waite-Smith en
+`/public/tarot/` (6,2 MB, .webp de 360px). FUENTE Y LICENCIA: escaneos originales de 1909 de Pamela
+Colman Smith en Wikimedia Commons (dominio público) — se descartó a propósito usar repos de GitHub tipo
+'tarot-json' porque mezclan versiones modernas coloreadas de US Games que NO son de dominio público.
+Nombres: Mayores `<posición>-<id>.webp` (0-el-loco…), Menores `<id>.webp` (reina-de-copas…). `CartaTarot`
+ahora tiene `image`; `imagenDeCarta(id)` en `lib/tarotDeck.ts`. `CartaSacerdotisa` (el componente de la
+carta; `TarotCard.tsx` no existe) acepta `imagen` + `invertida` (gira 180°) y muestra nombre + cita debajo;
+sin `imagen` se dibuja el pergamino de antes. Usado en Inicio (carta del día), Tarot, Mapa de Poder y El
+Círculo. Verificado en vivo (3 de Copas invertida; tirada real La Torre). tsc ✓ build ✓.
+Detalles a tener en cuenta: las imágenes traen el título impreso EN INGLÉS (ej. "THE TOWER") y el borde de
+la carta original; "La Transformación" muestra la carta original de La Muerte; sin commit todavía (ver
+Vercel: para publicarlo hay que subir estos cambios a `main`).
 Estado al cierre de hoy: app con IA real en las funciones principales + Mapa de Poder + El Círculo (Fase 1)
 + Sinergia zodiacal. Nada sin commitear a propósito: hay muchos cambios locales sin commit (el usuario no
 lo ha pedido). Pendientes grandes: Vercel (GitHub App sin autorizar), tarjeta para compartir (Círculo Fase 2),

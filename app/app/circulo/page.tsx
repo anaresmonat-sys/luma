@@ -22,6 +22,7 @@ import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { calcularNumeroVida, arcanoDeNumero } from '@/lib/numerologyUtils';
 import { calcularNumeroExpresion, calcularNumeroAlma } from '@/lib/numerologiaNombre';
 import { signoDeFecha } from '@/lib/zodiaco';
+import { imagenDeCarta } from '@/lib/tarotDeck';
 import { leerCirculo, agregarAlCirculo, quitarDelCirculo, type PersonaCirculo } from '@/lib/almacenamiento-circulo';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { leerCirculoSupabase, agregarAlCirculoSupabase, quitarDelCirculoSupabase } from '@/lib/supabase/circulo';
@@ -221,7 +222,7 @@ export default function CirculoPage() {
                   >
                     <div className="flex flex-col items-center gap-3 px-4 pb-5">
                       <div className="scale-[0.7]">
-                        <CartaSacerdotisa disparo="montaje" numero={String(p.numero)} nombre={p.arcanoNombre} cita={`Camino de Vida ${p.numero}`} />
+                        <CartaSacerdotisa disparo="montaje" numero={String(p.numero)} nombre={p.arcanoNombre} cita={`Camino de Vida ${p.numero}`} imagen={imagenDeCarta(p.arcanoId)} />
                       </div>
                       {[
                         { titulo: 'Su arquetipo emocional', texto: p.arquetipo },

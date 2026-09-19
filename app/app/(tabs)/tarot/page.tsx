@@ -32,6 +32,7 @@ interface TiradaGuardada {
   invertida: boolean;
   cita: string;
   texto: string;
+  imagen?: string;
 }
 
 const contenedor = {
@@ -105,6 +106,7 @@ export default function TarotPage() {
           invertida: extraida.invertida,
           cita: citaDeCarta(extraida),
           texto: datos.texto,
+          imagen: extraida.carta.image,
         };
         setGuardadas((g) => {
           const siguiente = { ...g, [id]: nueva };
@@ -250,8 +252,10 @@ export default function TarotPage() {
                         <CartaSacerdotisa
                           disparo="montaje"
                           numero={tirada.numero}
-                          nombre={tirada.invertida ? `${tirada.nombre} (invertida)` : tirada.nombre}
+                          nombre={tirada.imagen || !tirada.invertida ? tirada.nombre : `${tirada.nombre} (invertida)`}
                           cita={tirada.cita}
+                          imagen={tirada.imagen}
+                          invertida={tirada.invertida}
                         />
                       </div>
                       <p className="max-w-[280px] text-center text-[13px] leading-relaxed text-[var(--text-secondary)]">
@@ -289,8 +293,10 @@ export default function TarotPage() {
                 <CartaSacerdotisa
                   animar={false}
                   numero={previa.carta.numero}
-                  nombre={previa.invertida ? `${previa.carta.nombre} (invertida)` : previa.carta.nombre}
+                  nombre={previa.carta.nombre}
                   cita={citaDeCarta(previa)}
+                  imagen={previa.carta.image}
+                  invertida={previa.invertida}
                 />
               );
             })()}

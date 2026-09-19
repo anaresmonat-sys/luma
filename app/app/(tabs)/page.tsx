@@ -178,8 +178,10 @@ export default function InicioPage() {
               <CartaSacerdotisa
                 disparo="montaje"
                 numero={hoy.carta.numero}
-                nombre={hoy.invertida ? `${hoy.carta.nombre} (invertida)` : hoy.carta.nombre}
+                nombre={hoy.carta.nombre}
                 cita={citaDeCarta(hoy)}
+                imagen={hoy.carta.image}
+                invertida={hoy.invertida}
               />
             );
           })()}

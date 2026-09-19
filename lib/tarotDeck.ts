@@ -16,9 +16,12 @@ export interface CartaTarot {
   palo?: 'bastos' | 'copas' | 'espadas' | 'oros';
   derecho: string[];
   invertido: string[];
+  /** Ruta en /public/tarot — escaneo original de 1909 (Rider-Waite-Smith, Pamela
+   * Colman Smith), dominio público, tomado de Wikimedia Commons. */
+  image: string;
 }
 
-const MAYORES: CartaTarot[] = [
+const MAYORES_BASE: Omit<CartaTarot, 'image'>[] = [
   { id: 'el-loco', numero: '0', nombre: 'El Loco', arcano: 'mayor', derecho: ['nuevos comienzos', 'espontaneidad', 'fe en el futuro'], invertido: ['imprudencia', 'riesgos sin pensar', 'dudas'] },
   { id: 'el-mago', numero: 'I', nombre: 'El Mago', arcano: 'mayor', derecho: ['manifestación', 'recursos propios', 'poder personal'], invertido: ['manipulación', 'talento desperdiciado', 'planes a medias'] },
   { id: 'la-sacerdotisa', numero: 'II', nombre: 'La Sacerdotisa', arcano: 'mayor', derecho: ['intuición', 'misterio', 'sabiduría interior'], invertido: ['secretos ocultos', 'desconexión de la intuición'] },
@@ -42,6 +45,9 @@ const MAYORES: CartaTarot[] = [
   { id: 'el-juicio', numero: 'XX', nombre: 'El Juicio', arcano: 'mayor', derecho: ['revisión', 'despertar', 'llamado a decidir'], invertido: ['autocrítica dura', 'negarse a perdonar(se)'] },
   { id: 'el-mundo', numero: 'XXI', nombre: 'El Mundo', arcano: 'mayor', derecho: ['cierre pleno', 'logro', 'sentirse completa'], invertido: ['cierre pendiente', 'sensación de que falta algo'] },
 ];
+
+// Los Arcanos Mayores se guardan como `<posición>-<id>.webp` (0-el-loco, 2-la-sacerdotisa…).
+const MAYORES: CartaTarot[] = MAYORES_BASE.map((c, i) => ({ ...c, image: `/tarot/${i}-${c.id}.webp` }));
 
 type RangoMenor = { numero: string; sufijo: string; derecho: Record<string, string[]>; invertido: Record<string, string[]> };
 
@@ -72,19 +78,28 @@ const PALOS: { id: 'bastos' | 'copas' | 'espadas' | 'oros'; label: string }[] = 
 ];
 
 const MENORES: CartaTarot[] = PALOS.flatMap((palo) =>
-  RANGOS_MENORES.map((r) => ({
-    id: `${r.numero.toLowerCase()}-${r.sufijo}-${palo.id}`,
-    numero: r.numero,
-    nombre: `${r.numero} ${r.sufijo} ${palo.label}`,
-    arcano: 'menor' as const,
-    palo: palo.id,
-    derecho: r.derecho[palo.id],
-    invertido: r.invertido[palo.id],
-  }))
+  RANGOS_MENORES.map((r) => {
+    const id = `${r.numero.toLowerCase()}-${r.sufijo}-${palo.id}`;
+    return {
+      id,
+      numero: r.numero,
+      nombre: `${r.numero} ${r.sufijo} ${palo.label}`,
+      arcano: 'menor' as const,
+      palo: palo.id,
+      derecho: r.derecho[palo.id],
+      invertido: r.invertido[palo.id],
+      image: `/tarot/${id}.webp`,
+    };
+  })
 );
 
 /** Las 78 cartas del mazo — 22 Arcanos Mayores + 56 Arcanos Menores. */
 export const MAZO_TAROT: CartaTarot[] = [...MAYORES, ...MENORES];
+
+/** Imagen de una carta a partir de su id (ej. el arcano guardado en el perfil). */
+export function imagenDeCarta(id: string): string | undefined {
+  return MAZO_TAROT.find((c) => c.id === id)?.image;
+}
 
 export interface CartaExtraida {
   carta: CartaTarot;
