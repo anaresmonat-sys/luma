@@ -56,16 +56,16 @@ export function CartaSacerdotisa({
         }}
       />
       <div
-        className={`relative flex w-[8.75rem] flex-col items-center justify-between rounded-[var(--radius-button)] ${
-          imagen ? 'h-[15rem] overflow-hidden' : 'h-[13rem] px-3 py-4'
-        }`}
+        className="relative flex h-[15rem] w-[8.75rem] flex-col items-center justify-center overflow-hidden rounded-[var(--radius-button)]"
         style={{
           transform: 'rotateX(6deg) rotateY(-14deg) rotate(-3deg)',
           transformStyle: 'preserve-3d',
-          background: 'linear-gradient(160deg, var(--card-paper), var(--card-paper-2))',
-          color: 'var(--card-ink)',
-          boxShadow:
-            '0 30px 44px -14px rgb(10 5 8 / 0.6), 0 12px 18px -8px rgb(10 5 8 / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.55), inset 0 0 0 1px rgb(255 255 255 / 0.28)',
+          background: imagen
+            ? 'linear-gradient(160deg, var(--card-paper), var(--card-paper-2))'
+            : 'linear-gradient(160deg, color-mix(in oklab, var(--bloom-vino) 75%, var(--bg)), var(--bg) 70%)',
+          boxShadow: imagen
+            ? '0 30px 44px -14px rgb(10 5 8 / 0.6), 0 12px 18px -8px rgb(10 5 8 / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.55), inset 0 0 0 1px rgb(255 255 255 / 0.28)'
+            : '0 30px 44px -14px rgb(10 5 8 / 0.7), 0 12px 18px -8px rgb(10 5 8 / 0.5), inset 0 0 0 1.5px color-mix(in oklab, var(--accent) 85%, transparent)',
         }}
       >
         {imagen ? (
@@ -77,18 +77,29 @@ export function CartaSacerdotisa({
             style={{ transform: invertida ? 'rotate(180deg)' : undefined }}
           />
         ) : (
+          // Reverso del mazo: fondo ciruela, doble marco dorado y el logo de LUMA al centro.
           <>
-            <span className="text-[11px] font-bold uppercase tracking-[0.1em]" style={{ color: 'var(--card-label)' }}>
-              {numero} · {nombre}
-            </span>
-            <svg width="46" height="60" viewBox="0 0 46 60" fill="none" stroke="var(--card-line)" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true">
-              <path d="M7 58V8M39 58V8" />
-              <circle cx="23" cy="17" r="5.5" />
-              <path d="M23 23v22M14 45h18M16 34h14" />
-              <path d="M18 12a6 6 0 0 1 10 0" />
-            </svg>
-            <span className="text-center text-[12px] font-medium leading-tight [font-family:var(--font-display)]" style={{ color: 'var(--card-title)' }}>
-              &ldquo;{cita}&rdquo;
+            <div
+              aria-hidden="true"
+              className="absolute inset-2 rounded-[var(--radius-button)]"
+              style={{ border: '1px solid color-mix(in oklab, var(--accent) 55%, transparent)' }}
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-3.5 rounded-md"
+              style={{ border: '1px solid color-mix(in oklab, var(--accent) 28%, transparent)' }}
+            />
+            <div
+              aria-hidden="true"
+              className="absolute left-1/2 top-1/2 h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[1.25rem]"
+              style={{ background: 'color-mix(in oklab, var(--accent) 30%, transparent)' }}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/luma-icon.png" alt="" aria-hidden="true" className="relative h-16 w-auto" />
+            <span
+              className="relative mt-3 text-[12px] font-semibold tracking-[0.3em] text-[var(--accent-lite)] [font-family:var(--font-display)]"
+            >
+              LUMA
             </span>
           </>
         )}
