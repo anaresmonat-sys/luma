@@ -2,22 +2,33 @@
 
 // APP INTERNA — DESCIFRA LA CONVERSACIÓN (blueprint: vista-previa-app.html frame 4,
 // aprobado). La función estrella. Sin nav inferior (flujo dedicado, no es pestaña).
-// Sin backend aún (Sesión 6 conecta IA real): "Analizar" simula el análisis con un
-// breve loading y muestra el resultado de ejemplo — deja el LOOP completo probable
-// sin fingir que ya hay IA real. Captura/Voz muestran "Próximamente" honesto (11:
-// nunca un elemento tocable sin respuesta) hasta que OCR/voz→texto estén conectados.
-// El CTA "Analizar" NUNCA se deshabilita (ancla de craft): si el texto es muy corto
-// para decir algo real, se explica por qué en vez de apagar el botón.
+// Conectada a IA real vía /api/descifrar (patrón BFF — la clave vive en el
+// servidor). El primer análisis real es gratis (lib/prueba-gratis.ts); el
+// siguiente intento manda a elegir un plan. Captura/Voz muestran "Próximamente"
+// honesto (11: nunca un elemento tocable sin respuesta) hasta que OCR/voz→texto
+// estén conectados. El CTA "Analizar" NUNCA se deshabilita (ancla de craft): si
+// el texto es muy corto para decir algo real, se explica por qué en vez de
+// apagar el botón.
 
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton, AppLinkButton } from '@/components/app/AppButton';
-import { CONVERSACION_EJEMPLO, ANALISIS_EJEMPLO } from '@/lib/seed-datos';
+import { CONVERSACION_EJEMPLO } from '@/lib/seed-datos';
+import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
+import { guardarMensajePendiente } from '@/lib/almacenamiento-coach';
 
 type Modo = 'texto' | 'captura' | 'voz';
 type Estado = 'reposo' | 'cargando' | 'error' | 'resultado';
+
+interface ItemAnalisis {
+  id: string;
+  emoji: string;
+  color: string;
+  titulo: string;
+  texto: string;
+}
 
 const MIN_CARACTERES = 15;
 
@@ -40,14 +51,36 @@ export default function DescifrarPage() {
   const [modo, setModo] = useState<Modo>('texto');
   const [texto, setTexto] = useState('');
   const [estado, setEstado] = useState<Estado>('reposo');
+  const [analisis, setAnalisis] = useState<ItemAnalisis[]>([]);
+  const [mensajeError, setMensajeError] = useState('Necesito un poco más de contexto — pega al menos un par de mensajes.');
 
-  function analizar() {
+  async function analizar() {
     if (texto.trim().length < MIN_CARACTERES) {
+      setMensajeError('Necesito un poco más de contexto — pega al menos un par de mensajes.');
       setEstado('error');
       return;
     }
+    if (!pruebaGratisDisponible()) {
+      window.location.href = '/paywall';
+      return;
+    }
     setEstado('cargando');
-    window.setTimeout(() => setEstado('resultado'), 900);
+    try {
+      const res = await fetch('/api/descifrar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ texto }),
+      });
+      if (!res.ok) throw new Error('respuesta no OK');
+      const datos: { analisis?: ItemAnalisis[] } = await res.json();
+      if (!datos.analisis) throw new Error('sin análisis');
+      consumirPruebaGratis();
+      setAnalisis(datos.analisis);
+      setEstado('resultado');
+    } catch {
+      setMensajeError('No se pudo analizar tu mensaje — inténtalo de nuevo.');
+      setEstado('error');
+    }
   }
 
   return (
@@ -134,7 +167,7 @@ export default function DescifrarPage() {
                     exit={{ opacity: 0, height: 0 }}
                     className="mt-2 overflow-hidden text-[11px] font-semibold leading-snug text-[var(--an-risk)]"
                   >
-                    Necesito un poco más de contexto — pega al menos un par de mensajes.
+                    {mensajeError}
                   </motion.p>
                 )}
               </AnimatePresence>
@@ -205,7 +238,7 @@ export default function DescifrarPage() {
               >
                 Lo que hemos detectado
               </motion.p>
-              {ANALISIS_EJEMPLO.map((a) => (
+              {analisis.map((a) => (
                 <motion.div key={a.id} variants={item} className="flex items-start gap-3">
                   <span
                     aria-hidden="true"
@@ -228,6 +261,7 @@ export default function DescifrarPage() {
                 <AppLinkButton href="/app/tarot">Explorar con tarot</AppLinkButton>
                 <Link
                   href="/app/coach"
+                  onClick={() => guardarMensajePendiente(`¿Qué podría responderle a esto?\n\n"${texto}"`)}
                   className="flex h-[46px] w-full items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[13px] font-semibold text-[var(--accent-lite)]"
                 >
                   ¿Qué podría responderle?

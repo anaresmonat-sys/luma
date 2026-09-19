@@ -7,11 +7,11 @@
 // Modelo 02C: freemium onboarding-first → TODOS los CTA van a /onboarding.
 
 import { HeroDemoLuma } from '@/components/app/HeroDemoLuma';
-import { CasosLuma } from '@/components/app/CasosLuma';
 import { Hero, SiteHeader } from '@/components/landing/Hero';
 import { Problema } from '@/components/landing/Problema';
 import { Agitacion } from '@/components/landing/Agitacion';
 import { Solucion } from '@/components/landing/Solucion';
+import { AppPorDentro } from '@/components/landing/AppPorDentro';
 import { Oferta } from '@/components/landing/Oferta';
 import { Garantia } from '@/components/landing/Garantia';
 import { Faq } from '@/components/landing/Faq';
@@ -110,9 +110,35 @@ export default function LandingLuma() {
         }}
       />
 
-      {/* 5 · CASOS — 3 mini-casos reales del mecanismo (sustituye el carrusel del kit
-          mientras no exista la app interna; los screenshots reales van en Sesión 5 — ver ESTADO) */}
-      <CasosLuma ctaLabel={CTA_LABEL} ctaHref={CTA_HREF} />
+      {/* 5 · LA APP POR DENTRO — carrusel manual (19 §5), screenshots REALES a 375px
+          tomados de la app interna ya construida y revisada (Sesión 5) */}
+      <AppPorDentro
+        tituloMarked="Entra y mira [acento]cómo se siente[/acento]"
+        ctaLabel={CTA_LABEL}
+        ctaHref={CTA_HREF}
+        frames={[
+          {
+            src: '/carrusel/inicio.png',
+            label: 'Tu día, en un vistazo',
+          },
+          {
+            src: '/carrusel/descifrar.png',
+            label: 'Hechos, riesgo y qué responder',
+          },
+          {
+            src: '/carrusel/coach.png',
+            label: 'Tu coach, siempre disponible',
+          },
+          {
+            src: '/carrusel/tarot.png',
+            label: 'Una tirada leída para ti',
+          },
+          {
+            src: '/carrusel/diario.png',
+            label: 'Tus patrones, al fin visibles',
+          },
+        ]}
+      />
 
       {/* 6 · OFERTA — anual primero, trial 3 días (02C), total visible */}
       <Oferta

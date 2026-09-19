@@ -1,18 +1,23 @@
 'use client';
 
 // APP INTERNA — DIARIO EMOCIONAL (blueprint: vista-previa-app.html frame 7,
-// aprobado). Check-in + registro libre + detección de patrón (dato semilla — el
-// cálculo real de patrones sobre el historial llega con backend, Sesión 6). El
-// ícono de calendario y "Ver mi patrón" abren V2 (no construido aún: "Próximamente"
-// honesto en vez de fingir que funciona — 11), igual que el mic.
+// aprobado). Check-in + registro libre + reflexión generada por IA real vía
+// /api/diario (antes mostraba SIEMPRE la misma frase fija sin importar lo que
+// la usuaria escribiera — defecto real reportado por el usuario en la
+// auditoría 2026-09-18). El ícono de calendario y "Ver mi patrón" abren V2 (no
+// construido aún: "Próximamente" honesto en vez de fingir que funciona — 11),
+// igual que el mic.
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton } from '@/components/app/AppButton';
 import { MoodPicker } from '@/components/app/MoodPicker';
-import { EMOCIONES_DIARIO, ENTRADA_DIARIO_EJEMPLO, PATRON_DIARIO_EJEMPLO } from '@/lib/seed-datos';
+import { EMOCIONES_DIARIO, ENTRADA_DIARIO_EJEMPLO } from '@/lib/seed-datos';
 import { leerYLimpiarEntradaPendiente } from '@/lib/almacenamiento-diario';
+import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
+
+const CLAVE_ULTIMO_PATRON = 'luma_diario_ultimo_patron';
 
 const contenedor = {
   hidden: {},
@@ -32,6 +37,9 @@ export default function DiarioPage() {
   const [errorVacio, setErrorVacio] = useState(false);
   const [registros, setRegistros] = useState(0);
   const [registrosMostrados, setRegistrosMostrados] = useState(0);
+  const [patron, setPatron] = useState<string | null>(null);
+  const [guardando, setGuardando] = useState(false);
+  const [errorPatron, setErrorPatron] = useState(false);
 
   useEffect(() => {
     const pendiente = leerYLimpiarEntradaPendiente();
@@ -41,6 +49,7 @@ export default function DiarioPage() {
     }
     try {
       setRegistros(Number(window.localStorage.getItem('luma_diario_contador') ?? 0));
+      setPatron(window.localStorage.getItem(CLAVE_ULTIMO_PATRON));
     } catch {
       // localStorage puede fallar (modo privado, cuota) — no bloquea el flujo.
     }
@@ -68,12 +77,38 @@ export default function DiarioPage() {
     return () => cancelAnimationFrame(cuadro);
   }, [registros]);
 
-  function guardar() {
+  async function guardar() {
     if (!texto.trim()) {
       setErrorVacio(true);
       window.setTimeout(() => setErrorVacio(false), 2200);
       return;
     }
+    if (!pruebaGratisDisponible()) {
+      window.location.href = '/paywall';
+      return;
+    }
+    setGuardando(true);
+    setErrorPatron(false);
+    try {
+      const res = await fetch('/api/diario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ texto, animo }),
+      });
+      if (!res.ok) throw new Error('respuesta no OK');
+      const datos: { patron?: string } = await res.json();
+      if (!datos.patron) throw new Error('sin patrón');
+      consumirPruebaGratis();
+      setPatron(datos.patron);
+      try {
+        window.localStorage.setItem(CLAVE_ULTIMO_PATRON, datos.patron);
+      } catch {
+        // ver nota de abajo.
+      }
+    } catch {
+      setErrorPatron(true);
+    }
+    setGuardando(false);
     try {
       window.localStorage.setItem('luma_diario_ultima_entrada', JSON.stringify({ texto, animo, fecha: Date.now() }));
       const nuevoContador = registros + 1;
@@ -176,16 +211,16 @@ export default function DiarioPage() {
         </motion.div>
 
         <motion.div variants={item} className="mt-3">
-          <AppButton onClick={guardar}>
+          <AppButton onClick={guardar} disabled={guardando} busy={guardando}>
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
-                key={guardado ? 'ok' : 'guardar'}
+                key={guardado ? 'ok' : guardando ? 'guardando' : 'guardar'}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.15 }}
               >
-                {guardado ? 'Guardado ✓' : 'Guardar'}
+                {guardado ? 'Guardado ✓' : guardando ? 'Guardando…' : 'Guardar'}
               </motion.span>
             </AnimatePresence>
           </AppButton>
@@ -200,20 +235,28 @@ export default function DiarioPage() {
           </div>
         </motion.div>
 
-        <motion.div
-          variants={item}
-          className="mt-4 flex items-start gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] p-3"
-        >
-          <span
-            aria-hidden="true"
-            className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_oklab,var(--accent)_22%,transparent)] text-[13px] text-[var(--accent-lite)]"
+        {patron && (
+          <motion.div
+            variants={item}
+            className="mt-4 flex items-start gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] p-3"
           >
-            ⚠️
-          </span>
-          <p className="text-[11.5px] leading-relaxed text-[var(--text-primary)]">
-            <span className="font-bold text-[var(--accent-lite)]">LUMA:</span> {PATRON_DIARIO_EJEMPLO}
-          </p>
-        </motion.div>
+            <span
+              aria-hidden="true"
+              className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_oklab,var(--accent)_22%,transparent)] text-[13px] text-[var(--accent-lite)]"
+            >
+              ⚠️
+            </span>
+            <p className="text-[11.5px] leading-relaxed text-[var(--text-primary)]">
+              <span className="font-bold text-[var(--accent-lite)]">LUMA:</span> {patron}
+            </p>
+          </motion.div>
+        )}
+
+        {errorPatron && (
+          <motion.p variants={item} className="mt-4 text-center text-[11px] font-semibold text-[var(--an-risk)]">
+            Guardamos tu registro, pero no pudimos generar la reflexión esta vez.
+          </motion.p>
+        )}
 
         <motion.button
           variants={item}

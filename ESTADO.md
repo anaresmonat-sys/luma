@@ -1,72 +1,273 @@
 # ESTADO — LUMA (nombre de trabajo)
-Última actualización: 2026-09-14 | Sesión actual: 6 (servicios externos) — EN CURSO
+Última actualización: 2026-09-19 | Sesión actual: 6 (servicios externos) — EN CURSO
+Estado al cierre de hoy: app con IA real en las funciones principales + Mapa de Poder + El Círculo (Fase 1)
++ Sinergia zodiacal. Nada sin commitear a propósito: hay muchos cambios locales sin commit (el usuario no
+lo ha pedido). Pendientes grandes: Vercel (GitHub App sin autorizar), tarjeta para compartir (Círculo Fase 2),
+definir "LUMA VIP" y cobro suelto, protección de las rutas de IA en el servidor, Hotmart/dominio.
 
-✅ CHECKPOINT — Sesión 6 arrancó (secuencia: GitHub → Vercel → Supabase → IA real → Resend →
-dominio → Hotmart). SIGUE BLOQUEADA en el primer paso: se le pidió al usuario crear cuenta/repo en
-GitHub (P0-P1 de `docs/sistema/62`), sin respuesta aún — nada más avanza hasta tener owner+repo.
-2026-09-14: el usuario preguntó si Tarot (o alguna otra sección) necesita una API distinta —
-se le explicó que NO: una sola IA de texto sirve para Descifra/Coach/Tarot, aparte solo hace falta
-el modo imagen (Captura) y voz→texto (notas de voz), todo dentro de la misma conexión de la Sesión 6.
-Reveló de paso una decisión de producto sin cerrar: ¿las lecturas de tarot quedan con texto fijo
-(gratis) o se vuelven personalizadas por IA a la situación real de cada usuaria (más "wow", cuesta
-por tirada)? Sin decidir — se resuelve al conectar la IA real, salvo que el usuario adelante la
-respuesta antes.
-Mientras tanto se hicieron 2 cosas fuera de esa cola, a pedido del usuario:
-1. Se le dio la receta de prompt (compuesta desde FICHA-ARTE) para generar el retrato final de LUMA
-   con Gemini — sigue pendiente que el usuario lo genere y lo pase.
-2. El usuario generó el logo final con Gemini (imagen real, corazón+espada dorado con glow) y pidió
-   "exactamente esto" — se reemplazó el primer intento en SVG por el ASSET REAL: recortado y con
-   fondo transparente (`public/luma-icon.png`, 389×532; + `public/luma-lockup.png` con el wordmark
-   para splash/OG futuro), conectado en la cabecera de la landing (`app/page.tsx`). Receta para
-   regenerar: extraer el símbolo de la imagen fuente, chroma-key del fondo casi-negro (~#1a0f15,
-   igual al `--bg` de la app) a transparente, trim al bounding box. `components/app/LumaLogo.tsx`
-   (la versión SVG a mano) se BORRÓ por quedar superseded — no usar de referencia futura.
-   El usuario confirmó: ya está también en la cabecera de Inicio (`app/app/(tabs)/page.tsx`) y como
-   favicon real (`app/icon.png` 512×512 + `app/favicon.ico` reconstruido con el símbolo, ambos con
-   el ícono centrado sobre `--bg` sólido). Ícono chico — CERRADO.
-   El usuario pidió además el LOGOTIPO completo (símbolo + "LUMA" resplandeciente debajo, tal cual
-   su imagen) — ya existía como `public/luma-lockup.png` (recortado a su bounding box, fondo
-   transparente) del mismo procesamiento del ícono; se le mostró al usuario (archivo enviado) y NO
-   se usó todavía en ninguna pantalla — no cabe en las cabeceras angostas actuales (es vertical).
-   El usuario pidió "ponlo donde creas mejor" (DECIDE-INFORMA-AVANZA) → se puso como hero centrado
-   en `app/entrar/page.tsx` (arriba de "Entra a tu plan"), sin tocar las demás pantallas: es la
-   pantalla de menor riesgo (sin blueprint estricto de doctrina, momento de confianza/identidad al
-   iniciar sesión) y no compite con ningún bloque funcional existente. Logotipo completo — CERRADO.
-Propuesta sin decidir del usuario: agregar RACHA de constancia (check-in diario) + un "termómetro"
-que compare el ánimo de hace 30 días vs ahora (visto en apps del nicho: Mend, Attached, NoContact —
-investigado y documentado en la conversación, no en archivo aparte). Requiere backend real
-(Sesión 6) para ser honesto — no se construye con localStorage. Esperando luz verde del usuario.
+✅ CHECKPOINT — `ANTHROPIC_API_KEY` real puesta por el usuario (clave "Luma", $10 de crédito
+prepago, recarga automática desactivada = tope de gasto natural, sin necesidad de "spend limit"
+aparte). Verificado en el navegador de punta a punta: /app/descifrar analizó una conversación real
+con la IA (respuesta de calidad, ej. detectó "control disfrazado de indiferencia") y al intentar un
+segundo análisis sin plan, redirigió correctamente a /paywall — la prueba gratis de un solo uso
+funciona en producción, no solo en el código. IA real confirmada funcionando para las 4 funciones.
 
-✅ CHECKPOINT (histórico) — Sesión 5 (app interna) COMPLETA. 6 pantallas construidas con datos semilla reales
-(Ana, mismo caso de la landing), cada una pasada por revisor-visual salvo "Más" (secundaria):
+✅ CHECKPOINT — Bug real reportado por el usuario, corregido: el botón "¿Qué podría responderle?"
+en Descifrar llevaba al Coach con la conversación de EJEMPLO fija (la de "Estoy conociendo a un
+chico..."), sin ninguna relación con el mensaje real recién analizado — rompía la ilusión justo
+después de mostrar un resultado real. Nuevo `lib/almacenamiento-coach.ts` (mismo patrón que el
+puente Tarot→Diario): el botón guarda "¿Qué podría responderle a esto? + el texto real" y el Coach,
+si encuentra ese mensaje pendiente, arranca con el hilo VACÍO (no la charla de ejemplo) y precarga
+el mensaje real en el campo de texto, listo para enviar. Se leyó en `useEffect` (no en el estado
+inicial) para no romper la hidratación — mismo cuidado que ya se había tomado en `/paywall`.
+Verificado en el navegador de punta a punta. tsc ✓.
+PENDIENTE (no bloquea, ya anotado antes): cuando alguien entra al Coach SIN venir de un análisis
+(ej. directo desde el onboarding eligiendo "coach", o desde el menú inferior), sigue viendo la
+charla de ejemplo fija — no es lo mismo que "empezar de cero" de verdad. Arreglarlo bien requiere
+guardar el historial real por usuario en Supabase (`coach_messages`, ya en el pendiente de esquema)
+en vez de empezar cada vez con datos semilla; no se tocó hoy porque es un cambio más grande.
 
-- **Inicio** (`/app`) — ACEPTADA con criterio propio. 3 rondas, final 31/40·16/20 (craft PASA).
-- **Descifra la conversación** (`/app/descifrar`, función estrella) — ACEPTADA con criterio propio.
-  4 rondas, final 31/40·18/20 (craft PASA con margen).
-- **Coach** (`/app/coach`) — ACEPTADA con criterio propio. 4 rondas, final 31/40·16/20 (craft PASA).
-- **Tarot** (`/app/tarot`) — ACEPTADA con criterio propio. 6 rondas, final 32/40·16/20 (craft PASA
-  recién en la 6ª, tras agregar un teaser real de "carta del día" para usuarias sin historial).
-- **Diario emocional** (`/app/diario`) — **✅ LISTA** (veredicto real, gate automático completo):
-  **36/40 · 16/20**, ronda 6. Única pantalla de la app interna en cruzar ambos gates.
-- **Más** (`/app/mas`) — construida (pantalla secundaria, sin revisor-visual por doctrina).
+✅ CHECKPOINT — Auditoría completa de la app (pedida por el usuario: "revisa la app por completo...
+que no tenga que estar analizando cada paso") + corrección de lo encontrado, en 2 capas:
 
-Detalle completo de cada ciclo de rondas en "Problemas conocidos" (`[veredicto:*]`) y en
-`docs/revisiones/<pantalla>-veredicto.md`. Patrón confirmado en TODA la sesión (landing,
-onboarding, paywall, inicio, descifra, coach, tarot): craft siempre cruza su gate (≥16/20);
-usabilidad se estanca bajo el gate (≥36/40) una vez agotados los bugs reales — el revisor lo llama
-"rendimientos decrecientes". Diario cruzó ambos porque sus pendientes eran 100% concretos y baratos
-(persistencia real, conteo animado, `prefers-reduced-motion`), no heurísticas dispersas de alcance.
+**Capa 1 — arreglos rápidos:**
+- "Cerrar sesión" en Más NO cerraba la sesión de verdad (solo navegaba a "/") → ahora llama a
+  `supabase.auth.signOut()`. Solo se muestra el botón si hay sesión real (antes aparecía siempre).
+- La pantalla Más mostraba "Plan Premium · $9,99/mes" fijo para CUALQUIER persona, incluso sin
+  pagar nunca → ahora muestra el estado honesto ("Sin plan activo" / "Elige tu plan") según la
+  prueba gratis (`lib/prueba-gratis.ts`) — no hay tabla `subscriptions` conectada todavía (pendiente
+  de antes), así que es lo más honesto que se puede mostrar hoy.
+- En /paywall, "Empezar mi plan… gratis" no desbloqueaba nada de verdad (Hotmart no está conectado,
+  pendiente conocido) → ahora limpia la prueba gratis local como desbloqueo honesto y explícito
+  (`desbloquearPorPlan()` en `lib/prueba-gratis.ts`), documentado en el código como simulación
+  temporal hasta que el webhook real de Hotmart esté conectado.
 
-Componentes nuevos compartidos: `AppButton`/`AppLinkButton` (variante `compact`, `busy`/`aria-live`,
-`onClick` en el Link), `BottomNav`, `ScreenHeader`, `MoodPicker`, `LumaAvatar` (retrato provisional).
-`CartaSacerdotisa` (antes solo de la landing) ahora acepta props reales (numero/nombre/cita) y un
-modo de disparo por montaje (`disparo="montaje"` vs `"scroll"`) — compartida entre landing, Inicio
-y Tarot. `MotionConfig reducedMotion="user"` en `app/layout.tsx` (global). Puentes de persistencia
-sin backend (localStorage, Sesión 6 conecta Supabase real): `lib/almacenamiento-diario.ts`
-(Tarot→Diario) y contadores/últimas-tiradas inline en cada pantalla. /
-Siguiente acción exacta: presentarle al usuario el cierre de Sesión 5 en simple y preguntar cómo
-seguir — Sesión 6 (conectar servicios reales) es lo siguiente en la secuencia maestra, pero las
-entrevistas de avatar y el retrato de LUMA siguen pendientes de sesiones anteriores.
+**Capa 2 — Diario conectado a IA real:** antes SIEMPRE mostraba la misma frase fija
+("has sentido inseguridad... 3 veces este mes") sin importar lo que la usuaria escribiera, y encima
+gastaba la prueba gratis sin dar ningún resultado real a cambio. Nueva ruta `/api/diario` (mismo
+patrón BFF) que lee el registro real y genera una reflexión corta y real. Ahora la prueba gratis se
+consume solo si la IA responde con éxito (si falla, se guarda el registro igual pero no se gasta el
+intento). El último patrón real queda guardado en localStorage y se muestra al volver. Verificado en
+el navegador: reflexión distinta y coherente con el texto real escrito.
+
+**Capa 3 — Mazo de tarot completo (78 cartas), pedido explícito del usuario "no usaremos APIs
+externas":** nuevo `lib/tarotDeck.ts` con los 22 Arcanos Mayores + 56 Arcanos Menores (4 palos × 14
+rangos), cada uno con palabras clave al derecho e invertida (tradición Rider-Waite-Smith, escritas a
+mano). `drawCards(n)` roba cartas al azar sin repetir con 50% de probabilidad de invertida cada una;
+`cartaDelDia()` es DETERMINÍSTICA por fecha (mismo hash para todas las usuarias el mismo día, cambia
+solo a medianoche) — esto además corrige el hallazgo de la auditoría de que la carta del día estaba
+congelada en "La Sacerdotisa" para siempre. Sin arte único por carta (avisado y aceptado por el
+usuario): se sigue usando la misma plantilla visual `CartaSacerdotisa`, solo cambia número/nombre/
+cita. `/api/tarot` ahora recibe la carta real (con su estado invertida) + palabras clave y genera la
+lectura conectada a ese significado real, no a una carta fija. La pantalla Tarot guarda la tirada
+COMPLETA (carta + lectura, no solo el ID) en localStorage — "Repetir tu última tirada" ahora sí
+repite exactamente lo que salió, sin volver a llamar a la IA ni gastar otra prueba gratis (antes
+solo recordaba el ID y volvía a pedir una lectura nueva, defecto real de la auditoría). Inicio
+también usa `cartaDelDia()` para la carta que muestra en Inicio (dato dinámico nuevo sobre una
+pantalla ya aceptada — ver `[veredicto:inicio]` abajo, no requiere nueva pasada del revisor).
+Verificado en el
+navegador de punta a punta: carta real distinta cada vez, lectura respeta el matiz invertido,
+"repetir" reproduce exactamente lo mismo. tsc ✓ build ✓.
+
+**Quedaron fuera, pausados a pedido explícito del usuario para más adelante:**
+- Módulo de Progresión y Recompensas (racha visual con XP/niveles/álbum de cartas) — se avisó que
+  "Analizar Chat = +25 XP" premia la conducta ansiosa que la app busca reducir (revisar antes de
+  construir) y que el álbum necesita el mismo arte por carta que el mazo (pendiente de diseño).
+- Modelo freemium con cupo gratis DIARIO (en vez de "una vez de por vida") — el usuario decidió
+  dejar el modelo actual (una vez) tal como está.
+- Microtransacción "Análisis de Compatibilidad Astral" ($2,99) con API externa de efemérides/
+  sinastría — proyecto aparte (integración nueva + tipo de cobro nuevo que Hotmart no soporta hoy).
+- Protección real en el servidor contra abuso de las rutas de IA (hoy el único freno es la bandera
+  de localStorage, evadible) — sigue pendiente, anotado en el hallazgo de la auditoría.
+✅ CHECKPOINT — "Escáner de Sinergia Zodiacal" CONSTRUIDO y verificado (ubicación decidida con el
+usuario: dentro de Tarot, como pantalla propia `/app/compatibilidad` — SIN pestaña nueva en el menú
+de abajo, porque ya hay 5 y esta función no se usa a diario. Segundo punto de entrada: sugerencia
+dentro del chat del Coach, chip "✨ Ver compatibilidad de signos" junto a las respuestas rápidas).
+- `lib/zodiaco.ts`: los 12 signos con símbolo Unicode dorado (con el selector de variación `︎`
+  para forzar texto monocromo — sin él, Windows los pintaba de morado como emoji a color, defecto
+  real visto al probar).
+- `/api/compatibilidad`: sin API externa de efemérides (decisión explícita del usuario) — la IA
+  genera el análisis completo (química, fricción, arcano combinado, consejo) a partir de los 2
+  signos, en JSON estricto. `max_tokens` subido de 400 a 700 tras un bug real: con 400 la respuesta
+  se cortaba a la mitad del JSON y fallaba el cálculo siempre.
+- Freemium POR BLOQUE, distinto del resto de la app: % de sinergia y "Química y atracción" SIEMPRE
+  gratis (no usa `lib/prueba-gratis.ts`, es un mecanismo de cobro aparte); "Fricción" y "Consejo" se
+  ven con blur + botón "Ver planes" — hoy lleva a /paywall de forma honesta, SIN cobro real de $1,99
+  suelto ni plan "VIP" (el usuario no confirmó ese cobro; ver pendiente abajo).
+Verificado en el navegador de punta a punta: cálculo real, % + química visibles, resto bloqueado.
+tsc ✓ build ✓.
+PENDIENTE: definir si "LUMA VIP" es el mismo plan de $9,99 o uno nuevo, y cómo cobrar el reporte
+suelto de $1,99 en Hotmart (hoy no existe cobro suelto, solo suscripción) — el botón "Ver planes"
+deberá apuntar al cobro real cuando se decida.
+
+✅ CHECKPOINT — "Mapa de Poder" ("Conócete a ti misma": numerología + arcano personal) CONSTRUIDO y
+verificado. Ubicación decidida con el usuario: vive principalmente en **Más** (se calcula UNA sola
+vez con la fecha de nacimiento — no cambia — y desde entonces queda guardado ahí de forma
+permanente, con una tarjeta que antes no existía y que le da contenido a la pantalla más vacía de la
+app), con un segundo enlace de descubrimiento desde **Tarot**. Sin API externa: el cálculo (sumar los
+dígitos de la fecha hasta reducirlos a 1-9, manteniendo los números maestros 11/22) es matemática
+pura en `lib/numerologyUtils.ts`, que además reutiliza el mismo mazo de 22 Arcanos Mayores de
+`lib/tarotDeck.ts` para la correspondencia número→arcano (un solo mazo en todo el proyecto, no uno
+duplicado). Solo la interpretación (arquetipo emocional, superpoder, punto ciego, consejo de
+soberanía) la escribe la IA real vía `/api/numerologia`. Sin freemium/bloqueo — a diferencia de
+Compatibilidad, aquí no se pidió cobro.
+**Pedido explícito del usuario, ya cumplido:** "así la IA tiene más datos sobre la persona y en coach
+la puede guiar mejor" — `/api/coach` ahora recibe el número+arcano guardado (si existe) y lo agrega
+al system prompt como contexto sutil para personalizar sus respuestas, sin forzarlo en cada mensaje.
+Verificado en el navegador de punta a punta con una fecha real (1994-07-23 → 8 · La Fuerza, cálculo
+correcto) — lectura personalizada real, guardado visible en Más. tsc ✓ build ✓.
+
+✅ CHECKPOINT — Numerología por nombre + ficha técnica completa inyectada al Coach (pedido explícito
+del usuario, siguiendo la misma dinámica de "conócete a ti misma"). Nuevo `lib/numerologiaNombre.ts`:
+tabla pitagórica (A-Z + Ñ=5, como pidió el usuario), matemática pura — `calcularNumeroExpresion`
+(todas las letras) y `calcularNumeroAlma` (solo vocales, sus anhelos íntimos en pareja), ambas
+reduciendo a 1-9 y respetando los números maestros 11/22. Nuevo `signoDeFecha()` en `lib/zodiaco.ts`:
+el signo zodiacal se DERIVA de la fecha de nacimiento que ya se pedía (no hace falta preguntarlo
+aparte). `/app/mapa-poder` ahora también pide el nombre completo; el perfil guardado
+(`lib/almacenamiento-numerologia.ts`) creció a: nombre, fecha, número de vida, arcano, signo, número
+de expresión, número del alma + la lectura de IA (arquetipo/superpoder/punto ciego/consejo).
+`/api/coach` arma la ficha técnica exacta que pidió el usuario (ESTÁS HABLANDO CON / Signo / Arcano
+Personal / Número del Alma / Patrón Emocional —este último usa el "punto ciego" ya calculado— +
+la instrucción de personalización textual) y la agrega al system prompt SOLO si el perfil está
+completo; sin perfil, el coach sigue funcionando igual que antes (sin romper nada). Verificado en el
+navegador de punta a punta: cálculo correcto (nombre de prueba → Número del Alma 6, signo Leo por la
+fecha), coach respondió con normalidad recibiendo el perfil. tsc ✓ build ✓.
+**Simplificación consciente frente al pedido original — avisada, no oculta:** el usuario pidió
+"UserProfileContext.ts" consolidando el perfil en "estado global/Supabase". Se mantuvo el mismo
+patrón de persistencia que TODA la app usa hoy (localStorage, sin backend — regla del stack) en vez
+de crear una tabla nueva en Supabase + un React Context global; NO era el punto final — ver el
+siguiente checkpoint, donde sí se conectó a Supabase a pedido explícito del usuario.
+
+✅ CHECKPOINT — Mapa de Poder CONECTADO a Supabase (pedido explícito del usuario: "conéctalo a
+Supabase"). En vez de crear una tabla nueva, se extendió `profiles` (ya existía, 1 fila por usuaria,
+RLS activo) con 12 columnas nuevas (`fecha_nacimiento`, `numero_vida`, `arcano_id`, `arcano_nombre`,
+`signo_id`, `signo_nombre`, `numero_expresion`, `numero_alma`, `arquetipo`, `superpoder`,
+`punto_ciego`, `consejo` — migración `agregar_mapa_poder_a_profiles`, aplicada vía MCP). Nuevo
+`lib/supabase/perfilNumerologia.ts` (`leerPerfilSupabase`/`guardarPerfilSupabase`). Comportamiento:
+CON sesión real, se lee primero de Supabase; si Supabase no tiene nada pero sí hay algo en
+localStorage (se calculó antes de iniciar sesión), se sube solo una vez; al calcular de nuevo, se
+guarda en los dos lados a la vez. SIN sesión (el login sigue sin ser obligatorio), todo sigue
+funcionando exactamente igual que antes, solo en localStorage — no se rompió nada del camino
+anónimo. `get_advisors` de seguridad: limpio (sin hallazgos nuevos tras la migración). tsc ✓ build ✓;
+verificado en el navegador sin sesión (comportamiento intacto, la ruta anónima nunca llama a
+Supabase). PENDIENTE: probar con una sesión real logueada (no se hizo login de prueba para no mandar
+un correo real) — cuando el usuario inicie sesión de verdad, su Mapa de Poder ya calculado debería
+subirse solo la primera vez que abra esa pantalla logueado.
+
+✅ CHECKPOINT — "El Círculo" CONSTRUIDO (Fase 1 de la idea de viralidad del usuario: convertir
+"conócete a ti misma" en algo social — "pon la fecha de tu amiga y mira qué dice LUMA de ella"). Fase
+2 (tarjeta gráfica + botón de compartir por WhatsApp/Instagram) queda pendiente, aprobada solo para
+después. Nueva tabla Supabase `circulo_perfiles` (varias filas por usuaria, a diferencia de `profiles`
+que es 1:1 — RLS por `(select auth.uid()) = user_id`, índice en `user_id`, políticas separadas por
+comando). Nueva pantalla `/app/circulo` (entrada desde Mapa de Poder, tarjeta "Descubre tu círculo"):
+agregar nombre+fecha de cualquier persona, reutiliza EXACTAMENTE el mismo cálculo que Mapa de Poder
+(cero costo de API adicional aparte de la interpretación de IA — mismo patrón). Lista de tarjetas
+plegables por persona con su arquetipo/superpoder/punto ciego/consejo. Con sesión real sincroniza a
+Supabase; sin sesión, sigue funcionando en localStorage (mismo patrón que Mapa de Poder). Sin gate de
+plan todavía (la pregunta de qué es "LUMA VIP" sigue sin resolver — cuando se decida, aquí es donde
+se aplicaría el límite del plan gratuito).
+**Bug real encontrado y corregido durante la prueba en vivo:** un botón (✕ para quitar a alguien)
+quedó anidado DENTRO de otro botón (el que abre/cierra la tarjeta) — HTML inválido que React marcaba
+como error de hidratación en la consola. Se separaron en dos botones hermanos dentro de un div, no
+uno dentro del otro. Verificado con `document.querySelectorAll('button button').length === 0` tras
+el arreglo. tsc ✓ build ✓; probado en el navegador de punta a punta (agregar a "Elena Martinez" →
+Aries · El Emperador, cálculo correcto).
+
+✅ CHECKPOINT — Onboarding CORTADO en "ayuda" + prueba gratis de un solo uso (feedback directo del
+usuario: "estamos vendiendo la app, no haciendo encuestas"). `app/onboarding/flujo.ts`/`page.tsx`:
+el flujo ahora es motivo → momento → reconocimiento-1 → ayuda, y al responder "ayuda" salta DIRECTO
+a la pantalla real (mensaje→`/app/descifrar`, coach→`/app/coach`, tarot→`/app/tarot`,
+diario→`/app/diario`) — se borraron temor/reconocimiento-2/atribución/reconocimiento-final/plan
+(inalcanzables). Nuevo `lib/prueba-gratis.ts`: una sola bandera en localStorage — el primer
+resultado real en CUALQUIERA de las 4 funciones es gratis; el segundo intento (en cualquiera de
+las 4) redirige a `/paywall`. Se conectaron a IA real las 2 funciones que faltaban: nuevas rutas
+`/api/descifrar` (JSON estricto: lo que vemos/riesgo/pregunta) y `/api/tarot` (la carta —número/
+nombre/cita— sigue fija, solo la lectura la genera la IA), mismo patrón BFF que `/api/coach`. Con
+esto las 4 funciones (mensaje, coach, tarot, diario) dan un resultado real, no de ejemplo.
+Verificado en el navegador: el salto motivo→…→ayuda→descifrar funciona: la pantalla real se
+respeta la prueba gratis: un intento fallido (sin ANTHROPIC_API_KEY configurada todavía, error
+esperado) NO consume la prueba gratis, el botón sigue disponible. tsc ✓ build ✓ (rutas /api/
+descifrar y /api/tarot compilan). PENDIENTE: probar las 4 funciones de punta a punta con la clave
+de Anthropic real puesta (ver punto 4 de abajo) para confirmar que el resultado se ve bien; el
+gate del coach solo permite 1 mensaje real por persona antes del paywall (igual que las otras 3) —
+si se siente muy corto para una conversación, es un ajuste a futuro, no un bug.
+
+✅ CHECKPOINT — Sesión 6, estado por servicio (secuencia: GitHub → Vercel → Supabase → IA real →
+Resend → dominio → Hotmart):
+
+1. **GitHub — LISTO.** Repo privado `anaresmonat-sys/luma`, rama `main`, verificado con `git ls-remote`.
+2. **Vercel — BLOQUEADO.** Cuenta conectada (team "LUMA", hobby), pero la GitHub App de Vercel
+   (github.com/apps/vercel) todavía no tiene permiso sobre el repo `luma` → `create_git_project`
+   sigue dando 400. Pedido al usuario varias veces, sin resolver. Ojo: "Vercel conectado a Claude"
+   en Conectores es la cuenta, NO la GitHub App autorizada sobre el repo — ya generó una confusión.
+3. **Supabase — LISTO el esquema + auth real.** Proyecto activo (`zmqwdtqkoyxptqscbgpx`,
+   eu-central-1). Esquema aplicado vía MCP (migración `core_schema_v1`): 11 tablas, RLS por
+   `(select auth.uid())`, políticas por comando, índice en cada FK. `get_advisors` limpio. Cliente
+   instalado (`lib/supabase/{client,server}.ts`, `proxy.ts` — antes `middleware.ts`, Next.js 16
+   renombró la convención). **Login real (magic link) funcionando de punta a punta**:
+   `app/auth/callback/route.ts` + `signInWithOtp()` en `/entrar`, confirmado con éxito en los logs
+   de Supabase. `.env.local` tiene las credenciales públicas; `SUPABASE_SECRET_KEY`/
+   `ANTHROPIC_API_KEY` las agrega el usuario mismo.
+   PENDIENTE: migrar cada pantalla de datos semilla/localStorage a lecturas/escrituras reales
+   (solo `checkins` de Inicio ya escribe de verdad, ver racha/termómetro abajo); age-gate 18+
+   (checkbox) sigue sin existir en ningún formulario, solo mencionado en las páginas legales.
+4. **IA real (Coach) — LISTO parcial.** `/api/coach` conectado a Claude (BFF, `lib/anthropic.ts`),
+   system prompt del usuario, historial recortado a 20 mensajes, max_tokens 500. FALTA: el usuario
+   agregue su `ANTHROPIC_API_KEY` y active un spend cap en su consola de Anthropic (única
+   protección de gasto hasta conectar el kill-switch por DB sobre `ai_calls`, que ya existe). Coach
+   todavía NO guarda el historial en `coach_messages`.
+5. **Resend — CONECTADO.** Cuenta + API key del usuario puestas en Supabase → Authentication →
+   SMTP Settings (host smtp.resend.com, puerto 465, sender temporal `onboarding@resend.dev` hasta
+   comprar dominio propio). Costó 2 intentos (la primera clave pegada era inválida, error 535 —
+   se regeneró y quedó bien). Confirmado en logs: límite de envío subió de 2/hora a 30. Cuando se
+   compre el dominio: verificarlo en Resend (SPF/DKIM, ver 46) y cambiar el sender.
+6. **Dominio, Hotmart** — sin empezar.
+
+✅ CHECKPOINT — Racha + termómetro CONSTRUIDO en Inicio (versión simple elegida por sobre el módulo
+completo de niveles/XP/colección, que sigue sin resolver). `lib/racha.ts` (funciones puras,
+calculadas en el navegador): racha de días consecutivos con check-in + termómetro que compara días
+con ánimo ansiosa/triste hace ~30 días vs. esta semana. `app/app/(tabs)/page.tsx` escribe cada
+check-in real en `checkins` (si hay sesión) y lee los últimos 40 días. Sin sesión se comporta igual
+que antes (sin racha/termómetro, sin errores). Verificado con datos de prueba insertados y
+BORRADOS de la cuenta real (racha=7, 4/7 vs 1/7 → "vas mejorando" disparó bien); tsc ✓ build ✓.
+
+✅ CHECKPOINT — Onboarding: 3 rondas de feedback directo del usuario probando la app, las 3 sobre el
+mismo problema de fondo (preguntas/pantallas genéricas que no respetaban lo que la persona ya había
+contestado) — TODAS corregidas y verificadas en vivo:
+1. La pregunta "momento" asumía "esa ansiedad" para todo el mundo → ahora tiene 3 variantes según
+   `motivo` (ruptura/patrones/resto).
+2. Las 2 pantallas de "reconocimiento" decían lo mismo sin importar la respuesta → ahora
+   `reconocimiento-1` varía por `motivo` (4 variantes) y `reconocimiento-2` por `temor` (4 variantes).
+3. Las preguntas de "pausa semanal" (slider) y "hora de recordatorio" no aplicaban a NINGUNO de los
+   4 caminos de "ayuda" (analizar/coach/tarot/diario) — el usuario concluyó que esa configuración de
+   hábito pertenece a DESPUÉS de la primera victoria, no al embudo de entrada → se ELIMINARON del
+   flujo (`app/onboarding/flujo.ts`): ahora 5 preguntas reales + 2 reconocimientos (antes 7+2). Se
+   borró `PasoSlider`/`feedbackCompromiso`/campos `compromiso`,`hora`,`horaLabel` (sin uso tras el
+   recorte); `lineasLoading` reescrito sin ellos. `components/onboarding/PreguntaSlider.tsx` se dejó
+   intacto (pieza reutilizable, fuera de cualquier ruta activa). Probado de punta a punta: plan final
+   dice "Hecho con tus 5 respuestas", sin ningún paso de ritual. tsc ✓ build ✓ en las 3 rondas.
+   PENDIENTE (no bloquea): la hora de recordatorio para push (D1-D7, 24-GAMIFICACION) habrá que
+   pedirla en otro momento — después de la primera victoria real en la app, cuando se construya el
+   sistema de notificaciones.
+
+Nota técnica reusable: Playwright MCP en este entorno resetea a `about:blank` si `resize`/`navigate`
+no van en el MISMO batch que las interacciones/screenshots — agrupar siempre todo en un solo mensaje.
+
+Pendientes de producto/diseño sin resolver (el usuario decide cuándo):
+- Módulo de logros: 3 de 4 puntos sin resolver (nombres de nivel menos "juicio", quitar XP de
+  "analizar chat", arte de las cartas de la colección — el punto 4, Coach real, ya se hizo).
+- ¿Lecturas de tarot con texto fijo o personalizadas por IA? Sin decidir — se resuelve al conectar
+  Tarot a la IA real.
+- Retrato final de LUMA: receta de prompt ya entregada al usuario para Gemini, pendiente que lo pase.
+- Landing sección 5 (carrusel "La app por dentro") y logo real de LUMA (ícono+favicon+logotipo):
+  CERRADOS con contenido/assets reales.
+
+✅ CHECKPOINT (histórico) — Sesión 5 (app interna) COMPLETA. 6 pantallas con datos semilla reales,
+cada una revisada salvo "Más" (secundaria): Inicio 31/40·16/20 · Descifra (función estrella)
+31/40·18/20 · Coach 31/40·16/20 · Tarot 32/40·16/20 (6 rondas) — las 4 aceptadas con criterio
+propio — y **Diario 36/40·16/20 · ✅ LISTA** (única en cruzar ambos gates). Detalle de cada ronda en
+`docs/revisiones/<pantalla>-veredicto.md`. Patrón de toda la sesión: craft siempre cruza su gate,
+usabilidad se estanca por debajo una vez agotados los bugs reales ("rendimientos decrecientes").
 
 ## Qué es esta app (3 líneas máximo)
 Coach de bolsillo de inteligencia emocional para el amor y las relaciones: combina IA, tarot y

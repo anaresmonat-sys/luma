@@ -3,25 +3,28 @@
 // LUMA — Entrar (Sesión 4, paso 3 de la SECUENCIA MAESTRA). Blueprint:
 // docs/sistema/50-DISENO-ONBOARDING-PAYWALL.md §E. Magic link por email como
 // método primario (26-AUTH-MODERNO, decisión Hotmart-first) — sin contraseñas.
-// Existe ahora (mínima pero real) para que "Entrar"/"Restaurar compra" del
-// resto del funnel dejen de caer en 404 — el envío real de magic link y el
-// login con Google llegan con Supabase en Sesión 6 (mismo patrón C3ter que
-// el paywall: simula el flujo con estado local, nunca finge un envío real).
+// Conectado a Supabase Auth real (Sesión 6): signInWithOtp + app/auth/callback
+// intercambia el código por una sesión real. Login con Google llega después.
 
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Mail, X } from 'lucide-react';
+import { crearClienteNavegador } from '@/lib/supabase/client';
 
 const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type Estado = 'reposo' | 'enviando' | 'enviado' | 'error';
 
 const REENVIAR_SEGUNDOS = 60;
+const MENSAJE_EMAIL_INVALIDO = 'Escribe un correo válido para continuar.';
+const MENSAJE_ENVIO_FALLIDO = 'No pudimos enviarte el enlace. Inténtalo de nuevo en un momento.';
+const MENSAJE_ENLACE_EXPIRADO = 'Ese enlace ya no es válido. Pide uno nuevo.';
 
 export default function EntrarLuma() {
   const reduce = useReducedMotion();
   const [email, setEmail] = useState('');
   const [estado, setEstado] = useState<Estado>('reposo');
+  const [mensajeError, setMensajeError] = useState(MENSAJE_EMAIL_INVALIDO);
   const [segundosRestantes, setSegundosRestantes] = useState(0);
   const [avisoGoogle, setAvisoGoogle] = useState(false);
   // ?desde=paywall (enlace de "Restaurar compra"): ofrece volver ahí en vez
@@ -29,7 +32,12 @@ export default function EntrarLuma() {
   const [vieneDePaywall, setVieneDePaywall] = useState(false);
 
   useEffect(() => {
-    setVieneDePaywall(new URLSearchParams(window.location.search).get('desde') === 'paywall');
+    const parametros = new URLSearchParams(window.location.search);
+    setVieneDePaywall(parametros.get('desde') === 'paywall');
+    if (parametros.get('error') === 'enlace') {
+      setMensajeError(MENSAJE_ENLACE_EXPIRADO);
+      setEstado('error');
+    }
   }, []);
 
   useEffect(() => {
@@ -38,16 +46,26 @@ export default function EntrarLuma() {
     return () => window.clearTimeout(id);
   }, [segundosRestantes]);
 
-  function enviar() {
+  async function enviar() {
     if (!REGEX_EMAIL.test(email)) {
+      setMensajeError(MENSAJE_EMAIL_INVALIDO);
       setEstado('error');
       return;
     }
     setEstado('enviando');
-    window.setTimeout(() => {
-      setEstado('enviado');
-      setSegundosRestantes(REENVIAR_SEGUNDOS);
-    }, 700);
+    const supabase = crearClienteNavegador();
+    const next = vieneDePaywall ? '/paywall' : '/app';
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=${next}` },
+    });
+    if (error) {
+      setMensajeError(MENSAJE_ENVIO_FALLIDO);
+      setEstado('error');
+      return;
+    }
+    setEstado('enviado');
+    setSegundosRestantes(REENVIAR_SEGUNDOS);
   }
 
   const salidaHref = vieneDePaywall ? '/paywall' : '/';
@@ -89,15 +107,13 @@ export default function EntrarLuma() {
             Revisa tu correo
           </h1>
           <p className="mt-3 text-[15px] leading-relaxed text-[var(--text-secondary)]">
-            Te enviaríamos el enlace de acceso a <strong className="text-[var(--text-primary)]">{email}</strong>. El
-            envío real se activa al conectar el sistema de cuentas — nada se envió todavía.
+            Te enviamos el enlace de acceso a <strong className="text-[var(--text-primary)]">{email}</strong>. Ábrelo
+            desde este mismo dispositivo para entrar.
           </p>
           <button
             type="button"
             disabled={segundosRestantes > 0}
-            onClick={() => {
-              setSegundosRestantes(REENVIAR_SEGUNDOS);
-            }}
+            onClick={() => void enviar()}
             className="mt-6 flex min-h-11 items-center px-3 text-[14px] font-medium text-[var(--accent)] underline-offset-4 hover:underline disabled:text-[var(--text-tertiary)] disabled:no-underline"
           >
             {segundosRestantes > 0 ? `Reenviar en ${segundosRestantes}s` : 'Reenviar'}
@@ -151,7 +167,7 @@ export default function EntrarLuma() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              if (estado !== 'enviando') enviar();
+              if (estado !== 'enviando') void enviar();
             }}
             className="flex flex-col gap-3"
           >
@@ -175,7 +191,7 @@ export default function EntrarLuma() {
               }`}
             />
             {estado === 'error' && (
-              <p className="text-[13px] text-[var(--accent-2)]">Escribe un correo válido para continuar.</p>
+              <p className="text-[13px] text-[var(--accent-2)]">{mensajeError}</p>
             )}
 
             <motion.button

@@ -24,6 +24,7 @@ import { PlanCards, type PlanPaywall } from '@/components/paywall/PlanCards';
 import { leerRespuestas } from '@/lib/almacenamiento-onboarding';
 import { beneficiosPlan, contarRespuestas, type Respuestas } from '@/app/onboarding/flujo';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
+import { desbloquearPorPlan } from '@/lib/prueba-gratis';
 
 const TRIAL_DIAS = 3;
 
@@ -264,7 +265,10 @@ export default function PaywallLuma() {
         >
           <motion.button
             type="button"
-            onClick={() => setConfirmado(true)}
+            onClick={() => {
+              desbloquearPorPlan();
+              setConfirmado(true);
+            }}
             whileTap={{ scale: 0.97 }}
             className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >

@@ -3,16 +3,36 @@
 // APP INTERNA — TAROT (blueprint: vista-previa-app.html frame 6, aprobado). Lista de
 // 5 tiradas; tocar una revela la carta + lectura in situ (acordeón) — sin inventar
 // una ruta nueva no aprobada en el mockup. Reutiliza CartaSacerdotisa con props.
+// La carta sale de verdad al azar del mazo completo de 78 (lib/tarotDeck.ts,
+// con estado invertida) y la lectura la genera la IA real vía /api/tarot — antes
+// cada tirada mostraba SIEMPRE la misma carta fija para siempre (defecto real de
+// la auditoría 2026-09-18). La tirada completa (carta + lectura) se guarda en
+// localStorage: "repetir tirada" ahora sí repite lo que salió, sin volver a
+// llamar a la IA ni gastar otra prueba gratis (antes "repetía" solo el ID y
+// volvía a pedir una lectura nueva). La primera tirada real es gratis
+// (lib/prueba-gratis.ts); la siguiente manda a elegir plan.
 
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppLinkButton } from '@/components/app/AppButton';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
-import { TIRADAS_TAROT, LECTURAS_TAROT } from '@/lib/seed-datos';
+import { TIRADAS_TAROT } from '@/lib/seed-datos';
 import { guardarEntradaPendiente } from '@/lib/almacenamiento-diario';
+import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
+import { drawCards, cartaDelDia, citaDeCarta, type CartaExtraida } from '@/lib/tarotDeck';
 
 const CLAVE_ULTIMA_TIRADA = 'luma_ultima_tirada';
+const CLAVE_TIRADAS_GUARDADAS = 'luma_tiradas_guardadas';
+
+interface TiradaGuardada {
+  numero: string;
+  nombre: string;
+  invertida: boolean;
+  cita: string;
+  texto: string;
+}
 
 const contenedor = {
   hidden: {},
@@ -23,12 +43,24 @@ const item = {
   visible: { opacity: 1, y: 0 },
 };
 
+function leerGuardadas(): Record<string, TiradaGuardada> {
+  try {
+    const crudo = window.localStorage.getItem(CLAVE_TIRADAS_GUARDADAS);
+    return crudo ? (JSON.parse(crudo) as Record<string, TiradaGuardada>) : {};
+  } catch {
+    return {};
+  }
+}
+
 export default function TarotPage() {
   const [abierta, setAbierta] = useState<string | null>(null);
   const [ultima, setUltima] = useState<string | null>(null);
+  const [cargando, setCargando] = useState<string | null>(null);
+  const [guardadas, setGuardadas] = useState<Record<string, TiradaGuardada>>({});
   const panelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    setGuardadas(leerGuardadas());
     try {
       setUltima(window.localStorage.getItem(CLAVE_ULTIMA_TIRADA));
     } catch {
@@ -36,18 +68,68 @@ export default function TarotPage() {
     }
   }, []);
 
-  function alternar(id: string) {
+  async function alternar(id: string) {
     const abrir = abierta !== id;
-    setAbierta(abrir ? id : null);
-    if (abrir) {
-      try {
-        window.localStorage.setItem(CLAVE_ULTIMA_TIRADA, id);
-      } catch {
-        // ver nota de arriba.
-      }
-      setUltima(id);
-      window.setTimeout(() => panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 320);
+    if (!abrir) {
+      setAbierta(null);
+      return;
     }
+
+    if (!guardadas[id]) {
+      if (!pruebaGratisDisponible()) {
+        window.location.href = '/paywall';
+        return;
+      }
+      const pregunta = TIRADAS_TAROT.find((t) => t.id === id)?.pregunta ?? '';
+      const extraida: CartaExtraida = id === 'carta-del-dia' ? cartaDelDia() : drawCards(1)[0];
+      setCargando(id);
+      try {
+        const res = await fetch('/api/tarot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            numero: extraida.carta.numero,
+            nombre: extraida.carta.nombre,
+            invertida: extraida.invertida,
+            palabrasClave: extraida.invertida ? extraida.carta.invertido : extraida.carta.derecho,
+            pregunta,
+          }),
+        });
+        if (!res.ok) throw new Error('respuesta no OK');
+        const datos: { texto?: string } = await res.json();
+        if (!datos.texto) throw new Error('sin lectura');
+        consumirPruebaGratis();
+        const nueva: TiradaGuardada = {
+          numero: extraida.carta.numero,
+          nombre: extraida.carta.nombre,
+          invertida: extraida.invertida,
+          cita: citaDeCarta(extraida),
+          texto: datos.texto,
+        };
+        setGuardadas((g) => {
+          const siguiente = { ...g, [id]: nueva };
+          try {
+            window.localStorage.setItem(CLAVE_TIRADAS_GUARDADAS, JSON.stringify(siguiente));
+          } catch {
+            // ver nota de arriba.
+          }
+          return siguiente;
+        });
+      } catch {
+        setCargando(null);
+        return;
+      }
+      setCargando(null);
+    }
+
+    setAbierta(id);
+    try {
+      window.localStorage.setItem(CLAVE_ULTIMA_TIRADA, id);
+    } catch {
+      // ver nota de arriba.
+    }
+    setUltima(id);
+    window.setTimeout(() => panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 320);
   }
 
   return (
@@ -66,7 +148,43 @@ export default function TarotPage() {
         ¿Qué tipo de tirada necesitas?
       </h1>
 
-      {ultima && LECTURAS_TAROT[ultima] && (
+      <Link
+        href="/app/compatibilidad"
+        className="mt-3 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3"
+      >
+        <span className="text-[17px] leading-none" aria-hidden="true">
+          ✨
+        </span>
+        <span className="flex-1">
+          <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Sinergia zodiacal</span>
+          <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
+            Compara tu signo con el de alguien especial
+          </span>
+        </span>
+        <span aria-hidden="true" className="text-[var(--accent-lite)]">
+          →
+        </span>
+      </Link>
+
+      <Link
+        href="/app/mapa-poder"
+        className="mt-2 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3"
+      >
+        <span className="text-[17px] leading-none" aria-hidden="true">
+          🔮
+        </span>
+        <span className="flex-1">
+          <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Conócete a ti misma</span>
+          <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
+            Tu arcano de nacimiento, con tu fecha
+          </span>
+        </span>
+        <span aria-hidden="true" className="text-[var(--accent-lite)]">
+          →
+        </span>
+      </Link>
+
+      {ultima && guardadas[ultima] && (
         <button
           type="button"
           onClick={() => alternar(ultima)}
@@ -84,7 +202,7 @@ export default function TarotPage() {
       <motion.div variants={contenedor} initial="hidden" animate="visible" className="mt-4 flex flex-col">
         {TIRADAS_TAROT.map((t, i) => {
           const abierto = abierta === t.id;
-          const lectura = LECTURAS_TAROT[t.id];
+          const tirada = guardadas[t.id];
           return (
             <motion.div key={t.id} variants={item}>
               {i > 0 && <div className="h-px bg-[color-mix(in_oklab,var(--text-tertiary)_18%,transparent)]" />}
@@ -93,7 +211,8 @@ export default function TarotPage() {
                 type="button"
                 onClick={() => alternar(t.id)}
                 aria-expanded={abierto}
-                className="flex w-full items-center gap-3 py-4 text-left"
+                disabled={cargando === t.id}
+                className="flex w-full items-center gap-3 py-4 text-left disabled:opacity-70"
               >
                 <span
                   aria-hidden="true"
@@ -110,12 +229,14 @@ export default function TarotPage() {
                   <span className="block text-[15px] font-semibold text-[var(--text-primary)] [font-family:var(--font-display)]">
                     {t.nombre}
                   </span>
-                  <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">{t.pregunta}</span>
+                  <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
+                    {cargando === t.id ? 'Leyendo tu carta…' : t.pregunta}
+                  </span>
                 </span>
               </motion.button>
 
               <AnimatePresence>
-                {abierto && lectura && (
+                {abierto && tirada && (
                   <motion.div
                     ref={panelRef}
                     initial={{ opacity: 0, height: 0 }}
@@ -126,16 +247,21 @@ export default function TarotPage() {
                   >
                     <div className="flex flex-col items-center gap-3 pb-5 pt-2">
                       <div className="scale-[0.72]">
-                        <CartaSacerdotisa disparo="montaje" numero={lectura.numero} nombre={lectura.nombre} cita={lectura.cita} />
+                        <CartaSacerdotisa
+                          disparo="montaje"
+                          numero={tirada.numero}
+                          nombre={tirada.invertida ? `${tirada.nombre} (invertida)` : tirada.nombre}
+                          cita={tirada.cita}
+                        />
                       </div>
                       <p className="max-w-[280px] text-center text-[13px] leading-relaxed text-[var(--text-secondary)]">
-                        {lectura.lectura}
+                        {tirada.texto}
                       </p>
                       <div className="w-full">
                         <AppLinkButton
                           href="/app/diario"
                           compact
-                          onClick={() => guardarEntradaPendiente(lectura.lectura)}
+                          onClick={() => guardarEntradaPendiente(tirada.texto)}
                         >
                           Guardar en mi diario
                         </AppLinkButton>
@@ -157,7 +283,17 @@ export default function TarotPage() {
           className="mt-6 flex flex-col items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-4 py-6 text-center"
         >
           <div className="scale-[0.6]">
-            <CartaSacerdotisa animar={false} numero={LECTURAS_TAROT['carta-del-dia'].numero} nombre={LECTURAS_TAROT['carta-del-dia'].nombre} cita={LECTURAS_TAROT['carta-del-dia'].cita} />
+            {(() => {
+              const previa = cartaDelDia();
+              return (
+                <CartaSacerdotisa
+                  animar={false}
+                  numero={previa.carta.numero}
+                  nombre={previa.invertida ? `${previa.carta.nombre} (invertida)` : previa.carta.nombre}
+                  cita={citaDeCarta(previa)}
+                />
+              );
+            })()}
           </div>
           <p className="text-[12.5px] leading-relaxed text-[var(--text-secondary)]">
             ¿Primera vez aquí? Empieza con tu carta del día — es la tirada más corta y no necesita contexto previo.

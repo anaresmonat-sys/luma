@@ -1,0 +1,36 @@
+// Puerta de "un resultado real gratis" antes de elegir un plan (feedback directo
+// del usuario, 2026-09-17: la persona llega del onboarding a UNA sola de las 4
+// funciones reales —mensaje, coach, tarot o diario— y debe poder usarla de
+// verdad una vez sin pagar; al segundo intento en CUALQUIERA de las 4, se la
+// manda a elegir un plan). Una sola bandera global, no una por función.
+
+const CLAVE = 'luma_prueba_gratis_usada';
+
+export function pruebaGratisDisponible(): boolean {
+  try {
+    return window.localStorage.getItem(CLAVE) !== '1';
+  } catch {
+    return true;
+  }
+}
+
+export function consumirPruebaGratis(): void {
+  try {
+    window.localStorage.setItem(CLAVE, '1');
+  } catch {
+    // localStorage puede fallar (modo privado, cuota) — no bloquea el flujo.
+  }
+}
+
+/** "Empezar mi plan" en /paywall: hasta que Hotmart esté conectado (pendiente,
+ * ver ESTADO.md), esta es la única forma honesta de desbloquear — sin esto el
+ * botón no hacía nada de verdad (defecto real reportado por el usuario). Es
+ * una simulación local, no un plan pagado de verdad: se reemplaza por el
+ * webhook real de Hotmart cuando esté conectado. */
+export function desbloquearPorPlan(): void {
+  try {
+    window.localStorage.removeItem(CLAVE);
+  } catch {
+    // localStorage puede fallar (modo privado, cuota) — no bloquea el flujo.
+  }
+}

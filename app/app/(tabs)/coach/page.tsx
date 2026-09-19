@@ -1,15 +1,19 @@
 'use client';
 
 // APP INTERNA — COACH / chat con LUMA (blueprint: vista-previa-app.html frame 5,
-// aprobado). Sin IA real aún (Sesión 6): al enviar, LUMA responde con un acuse
-// breve tras un "escribiendo…" — dejando el LOOP de conversación probable sin
-// fingir inteligencia real. LUMA = la tarotista/coach (persona, FICHA-ARTE).
+// aprobado). Conectado a IA real vía /api/coach (patrón BFF — la clave vive en
+// el servidor). LUMA = la tarotista/coach (persona, FICHA-ARTE). El primer
+// mensaje real es gratis (lib/prueba-gratis.ts); al segundo se manda a elegir
+// un plan antes de seguir la conversación.
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { LumaAvatar } from '@/components/app/LumaAvatar';
 import { HILO_COACH_EJEMPLO, RESPUESTAS_RAPIDAS_COACH, type MensajeCoach } from '@/lib/seed-datos';
+import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
+import { leerYLimpiarMensajePendiente } from '@/lib/almacenamiento-coach';
+import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
 
 export default function CoachPage() {
   const [hilo, setHilo] = useState<MensajeCoach[]>(HILO_COACH_EJEMPLO);
@@ -18,54 +22,79 @@ export default function CoachPage() {
   const [avisoVoz, setAvisoVoz] = useState(false);
   const [error, setError] = useState(false);
 
+  // Si llega un mensaje real pendiente (ej. desde "¿Qué podría responderle?" en
+  // Descifrar), el hilo arranca vacío en vez de la charla de ejemplo — mostrar
+  // esa charla fija junto a un mensaje real rompía la ilusión (defecto real
+  // reportado por el usuario, 2026-09-18). Se lee en efecto, no en el estado
+  // inicial: localStorage es client-only y leerlo de forma síncrona en el
+  // primer render rompe la hidratación (mismo problema ya resuelto en /paywall).
+  useEffect(() => {
+    const pendiente = leerYLimpiarMensajePendiente();
+    if (pendiente) {
+      setHilo([]);
+      setTexto(pendiente);
+    }
+  }, []);
+
   function tocarMic() {
     setAvisoVoz(true);
     window.setTimeout(() => setAvisoVoz(false), 2200);
   }
 
+  async function pedirRespuesta(hiloActual: MensajeCoach[]) {
+    try {
+      const mapaPoder = leerMapaPoder();
+      const res = await fetch('/api/coach', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          perfil: mapaPoder
+            ? {
+                nombre: mapaPoder.nombre,
+                signo: mapaPoder.signoNombre,
+                arcano: mapaPoder.arcanoNombre,
+                numeroAlma: mapaPoder.numeroAlma,
+                patronSombra: mapaPoder.puntoCiego,
+              }
+            : undefined,
+          messages: hiloActual.map((m) => ({
+            role: m.autor === 'yo' ? 'user' : 'assistant',
+            content: m.texto,
+          })),
+        }),
+      });
+      if (!res.ok) throw new Error('respuesta no OK');
+      const datos: { texto?: string } = await res.json();
+      if (!datos.texto) throw new Error('sin texto');
+      setHilo((h) => [...h, { id: crypto.randomUUID(), autor: 'luma', texto: datos.texto! }]);
+      setEscribiendo(false);
+    } catch {
+      setError(true);
+      setEscribiendo(false);
+    }
+  }
+
   function enviar(contenido: string) {
-    if (!contenido.trim()) return;
-    const mensaje: MensajeCoach = { id: crypto.randomUUID(), autor: 'yo', texto: contenido.trim() };
-    setHilo((h) => [...h, mensaje]);
+    const texto = contenido.trim();
+    if (!texto) return;
+    if (!pruebaGratisDisponible()) {
+      window.location.href = '/paywall';
+      return;
+    }
+    consumirPruebaGratis();
+    const mensaje: MensajeCoach = { id: crypto.randomUUID(), autor: 'yo', texto };
+    const nuevoHilo = [...hilo, mensaje];
+    setHilo(nuevoHilo);
     setTexto('');
     setError(false);
     setEscribiendo(true);
-    window.setTimeout(() => {
-      // Sin backend real aún (Sesión 6): simula una falla ocasional de red para
-      // dejar el estado de error probado desde ahora, no improvisado después.
-      if (Math.random() < 0.15) {
-        setError(true);
-        setEscribiendo(false);
-        return;
-      }
-      setHilo((h) => [
-        ...h,
-        {
-          id: crypto.randomUUID(),
-          autor: 'luma',
-          texto: 'Te escucho. Vamos paso a paso — cuéntame un poco más de lo que sientes ahora mismo.',
-        },
-      ]);
-      setEscribiendo(false);
-    }, 1100);
+    void pedirRespuesta(nuevoHilo);
   }
 
   function reintentar() {
-    const ultimoMio = [...hilo].reverse().find((m) => m.autor === 'yo');
-    if (!ultimoMio) return;
     setError(false);
     setEscribiendo(true);
-    window.setTimeout(() => {
-      setHilo((h) => [
-        ...h,
-        {
-          id: crypto.randomUUID(),
-          autor: 'luma',
-          texto: 'Te escucho. Vamos paso a paso — cuéntame un poco más de lo que sientes ahora mismo.',
-        },
-      ]);
-      setEscribiendo(false);
-    }, 900);
+    void pedirRespuesta(hilo);
   }
 
   return (
@@ -164,6 +193,14 @@ export default function CoachPage() {
                 {r}
               </motion.button>
             ))}
+            <motion.div whileTap={{ scale: 0.97 }}>
+              <Link
+                href="/app/compatibilidad"
+                className="flex items-center gap-1.5 rounded-full border border-[color-mix(in_oklab,var(--accent)_34%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2 text-[12.5px] font-semibold text-[var(--accent-lite)]"
+              >
+                ✨ Ver compatibilidad de signos
+              </Link>
+            </motion.div>
           </div>
         )}
       </div>
