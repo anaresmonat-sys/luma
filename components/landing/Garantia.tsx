@@ -40,7 +40,7 @@ export function Garantia({ nombre, condicionMarked, pisoLegal, icon: Icono = Shi
       >
         <motion.div variants={item}>
           {/* La card de garantía: uno de los 1-3 usos de hairline permitidos por vista */}
-          <Hairline surface="surface" className="shadow-[var(--shadow-1)]">
+          <Hairline completo surface="surface" className="shadow-[var(--shadow-1)]">
             <div className="flex flex-col items-center gap-4 px-6 py-10 text-center">
               <span
                 aria-hidden="true"

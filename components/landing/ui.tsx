@@ -56,11 +56,14 @@ export function IconChip({ icon: Icono, tone = 'accent' }: { icon: LucideIcon | 
    chip del mecanismo). emphasis = EL elemento de la vista (2px, acento 55%). ── */
 export function Hairline({
   emphasis = false,
+  completo = false,
   surface = 'surface',
   className = '',
   children,
 }: {
   emphasis?: boolean;
+  /** Borde dorado continuo en los 4 lados (sin desvanecerse a transparente). */
+  completo?: boolean;
   surface?: 'surface' | 'surface-2' | 'bg';
   className?: string;
   children: ReactNode;
@@ -68,12 +71,19 @@ export function Hairline({
   return (
     <div
       className={`rounded-[var(--radius-card)] ${className}`}
-      style={{
-        border: `${emphasis ? 2 : 1}px solid transparent`,
-        background:
-          `linear-gradient(var(--${surface}), var(--${surface})) padding-box, ` +
-          `linear-gradient(135deg, color-mix(in oklab, var(--accent) ${emphasis ? 55 : 40}%, transparent), transparent 60%) border-box`,
-      }}
+      style={
+        completo
+          ? {
+              border: '1.5px solid color-mix(in oklab, var(--accent) 75%, transparent)',
+              background: `var(--${surface})`,
+            }
+          : {
+              border: `${emphasis ? 2 : 1}px solid transparent`,
+              background:
+                `linear-gradient(var(--${surface}), var(--${surface})) padding-box, ` +
+                `linear-gradient(135deg, color-mix(in oklab, var(--accent) ${emphasis ? 55 : 40}%, transparent), transparent 60%) border-box`,
+            }
+      }
     >
       {children}
     </div>
@@ -178,11 +188,11 @@ export function CtaButton({
     <motion.a
       whileTap={{ scale: 0.97 }}
       href={href}
-      className={`inline-flex items-center justify-center rounded-[var(--radius-button)] px-8 text-[17px] font-semibold transition-colors duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
+      className={`inline-flex items-center justify-center rounded-[var(--radius-button)] px-8 py-3 text-center text-[17px] font-semibold leading-snug transition-colors duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
         esSolido
           ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] hover:bg-[color-mix(in_oklab,var(--accent)_88%,var(--text-primary))] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]'
           : 'border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[var(--accent)] hover:bg-[var(--chip-bg)]'
-      } ${alto === 56 ? 'h-14' : 'h-[52px]'} ${fullMobile ? 'w-full sm:w-auto' : ''}`}
+      } ${alto === 56 ? 'min-h-14' : 'min-h-[52px]'} ${fullMobile ? 'w-full sm:w-auto' : ''}`}
     >
       {children}
     </motion.a>
