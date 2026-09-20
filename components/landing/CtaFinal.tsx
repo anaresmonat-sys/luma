@@ -51,22 +51,16 @@ export function CtaFinal({
       className="relative overflow-hidden py-20 md:py-24"
       style={{
         background:
-          'linear-gradient(180deg, color-mix(in oklab, var(--bloom-vino) 70%, var(--bg)) 0%, var(--surface) 55%, var(--bg) 100%)',
+          'linear-gradient(180deg, var(--bg) 0%, var(--surface) 45%, var(--bg) 100%)',
       }}
     >
-      {/* Filo dorado arriba: separa el cierre del resto sin invertir el color */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-px"
-        style={{ background: 'linear-gradient(90deg, transparent, var(--accent), transparent)' }}
-      />
       {/* Profundidad: resplandor dorado sutil detrás del titular */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(720px 420px at 50% 0%, color-mix(in oklab, var(--accent) 22%, transparent) 0%, transparent 62%)',
+            'radial-gradient(640px 240px at 50% 50%, color-mix(in oklab, var(--accent) 13%, transparent) 0%, transparent 100%)',
         }}
       />
 

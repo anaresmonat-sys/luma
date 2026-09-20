@@ -104,7 +104,7 @@ export function Oferta({
   const { contenedor, item } = useReveal();
 
   return (
-    <SectionShell id={id} elevacion="base" ariaLabel="Planes y precios">
+    <SectionShell id={id} elevacion="base" degradadoSuperior ariaLabel="Planes y precios">
       <motion.div variants={contenedor} initial="hidden" whileInView="visible" viewport={VIEWPORT_ONCE}>
         <motion.div variants={item} className="mx-auto max-w-[620px] text-center">
           <Kicker>{kicker}</Kicker>

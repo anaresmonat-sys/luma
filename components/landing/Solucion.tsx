@@ -54,7 +54,7 @@ export function Solucion({
   const { contenedor, item } = useReveal();
 
   return (
-    <SectionShell id={id} elevacion="base" ariaLabel="Cómo funciona">
+    <SectionShell id={id} elevacion="base" degradadoSuperior ariaLabel="Cómo funciona">
       <motion.div
         variants={contenedor}
         initial="hidden"

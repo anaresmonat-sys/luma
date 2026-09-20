@@ -135,8 +135,15 @@ export function SectionShell({
     <section
       id={id}
       aria-label={ariaLabel}
-      style={degradadoSuperior ? { background: 'linear-gradient(180deg, var(--bg) 0%, var(--surface) 160px)' } : undefined}
-      className={`${elevacion === 'elevada' ? `bg-[var(--surface)] ${sinFiloSuperior ? '' : 'shadow-[var(--rim-section)]'}` : ''} ${pt} ${pb} ${className}`}
+      style={
+        degradadoSuperior
+          ? {
+              // Arranca con el color de la sección anterior y se funde MUY despacio (200px) en el propio.
+              background: `linear-gradient(180deg, ${elevacion === 'elevada' ? 'var(--bg)' : 'var(--surface)'} 0%, ${elevacion === 'elevada' ? 'var(--surface)' : 'var(--bg)'} 200px)`,
+            }
+          : undefined
+      }
+      className={`${elevacion === 'elevada' ? `bg-[var(--surface)] ${sinFiloSuperior || degradadoSuperior ? '' : 'shadow-[var(--rim-section)]'}` : ''} ${pt} ${pb} ${className}`}
     >
       <div className="mx-auto w-full max-w-[1140px] px-5">{children}</div>
     </section>
