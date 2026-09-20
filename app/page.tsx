@@ -134,6 +134,10 @@ export default function LandingLuma() {
             label: 'Una tirada leída para ti',
           },
           {
+            src: '/carrusel/mapa-poder.png',
+            label: 'Tu arcano de nacimiento, leído',
+          },
+          {
             src: '/carrusel/diario.png',
             label: 'Tus patrones, al fin visibles',
           },

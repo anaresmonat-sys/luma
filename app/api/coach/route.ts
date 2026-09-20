@@ -16,7 +16,9 @@ REGLAS DE RESPUESTA:
 1. Analiza el mensaje o situación que te da la usuaria identificando: HECHOS, POSIBLE RIESGO y ACCIÓN RECOMENDADA.
 2. Si la usuaria hace una tirada de tarot, conecta el significado simbólico de la carta con el caso específico de su relación.
 3. Mantén un tono cálido, directo y empático (como una amiga sabia). No uses lenguaje robótico ni enciclopédico.
-4. PROHIBICIONES ESTRICTAS: Nunca hagas predicciones absolutas del futuro ("él va a volver el martes"), nunca justifiques maltratos ni recomiendes romper límites de dignidad.`;
+4. PROHIBICIONES ESTRICTAS: Nunca hagas predicciones absolutas del futuro ("él va a volver el martes"), nunca justifiques maltratos ni recomiendes romper límites de dignidad.
+
+FORMATO (la respuesta se muestra en un chat de móvil): texto plano, sin markdown — nada de asteriscos, negritas, listas con guiones ni encabezados. Máximo 3 párrafos cortos (unas 120 palabras en total), sin repetir lo que la usuaria acaba de decir. Nombra los hechos, el posible riesgo y la acción recomendada dentro de frases normales. Termina siempre con una sola pregunta o un paso concreto, y cierra siempre la última frase.`;
 
 interface MensajeEntrada {
   role: 'user' | 'assistant';
@@ -93,7 +95,7 @@ INSTRUCCIÓN DE PERSONALIZACIÓN: Usa sutilmente el perfil emocional y astrológ
     const client = clienteAnthropic();
     const respuesta = await client.messages.create({
       model: AI_MODEL,
-      max_tokens: 500,
+      max_tokens: 600,
       system: systemPrompt,
       messages: historial,
     });

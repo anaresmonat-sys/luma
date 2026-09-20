@@ -76,7 +76,12 @@ export function Solucion({
             directo del usuario. Fill (13%) + sombra tintada sutil para que
             siga pesando distinto a los chips numerados 01/02/03 de abajo. */}
         <motion.div variants={item} className="mt-4">
-          <span className="inline-block w-fit rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_40%,transparent)] bg-[color-mix(in_oklab,var(--accent)_13%,transparent)] px-4 py-2 text-[15px] font-semibold shadow-[0_2px_12px_color-mix(in_oklab,var(--accent)_18%,transparent)]">
+          {/* Etiqueta, no botón: sin caja ni brillo para que no parezca tocable
+              (feedback del usuario, 2026-09-20: "esta caja está inactiva"). */}
+          <span className="inline-flex items-center gap-2 text-[16px] font-semibold">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="shrink-0 text-[var(--accent)]">
+              <path d="M12 2l1.9 6.1L20 10l-6.1 1.9L12 18l-1.9-6.1L4 10l6.1-1.9L12 2zM19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15z" />
+            </svg>
             <Accent>{mecanismo}</Accent>
           </span>
         </motion.div>
