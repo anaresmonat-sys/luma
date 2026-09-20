@@ -33,7 +33,7 @@ export type PasoReconocimiento = {
 export type Paso = PasoChip | PasoReconocimiento;
 
 /** IDs de las preguntas REALES (excluye el reconocimiento, que no pide datos). */
-export const IDS_PREGUNTAS_REALES = ['motivo', 'momento', 'ayuda'] as const;
+export const IDS_PREGUNTAS_REALES = ['motivo', 'ayuda'] as const;
 
 export interface Respuestas {
   motivo?: string;
@@ -56,54 +56,7 @@ export const RUTA_POR_AYUDA: Record<string, string> = {
 // dolor #1 de FICHA-AVATAR: "Estoy obsesionada mirando el teléfono a ver si ya me respondió"
 // dolor #2: "No sé qué responderle sin quedar como que me importa demasiado"
 
-/** La pregunta 2 ("momento") se adapta a lo que la usuaria respondió en la
- * pregunta 1 ("motivo") — antes asumía "esa ansiedad" para TODAS las
- * respuestas, incluso para quien eligió "Quiero entender mis patrones" (que
- * no implica ansiedad). Feedback real del usuario, 2026-09-17. */
-function pasoMomento(r: Respuestas): PasoChip {
-  const base = {
-    tipo: 'chip' as const,
-    id: 'momento',
-    microcopy: 'Así sabemos en qué momento ayudarte más.',
-  };
-  if (r.motivo === 'ruptura') {
-    return {
-      ...base,
-      pregunta: '¿Cuándo se te hace más [acento]difícil[/acento]?',
-      opciones: [
-        { id: 'noche', emoji: '🌙', label: 'De noche, antes de dormir' },
-        { id: 'recordatorio', emoji: '💭', label: 'Cuando algo te lo recuerda' },
-        { id: 'redes', emoji: '📱', label: 'Al ver sus redes sociales' },
-        { id: 'todo-el-dia', emoji: '😮‍💨', label: 'Prácticamente todo el día' },
-      ],
-    };
-  }
-  if (r.motivo === 'patrones') {
-    return {
-      ...base,
-      pregunta: '¿Cuándo notas más ese [acento]patrón[/acento]?',
-      opciones: [
-        { id: 'conocer', emoji: '👋', label: 'Cuando conozco a alguien nuevo' },
-        { id: 'conflicto', emoji: '💬', label: 'Después de una conversación difícil' },
-        { id: 'mirar-atras', emoji: '🔁', label: 'Cuando miro atrás' },
-        { id: 'casi-siempre', emoji: '😮‍💨', label: 'Casi siempre' },
-      ],
-    };
-  }
-  // 'conociendo' | 'pareja' | "otra cosa" | sin responder
-  return {
-    ...base,
-    pregunta: '¿Cuándo sientes esto con más [acento]fuerza[/acento]?',
-    opciones: [
-      { id: 'noche', emoji: '🌙', label: 'De noche, antes de dormir' },
-      { id: 'tarda', emoji: '⏳', label: 'Cuando tarda en responder' },
-      { id: 'redes', emoji: '📱', label: 'Después de ver su historia o red social' },
-      { id: 'todo-el-dia', emoji: '😮‍💨', label: 'Prácticamente todo el día' },
-    ],
-  };
-}
-
-export function construirPasos(r: Respuestas): Paso[] {
+export function construirPasos(_r: Respuestas): Paso[] {
   return [
   {
     tipo: 'chip',
@@ -117,37 +70,6 @@ export function construirPasos(r: Respuestas): Paso[] {
       { id: 'ruptura', emoji: '💔', label: 'Estoy saliendo de una relación' },
       { id: 'patrones', emoji: '🔍', label: 'Quiero entender mis patrones' },
     ],
-  },
-  pasoMomento(r),
-  {
-    tipo: 'reconocimiento',
-    id: 'reconocimiento-1',
-    emoji: '🕊️',
-    render: (r) => {
-      const cuando = r.momentoLabel ? r.momentoLabel.charAt(0).toLowerCase() + r.momentoLabel.slice(1) : 'en esos momentos';
-      if (r.motivo === 'ruptura') {
-        return {
-          titulo: 'Cerrar un ciclo toma tiempo, no [acento]perfección[/acento]',
-          cuerpo: `No se trata de dejar de sentir de un día para otro — se trata de entender qué pasó, sobre todo ${cuando}, sin quedarte atrapada ahí. LUMA te acompaña a tu ritmo.`,
-        };
-      }
-      if (r.motivo === 'patrones') {
-        return {
-          titulo: 'Mirar tus patrones es un acto de [acento]valentía[/acento]',
-          cuerpo: `La mayoría repite la misma historia sin darse cuenta — tú ya diste el primer paso al querer verlo, sobre todo ${cuando}. LUMA te ayuda a conectar los puntos entre tus relaciones.`,
-        };
-      }
-      if (r.motivo === 'pareja') {
-        return {
-          titulo: 'Tus dudas no salen [acento]de la nada[/acento]',
-          cuerpo: `Cuando algo no cuadra en una relación, tu mente busca explicaciones — no porque exageres, sino porque mereces claridad, sobre todo ${cuando}. LUMA te ayuda a ver qué es real, en menos de un minuto.`,
-        };
-      }
-      return {
-        titulo: 'No es que pienses [acento]de más[/acento]',
-        cuerpo: `Nadie te enseñó a separar los hechos de las historias que arma tu mente — sobre todo ${cuando}. Eso es justo lo que LUMA hace por ti, en menos de un minuto.`,
-      };
-    },
   },
   {
     tipo: 'chip',

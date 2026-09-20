@@ -24,7 +24,6 @@ export default function OnboardingLuma() {
   const [direccion, setDireccion] = useState<1 | -1>(1);
   const [respuestas, setRespuestas] = useState<Respuestas>({});
 
-  // Se recalcula en cada render: la pregunta "momento" se adapta a `respuestas.motivo`.
   const pasos = construirPasos(respuestas);
   const progreso = PISO_PROGRESO + (indice / pasos.length) * (100 - PISO_PROGRESO);
 

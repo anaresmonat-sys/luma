@@ -10,30 +10,31 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { LumaAvatar } from '@/components/app/LumaAvatar';
-import { HILO_COACH_EJEMPLO, RESPUESTAS_RAPIDAS_COACH, type MensajeCoach } from '@/lib/seed-datos';
+import type { MensajeCoach } from '@/lib/seed-datos';
+import { aperturaCoach } from '@/lib/coach-saludo';
+import { leerRespuestas } from '@/lib/almacenamiento-onboarding';
 import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
 import { leerYLimpiarMensajePendiente } from '@/lib/almacenamiento-coach';
 import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
 
 export default function CoachPage() {
-  const [hilo, setHilo] = useState<MensajeCoach[]>(HILO_COACH_EJEMPLO);
+  const [hilo, setHilo] = useState<MensajeCoach[]>([]);
+  const [apertura, setApertura] = useState(() => aperturaCoach(undefined, undefined));
   const [texto, setTexto] = useState('');
   const [escribiendo, setEscribiendo] = useState(false);
   const [avisoVoz, setAvisoVoz] = useState(false);
   const [error, setError] = useState(false);
 
-  // Si llega un mensaje real pendiente (ej. desde "¿Qué podría responderle?" en
-  // Descifrar), el hilo arranca vacío en vez de la charla de ejemplo — mostrar
-  // esa charla fija junto a un mensaje real rompía la ilusión (defecto real
-  // reportado por el usuario, 2026-09-18). Se lee en efecto, no en el estado
-  // inicial: localStorage es client-only y leerlo de forma síncrona en el
-  // primer render rompe la hidratación (mismo problema ya resuelto en /paywall).
+  // El hilo arranca vacío: LUMA abre con un saludo según el motivo elegido en el
+  // onboarding (y el nombre del Mapa de Poder, si existe). Si llega un mensaje
+  // real pendiente (ej. desde "¿Qué podría responderle?" en Descifrar), se
+  // prellena la caja. Se lee en efecto, no en el estado inicial: localStorage es
+  // client-only y leerlo de forma síncrona en el primer render rompe la
+  // hidratación (mismo problema ya resuelto en /paywall).
   useEffect(() => {
+    setApertura(aperturaCoach(leerRespuestas()?.motivo, leerMapaPoder()?.nombre));
     const pendiente = leerYLimpiarMensajePendiente();
-    if (pendiente) {
-      setHilo([]);
-      setTexto(pendiente);
-    }
+    if (pendiente) setTexto(pendiente);
   }, []);
 
   function tocarMic() {
@@ -124,6 +125,15 @@ export default function CoachPage() {
       </div>
 
       <div role="log" aria-live="polite" className="flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-y-auto py-2">
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25 }}
+          className="max-w-[82%] self-start rounded-[15px_15px_15px_5px] border border-[color-mix(in_oklab,var(--accent)_24%,transparent)] bg-[var(--surface)] px-3 py-2.5 text-[14px] leading-snug text-[var(--text-primary)]"
+        >
+          {apertura.saludo}
+        </motion.div>
+
         <AnimatePresence>
           {hilo.map((m, i) =>
             m.autor === 'yo' ? (
@@ -180,27 +190,19 @@ export default function CoachPage() {
           )}
         </AnimatePresence>
 
-        {!escribiendo && hilo.length <= HILO_COACH_EJEMPLO.length && (
+        {!escribiendo && hilo.length === 0 && (
           <div className="flex flex-col items-start gap-2 pt-1">
-            {RESPUESTAS_RAPIDAS_COACH.map((r) => (
+            {apertura.arranques.map((r) => (
               <motion.button
                 key={r}
                 whileTap={{ scale: 0.97 }}
                 type="button"
-                onClick={() => enviar(r)}
-                className="rounded-full border border-[color-mix(in_oklab,var(--accent)_34%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2 text-[12.5px] font-semibold text-[var(--accent-lite)]"
+                onClick={() => setTexto(r + ' ')}
+                className="rounded-full border border-[color-mix(in_oklab,var(--accent)_34%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2 text-left text-[12.5px] font-semibold text-[var(--accent-lite)]"
               >
                 {r}
               </motion.button>
             ))}
-            <motion.div whileTap={{ scale: 0.97 }}>
-              <Link
-                href="/app/compatibilidad"
-                className="flex items-center gap-1.5 rounded-full border border-[color-mix(in_oklab,var(--accent)_34%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2 text-[12.5px] font-semibold text-[var(--accent-lite)]"
-              >
-                ✨ Ver compatibilidad de signos
-              </Link>
-            </motion.div>
           </div>
         )}
       </div>
@@ -239,7 +241,7 @@ export default function CoachPage() {
         <input
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
-          placeholder="Escribe un mensaje…"
+          placeholder="Cuéntame qué pasó…"
           aria-label="Mensaje para LUMA"
           className="h-11 flex-1 bg-transparent text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
         />
