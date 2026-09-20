@@ -56,7 +56,7 @@ export function CartaSacerdotisa({
         }}
       />
       <div
-        className="relative flex h-[15rem] w-[8.75rem] flex-col items-center justify-center overflow-hidden rounded-[var(--radius-button)]"
+        className="relative flex h-[15rem] w-[8.75rem] flex-col items-center justify-center overflow-hidden rounded-[var(--radius-button)] [@media(min-height:681px)_and_(max-height:760px)]:h-[12rem] [@media(min-height:681px)_and_(max-height:760px)]:w-[7rem] [@media(max-height:680px)]:h-[10rem] [@media(max-height:680px)]:w-[5.9rem]"
         style={{
           transform: 'rotateX(6deg) rotateY(-14deg) rotate(-3deg)',
           transformStyle: 'preserve-3d',
@@ -112,12 +112,12 @@ export function CartaSacerdotisa({
       />
     </motion.div>
     {imagen && (
-      <div className="mt-6 max-w-[11rem] text-center">
+      <div className="mt-8 max-w-[16rem] text-center [@media(min-height:681px)_and_(max-height:760px)]:mt-5 [@media(max-height:680px)]:mt-3">
         <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--accent)]">
           {numero} · {nombre}
           {invertida ? ' (invertida)' : ''}
         </p>
-        <p className="mt-1 text-[12px] leading-snug text-[var(--text-secondary)]">{cita}</p>
+        <p className="mt-2 text-[13px] leading-relaxed text-[var(--text-secondary)]">{cita}</p>
       </div>
     )}
     </div>

@@ -8,7 +8,7 @@ import { BottomNav } from '@/components/app/BottomNav';
 export default function TabsLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex h-dvh flex-col">
-      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto px-5">{children}</main>
+      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto px-5 [scrollbar-color:color-mix(in_oklab,var(--accent)_35%,transparent)_transparent] [scrollbar-width:thin]">{children}</main>
       <BottomNav />
     </div>
   );

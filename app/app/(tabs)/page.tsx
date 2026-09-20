@@ -92,7 +92,7 @@ export default function InicioPage() {
         className="pointer-events-none absolute inset-x-0 top-1/4 -z-10 h-[26rem]"
         style={{
           background:
-            'radial-gradient(480px 320px at 50% 50%, color-mix(in oklab, var(--bloom-vino) 58%, transparent), transparent 68%)',
+            'radial-gradient(closest-side at 50% 50%, color-mix(in oklab, var(--bloom-vino) 58%, transparent), transparent)',
         }}
       />
       {/* header: wordmark + avatar → único punto de entrada a "Más" (cuenta) */}
@@ -115,7 +115,7 @@ export default function InicioPage() {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="flex min-h-0 flex-1 flex-col justify-between"
+        className="flex min-h-0 flex-1 flex-col justify-between gap-8 [@media(min-height:681px)_and_(max-height:760px)]:gap-4 [@media(max-height:680px)]:gap-3"
       >
         <div>
           <div className="flex items-center justify-between">
@@ -171,7 +171,7 @@ export default function InicioPage() {
           )}
         </div>
 
-        <Link href="/app/tarot" className="flex flex-col items-center gap-1">
+        <Link href="/app/tarot" className="flex flex-col items-center gap-2">
           {(() => {
             const hoy = cartaDelDia();
             return (
@@ -185,7 +185,7 @@ export default function InicioPage() {
               />
             );
           })()}
-          <span className="mt-4 text-[12px] font-bold text-[var(--accent-lite)]">Abrir mi lectura de hoy →</span>
+          <span className="mt-6 text-[13px] font-bold text-[var(--accent-lite)] [@media(min-height:681px)_and_(max-height:760px)]:mt-3 [@media(max-height:680px)]:mt-2">Abrir mi lectura de hoy →</span>
         </Link>
 
         <div className="grid shrink-0 grid-cols-2 gap-3 pb-2">
