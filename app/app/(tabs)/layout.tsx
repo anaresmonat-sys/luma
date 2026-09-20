@@ -7,7 +7,7 @@ import { BottomNav } from '@/components/app/BottomNav';
 
 export default function TabsLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="flex h-dvh flex-col">
       <main className="flex min-h-0 flex-1 flex-col overflow-y-auto px-5">{children}</main>
       <BottomNav />
     </div>

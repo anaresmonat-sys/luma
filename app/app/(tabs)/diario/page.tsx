@@ -272,7 +272,7 @@ export default function DiarioPage() {
             variants={item}
             className="mt-8 flex flex-col items-center gap-1 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-4 py-5 text-center"
           >
-            <span className="text-[28px] font-bold tabular-nums text-[var(--accent-lite)] [font-family:var(--font-display)]">
+            <span className="text-[28px] font-bold lining-nums tabular-nums text-[var(--accent-lite)] [font-family:var(--font-display)]">
               {registrosMostrados}
             </span>
             <span className="text-[11px] leading-relaxed text-[var(--text-secondary)]">

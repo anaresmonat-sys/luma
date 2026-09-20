@@ -113,32 +113,32 @@ export default function LandingLuma() {
       {/* 5 · LA APP POR DENTRO — carrusel manual (19 §5), screenshots REALES a 375px
           tomados de la app interna ya construida y revisada (Sesión 5) */}
       <AppPorDentro
-        tituloMarked="Entra y mira [acento]cómo se siente[/acento]"
+        tituloMarked="Desliza y mira [acento]cómo se siente[/acento]"
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
         frames={[
           {
-            src: '/carrusel/inicio.png',
+            src: '/carrusel/inicio.webp',
             label: 'Tu día, en un vistazo',
           },
           {
-            src: '/carrusel/descifrar.png',
+            src: '/carrusel/descifrar.webp',
             label: 'Hechos, riesgo y qué responder',
           },
           {
-            src: '/carrusel/coach.png',
+            src: '/carrusel/coach.webp',
             label: 'Tu coach, siempre disponible',
           },
           {
-            src: '/carrusel/tarot.png',
+            src: '/carrusel/tarot.webp',
             label: 'Una tirada leída para ti',
           },
           {
-            src: '/carrusel/mapa-poder.png',
+            src: '/carrusel/mapa-poder.webp',
             label: 'Tu arcano de nacimiento, leído',
           },
           {
-            src: '/carrusel/diario.png',
+            src: '/carrusel/diario.webp',
             label: 'Tus patrones, al fin visibles',
           },
         ]}

@@ -6,7 +6,7 @@
 // mensaje real es gratis (lib/prueba-gratis.ts); al segundo se manda a elegir
 // un plan antes de seguir la conversación.
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { LumaAvatar } from '@/components/app/LumaAvatar';
@@ -21,6 +21,7 @@ export default function CoachPage() {
   const [hilo, setHilo] = useState<MensajeCoach[]>([]);
   const [apertura, setApertura] = useState(() => aperturaCoach(undefined, undefined));
   const [texto, setTexto] = useState('');
+  const chatRef = useRef<HTMLDivElement | null>(null);
   const [escribiendo, setEscribiendo] = useState(false);
   const [avisoVoz, setAvisoVoz] = useState(false);
   const [error, setError] = useState(false);
@@ -36,6 +37,11 @@ export default function CoachPage() {
     const pendiente = leerYLimpiarMensajePendiente();
     if (pendiente) setTexto(pendiente);
   }, []);
+
+  // Mantiene visible lo último de la charla al llegar un mensaje o la respuesta de LUMA.
+  useEffect(() => {
+    chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: 'smooth' });
+  }, [hilo, escribiendo, error]);
 
   function tocarMic() {
     setAvisoVoz(true);
@@ -124,7 +130,9 @@ export default function CoachPage() {
         </div>
       </div>
 
-      <div role="log" aria-live="polite" className="flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-y-auto py-2">
+      <div ref={chatRef} role="log" aria-live="polite" className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto py-2">
+        {/* Empuja la conversación hacia abajo cuando es corta; con `justify-end` lo de arriba no se podía alcanzar al desbordar. */}
+        <div className="flex-1" aria-hidden="true" />
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
