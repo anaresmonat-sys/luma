@@ -38,7 +38,7 @@ export function Problema({ titulo, preguntas, id }: ProblemaProps) {
         initial="hidden"
         whileInView="visible"
         viewport={VIEWPORT_ONCE}
-        className="mx-auto max-w-[620px]"
+        className="mx-auto max-w-[620px] pb-4 md:pb-6"
       >
         {titulo && (
           <motion.h2

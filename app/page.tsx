@@ -147,7 +147,7 @@ export default function LandingLuma() {
       {/* 6 · OFERTA — anual primero, trial 3 días (02C), total visible */}
       <Oferta
         kicker="Tu plan"
-        tituloMarked="Menos que [acento]una consulta con una tarotista[/acento]"
+        tituloMarked="Menos que [acento]una consulta con tarotista o coach[/acento]"
         trialDias={3}
         anual={{
           nombre: 'Anual',
