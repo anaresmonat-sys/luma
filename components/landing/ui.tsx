@@ -111,6 +111,8 @@ export function SectionShell({
   elevacion = 'base',
   compacta = false,
   flush = 'none',
+  sinFiloSuperior = false,
+  degradadoSuperior = false,
   ariaLabel,
   className = '',
   children,
@@ -119,6 +121,10 @@ export function SectionShell({
   elevacion?: 'base' | 'elevada';
   compacta?: boolean;
   flush?: 'none' | 'top' | 'bottom';
+  /** Quita el filo claro de arriba: para una sección elevada que sigue a otra igual (mismo color, un solo bloque). */
+  sinFiloSuperior?: boolean;
+  /** El fondo arranca con el color de la sección anterior (--bg) y se aclara hasta el propio: une dos fondos distintos sin línea ni corte. */
+  degradadoSuperior?: boolean;
   ariaLabel?: string;
   className?: string;
   children: ReactNode;
@@ -129,7 +135,8 @@ export function SectionShell({
     <section
       id={id}
       aria-label={ariaLabel}
-      className={`${elevacion === 'elevada' ? 'bg-[var(--surface)] shadow-[var(--rim-section)]' : ''} ${pt} ${pb} ${className}`}
+      style={degradadoSuperior ? { background: 'linear-gradient(180deg, var(--bg) 0%, var(--surface) 160px)' } : undefined}
+      className={`${elevacion === 'elevada' ? `bg-[var(--surface)] ${sinFiloSuperior ? '' : 'shadow-[var(--rim-section)]'}` : ''} ${pt} ${pb} ${className}`}
     >
       <div className="mx-auto w-full max-w-[1140px] px-5">{children}</div>
     </section>

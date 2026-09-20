@@ -42,7 +42,7 @@ export function Agitacion({ frases, contraste, id }: AgitacionProps) {
   const { contenedor, item } = useReveal();
 
   return (
-    <SectionShell id={id} elevacion="elevada" flush="top" ariaLabel="El costo de seguir igual">
+    <SectionShell id={id} elevacion="elevada" flush="top" sinFiloSuperior className="-mt-px" ariaLabel="El costo de seguir igual">
       <motion.div
         variants={contenedor}
         initial="hidden"
@@ -52,7 +52,7 @@ export function Agitacion({ frases, contraste, id }: AgitacionProps) {
       >
         {/* Línea de tiempo: mismo chip de 44px que las cajas de §2 (los iconos quedan en la
             misma columna), unidos por un hilo vertical; la última frase, el giro, va resaltada. */}
-        <ol className="flex flex-col gap-6 pt-12 md:pt-16">
+        <ol className="flex flex-col gap-6">
           {frases.map((f, i) => {
             const ultima = i === frases.length - 1;
             return (

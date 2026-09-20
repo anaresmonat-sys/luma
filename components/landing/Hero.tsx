@@ -120,7 +120,7 @@ export function Hero({
           )}
 
           {/* Visual del producto: asoma en el primer viewport e invita al scroll */}
-          <div className="mt-10 w-full max-w-[720px] pb-16 md:pb-24">
+          <div className="mt-10 w-full max-w-[720px] pb-4 md:pb-8">
             {visual ? (
               <div className="overflow-hidden rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_55%,transparent)] shadow-[var(--shadow-2)]">
                 {visual}
