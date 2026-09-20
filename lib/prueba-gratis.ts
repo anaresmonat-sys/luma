@@ -5,6 +5,17 @@
 // manda a elegir un plan). Una sola bandera global, no una por función.
 
 const CLAVE = 'luma_prueba_gratis_usada';
+const CLAVE_PLAN = 'luma_plan_activo';
+
+/** ¿Tiene un plan activo? Hoy es la simulación de `desbloquearPorPlan`; con
+ * Hotmart conectado se reemplaza por la lectura real del plan en el servidor. */
+export function planActivo(): boolean {
+  try {
+    return window.localStorage.getItem(CLAVE_PLAN) === '1';
+  } catch {
+    return false;
+  }
+}
 
 export function pruebaGratisDisponible(): boolean {
   try {
@@ -30,6 +41,7 @@ export function consumirPruebaGratis(): void {
 export function desbloquearPorPlan(): void {
   try {
     window.localStorage.removeItem(CLAVE);
+    window.localStorage.setItem(CLAVE_PLAN, '1');
   } catch {
     // localStorage puede fallar (modo privado, cuota) — no bloquea el flujo.
   }

@@ -15,7 +15,9 @@
 // decida, aquí es donde se aplicaría el límite para el plan gratuito.
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
+import { planActivo } from '@/lib/prueba-gratis';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton } from '@/components/app/AppButton';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
@@ -27,6 +29,9 @@ import { leerCirculo, agregarAlCirculo, quitarDelCirculo, type PersonaCirculo } 
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { leerCirculoSupabase, agregarAlCirculoSupabase, quitarDelCirculoSupabase } from '@/lib/supabase/circulo';
 
+const RELLENO_DIFUMINADO =
+  'Aquí va la lectura completa de esta persona, con su forma de vincularse y lo que conviene tener presente.';
+
 export default function CirculoPage() {
   const [personas, setPersonas] = useState<PersonaCirculo[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
@@ -35,10 +40,12 @@ export default function CirculoPage() {
   const [fecha, setFecha] = useState('');
   const [estado, setEstado] = useState<'reposo' | 'cargando' | 'error'>('reposo');
   const [abierta, setAbierta] = useState<string | null>(null);
+  const [conPlan, setConPlan] = useState(false);
 
   useEffect(() => {
     let cancelado = false;
     setPersonas(leerCirculo());
+    setConPlan(planActivo());
     void (async () => {
       const supabase = crearClienteNavegador();
       const {
@@ -55,6 +62,14 @@ export default function CirculoPage() {
       cancelado = true;
     };
   }, []);
+
+  // Sin plan, solo la PRIMERA persona agregada (la más antigua, al final de la
+  // lista) se ve completa; las demás muestran solo el arquetipo emocional.
+  // Decisión del usuario, 2026-09-20. Sin plan real todavía (Hotmart pendiente):
+  // `planActivo` es la simulación de /paywall.
+  function bloqueada(indice: number): boolean {
+    return !conPlan && indice !== personas.length - 1;
+  }
 
   function guardarLocalYEstado(lista: PersonaCirculo[]) {
     setPersonas(lista);
@@ -186,7 +201,7 @@ export default function CirculoPage() {
             cabeza.
           </p>
         )}
-        {personas.map((p) => {
+        {personas.map((p, i) => {
           const abierto = abierta === p.id;
           return (
             <div key={p.id} className="rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)]">
@@ -225,16 +240,35 @@ export default function CirculoPage() {
                         <CartaSacerdotisa disparo="montaje" numero={String(p.numero)} nombre={p.arcanoNombre} cita={`Camino de Vida ${p.numero}`} imagen={imagenDeCarta(p.arcanoId)} />
                       </div>
                       {[
-                        { titulo: 'Su arquetipo emocional', texto: p.arquetipo },
-                        { titulo: 'Su superpoder en las relaciones', texto: p.superpoder },
-                        { titulo: 'Su punto ciego', texto: p.puntoCiego },
-                        { titulo: 'Consejo para ti', texto: p.consejo },
+                        { titulo: 'Su arquetipo emocional', texto: p.arquetipo, libre: true },
+                        { titulo: 'Su superpoder en las relaciones', texto: p.superpoder, libre: false },
+                        { titulo: 'Su punto ciego', texto: p.puntoCiego, libre: false },
+                        { titulo: 'Consejo para ti', texto: p.consejo, libre: false },
                       ].map((b) => (
                         <div key={b.titulo} className="w-full">
                           <h3 className="text-[11px] font-bold uppercase tracking-[0.06em] text-[var(--accent)]">{b.titulo}</h3>
-                          <p className="mt-1 text-[12.5px] leading-relaxed text-[var(--text-primary)]">{b.texto}</p>
+                          {b.libre || !bloqueada(i) ? (
+                            <p className="mt-1 text-[12.5px] leading-relaxed text-[var(--text-primary)]">{b.texto}</p>
+                          ) : (
+                            // Texto de relleno, NO el real: difuminado a propósito para que ni acercando la pantalla se lea.
+                            <p aria-hidden="true" className="mt-1 select-none text-[12.5px] leading-relaxed text-[var(--text-primary)] blur-[6px]">
+                              {RELLENO_DIFUMINADO}
+                            </p>
+                          )}
                         </div>
                       ))}
+                      {bloqueada(i) && (
+                        <Link
+                          href="/paywall"
+                          className="mt-1 flex h-[46px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] bg-[color-mix(in_oklab,var(--accent)_12%,transparent)] text-[13px] font-bold text-[var(--accent-lite)]"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <rect x="4" y="11" width="16" height="10" rx="2" />
+                            <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                          </svg>
+                          Desbloquea su lectura completa
+                        </Link>
+                      )}
                     </div>
                   </motion.div>
                 )}
