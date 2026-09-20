@@ -111,8 +111,8 @@ export default function CoachPage() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(500px 36dvh at 50% 22%, color-mix(in oklab, var(--bloom-vino) 42%, transparent), transparent 66%), ' +
-            'radial-gradient(520px 40dvh at 50% 96%, color-mix(in oklab, var(--bloom-vino) 46%, transparent), transparent 72%)',
+            'radial-gradient(ellipse 60% 36dvh at 50% 22%, color-mix(in oklab, var(--bloom-vino) 42%, transparent), transparent 66%), ' +
+            'radial-gradient(ellipse 60% 40dvh at 50% 96%, color-mix(in oklab, var(--bloom-vino) 46%, transparent), transparent 72%)',
         }}
       />
       <div className="flex shrink-0 items-center justify-between py-2">
@@ -131,8 +131,6 @@ export default function CoachPage() {
       </div>
 
       <div ref={chatRef} role="log" aria-live="polite" className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto py-2">
-        {/* Empuja la conversación hacia abajo cuando es corta; con `justify-end` lo de arriba no se podía alcanzar al desbordar. */}
-        <div className="flex-1" aria-hidden="true" />
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}

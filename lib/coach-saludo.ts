@@ -52,6 +52,7 @@ const GENERICA: ApeturaCoach = {
 
 export function aperturaCoach(motivo: string | undefined, nombre: string | undefined): ApeturaCoach {
   const base = (motivo && POR_MOTIVO[motivo]) || GENERICA;
-  const primerNombre = nombre?.trim().split(/\s+/)[0];
+  const crudo = nombre?.trim().split(/\s+/)[0];
+  const primerNombre = crudo ? crudo.charAt(0).toUpperCase() + crudo.slice(1) : undefined;
   return primerNombre ? { ...base, saludo: `Hola, ${primerNombre}. ${base.saludo}` } : base;
 }
