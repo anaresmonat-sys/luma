@@ -13,7 +13,7 @@
 // las 18 palabras). El NÚMERO del costo va en [b]/[acento] (dato héroe).
 
 import { motion } from 'motion/react';
-import { SectionShell, useReveal, VIEWPORT_ONCE } from './ui';
+import { IconChip, SectionShell, useReveal, VIEWPORT_ONCE } from './ui';
 import { MarkedCopy, warnCopy, warnRango } from './MarkedCopy';
 
 export interface FraseAgitacion {
@@ -50,21 +50,34 @@ export function Agitacion({ frases, contraste, id }: AgitacionProps) {
         viewport={VIEWPORT_ONCE}
         className="mx-auto max-w-[620px]"
       >
-        <div className="flex flex-col gap-5">
-          {frases.map((f, i) => (
-            <motion.div key={i} variants={item} className="flex items-start gap-3">
-              <span className="shrink-0 text-[22px] leading-none" aria-hidden="true">
-                {f.emoji}
-              </span>
-              <p className="pt-0.5 text-[17px] leading-[1.6] text-[var(--text-secondary)]">
-                <MarkedCopy text={f.textoMarked} />
-              </p>
-            </motion.div>
-          ))}
-        </div>
+        {/* Línea de tiempo: mismo chip de 44px que las cajas de §2 (los iconos quedan en la
+            misma columna), unidos por un hilo vertical; la última frase, el giro, va resaltada. */}
+        <ol className="flex flex-col gap-6 pt-6">
+          {frases.map((f, i) => {
+            const ultima = i === frases.length - 1;
+            return (
+              <motion.li key={i} variants={item} className="relative flex items-start gap-4 px-4">
+                <IconChip icon={f.emoji} tone={ultima ? 'accent' : 'muted'} />
+                {!ultima && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute bottom-[-20px] left-[37px] top-[48px] w-px bg-[color-mix(in_oklab,var(--text-tertiary)_35%,transparent)]"
+                  />
+                )}
+                <p
+                  className={`pt-2 text-[17px] leading-[1.6] ${
+                    ultima ? 'font-medium text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'
+                  }`}
+                >
+                  <MarkedCopy text={f.textoMarked} />
+                </p>
+              </motion.li>
+            );
+          })}
+        </ol>
 
         {contraste && (
-          <motion.div variants={item} className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <motion.div variants={item} className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="rounded-[var(--radius-card)] bg-[var(--bg)] p-5">
               <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
                 {contraste.labelHoy}

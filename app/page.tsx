@@ -71,7 +71,7 @@ export default function LandingLuma() {
           },
           {
             emoji: '💔',
-            textoMarked: 'No es que pienses de más. Es que [b]nadie te ayudó a ver la conversación con calma[/b].',
+            textoMarked: 'No es que pienses de más. Es que [acento]nadie te ayudó a ver la conversación con calma[/acento].',
           },
         ]}
         contraste={{
