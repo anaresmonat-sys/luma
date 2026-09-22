@@ -127,6 +127,19 @@ export function cartaDelDia(fecha: Date = new Date()): CartaExtraida {
   return { carta: MAZO_TAROT[indice], invertida };
 }
 
+/** Posiciones de la tirada de 3 cartas por categoría — se leen como UNA historia
+ * conectada, no carta por carta (técnica de tarotista profesional: la posición +
+ * la relación entre cartas importa más que cada carta aislada). "Carta del día"
+ * se queda en 1 sola carta, como en todas las apps de tarot con más ventas
+ * (estándar del sector para el draw diario). Pedido del usuario, 2026-09-22:
+ * "que la app sea más pro", tras investigar apps top (Raka, Nummi, Jenova). */
+export const POSICIONES_TIRADA: Record<string, [string, string, string]> = {
+  amor: ['Lo que sientes tú', 'Lo que siente la otra persona', 'Hacia dónde va esto'],
+  ruptura: ['Qué se cerró', 'Qué te cuesta soltar', 'Qué viene después'],
+  decision: ['Un camino', 'El otro camino', 'Lo que de verdad necesitas ver'],
+  autoconocimiento: ['Lo que muestras', 'Lo que ocultas', 'Lo que estás llamada a integrar'],
+};
+
 /** Frase corta para mostrar bajo el nombre de la carta (reemplaza la "cita"
  * fija de antes) — se arma con las primeras palabras clave del lado que salió. */
 export function citaDeCarta({ carta, invertida }: CartaExtraida): string {

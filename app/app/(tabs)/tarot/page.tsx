@@ -21,18 +21,75 @@ import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { TIRADAS_TAROT } from '@/lib/seed-datos';
 import { guardarEntradaPendiente } from '@/lib/almacenamiento-diario';
 import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
-import { drawCards, cartaDelDia, citaDeCarta, type CartaExtraida } from '@/lib/tarotDeck';
+import { drawCards, cartaDelDia, citaDeCarta, POSICIONES_TIRADA, type CartaExtraida } from '@/lib/tarotDeck';
 
 const CLAVE_ULTIMA_TIRADA = 'luma_ultima_tirada';
 const CLAVE_TIRADAS_GUARDADAS = 'luma_tiradas_guardadas';
 
-interface TiradaGuardada {
+interface CartaTirada {
+  posicion?: string;
   numero: string;
   nombre: string;
   invertida: boolean;
   cita: string;
-  texto: string;
   imagen?: string;
+}
+
+interface TiradaGuardada {
+  cartas: CartaTirada[];
+  texto: string;
+  /** Solo para "carta-del-dia" (YYYY-M-D): si la fecha guardada no es la de hoy,
+   * se pide una lectura nueva en vez de mostrar la de un día anterior — antes se
+   * guardaba para siempre y "hoy" se quedaba congelado en el primer día que se abrió. */
+  fecha?: string;
+}
+
+function claveDelDia(fecha: Date = new Date()): string {
+  return `${fecha.getFullYear()}-${fecha.getMonth()}-${fecha.getDate()}`;
+}
+
+/** Mini carta de una tirada de 3 — a diferencia de CartaSacerdotisa (pensada
+ * para UNA carta protagonista), aquí el tamaño va fijo en px, no por escala,
+ * para que las 3 quepan en fila sin dejar hueco de más en el acordeón. */
+function MiniCartaTirada({
+  posicion,
+  imagen,
+  nombre,
+  invertida,
+}: {
+  posicion?: string;
+  imagen?: string;
+  nombre: string;
+  invertida: boolean;
+}) {
+  return (
+    <div className="flex w-[92px] flex-col items-center gap-1.5">
+      {posicion && (
+        <span className="text-center text-[9.5px] font-semibold uppercase leading-tight tracking-[0.04em] text-[var(--accent)]">
+          {posicion}
+        </span>
+      )}
+      <div
+        className="relative h-[124px] w-[80px] overflow-hidden rounded-[10px] border shadow-[0_10px_18px_-10px_rgb(10_5_8/0.6)]"
+        style={{ borderColor: 'color-mix(in oklab, var(--accent) 55%, transparent)' }}
+      >
+        {imagen && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={imagen}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-cover"
+            style={{ transform: invertida ? 'rotate(180deg)' : undefined }}
+          />
+        )}
+      </div>
+      <span className="text-center text-[10px] font-semibold leading-tight text-[var(--text-primary)]">
+        {nombre}
+        {invertida ? ' (invertida)' : ''}
+      </span>
+    </div>
+  );
 }
 
 const contenedor = {
@@ -47,7 +104,17 @@ const item = {
 function leerGuardadas(): Record<string, TiradaGuardada> {
   try {
     const crudo = window.localStorage.getItem(CLAVE_TIRADAS_GUARDADAS);
-    return crudo ? (JSON.parse(crudo) as Record<string, TiradaGuardada>) : {};
+    if (!crudo) return {};
+    const datos = JSON.parse(crudo) as Record<string, unknown>;
+    // Descarta tiradas guardadas con el formato de antes de las tiradas de 3 cartas
+    // (2026-09-22) — sin esto, una tirada vieja en el navegador rompía la pantalla.
+    const validas: Record<string, TiradaGuardada> = {};
+    for (const [id, v] of Object.entries(datos)) {
+      if (v && typeof v === 'object' && Array.isArray((v as TiradaGuardada).cartas)) {
+        validas[id] = v as TiradaGuardada;
+      }
+    }
+    return validas;
   } catch {
     return {};
   }
@@ -76,23 +143,33 @@ export default function TarotPage() {
       return;
     }
 
-    if (!guardadas[id]) {
+    // "Carta del día" se renueva sola cada día: si la guardada es de una fecha
+    // anterior, se trata como si no hubiera nada guardado y se pide una lectura
+    // nueva (antes se quedaba congelada en la primera vez que se abrió).
+    const desactualizada = id === 'carta-del-dia' && guardadas[id]?.fecha !== claveDelDia();
+    if (!guardadas[id] || desactualizada) {
       if (!pruebaGratisDisponible()) {
         window.location.href = '/paywall';
         return;
       }
       const pregunta = TIRADAS_TAROT.find((t) => t.id === id)?.pregunta ?? '';
-      const extraida: CartaExtraida = id === 'carta-del-dia' ? cartaDelDia() : drawCards(1)[0];
+      // Carta del día: 1 sola carta (estándar del sector). El resto: 3 cartas con
+      // posición propia, leídas por la IA como una sola historia conectada.
+      const posiciones = POSICIONES_TIRADA[id];
+      const extraidas: CartaExtraida[] = id === 'carta-del-dia' ? [cartaDelDia()] : drawCards(posiciones?.length ?? 1);
       setCargando(id);
       try {
         const res = await fetch('/api/tarot', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            numero: extraida.carta.numero,
-            nombre: extraida.carta.nombre,
-            invertida: extraida.invertida,
-            palabrasClave: extraida.invertida ? extraida.carta.invertido : extraida.carta.derecho,
+            cartas: extraidas.map((extraida, i) => ({
+              posicion: posiciones?.[i],
+              numero: extraida.carta.numero,
+              nombre: extraida.carta.nombre,
+              invertida: extraida.invertida,
+              palabrasClave: extraida.invertida ? extraida.carta.invertido : extraida.carta.derecho,
+            })),
             pregunta,
             categoria: id,
           }),
@@ -102,12 +179,16 @@ export default function TarotPage() {
         if (!datos.texto) throw new Error('sin lectura');
         consumirPruebaGratis();
         const nueva: TiradaGuardada = {
-          numero: extraida.carta.numero,
-          nombre: extraida.carta.nombre,
-          invertida: extraida.invertida,
-          cita: citaDeCarta(extraida),
+          cartas: extraidas.map((extraida, i) => ({
+            posicion: posiciones?.[i],
+            numero: extraida.carta.numero,
+            nombre: extraida.carta.nombre,
+            invertida: extraida.invertida,
+            cita: citaDeCarta(extraida),
+            imagen: extraida.carta.image,
+          })),
           texto: datos.texto,
-          imagen: extraida.carta.image,
+          fecha: id === 'carta-del-dia' ? claveDelDia() : undefined,
         };
         setGuardadas((g) => {
           const siguiente = { ...g, [id]: nueva };
@@ -150,6 +231,10 @@ export default function TarotPage() {
       <h1 className="mt-1 text-[20px] font-semibold text-[var(--text-primary)] [font-family:var(--font-display)]">
         ¿Qué tipo de tirada necesitas?
       </h1>
+      {/* Ritual antes de elegir (pedido del usuario, 2026-09-22; acortada a pedido suyo). */}
+      <p className="mt-1.5 text-[12px] italic leading-relaxed text-[var(--text-secondary)]">
+        Haz una respiración profunda, cierra los ojos y conecta con la pregunta.
+      </p>
 
       <motion.div variants={contenedor} initial="hidden" animate="visible" className="mt-4 flex flex-col">
         {TIRADAS_TAROT.map((t, i) => {
@@ -166,14 +251,14 @@ export default function TarotPage() {
                 disabled={cargando === t.id}
                 className="flex w-full items-center gap-3 py-4 text-left disabled:opacity-70"
               >
-                {tirada?.imagen ? (
+                {tirada?.cartas[0]?.imagen ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={tirada.imagen.replace("/tarot/", "/tarot/mini/")}
+                    src={tirada.cartas[0].imagen.replace('/tarot/', '/tarot/mini/')}
                     alt=""
                     aria-hidden="true"
                     className="h-16 w-11 shrink-0 rounded-md object-cover shadow-[0_8px_16px_-8px_rgb(10_5_8/0.6)]"
-                    style={{ transform: tirada.invertida ? 'rotate(180deg)' : undefined }}
+                    style={{ transform: tirada.cartas[0].invertida ? 'rotate(180deg)' : undefined }}
                   />
                 ) : (
                   // Reverso en miniatura: la carta que saldrá es al azar, así que no se anticipa ninguna.
@@ -218,16 +303,34 @@ export default function TarotPage() {
                     className="overflow-hidden"
                   >
                     <div className="flex flex-col items-center gap-3 pb-5 pt-2">
-                      <div className="scale-[0.72]">
-                        <CartaSacerdotisa
-                          disparo="montaje"
-                          numero={tirada.numero}
-                          nombre={tirada.imagen || !tirada.invertida ? tirada.nombre : `${tirada.nombre} (invertida)`}
-                          cita={tirada.cita}
-                          imagen={tirada.imagen}
-                          invertida={tirada.invertida}
-                        />
-                      </div>
+                      {tirada.cartas.length === 1 ? (
+                        <div className="scale-[0.72]">
+                          <CartaSacerdotisa
+                            disparo="montaje"
+                            numero={tirada.cartas[0].numero}
+                            nombre={
+                              tirada.cartas[0].imagen || !tirada.cartas[0].invertida
+                                ? tirada.cartas[0].nombre
+                                : `${tirada.cartas[0].nombre} (invertida)`
+                            }
+                            cita={tirada.cartas[0].cita}
+                            imagen={tirada.cartas[0].imagen}
+                            invertida={tirada.cartas[0].invertida}
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex justify-center gap-3">
+                          {tirada.cartas.map((c, i) => (
+                            <MiniCartaTirada
+                              key={i}
+                              posicion={c.posicion}
+                              imagen={c.imagen}
+                              nombre={c.nombre}
+                              invertida={c.invertida}
+                            />
+                          ))}
+                        </div>
+                      )}
                       <p className="max-w-[280px] text-center text-[13px] leading-relaxed text-[var(--text-secondary)]">
                         {tirada.texto}
                       </p>
@@ -249,43 +352,9 @@ export default function TarotPage() {
         })}
       </motion.div>
 
-      {!abierta && !ultima && (
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.3 }}
-          className="mt-6 flex flex-col items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-4 py-6 text-center"
-        >
-          <div className="scale-[0.6]">
-            {(() => {
-              const previa = cartaDelDia();
-              return (
-                <CartaSacerdotisa
-                  animar={false}
-                  numero={previa.carta.numero}
-                  nombre={previa.carta.nombre}
-                  cita={citaDeCarta(previa)}
-                  imagen={previa.carta.image}
-                  invertida={previa.invertida}
-                />
-              );
-            })()}
-          </div>
-          <p className="text-[12.5px] leading-relaxed text-[var(--text-secondary)]">
-            ¿Primera vez aquí? Empieza con tu carta del día — es la tirada más corta y no necesita contexto previo.
-          </p>
-          <motion.button
-            whileTap={{ scale: 0.97 }}
-            type="button"
-            onClick={() => alternar('carta-del-dia')}
-            className="flex min-h-11 items-center justify-center px-4 text-[12.5px] font-bold text-[var(--accent-lite)]"
-          >
-            Ver mi carta del día →
-          </motion.button>
-        </motion.div>
-      )}
-
-      {ultima && guardadas[ultima] && (
+      {/* Carta del día ya se renueva sola y es la última de la lista: repetirla
+          aparte sería idéntico a tocarla ahí arriba, sin aportar nada. */}
+      {ultima && ultima !== 'carta-del-dia' && guardadas[ultima] && (
         <button
           type="button"
           onClick={() => alternar(ultima)}
