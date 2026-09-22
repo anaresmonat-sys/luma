@@ -94,6 +94,7 @@ export default function TarotPage() {
             invertida: extraida.invertida,
             palabrasClave: extraida.invertida ? extraida.carta.invertido : extraida.carta.derecho,
             pregunta,
+            categoria: id,
           }),
         });
         if (!res.ok) throw new Error('respuesta no OK');
@@ -135,71 +136,20 @@ export default function TarotPage() {
   }
 
   return (
-    <div className="relative flex min-h-0 flex-1 flex-col pb-4 pt-3">
+    <div className="relative flex min-h-min flex-1 flex-col pb-4 pt-3">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(520px 42dvh at 50% 26%, color-mix(in oklab, var(--bloom-vino) 52%, transparent), transparent 70%), ' +
-            'radial-gradient(560px 46dvh at 50% 96%, color-mix(in oklab, var(--bloom-vino) 50%, transparent), transparent 74%)',
+            'radial-gradient(ellipse 60% 42dvh at 50% 26%, color-mix(in oklab, var(--bloom-vino) 29%, transparent), transparent 70%), ' +
+            'radial-gradient(ellipse 60% 46dvh at 50% 96%, color-mix(in oklab, var(--bloom-vino) 28%, transparent), transparent 74%)',
         }}
       />
       <ScreenHeader titulo="Tarot" volverHref="/app" />
       <h1 className="mt-1 text-[20px] font-semibold text-[var(--text-primary)] [font-family:var(--font-display)]">
         ¿Qué tipo de tirada necesitas?
       </h1>
-
-      <Link
-        href="/app/compatibilidad"
-        className="mt-3 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3"
-      >
-        <span className="text-[17px] leading-none" aria-hidden="true">
-          ✨
-        </span>
-        <span className="flex-1">
-          <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Sinergia zodiacal</span>
-          <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
-            Compara tu signo con el de alguien especial
-          </span>
-        </span>
-        <span aria-hidden="true" className="text-[var(--accent-lite)]">
-          →
-        </span>
-      </Link>
-
-      <Link
-        href="/app/mapa-poder"
-        className="mt-2 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3"
-      >
-        <span className="text-[17px] leading-none" aria-hidden="true">
-          🔮
-        </span>
-        <span className="flex-1">
-          <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Conócete a ti misma</span>
-          <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
-            Tu arcano de nacimiento, con tu fecha
-          </span>
-        </span>
-        <span aria-hidden="true" className="text-[var(--accent-lite)]">
-          →
-        </span>
-      </Link>
-
-      {ultima && guardadas[ultima] && (
-        <button
-          type="button"
-          onClick={() => alternar(ultima)}
-          className="mt-3 flex items-center justify-between rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3 text-left"
-        >
-          <span className="text-[12.5px] font-semibold text-[var(--accent-lite)]">
-            Repetir tu última tirada: {TIRADAS_TAROT.find((t) => t.id === ultima)?.nombre}
-          </span>
-          <span aria-hidden="true" className="text-[var(--accent-lite)]">
-            →
-          </span>
-        </button>
-      )}
 
       <motion.div variants={contenedor} initial="hidden" animate="visible" className="mt-4 flex flex-col">
         {TIRADAS_TAROT.map((t, i) => {
@@ -219,7 +169,7 @@ export default function TarotPage() {
                 {tirada?.imagen ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={tirada.imagen}
+                    src={tirada.imagen.replace("/tarot/", "/tarot/mini/")}
                     alt=""
                     aria-hidden="true"
                     className="h-16 w-11 shrink-0 rounded-md object-cover shadow-[0_8px_16px_-8px_rgb(10_5_8/0.6)]"
@@ -241,7 +191,7 @@ export default function TarotPage() {
                       style={{ border: '1px solid color-mix(in oklab, var(--accent) 40%, transparent)' }}
                     />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/luma-icon.png" alt="" className="relative h-6 w-auto" />
+                    <img src="/luma-icon.png" alt="" className="relative h-9 w-auto brightness-125 [filter:drop-shadow(0_0_5px_color-mix(in_oklab,var(--accent)_55%,transparent))]" />
                   </span>
                 )}
                 <span className="text-[15px] leading-none text-[var(--accent-lite)]" aria-hidden="true">
@@ -334,6 +284,59 @@ export default function TarotPage() {
           </motion.button>
         </motion.div>
       )}
+
+      {ultima && guardadas[ultima] && (
+        <button
+          type="button"
+          onClick={() => alternar(ultima)}
+          className="mt-4 flex items-center justify-between rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3 text-left"
+        >
+          <span className="text-[12.5px] font-semibold text-[var(--accent-lite)]">
+            Repetir tu última tirada: {TIRADAS_TAROT.find((t) => t.id === ultima)?.nombre}
+          </span>
+          <span aria-hidden="true" className="text-[var(--accent-lite)]">
+            →
+          </span>
+        </button>
+      )}
+
+      <p className="mt-8 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">Más lecturas</p>
+
+      <Link
+        href="/app/compatibilidad"
+        className="mt-2 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3"
+      >
+        <span className="text-[17px] leading-none" aria-hidden="true">
+          ✨
+        </span>
+        <span className="flex-1">
+          <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Sinergia zodiacal</span>
+          <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
+            Compara tu signo con el de alguien especial
+          </span>
+        </span>
+        <span aria-hidden="true" className="text-[var(--accent-lite)]">
+          →
+        </span>
+      </Link>
+
+      <Link
+        href="/app/mapa-poder?desde=tarot"
+        className="mt-2 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3"
+      >
+        <span className="text-[17px] leading-none" aria-hidden="true">
+          🔮
+        </span>
+        <span className="flex-1">
+          <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Conócete a ti misma</span>
+          <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
+            Tu arcano de nacimiento, con tu fecha
+          </span>
+        </span>
+        <span aria-hidden="true" className="text-[var(--accent-lite)]">
+          →
+        </span>
+      </Link>
     </div>
   );
 }

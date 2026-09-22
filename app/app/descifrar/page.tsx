@@ -90,9 +90,9 @@ export default function DescifrarPage() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(520px 40dvh at 50% 32%, color-mix(in oklab, var(--bloom-vino) 55%, transparent), transparent 68%), ' +
-            'radial-gradient(480px 36dvh at 50% 78%, color-mix(in oklab, var(--bloom-vino) 42%, transparent), transparent 70%), ' +
-            'radial-gradient(600px 24dvh at 50% 100%, color-mix(in oklab, var(--bloom-vino) 38%, transparent), transparent 72%)',
+            'radial-gradient(ellipse 60% 40dvh at 50% 32%, color-mix(in oklab, var(--bloom-vino) 30%, transparent), transparent 68%), ' +
+            'radial-gradient(ellipse 60% 36dvh at 50% 78%, color-mix(in oklab, var(--bloom-vino) 23%, transparent), transparent 70%), ' +
+            'radial-gradient(ellipse 60% 24dvh at 50% 100%, color-mix(in oklab, var(--bloom-vino) 21%, transparent), transparent 72%)',
         }}
       />
 
@@ -100,7 +100,7 @@ export default function DescifrarPage() {
         <motion.div variants={item} className="shrink-0">
           <ScreenHeader titulo="Descifra la conversación" tituloDisplay />
         </motion.div>
-        <div className="flex flex-1 flex-col justify-center">
+        <div className="flex flex-1 flex-col">
         <motion.div variants={item} className="grid grid-cols-3 gap-2">
           {MODOS.map((m) => (
             <motion.button
@@ -131,8 +131,13 @@ export default function DescifrarPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2, delay: 0.07 }}
+              className={`flex flex-col ${estado === 'resultado' ? '' : 'flex-1'}`}
             >
-              <div className="mt-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] p-3">
+              <div
+                className={`mt-3 flex flex-col rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] p-3 ${
+                  estado === 'resultado' ? '' : 'flex-1'
+                }`}
+              >
                 <textarea
                   value={texto}
                   onChange={(e) => {
@@ -144,7 +149,7 @@ export default function DescifrarPage() {
                   }}
                   placeholder="Pega aquí la conversación…"
                   rows={4}
-                  className="w-full resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
+                  className="min-h-24 w-full flex-1 resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
                 />
                 <div className="mt-2 flex items-center justify-between">
                   <button

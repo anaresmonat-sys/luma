@@ -92,7 +92,7 @@ export default function InicioPage() {
         className="pointer-events-none absolute inset-x-0 top-1/4 -z-10 h-[26rem]"
         style={{
           background:
-            'radial-gradient(closest-side at 50% 50%, color-mix(in oklab, var(--bloom-vino) 58%, transparent), transparent)',
+            'radial-gradient(closest-side at 50% 50%, color-mix(in oklab, var(--bloom-vino) 32%, transparent), transparent)',
         }}
       />
       {/* header: wordmark + avatar → único punto de entrada a "Más" (cuenta) */}
@@ -134,7 +134,7 @@ export default function InicioPage() {
           <div className="mt-4">
             <MoodPicker emociones={EMOCIONES_INICIO} seleccion={animo} onSeleccionar={elegirAnimo} />
           </div>
-          <div className="mt-2 h-7">
+          <div className="mt-2 h-7 [@media(max-height:680px)]:h-3">
             <AnimatePresence>
               {guardado && (
                 <motion.p

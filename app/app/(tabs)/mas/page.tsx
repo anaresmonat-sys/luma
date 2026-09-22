@@ -20,7 +20,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { USUARIA } from '@/lib/seed-datos';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { pruebaGratisDisponible } from '@/lib/prueba-gratis';
-import { leerMapaPoder, type MapaPoder } from '@/lib/almacenamiento-numerologia';
 
 const ENLACES = [
   { emoji: '📄', label: 'Términos', href: '/terminos' },
@@ -38,11 +37,9 @@ export default function MasPage() {
   const [conSesion, setConSesion] = useState(false);
   const [cerrando, setCerrando] = useState(false);
   const [gratisDisponible, setGratisDisponible] = useState(true);
-  const [mapaPoder, setMapaPoder] = useState<MapaPoder | null>(null);
 
   useEffect(() => {
     setGratisDisponible(pruebaGratisDisponible());
-    setMapaPoder(leerMapaPoder());
     let cancelado = false;
     void (async () => {
       const supabase = crearClienteNavegador();
@@ -70,7 +67,7 @@ export default function MasPage() {
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col pb-4 pt-3">
+    <div className="flex min-h-min flex-1 flex-col pb-4 pt-3">
       <div className="flex shrink-0 items-center py-2">
         <h1 className="text-[16px] font-semibold text-[var(--text-primary)] [font-family:var(--font-display)]">Más</h1>
       </div>
@@ -100,27 +97,7 @@ export default function MasPage() {
         </div>
       </div>
 
-      <Link
-        href="/app/mapa-poder"
-        className="mt-3 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3"
-      >
-        <span className="text-[17px] leading-none" aria-hidden="true">
-          ✨
-        </span>
-        <span className="flex-1">
-          <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">
-            {mapaPoder ? `Tu arcano: ${mapaPoder.arcanoNombre}` : 'Conócete a ti misma'}
-          </span>
-          <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
-            {mapaPoder ? `Número de Camino de Vida ${mapaPoder.numero}` : 'Descubre tu arcano de nacimiento'}
-          </span>
-        </span>
-        <span aria-hidden="true" className="text-[var(--accent-lite)]">
-          →
-        </span>
-      </Link>
-
-      <div className="h-5 shrink-0">
+      <div className="mt-auto h-5 shrink-0 pt-4">
         <AnimatePresence>
           {aviso && (
             <motion.p

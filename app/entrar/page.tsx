@@ -221,6 +221,20 @@ export default function EntrarLuma() {
           <p className="mt-1 text-center text-[13px] text-[var(--text-tertiary)]">
             Sin contraseñas: te llegará un enlace de un solo uso
           </p>
+
+          {/* Acceso de la dueña para revisar la app por dentro. Solo existe mientras la
+              app corre en tu computadora (`next dev`): en la versión publicada este
+              bloque no se incluye, así que ahí solo se entra con el enlace del correo. */}
+          {process.env.NODE_ENV === 'development' && (
+            <a
+              href="/app"
+              className="mt-2 flex h-[52px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-dashed border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[14px] font-semibold text-[var(--accent-lite)]"
+            >
+              <span aria-hidden="true">🛠️</span>
+              Entrar a revisar la app
+              <span className="text-[12px] font-normal text-[var(--text-tertiary)]">(solo en tu computadora)</span>
+            </a>
+          )}
         </motion.div>
       </div>
     </div>

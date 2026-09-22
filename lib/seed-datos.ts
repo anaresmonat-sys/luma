@@ -79,8 +79,8 @@ export interface TiradaTarot {
 export const TIRADAS_TAROT: TiradaTarot[] = [
   { id: 'amor', emoji: '❤️', nombre: 'Amor', pregunta: '¿Qué necesito comprender sobre esta relación?' },
   { id: 'ruptura', emoji: '💔', nombre: 'Ruptura', pregunta: '¿Qué me está impidiendo cerrar este ciclo?' },
-  { id: 'decision', emoji: '🔀', nombre: 'Decisión', pregunta: '¿Qué necesito considerar antes de decidir?' },
-  { id: 'autoconocimiento', emoji: '🪞', nombre: 'Autoconocimiento', pregunta: '¿Qué no estoy viendo de mí misma?' },
+  { id: 'decision', emoji: '🧭', nombre: 'Decisión', pregunta: '¿Qué necesito considerar antes de decidir?' },
+  { id: 'autoconocimiento', emoji: '🪷', nombre: 'Autoconocimiento', pregunta: '¿Qué no estoy viendo de mí misma?' },
   { id: 'carta-del-dia', emoji: '☀️', nombre: 'Carta del día', pregunta: '¿Qué energía puedo observar hoy?' },
 ];
 

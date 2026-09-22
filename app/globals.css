@@ -74,8 +74,8 @@
 body {
   background-color: var(--bg);
   background-image:
-    radial-gradient(680px 420px at 12% -6%, color-mix(in oklab, #6d2f3e 55%, transparent), transparent 62%),
-    radial-gradient(620px 460px at 92% 4%, color-mix(in oklab, #4a2233 55%, transparent), transparent 60%);
+    radial-gradient(680px 420px at 12% -6%, color-mix(in oklab, #6d2f3e 30%, transparent), transparent 62%),
+    radial-gradient(620px 460px at 92% 4%, color-mix(in oklab, #4a2233 30%, transparent), transparent 60%);
   background-attachment: fixed;
   background-repeat: no-repeat;
 }

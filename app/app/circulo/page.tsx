@@ -140,8 +140,8 @@ export default function CirculoPage() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(520px 40dvh at 50% 32%, color-mix(in oklab, var(--bloom-vino) 55%, transparent), transparent 68%), ' +
-            'radial-gradient(480px 36dvh at 50% 78%, color-mix(in oklab, var(--bloom-vino) 42%, transparent), transparent 70%)',
+            'radial-gradient(ellipse 60% 40dvh at 50% 32%, color-mix(in oklab, var(--bloom-vino) 30%, transparent), transparent 68%), ' +
+            'radial-gradient(ellipse 60% 36dvh at 50% 78%, color-mix(in oklab, var(--bloom-vino) 23%, transparent), transparent 70%)',
         }}
       />
       <ScreenHeader titulo="Tu círculo" volverHref="/app/mapa-poder" tituloDisplay />
@@ -194,9 +194,9 @@ export default function CirculoPage() {
         )}
       </AnimatePresence>
 
-      <div className="mt-5 flex flex-col gap-3">
+      <div className="mt-5 flex flex-1 flex-col gap-3">
         {personas.length === 0 && !mostrarForm && (
-          <p className="mt-6 text-center text-[12px] leading-relaxed text-[var(--text-tertiary)]">
+          <p className="my-auto px-4 text-center text-[13px] leading-relaxed text-[var(--text-tertiary)]">
             💡 Todavía no agregaste a nadie — empieza con tu mejor amiga o esa persona que te trae de
             cabeza.
           </p>

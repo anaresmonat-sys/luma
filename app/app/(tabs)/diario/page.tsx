@@ -9,6 +9,7 @@
 // igual que el mic.
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton } from '@/components/app/AppButton';
@@ -127,19 +128,19 @@ export default function DiarioPage() {
   }
 
   return (
-    <div className="relative flex min-h-0 flex-1 flex-col overflow-y-auto pb-4 pt-3">
+    <div className="relative flex min-h-min flex-1 flex-col pb-4 pt-3">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(500px 40dvh at 50% 30%, color-mix(in oklab, var(--bloom-vino) 50%, transparent), transparent 68%), ' +
-            'radial-gradient(480px 30dvh at 50% 78%, color-mix(in oklab, var(--bloom-vino) 36%, transparent), transparent 68%), ' +
-            'radial-gradient(480px 34dvh at 50% 100%, color-mix(in oklab, var(--bloom-vino) 40%, transparent), transparent 70%)',
+            'radial-gradient(ellipse 60% 40dvh at 50% 30%, color-mix(in oklab, var(--bloom-vino) 28%, transparent), transparent 68%), ' +
+            'radial-gradient(ellipse 60% 30dvh at 50% 78%, color-mix(in oklab, var(--bloom-vino) 20%, transparent), transparent 68%), ' +
+            'radial-gradient(ellipse 60% 34dvh at 50% 100%, color-mix(in oklab, var(--bloom-vino) 22%, transparent), transparent 70%)',
         }}
       />
 
-      <motion.div variants={contenedor} initial="hidden" animate="visible" className="flex flex-col">
+      <motion.div variants={contenedor} initial="hidden" animate="visible" className="flex flex-1 flex-col">
         <motion.div variants={item}>
           <ScreenHeader
             titulo="Diario emocional"
@@ -185,7 +186,7 @@ export default function DiarioPage() {
 
         <motion.div
           variants={item}
-          className="mt-4 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] p-3"
+          className="mt-4 flex flex-1 flex-col rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] p-3"
         >
           <textarea
             value={texto}
@@ -195,7 +196,7 @@ export default function DiarioPage() {
             }}
             placeholder={ENTRADA_DIARIO_EJEMPLO}
             rows={4}
-            className="w-full resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
+            className="min-h-24 w-full flex-1 resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
           />
           <div className="mt-2 flex items-center justify-between">
             <button
@@ -266,6 +267,23 @@ export default function DiarioPage() {
         >
           Ver mi patrón →
         </motion.button>
+
+        <motion.div variants={item} className="mt-3">
+          <Link href="/app/mapa-poder" className="flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3">
+            <span className="text-[17px] leading-none" aria-hidden="true">
+              🔮
+            </span>
+            <span className="flex-1">
+              <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Conócete a ti misma</span>
+              <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
+                Tu arcano de nacimiento, con tu fecha
+              </span>
+            </span>
+            <span aria-hidden="true" className="text-[var(--accent-lite)]">
+              →
+            </span>
+          </Link>
+        </motion.div>
 
         {registros > 0 ? (
           <motion.div

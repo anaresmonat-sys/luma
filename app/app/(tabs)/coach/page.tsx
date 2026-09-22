@@ -111,8 +111,8 @@ export default function CoachPage() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(ellipse 60% 36dvh at 50% 22%, color-mix(in oklab, var(--bloom-vino) 42%, transparent), transparent 66%), ' +
-            'radial-gradient(ellipse 60% 40dvh at 50% 96%, color-mix(in oklab, var(--bloom-vino) 46%, transparent), transparent 72%)',
+            'radial-gradient(ellipse 60% 36dvh at 50% 22%, color-mix(in oklab, var(--bloom-vino) 23%, transparent), transparent 66%), ' +
+            'radial-gradient(ellipse 60% 40dvh at 50% 96%, color-mix(in oklab, var(--bloom-vino) 25%, transparent), transparent 72%)',
         }}
       />
       <div className="flex shrink-0 items-center justify-between py-2">
@@ -124,7 +124,7 @@ export default function CoachPage() {
         <div className="flex flex-1 items-center gap-2.5">
           <LumaAvatar size={34} />
           <div>
-            <p className="text-[14px] font-semibold text-[var(--text-primary)]">LUMA</p>
+            <p className="text-[14px] font-semibold text-[var(--accent-lite)]">LUMA</p>
             <p className="text-[11px] text-[var(--text-secondary)]">tu tarotista y coach</p>
           </div>
         </div>

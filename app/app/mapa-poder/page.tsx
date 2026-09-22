@@ -38,6 +38,12 @@ export default function MapaPoderPage() {
   const [estado, setEstado] = useState<'reposo' | 'cargando' | 'error'>('reposo');
   const [editando, setEditando] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  // El botón atrás vuelve a la pantalla desde la que se entró (Diario por defecto, o Tarot).
+  const [volverHref, setVolverHref] = useState('/app/diario');
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('desde') === 'tarot') setVolverHref('/app/tarot');
+  }, []);
 
   useEffect(() => {
     let cancelado = false;
@@ -118,11 +124,11 @@ export default function MapaPoderPage() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(520px 40dvh at 50% 32%, color-mix(in oklab, var(--bloom-vino) 55%, transparent), transparent 68%), ' +
-            'radial-gradient(480px 36dvh at 50% 78%, color-mix(in oklab, var(--bloom-vino) 42%, transparent), transparent 70%)',
+            'radial-gradient(ellipse 60% 40dvh at 50% 32%, color-mix(in oklab, var(--bloom-vino) 30%, transparent), transparent 68%), ' +
+            'radial-gradient(ellipse 60% 36dvh at 50% 78%, color-mix(in oklab, var(--bloom-vino) 23%, transparent), transparent 70%)',
         }}
       />
-      <ScreenHeader titulo="Mapa de poder" volverHref="/app/mas" tituloDisplay />
+      <ScreenHeader titulo="Mapa de poder" volverHref={volverHref} tituloDisplay />
 
       {mostrarFormulario ? (
         <div className="mt-4 flex flex-col gap-4">
