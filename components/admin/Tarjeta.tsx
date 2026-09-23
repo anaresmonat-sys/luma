@@ -4,23 +4,38 @@
 // entiende sin ser analista, ver docs/sistema/21-BACKOFFICE.md).
 
 import type { ReactNode } from 'react';
+import { Glosa } from './Glosa';
 
 export function Tarjeta({
   etiqueta,
   valor,
   insight,
   tono = 'normal',
+  icono,
+  glosa,
 }: {
   etiqueta: string;
   valor: ReactNode;
   insight?: string;
   tono?: 'normal' | 'alerta' | 'bien';
+  /** Emoji pequeño que identifica de un vistazo el tipo de dato (mismo sistema de íconos que el resto de LUMA). */
+  icono?: string;
+  /** Explicación en simple del término, si la etiqueta usa una palabra técnica o en inglés. */
+  glosa?: ReactNode;
 }) {
   const colorInsight =
     tono === 'alerta' ? 'var(--an-risk)' : tono === 'bien' ? 'var(--an-eye)' : 'var(--text-secondary)';
   return (
     <div className="rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_22%,transparent)] bg-[var(--surface)] p-4">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--text-tertiary)]">{etiqueta}</p>
+      <p className="flex items-center text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--text-tertiary)]">
+        {icono && (
+          <span aria-hidden="true" className="mr-1.5 text-[13px] normal-case">
+            {icono}
+          </span>
+        )}
+        {etiqueta}
+        {glosa && <Glosa termino={etiqueta}>{glosa}</Glosa>}
+      </p>
       <p className="mt-1.5 text-[26px] font-bold tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]">
         {valor}
       </p>

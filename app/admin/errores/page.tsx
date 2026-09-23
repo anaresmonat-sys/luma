@@ -3,12 +3,22 @@
 
 import { crearClienteServidor } from '@/lib/supabase/server';
 import { Tarjeta, Seccion, SinDatos } from '@/components/admin/Tarjeta';
+import { GraficoTendencia } from '@/components/admin/GraficoTendencia';
 
 export const dynamic = 'force-dynamic';
 
 function formatearFechaHora(iso: string): string {
   return new Date(iso).toLocaleString('es', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
 }
+
+// Los mensajes de error vienen tal cual de Supabase/Anthropic (a propósito —
+// nunca se inventa un "listo" falso), pero llegan en inglés. Traducción de los
+// más frecuentes para que se entiendan sin buscar nada; el resto se muestra
+// como llega, sin esconder información real.
+const TRADUCCION_ERRORES: Record<string, string> = {
+  'Error sending invite email':
+    'No se pudo enviar el correo de invitación — normalmente porque el remitente de correo (Resend) todavía está en modo de prueba y solo puede escribirle a tu propia cuenta.',
+};
 
 export default async function AdminErroresPage() {
   const supabase = await crearClienteServidor();
@@ -46,12 +56,33 @@ export default async function AdminErroresPage() {
   }
   const agrupados = [...porMensaje.entries()].sort((a, b) => b[1].veces - a[1].veces);
 
+  // Un punto por día de los últimos 7 (incluye los días en 0 para ver la forma real).
+  const porDia = new Map<string, number>();
+  for (const e of errores) {
+    const dia = e.created_at.slice(0, 10);
+    porDia.set(dia, (porDia.get(dia) ?? 0) + 1);
+  }
+  const tendencia = Array.from({ length: 7 }, (_, i) => {
+    const fecha = new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000);
+    const clave = fecha.toISOString().slice(0, 10);
+    return {
+      etiqueta: fecha.toLocaleDateString('es', { day: '2-digit', month: 'short' }),
+      valor: porDia.get(clave) ?? 0,
+    };
+  });
+
   return (
     <div>
       <Seccion titulo="Errores (últimos 7 días)">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          <Tarjeta etiqueta="Errores totales" valor={errores.length} tono="alerta" />
-          <Tarjeta etiqueta="Tipos distintos" valor={agrupados.length} />
+          <Tarjeta icono="🐞" etiqueta="Errores totales" valor={errores.length} tono="alerta" />
+          <Tarjeta icono="🗂️" etiqueta="Tipos distintos" valor={agrupados.length} />
+        </div>
+        <div className="mt-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--an-risk)_22%,transparent)] bg-[var(--surface)] p-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--text-tertiary)]">
+            Cuándo pasaron
+          </p>
+          <GraficoTendencia datos={tendencia} color="var(--an-risk)" />
         </div>
       </Seccion>
 
@@ -68,6 +99,11 @@ export default async function AdminErroresPage() {
                   {datos.veces}×
                 </span>
               </div>
+              {TRADUCCION_ERRORES[mensaje] && (
+                <p className="mt-1.5 text-[12.5px] leading-relaxed text-[var(--text-secondary)]">
+                  {TRADUCCION_ERRORES[mensaje]}
+                </p>
+              )}
               <p className="mt-1 text-[11.5px] text-[var(--text-tertiary)]">
                 {datos.contexto} · última vez {formatearFechaHora(datos.ultima)}
               </p>

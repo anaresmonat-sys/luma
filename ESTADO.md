@@ -7,15 +7,68 @@ se deja SIN cambios por ahora (decisión suya). PENDIENTES tras publicar: (1) Su
 Configuration: agregar el dominio de Vercel, si no el login por correo no funciona en producción; (2) existe un
 proyecto duplicado `luma-app` en Vercel, borrarlo cuando se confirme que `luma` funciona; (3) protección de las
 rutas de IA en el servidor (hoy cualquiera con la URL puede gastar el crédito de $10; tope natural = saldo).
-✅ CHECKPOINT — Sesión de pulido (2026-09-23), sin commitear todavía:
-- **Panel de administración (Capa 1) construido**, código completo y `tsc`/`build` verificados, pero
-  SIN probar en vivo: bloqueado porque `SUPABASE_SECRET_KEY` en `.env.local` está vacía. Incluye auth
-  real de admin (columna `role` + función `is_admin()` con RLS correcto tras corregir un permiso mal
-  puesto), páginas Resumen/Usuarios/IA/Errores/Ventas (Ventas honestamente "Sin datos", depende de
-  Hotmart), `event_log`/`error_log` en Supabase (solo el servidor escribe, sin política de INSERT para
-  clientes). PENDIENTE: el usuario debe pegar la clave real en `.env.local` y avisar "listo" para poder
-  probar el login de admin, agregar un usuario de prueba, y correr el revisor-visual sobre Resumen
-  (pantalla nueva, Regla 7).
+✅ CHECKPOINT — Gráficos en el panel de administración (2026-09-23, pedido explícito del
+usuario tras entrar por primera vez con su cuenta real: "añade gráficos allí donde sea
+necesario para que sea más visual"). Nuevos `components/admin/GraficoBarras.tsx` (barras
+horizontales, para comparar categorías — costo por función) y `GraficoTendencia.tsx` (área con
+degradé, para ver una curva día a día — incluye los días sin datos como 0 para que la forma real
+se vea). Ambos con Recharts (ya estaba en el proyecto), animados al cargar, sin rejilla ni 3D
+(principio Tufte del 17). Aplicados en:
+- Costo de IA → "Costo por función" (barras).
+- Errores → "Cuándo pasaron" (tendencia de 7 días, color de alerta).
+- Resumen → "Cuentas nuevas por día" (tendencia de 30 días, bajo Usuarios).
+**Bug real encontrado y corregido al probar con datos reales**: un componente 'use client' no
+puede recibir una FUNCIÓN de formateo definida en la página de servidor (regla de React Server
+Components) — rompía la pantalla de Costo de IA con un error real ("Functions cannot be passed
+directly to Client Components"). Se corrigió moviendo el formateo DENTRO del componente cliente,
+recibiendo solo un modo ('usd' | 'entero') en vez de la función. Verificado insertando datos de
+prueba temporales en Supabase para ver los 3 gráficos con curvas reales, luego borrados — no
+queda ningún dato de prueba en la base. tsc ✓ build ✓.
+
+✅ CHECKPOINT — Panel de administración: diseño profesional + burbujas de ayuda (2026-09-23,
+pedido explícito del usuario: "investiga en apps tops ventas... pon globos de información en
+palabras en inglés... que se vea profesional"). Investigación: patrones 2026 de dashboards SaaS
+(AdminLTE, SaaSFrame) — métrica que responde "¿todo bien?" primero, pestaña actual siempre
+marcada, un sistema visual consistente. Aplicado:
+- Nuevo `components/admin/Glosa.tsx`: burbuja "ⓘ" que funciona con TAP (no solo hover, porque
+  también se usa desde el celular) y se cierra sola al tocar fuera. Puesta junto a cada palabra
+  técnica o en inglés del panel: webhook, MRR, churn (rebautizada "cancelaciones" en el título de
+  su sección), dunning, LTV, CAC, Tokens, Rol — cada una con su explicación en español simple.
+  Bug propio detectado y corregido en el camino: la primera versión escondía la palabra misma
+  dentro de la burbuja en vez de dejarla visible con el ⓘ al lado — ya corregido en las 3
+  pantallas donde se usó.
+- Nuevo `components/admin/NavAdmin.tsx`: las 5 pestañas ahora marcan cuál es la actual (antes
+  todas se veían iguales sin importar dónde estabas parada — defecto real de usabilidad).
+- `Tarjeta.tsx` ahora acepta un ícono (mismo sistema de emojis que el resto de LUMA) y una
+  `glosa` opcional — aplicado a Usuarios/Costo de IA/Errores/Ventas.
+- Traducción lista para errores frecuentes en `app/admin/errores/page.tsx`
+  (`TRADUCCION_ERRORES`): el mensaje real de Supabase se sigue mostrando (nunca se esconde la
+  causa real), pero debajo aparece su explicación en simple si está en la lista.
+tsc ✓ build ✓; verificado en el navegador (burbujas abren/cierran bien, pestaña activa marca
+correcto). Sin commitear — falta confirmación del usuario para subir a GitHub.
+
+✅ CHECKPOINT — Sesión de pulido (2026-09-23) + panel de administración PROBADO EN VIVO:
+- **Panel de administración (Capa 1) construido y verificado en vivo** con la cuenta real de la
+  dueña. Las 5 pantallas (Resumen/Usuarios/Costo de IA/Errores/Ventas) cargan con datos reales de
+  Supabase: 1 cuenta total, $0 gastado, 0 errores al inicio. El acceso solo-admin funciona (auth real
+  + RLS por `is_admin()`).
+- **Bug real encontrado durante la prueba, con causa raíz clara (no es un bug de código)**: al agregar
+  un usuario de prueba a mano, el envío del correo de invitación falla con "Error sending invite
+  email". Causa: Resend (el servicio de correo) está en modo de prueba con el remitente temporal
+  `onboarding@resend.dev` — mientras no se compre y verifique un dominio propio, SOLO puede enviar
+  correos a la casilla de la propia cuenta de Resend, a nadie más. Es el mismo pendiente ya conocido
+  ("comprar dominio propio", Sesión 6 punto 5), confirmado ahora en la práctica. NO es necesario
+  arreglar código: cuando se conecte el dominio real, esto funciona solo.
+  **Buena noticia verificada**: cuando el envío del correo falla, la app NO deja usuarios a medio
+  crear — se confirmó con una consulta directa a la base de datos que no quedó ninguna cuenta
+  huérfana tras los 2 intentos fallidos (el manejo de errores ya escrito funciona bien).
+  **Otra cosa que se comprobó funcionando sola**: la pantalla de Errores registró y contó
+  correctamente los 2 intentos fallidos en tiempo real ("Error sending invite email · 2×").
+  ⚠️ PENDIENTE (no bloquea, es la causa raíz real): comprar/verificar un dominio propio en Resend
+  para poder invitar a usuarias reales por correo — hasta entonces, "Agregar usuario a mano" solo
+  funcionará probándolo con el correo de la propia cuenta de Resend.
+  Falta correr el revisor-visual sobre Resumen (pantalla nueva de un tipo no visto antes, Regla 7) —
+  no se hizo hoy, queda para la próxima sesión de pulido de diseño.
 - **Auditoría de seguridad/calidad pedida por el usuario → arreglado**: rate limiting en memoria (8/min
   IA, 30/min logs, 10/min admin) en `lib/rate-limit.ts`; whitelisting de numerología (arcano) y signos
   zodiacales en `/api/numerologia` y `/api/compatibilidad`; cabeceras de seguridad en `next.config.ts`

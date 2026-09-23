@@ -7,6 +7,7 @@
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
 import { Tarjeta, Seccion, SinDatos } from '@/components/admin/Tarjeta';
 import { FormularioAgregarUsuario } from '@/components/admin/FormularioAgregarUsuario';
+import { Glosa } from '@/components/admin/Glosa';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,8 +44,12 @@ export default async function AdminUsuariosPage() {
     <div>
       <Seccion titulo="Usuarios">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          <Tarjeta etiqueta="Total de cuentas" valor={usuarios.length} />
-          <Tarjeta etiqueta="Con plan activo" valor={usuarios.filter((u) => u.estadoPlan === 'active').length} />
+          <Tarjeta icono="👥" etiqueta="Total de cuentas" valor={usuarios.length} />
+          <Tarjeta
+            icono="💳"
+            etiqueta="Con plan activo"
+            valor={usuarios.filter((u) => u.estadoPlan === 'active').length}
+          />
         </div>
       </Seccion>
 
@@ -67,7 +72,15 @@ export default async function AdminUsuariosPage() {
                   <th className="px-3 py-2.5">Plan</th>
                   <th className="px-3 py-2.5">Alta</th>
                   <th className="px-3 py-2.5">Última vez</th>
-                  <th className="px-3 py-2.5">Rol</th>
+                  <th className="px-3 py-2.5">
+                    <span className="inline-flex items-center">
+                      Rol
+                      <Glosa termino="Rol">
+                        Qué puede hacer esa cuenta: "Usuaria" solo ve su propia app; "Admin" (como tú) puede entrar
+                        a este panel privado.
+                      </Glosa>
+                    </span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
