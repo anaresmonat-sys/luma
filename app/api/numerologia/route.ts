@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server';
 import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
 import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
+import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
 import { MAZO_TAROT } from '@/lib/tarotDeck';
 
 // Auditoría de seguridad, 2026-09-23: `arcano` llegaba como texto libre sin
@@ -58,6 +59,13 @@ export async function POST(request: Request) {
   if (limiteExcedido(`numerologia:${identificadorDePeticion(request)}`, 8, 60_000)) {
     return NextResponse.json({ error: 'Demasiadas peticiones seguidas — espera un momento.' }, { status: 429 });
   }
+  if (await topeDiarioIAExcedido()) {
+    return NextResponse.json(
+      { error: 'LUMA está muy solicitada hoy — vuelve a intentarlo mañana.' },
+      { status: 503 }
+    );
+  }
+  const usuarioIdIA = await idUsuarioOpcional();
 
   let cuerpo: CuerpoEntrada;
   try {
@@ -87,7 +95,7 @@ export async function POST(request: Request) {
     });
 
     const bloqueTexto = respuesta.content.find((b) => b.type === 'text');
-    await registrarLlamadaIA('numerologia', AI_MODEL, respuesta.usage.input_tokens, respuesta.usage.output_tokens);
+    await registrarLlamadaIA('numerologia', AI_MODEL, respuesta.usage.input_tokens, respuesta.usage.output_tokens, usuarioIdIA);
     const crudo = bloqueTexto && bloqueTexto.type === 'text' ? bloqueTexto.text : '';
     const resultado = crudo ? extraerJSON(crudo) : null;
 

@@ -7,6 +7,38 @@ se deja SIN cambios por ahora (decisión suya). PENDIENTES tras publicar: (1) Su
 Configuration: agregar el dominio de Vercel, si no el login por correo no funciona en producción; (2) existe un
 proyecto duplicado `luma-app` en Vercel, borrarlo cuando se confirme que `luma` funciona; (3) protección de las
 rutas de IA en el servidor (hoy cualquiera con la URL puede gastar el crédito de $10; tope natural = saldo).
+✅ CHECKPOINT — AUDITORÍA DE SEGURIDAD completa (2026-09-23, pedida por el usuario; Etapa 1 solo
+lectura, Etapa 2 aplicada tras su "aplica todo lo que puedas"). 11 hallazgos (4 críticos).
+**APLICADO y verificado:** (1) CRÍTICO — cualquier usuaria podía ascenderse a admin editando
+`profiles.role` (la política `update_own`/`insert_own` no limitaba columnas): migración
+`proteger_rol_perfil` (trigger que rechaza cambios de rol desde `authenticated`/`anon`; el
+servidor y las migraciones sí pueden). Probado simulando una usuaria: cambio de rol bloqueado,
+edición normal del perfil intacta, la cuenta admin sigue admin. (2, parcial) `lib/tope-ia.ts`:
+tope diario de gasto de IA en el servidor (`AI_DAILY_BUDGET_USD`, por defecto US$5) en las 6
+rutas de IA — si se pasa responde 503 con mensaje amable; si la consulta falla NO bloquea a
+nadie (fail-open a propósito). Probado: con un gasto simulado de $6 corta; sin él, responde 200.
+(6) las llamadas de IA ahora anotan el `user_id` cuando hay sesión (probado con y sin sesión).
+(7) HSTS agregado en `next.config.ts` (sin includeSubDomains/preload); verificado en las
+cabeceras servidas. Ya arreglados antes ese día: open redirect de `/auth/callback` y CSRF de
+`/api/cuenta/eliminar`. tsc ✓ build ✓; `npm audit` = 0 vulnerabilidades.
+**NO aplicado, y por qué (decisiones del usuario o accesos que no tengo):**
+- CRÍTICO 2/3 — las rutas de IA siguen sin exigir sesión y la prueba gratis/plan siguen en
+  localStorage (`lib/prueba-gratis.ts`); `/app/*` no exige sesión. Arreglarlo de verdad cambia el
+  recorrido de quien prueba sin cuenta → decisión del usuario pendiente (exigir cuenta vs. tope
+  por dispositivo) + requiere estado de plan en servidor (depende de Hotmart).
+- CRÍTICO 4 — no existe `/api/webhooks/hotmart`. NO se construyó a ciegas: la guía (18) exige
+  capturar el JSON real con una compra de prueba, necesita `HOTMART_HOTTOK` del usuario y hoy
+  nada lee `subscriptions` para dar/quitar acceso. Se hace en la sesión de conexión de Hotmart.
+- CSP (cabecera) sigue pendiente por riesgo de romper hidratación; `/api/log-error` y
+  `/api/log-event` abiertas (límite en memoria); actualizar libs (no hay vulnerabilidades, cada
+  actualización es riesgo sin ganancia de seguridad hoy).
+**Lo que debe hacer el usuario a mano:** Supabase → Authentication (duración/uso único del enlace,
+límites de envío, desactivar registro con contraseña si no se usa, tiempo de sesión, dominio de
+Vercel en URLs permitidas); Vercel → variables `SUPABASE_URL` y `SUPABASE_SECRET_KEY` (sin ellas
+el panel admin y "eliminar cuenta" fallan en producción); tope mensual en la consola de
+Anthropic; VERIFICAR DOMINIO EN RESEND (hoy solo puede escribirle al correo de la dueña: ningún
+cliente nuevo recibe su enlace de acceso).
+
 ✅ CHECKPOINT — AUDITORÍA LEGAL completa (2026-09-23, pedida explícitamente por el usuario:
 "revisa todo lo que tenga que ver con lo legal, con los términos y la privacidad e investiga a
 detalle sobre esto"). Responsable declarado: Margarita Añares Chatlak, persona física, España

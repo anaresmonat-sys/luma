@@ -18,6 +18,9 @@ const nextConfig: NextConfig = {
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+          // Fuerza HTTPS durante 1 año; sin includeSubDomains/preload a propósito
+          // (no se sabe qué subdominios tendrá el dominio propio futuro).
+          { key: "Strict-Transport-Security", value: "max-age=31536000" },
         ],
       },
     ];
