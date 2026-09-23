@@ -12,6 +12,7 @@ import { calcularCostoUsd } from '@/lib/ai-pricing';
 export const TIPOS_DE_EVENTO = [
   'primera_accion', // activación: el primer resultado real que recibe (lib/prueba-gratis.ts)
   'onboarding_completado',
+  'cuenta_eliminada', // auditoría legal 2026-09-23: derecho de eliminación (47-LEGAL-FISCAL-Y-PRIVACIDAD.md §3)
 ] as const;
 export type TipoDeEvento = (typeof TIPOS_DE_EVENTO)[number];
 

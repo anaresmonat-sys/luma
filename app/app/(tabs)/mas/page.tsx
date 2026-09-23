@@ -7,23 +7,31 @@
 // usuario en la auditoría 2026-09-18; todavía no hay tabla `subscriptions`
 // conectada, así que el estado honesto hoy es "sin plan" hasta que Hotmart
 // esté conectado — nunca se inventa un plan que la persona no tiene).
-// Reutiliza las páginas legales ya construidas en la landing (privacidad/
-// términos) en vez de duplicarlas. Notificaciones/Ayuda aún no tienen pantalla
-// propia: aviso "Próximamente" honesto en vez de un enlace muerto (11 — todo
-// elemento tocable responde algo). "Cerrar sesión" ahora cierra la sesión de
-// Supabase de verdad (antes solo navegaba a "/" sin tocar la sesión).
+// Reutiliza las páginas legales ya construidas en vez de duplicarlas.
+// "Cerrar sesión" cierra la sesión de Supabase de verdad.
+//
+// Auditoría legal 2026-09-23 (docs/sistema/47-LEGAL-FISCAL-Y-PRIVACIDAD.md):
+// (1) el nombre mostrado era el de los datos de ejemplo ("Ana") sin importar
+// quién había iniciado sesión — mismo defecto ya corregido en Inicio, corregido
+// aquí igual (correo real o genérico, nunca un nombre inventado); (2) faltaban
+// los enlaces a Cookies/Reembolsos/Aviso de IA; (3) no existía "Cómo cancelar"
+// ni "Eliminar mi cuenta" — ambas obligatorias, ninguna existía hasta hoy.
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
-import { USUARIA } from '@/lib/seed-datos';
+import { User } from 'lucide-react';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { pruebaGratisDisponible } from '@/lib/prueba-gratis';
 
 const ENLACES = [
+  { emoji: '↩️', label: 'Cómo cancelar', href: '/app/cancelar' },
   { emoji: '📄', label: 'Términos', href: '/terminos' },
   { emoji: '🔒', label: 'Privacidad', href: '/privacidad' },
+  { emoji: '💳', label: 'Reembolsos', href: '/reembolsos' },
+  { emoji: '🍪', label: 'Cookies', href: '/cookies' },
+  { emoji: '✨', label: 'Aviso sobre la IA', href: '/aviso-ia' },
 ];
 
 const PROXIMAMENTE = [
@@ -35,8 +43,12 @@ export default function MasPage() {
   const router = useRouter();
   const [aviso, setAviso] = useState<string | null>(null);
   const [conSesion, setConSesion] = useState(false);
+  const [correo, setCorreo] = useState<string | null>(null);
   const [cerrando, setCerrando] = useState(false);
   const [gratisDisponible, setGratisDisponible] = useState(true);
+  const [confirmandoBorrado, setConfirmandoBorrado] = useState(false);
+  const [borrando, setBorrando] = useState(false);
+  const [errorBorrado, setErrorBorrado] = useState<string | null>(null);
 
   useEffect(() => {
     setGratisDisponible(pruebaGratisDisponible());
@@ -46,7 +58,10 @@ export default function MasPage() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (!cancelado) setConSesion(Boolean(user));
+      if (!cancelado) {
+        setConSesion(Boolean(user));
+        setCorreo(user?.email ?? null);
+      }
     })();
     return () => {
       cancelado = true;
@@ -66,6 +81,30 @@ export default function MasPage() {
     router.refresh();
   }
 
+  async function eliminarCuenta() {
+    setBorrando(true);
+    setErrorBorrado(null);
+    try {
+      const res = await fetch('/api/cuenta/eliminar', { method: 'POST' });
+      if (!res.ok) throw new Error();
+      // Borra también lo guardado en este dispositivo (diario, tiradas, círculo…).
+      try {
+        Object.keys(window.localStorage)
+          .filter((k) => k.startsWith('luma_'))
+          .forEach((k) => window.localStorage.removeItem(k));
+      } catch {
+        // Sin acceso a localStorage: nada más que limpiar.
+      }
+      const supabase = crearClienteNavegador();
+      await supabase.auth.signOut();
+      router.push('/');
+      router.refresh();
+    } catch {
+      setErrorBorrado('No se pudo eliminar tu cuenta. Inténtalo de nuevo en un momento.');
+      setBorrando(false);
+    }
+  }
+
   return (
     <div className="flex min-h-min flex-1 flex-col pb-4 pt-3">
       <div className="flex shrink-0 items-center py-2">
@@ -74,13 +113,13 @@ export default function MasPage() {
 
       <div className="mt-2 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] p-4">
         <span
-          className="flex size-12 shrink-0 items-center justify-center rounded-full text-[16px] font-bold text-[var(--on-accent)]"
+          className="flex size-12 shrink-0 items-center justify-center rounded-full"
           style={{ background: 'linear-gradient(150deg, var(--accent-lite), var(--card-title))' }}
         >
-          {USUARIA.nombre.charAt(0)}
+          <User size={20} strokeWidth={2.5} color="var(--on-accent)" aria-hidden="true" />
         </span>
         <div className="flex-1">
-          <p className="text-[15px] font-semibold text-[var(--text-primary)]">{USUARIA.nombre}</p>
+          <p className="text-[15px] font-semibold text-[var(--text-primary)]">{correo ?? 'Tu cuenta'}</p>
           {gratisDisponible ? (
             <p className="mt-0.5 text-[11px] font-semibold text-[var(--text-secondary)]">Sin plan activo todavía</p>
           ) : (
@@ -154,6 +193,47 @@ export default function MasPage() {
         >
           {cerrando ? 'Cerrando sesión…' : 'Cerrar sesión'}
         </button>
+      )}
+
+      {conSesion && (
+        <div className="mt-6 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--an-risk)_30%,transparent)] p-4">
+          <p className="text-[12.5px] font-semibold text-[var(--an-risk)]">Zona de riesgo</p>
+          {!confirmandoBorrado ? (
+            <button
+              type="button"
+              onClick={() => setConfirmandoBorrado(true)}
+              className="mt-2 text-[13px] font-semibold text-[var(--text-secondary)] underline underline-offset-2"
+            >
+              Eliminar mi cuenta y todos mis datos
+            </button>
+          ) : (
+            <div className="mt-2 flex flex-col gap-3">
+              <p className="text-[12.5px] leading-relaxed text-[var(--text-secondary)]">
+                Esto borra para siempre tu diario, tus tiradas, tus conversaciones con el coach y tu círculo. No se
+                puede deshacer.
+              </p>
+              {errorBorrado && <p className="text-[12px] font-semibold text-[var(--an-risk)]">{errorBorrado}</p>}
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={eliminarCuenta}
+                  disabled={borrando}
+                  className="flex h-10 flex-1 items-center justify-center rounded-[var(--radius-button)] bg-[var(--an-risk)] text-[13px] font-semibold text-[var(--on-accent)] disabled:opacity-60"
+                >
+                  {borrando ? 'Eliminando…' : 'Sí, eliminar todo'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setConfirmandoBorrado(false)}
+                  disabled={borrando}
+                  className="flex h-10 flex-1 items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--text-tertiary)_30%,transparent)] text-[13px] font-semibold text-[var(--text-secondary)]"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

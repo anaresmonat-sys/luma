@@ -14,6 +14,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton } from '@/components/app/AppButton';
 import { MoodPicker } from '@/components/app/MoodPicker';
+import { AvisoIA } from '@/components/app/AvisoIA';
 import { EMOCIONES_DIARIO, ENTRADA_DIARIO_EJEMPLO } from '@/lib/seed-datos';
 import { leerYLimpiarEntradaPendiente } from '@/lib/almacenamiento-diario';
 import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
@@ -252,6 +253,7 @@ export default function DiarioPage() {
             </p>
           </motion.div>
         )}
+        {patron && <AvisoIA className="mt-2" />}
 
         {errorPatron && (
           <motion.p variants={item} className="mt-4 text-center text-[11px] font-semibold text-[var(--an-risk)]">

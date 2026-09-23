@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppLinkButton } from '@/components/app/AppButton';
+import { AvisoIA } from '@/components/app/AvisoIA';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { TIRADAS_TAROT } from '@/lib/seed-datos';
 import { guardarEntradaPendiente } from '@/lib/almacenamiento-diario';
@@ -343,6 +344,7 @@ export default function TarotPage() {
                           Guardar en mi diario
                         </AppLinkButton>
                       </div>
+                      <AvisoIA className="text-center" />
                     </div>
                   </motion.div>
                 )}

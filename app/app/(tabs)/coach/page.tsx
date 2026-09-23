@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { LumaAvatar } from '@/components/app/LumaAvatar';
+import { AvisoIA } from '@/components/app/AvisoIA';
 import type { MensajeCoach } from '@/lib/seed-datos';
 import { aperturaCoach } from '@/lib/coach-saludo';
 import { leerRespuestas } from '@/lib/almacenamiento-onboarding';
@@ -263,6 +264,7 @@ export default function CoachPage() {
           </svg>
         </motion.button>
       </form>
+      <AvisoIA className="mt-2 text-center" />
     </div>
   );
 }

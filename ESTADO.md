@@ -7,6 +7,71 @@ se deja SIN cambios por ahora (decisión suya). PENDIENTES tras publicar: (1) Su
 Configuration: agregar el dominio de Vercel, si no el login por correo no funciona en producción; (2) existe un
 proyecto duplicado `luma-app` en Vercel, borrarlo cuando se confirme que `luma` funciona; (3) protección de las
 rutas de IA en el servidor (hoy cualquiera con la URL puede gastar el crédito de $10; tope natural = saldo).
+✅ CHECKPOINT — AUDITORÍA LEGAL completa (2026-09-23, pedida explícitamente por el usuario:
+"revisa todo lo que tenga que ver con lo legal, con los términos y la privacidad e investiga a
+detalle sobre esto"). Responsable declarado: Margarita Añares Chatlak, persona física, España
+(dato dado por el usuario) — contacto: anares.monat@gmail.com (temporal, se cambia al comprar
+dominio). Como el responsable opera desde España, el RGPD (normativa europea) es el marco que
+manda, aunque la mayoría de clientas estén en LATAM — el RGPD es más exigente que las leyes
+LATAM (LGPD/Ley 1581/LFPDPPP), así que una política fuerte en RGPD las cubre a todas.
+**Encontrado ANTES de corregir (inventario real, no supuesto):** las 5 páginas legales estaban
+literalmente vacías ("Esta página está en preparación" + una frase genérica repetida) — nada
+describía lo que la app hace de verdad. Tampoco existía: función para eliminar cuenta (derecho
+de eliminación, obligatorio), aviso de IA visible junto a las respuestas (solo hubiera estado
+enterrado en unos Términos que no existían), consentimiento a Términos/Privacidad en el registro,
+página "Cómo cancelar" dentro de la app.
+**Corregido:**
+- Las 5 páginas (Privacidad/Términos/Reembolsos/Aviso de IA/Cookies) reescritas con contenido
+  real y específico de LUMA: qué datos recoge (correo, fecha de nacimiento para numerología,
+  texto de diario/coach/tarot/descifrar, y datos de TERCEROS que la usuaria mete en El Círculo —
+  declarado explícitamente), subprocesadores NOMBRADOS con su función (Supabase, Anthropic,
+  Vercel, Resend, Hotmart), transferencia internacional a Anthropic (EEUU) declarada, derechos
+  del titular, fecha de última actualización. `PaginaLegal.tsx` ahora soporta `actualizado` +
+  estilos para h2/ul/strong/a (antes solo texto plano).
+- Nuevo `app/api/cuenta/eliminar/route.ts` + UI en Más ("Zona de riesgo", con confirmación de 2
+  pasos): borra el usuario de auth.users, que arrastra en CASCADE (verificado en el esquema real)
+  todas sus filas — profiles, checkins, journal_entries, coach_messages, tarot_readings,
+  situations, relationships, circulo_perfiles, subscriptions, onboarding_answers, daily_cards.
+  ai_calls/event_log/error_log quedan anonimizados (SET NULL), correcto: son registros del
+  negocio, no datos personales.
+- Nuevo `components/app/AvisoIA.tsx`, agregado junto a la salida real de IA en las 4 pantallas
+  (Descifrar, Coach, Tarot, Diario) — antes no existía en NINGÚN lugar de la app, solo iba a
+  quedar enterrado en los Términos.
+- Nueva `app/app/cancelar/page.tsx` ("Cómo cancelar"), enlazada desde Más junto con Cookies,
+  Reembolsos y Aviso de IA (antes solo Términos+Privacidad estaban enlazados ahí).
+- `/entrar`: agregado texto "Al continuar, aceptas nuestros Términos y Privacidad" con enlaces
+  (antes no existía ningún consentimiento en el punto de registro). Decisión de diseño: texto
+  de aviso, NO checkbox obligatorio — la misma pantalla sirve para login Y registro (un solo
+  campo de correo), y forzar un checkbox ahí penalizaría a quien ya tiene cuenta. Anotado como
+  aceptable para MVP; Colombia exige checkbox explícito, ver pendientes abajo.
+- Bug encontrado de paso (mismo patrón que ya se había corregido en Inicio): la pantalla Más
+  mostraba el nombre falso "Ana" de los datos de ejemplo sin importar quién inició sesión —
+  corregido a mostrar el correo real de la sesión + ícono genérico.
+tsc ✓ build ✓; verificado en el navegador (páginas legales, Más con correo real y zona de
+riesgo, pantalla Cómo cancelar).
+**RESUELTO después (mismo día, a pedido del usuario "soluciona lo que queda pendiente"):** (a) el
+paywall ahora muestra la FECHA EXACTA del primer cobro (hoy + 3 días, ej. "26 de septiembre"),
+no "día 3"; (b) `/entrar` ahora tiene casilla de aceptación de Términos + Privacidad (incluye
+la autorización del envío de textos a la IA en EE. UU.), NUNCA premarcada ni guardada en
+localStorage, y bloquea el envío hasta marcarla — reemplaza el texto de aviso anterior; cubre
+también el requisito colombiano. tsc ✓; probado en el navegador (sin marcar → "Marca la casilla
+para continuar").
+**PENDIENTE — solo un humano puede resolverlo (los ítems de fecha exacta y Colombia de esta
+lista ya quedaron resueltos arriba):**
+- ⚠️ Validar con un abogado local (España, por el RGPD) antes de una escala seria de ventas —
+  esta auditoría es de completitud profesional, no asesoría legal colegiada.
+- ⚠️ Cuando se conecte Hotmart: verificar en SU panel que la garantía del producto esté
+  configurada a 7 días (coherente con lo ya prometido en landing/paywall/Reembolsos) — prometer
+  7 con menos configurado en Hotmart es un incumplimiento real.
+- ⚠️ El "1er cobro (día 3)" del paywall muestra un conteo de días, no la fecha exacta del
+  calendario — mejora pendiente, no bloqueante (Hotmart mismo mostrará la fecha real en su
+  checkout cuando se conecte).
+- ⚠️ Colombia exige checkbox explícito de autorización (no solo texto) — si LUMA vende fuerte
+  ahí, sumar el checkbox en el registro.
+- ⚠️ Domicilio/NIF de la responsable no están publicados (solo nombre + país + correo) — para
+  cumplimiento LSSI-CE completo en España hace falta un "Aviso Legal" con más datos de
+  identificación; se dejó fuera a propósito por privacidad del fundador en esta etapa MVP.
+
 ✅ CHECKPOINT — Gráficos en el panel de administración (2026-09-23, pedido explícito del
 usuario tras entrar por primera vez con su cuenta real: "añade gráficos allí donde sea
 necesario para que sea más visual"). Nuevos `components/admin/GraficoBarras.tsx` (barras

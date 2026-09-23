@@ -9,10 +9,11 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
+import { User } from 'lucide-react';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { MoodPicker } from '@/components/app/MoodPicker';
 import { AppLinkButton } from '@/components/app/AppButton';
-import { USUARIA, EMOCIONES_INICIO } from '@/lib/seed-datos';
+import { EMOCIONES_INICIO } from '@/lib/seed-datos';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { calcularRacha, calcularTermometro, type Checkin, type Termometro } from '@/lib/racha';
 import { cartaDelDia, citaDeCarta } from '@/lib/tarotDeck';
@@ -103,10 +104,10 @@ export default function InicioPage() {
         </span>
         <Link href="/app/mas" aria-label="Tu cuenta" className="flex size-11 items-center justify-center">
           <span
-            className="flex size-7 items-center justify-center rounded-full text-[12px] font-bold text-[var(--on-accent)]"
+            className="flex size-7 items-center justify-center rounded-full"
             style={{ background: 'linear-gradient(150deg, var(--accent-lite), var(--card-title))' }}
           >
-            {USUARIA.nombre.charAt(0)}
+            <User size={14} strokeWidth={2.5} color="var(--on-accent)" aria-hidden="true" />
           </span>
         </Link>
       </div>
@@ -119,9 +120,7 @@ export default function InicioPage() {
       >
         <div>
           <div className="flex items-center justify-between">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">
-              {saludo}, {USUARIA.nombre}
-            </p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">{saludo}</p>
             {racha >= 2 && (
               <span className="flex items-center gap-1 text-[11px] font-semibold text-[var(--text-secondary)]">
                 🔥 {racha} días

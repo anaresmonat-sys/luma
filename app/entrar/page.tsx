@@ -19,6 +19,7 @@ const REENVIAR_SEGUNDOS = 60;
 const MENSAJE_EMAIL_INVALIDO = 'Escribe un correo válido para continuar.';
 const MENSAJE_ENVIO_FALLIDO = 'No pudimos enviarte el enlace. Inténtalo de nuevo en un momento.';
 const MENSAJE_ENLACE_EXPIRADO = 'Ese enlace ya no es válido. Pide uno nuevo.';
+const MENSAJE_SIN_ACEPTAR = 'Marca la casilla para continuar.';
 
 export default function EntrarLuma() {
   const reduce = useReducedMotion();
@@ -27,6 +28,10 @@ export default function EntrarLuma() {
   const [mensajeError, setMensajeError] = useState(MENSAJE_EMAIL_INVALIDO);
   const [segundosRestantes, setSegundosRestantes] = useState(0);
   const [avisoGoogle, setAvisoGoogle] = useState(false);
+  // Aceptación de Términos/Privacidad: nace SIEMPRE sin marcar y jamás se
+  // guarda en localStorage — un consentimiento premarcado en un dispositivo
+  // compartido atribuiría la decisión de una persona a otra (47-LEGAL §2.5).
+  const [acepta, setAcepta] = useState(false);
   // ?desde=paywall (enlace de "Restaurar compra"): ofrece volver ahí en vez
   // de perder el contexto de compra con un genérico "Volver al inicio".
   const [vieneDePaywall, setVieneDePaywall] = useState(false);
@@ -49,6 +54,11 @@ export default function EntrarLuma() {
   async function enviar() {
     if (!REGEX_EMAIL.test(email)) {
       setMensajeError(MENSAJE_EMAIL_INVALIDO);
+      setEstado('error');
+      return;
+    }
+    if (!acepta) {
+      setMensajeError(MENSAJE_SIN_ACEPTAR);
       setEstado('error');
       return;
     }
@@ -190,6 +200,28 @@ export default function EntrarLuma() {
                   : 'border-[color-mix(in_oklab,var(--accent)_28%,transparent)]'
               }`}
             />
+            <label className="flex cursor-pointer items-start gap-3 text-[12.5px] leading-relaxed text-[var(--text-secondary)]">
+              <input
+                type="checkbox"
+                checked={acepta}
+                onChange={(e) => {
+                  setAcepta(e.target.checked);
+                  if (estado === 'error') setEstado('reposo');
+                }}
+                className="mt-0.5 size-5 shrink-0 accent-[var(--accent)]"
+              />
+              <span>
+                Acepto los{' '}
+                <a href="/terminos" target="_blank" className="underline underline-offset-2">
+                  Términos
+                </a>{' '}
+                y autorizo el tratamiento de mis datos según la{' '}
+                <a href="/privacidad" target="_blank" className="underline underline-offset-2">
+                  Política de Privacidad
+                </a>
+                , incluido el envío de mis textos a un proveedor de IA en EE. UU.
+              </span>
+            </label>
             {estado === 'error' && (
               <p className="text-[13px] text-[var(--accent-2)]">{mensajeError}</p>
             )}
@@ -221,6 +253,7 @@ export default function EntrarLuma() {
           <p className="mt-1 text-center text-[13px] text-[var(--text-tertiary)]">
             Sin contraseñas: te llegará un enlace de un solo uso
           </p>
+
 
           {/* Acceso de la dueña para revisar la app por dentro. Solo existe mientras la
               app corre en tu computadora (`next dev`): en la versión publicada este

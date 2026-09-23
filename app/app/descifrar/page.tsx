@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton, AppLinkButton } from '@/components/app/AppButton';
+import { AvisoIA } from '@/components/app/AvisoIA';
 import { CONVERSACION_EJEMPLO } from '@/lib/seed-datos';
 import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
 import { guardarMensajePendiente } from '@/lib/almacenamiento-coach';
@@ -271,6 +272,9 @@ export default function DescifrarPage() {
                 >
                   ¿Qué podría responderle?
                 </Link>
+              </motion.div>
+              <motion.div variants={item}>
+                <AvisoIA />
               </motion.div>
             </motion.div>
           )}

@@ -28,6 +28,16 @@ import { desbloquearPorPlan } from '@/lib/prueba-gratis';
 
 const TRIAL_DIAS = 3;
 
+// Fecha exacta del primer cobro (hoy + días de prueba) — el marco legal de
+// renovaciones automáticas exige la fecha, no un conteo de días (47-LEGAL §2).
+// Solo se llama desde la vista previa de pago, que aparece tras un clic (nunca
+// en el render inicial del servidor), así que no hay riesgo de hidratación.
+function fechaPrimerCobro(): string {
+  const fecha = new Date();
+  fecha.setDate(fecha.getDate() + TRIAL_DIAS);
+  return fecha.toLocaleDateString('es', { day: 'numeric', month: 'long' });
+}
+
 const PLAN_ANUAL: PlanPaywall = {
   id: 'anual',
   nombre: 'Anual',
@@ -125,7 +135,7 @@ export default function PaywallLuma() {
               <span className="font-semibold text-[var(--accent)]">$0,00</span>
             </div>
             <div className="mt-2 flex items-center justify-between text-[14px]">
-              <span className="text-[var(--text-secondary)]">1er cobro (día {TRIAL_DIAS})</span>
+              <span className="text-[var(--text-secondary)]">1er cobro ({fechaPrimerCobro()})</span>
               <span className="font-semibold text-[var(--text-primary)]">{PRECIO_TEXTO[seleccionado]}</span>
             </div>
           </div>
