@@ -13,6 +13,8 @@
 
 import { NextResponse } from 'next/server';
 import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
+import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
+import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
@@ -83,6 +85,10 @@ function normalizarCarta(c: unknown): CartaValida | null {
 }
 
 export async function POST(request: Request) {
+  if (limiteExcedido(`tarot:${identificadorDePeticion(request)}`, 8, 60_000)) {
+    return NextResponse.json({ error: 'Demasiadas peticiones seguidas — espera un momento.' }, { status: 429 });
+  }
+
   let cuerpo: CuerpoEntrada;
   try {
     cuerpo = await request.json();
@@ -124,6 +130,7 @@ export async function POST(request: Request) {
     });
 
     const bloqueTexto = respuesta.content.find((b) => b.type === 'text');
+    await registrarLlamadaIA('tarot', AI_MODEL, respuesta.usage.input_tokens, respuesta.usage.output_tokens);
     const texto = bloqueTexto && bloqueTexto.type === 'text' ? bloqueTexto.text.trim() : '';
 
     if (!texto) {
@@ -133,6 +140,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ texto });
   } catch (error) {
     console.error('Error en /api/tarot:', error instanceof Error ? error.message : error);
+    await registrarError(error instanceof Error ? error.message : String(error), '/api/tarot');
     return NextResponse.json({ error: 'No se pudo generar la lectura' }, { status: 502 });
   }
 }

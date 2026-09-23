@@ -6,6 +6,8 @@
 
 import { NextResponse } from 'next/server';
 import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
+import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
+import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
@@ -18,6 +20,10 @@ Tono cálido, directo y empático, como una amiga sabia. Nunca predigas el futur
 const MAX_CARACTERES = 2000;
 
 export async function POST(request: Request) {
+  if (limiteExcedido(`diario:${identificadorDePeticion(request)}`, 8, 60_000)) {
+    return NextResponse.json({ error: 'Demasiadas peticiones seguidas — espera un momento.' }, { status: 429 });
+  }
+
   let cuerpo: { texto?: unknown; animo?: unknown };
   try {
     cuerpo = await request.json();
@@ -46,6 +52,7 @@ export async function POST(request: Request) {
     });
 
     const bloqueTexto = respuesta.content.find((b) => b.type === 'text');
+    await registrarLlamadaIA('diario', AI_MODEL, respuesta.usage.input_tokens, respuesta.usage.output_tokens);
     const patron = bloqueTexto && bloqueTexto.type === 'text' ? bloqueTexto.text.trim() : '';
 
     if (!patron) {
@@ -55,6 +62,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ patron });
   } catch (error) {
     console.error('Error en /api/diario:', error instanceof Error ? error.message : error);
+    await registrarError(error instanceof Error ? error.message : String(error), '/api/diario');
     return NextResponse.json({ error: 'No se pudo generar la reflexión' }, { status: 502 });
   }
 }

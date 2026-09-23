@@ -6,6 +6,13 @@
 
 import { NextResponse } from 'next/server';
 import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
+import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
+import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
+import { SIGNOS_ZODIACO } from '@/lib/zodiaco';
+
+// Auditoría de seguridad, 2026-09-23: mismo caso que /api/numerologia —
+// signo1/signo2 llegaban como texto libre sin validar contra los 12 signos reales.
+const NOMBRES_SIGNOS = new Set(SIGNOS_ZODIACO.map((s) => s.nombre));
 
 export const runtime = 'nodejs';
 
@@ -50,6 +57,10 @@ function extraerJSON(texto: string): ResultadoJSON | null {
 }
 
 export async function POST(request: Request) {
+  if (limiteExcedido(`compatibilidad:${identificadorDePeticion(request)}`, 8, 60_000)) {
+    return NextResponse.json({ error: 'Demasiadas peticiones seguidas — espera un momento.' }, { status: 429 });
+  }
+
   let cuerpo: CuerpoEntrada;
   try {
     cuerpo = await request.json();
@@ -59,7 +70,7 @@ export async function POST(request: Request) {
 
   const signo1 = typeof cuerpo.signo1 === 'string' ? cuerpo.signo1 : '';
   const signo2 = typeof cuerpo.signo2 === 'string' ? cuerpo.signo2 : '';
-  if (!signo1 || !signo2) {
+  if (!NOMBRES_SIGNOS.has(signo1) || !NOMBRES_SIGNOS.has(signo2)) {
     return NextResponse.json({ error: 'Faltan los signos' }, { status: 400 });
   }
 
@@ -73,6 +84,7 @@ export async function POST(request: Request) {
     });
 
     const bloqueTexto = respuesta.content.find((b) => b.type === 'text');
+    await registrarLlamadaIA('compatibilidad', AI_MODEL, respuesta.usage.input_tokens, respuesta.usage.output_tokens);
     const crudo = bloqueTexto && bloqueTexto.type === 'text' ? bloqueTexto.text : '';
     const resultado = crudo ? extraerJSON(crudo) : null;
 
@@ -96,6 +108,7 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error('Error en /api/compatibilidad:', error instanceof Error ? error.message : error);
+    await registrarError(error instanceof Error ? error.message : String(error), '/api/compatibilidad');
     return NextResponse.json({ error: 'No se pudo calcular la compatibilidad' }, { status: 502 });
   }
 }

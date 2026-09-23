@@ -7,6 +7,8 @@
 
 import { NextResponse } from 'next/server';
 import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
+import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
+import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
@@ -45,6 +47,10 @@ const MAX_MENSAJES_HISTORIAL = 20;
 const MAX_CARACTERES_MENSAJE = 4000;
 
 export async function POST(request: Request) {
+  if (limiteExcedido(`coach:${identificadorDePeticion(request)}`, 8, 60_000)) {
+    return NextResponse.json({ error: 'Demasiadas peticiones seguidas — espera un momento.' }, { status: 429 });
+  }
+
   let cuerpo: { messages?: unknown; perfil?: unknown };
   try {
     cuerpo = await request.json();
@@ -109,6 +115,7 @@ INSTRUCCIÓN DE PERSONALIZACIÓN: Usa sutilmente el perfil emocional y astrológ
     });
 
     const bloqueTexto = respuesta.content.find((b) => b.type === 'text');
+    await registrarLlamadaIA('coach', AI_MODEL, respuesta.usage.input_tokens, respuesta.usage.output_tokens);
     const texto = bloqueTexto && bloqueTexto.type === 'text' ? bloqueTexto.text : '';
 
     if (!texto) {
@@ -118,6 +125,7 @@ INSTRUCCIÓN DE PERSONALIZACIÓN: Usa sutilmente el perfil emocional y astrológ
     return NextResponse.json({ texto });
   } catch (error) {
     console.error('Error en /api/coach:', error instanceof Error ? error.message : error);
+    await registrarError(error instanceof Error ? error.message : String(error), '/api/coach');
     return NextResponse.json({ error: 'No se pudo generar la respuesta' }, { status: 502 });
   }
 }

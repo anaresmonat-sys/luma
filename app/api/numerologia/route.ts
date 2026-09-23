@@ -5,6 +5,14 @@
 
 import { NextResponse } from 'next/server';
 import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
+import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
+import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
+import { MAZO_TAROT } from '@/lib/tarotDeck';
+
+// Auditoría de seguridad, 2026-09-23: `arcano` llegaba como texto libre sin
+// tope — alguien llamando a esta ruta directamente (sin pasar por la UI)
+// podía mandar cualquier cadena. Se valida contra los nombres reales del mazo.
+const NOMBRES_ARCANOS = new Set(MAZO_TAROT.filter((c) => c.arcano === 'mayor').map((c) => c.nombre));
 
 export const runtime = 'nodejs';
 
@@ -47,6 +55,10 @@ function extraerJSON(texto: string): ResultadoJSON | null {
 }
 
 export async function POST(request: Request) {
+  if (limiteExcedido(`numerologia:${identificadorDePeticion(request)}`, 8, 60_000)) {
+    return NextResponse.json({ error: 'Demasiadas peticiones seguidas — espera un momento.' }, { status: 429 });
+  }
+
   let cuerpo: CuerpoEntrada;
   try {
     cuerpo = await request.json();
@@ -54,9 +66,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Cuerpo inválido' }, { status: 400 });
   }
 
-  const numero = typeof cuerpo.numero === 'number' ? cuerpo.numero : null;
+  const numero =
+    typeof cuerpo.numero === 'number' && Number.isInteger(cuerpo.numero) && cuerpo.numero > 0 && cuerpo.numero <= 99
+      ? cuerpo.numero
+      : null;
   const arcano = typeof cuerpo.arcano === 'string' ? cuerpo.arcano : '';
-  if (numero === null || !arcano) {
+  if (numero === null || !NOMBRES_ARCANOS.has(arcano)) {
     return NextResponse.json({ error: 'Faltan el número o el arcano' }, { status: 400 });
   }
 
@@ -72,6 +87,7 @@ export async function POST(request: Request) {
     });
 
     const bloqueTexto = respuesta.content.find((b) => b.type === 'text');
+    await registrarLlamadaIA('numerologia', AI_MODEL, respuesta.usage.input_tokens, respuesta.usage.output_tokens);
     const crudo = bloqueTexto && bloqueTexto.type === 'text' ? bloqueTexto.text : '';
     const resultado = crudo ? extraerJSON(crudo) : null;
 
@@ -82,6 +98,7 @@ export async function POST(request: Request) {
     return NextResponse.json(resultado);
   } catch (error) {
     console.error('Error en /api/numerologia:', error instanceof Error ? error.message : error);
+    await registrarError(error instanceof Error ? error.message : String(error), '/api/numerologia');
     return NextResponse.json({ error: 'No se pudo generar la lectura' }, { status: 502 });
   }
 }

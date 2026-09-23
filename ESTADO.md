@@ -7,6 +7,32 @@ se deja SIN cambios por ahora (decisión suya). PENDIENTES tras publicar: (1) Su
 Configuration: agregar el dominio de Vercel, si no el login por correo no funciona en producción; (2) existe un
 proyecto duplicado `luma-app` en Vercel, borrarlo cuando se confirme que `luma` funciona; (3) protección de las
 rutas de IA en el servidor (hoy cualquiera con la URL puede gastar el crédito de $10; tope natural = saldo).
+✅ CHECKPOINT — Sesión de pulido (2026-09-23), sin commitear todavía:
+- **Panel de administración (Capa 1) construido**, código completo y `tsc`/`build` verificados, pero
+  SIN probar en vivo: bloqueado porque `SUPABASE_SECRET_KEY` en `.env.local` está vacía. Incluye auth
+  real de admin (columna `role` + función `is_admin()` con RLS correcto tras corregir un permiso mal
+  puesto), páginas Resumen/Usuarios/IA/Errores/Ventas (Ventas honestamente "Sin datos", depende de
+  Hotmart), `event_log`/`error_log` en Supabase (solo el servidor escribe, sin política de INSERT para
+  clientes). PENDIENTE: el usuario debe pegar la clave real en `.env.local` y avisar "listo" para poder
+  probar el login de admin, agregar un usuario de prueba, y correr el revisor-visual sobre Resumen
+  (pantalla nueva, Regla 7).
+- **Auditoría de seguridad/calidad pedida por el usuario → arreglado**: rate limiting en memoria (8/min
+  IA, 30/min logs, 10/min admin) en `lib/rate-limit.ts`; whitelisting de numerología (arcano) y signos
+  zodiacales en `/api/numerologia` y `/api/compatibilidad`; cabeceras de seguridad en `next.config.ts`
+  (sin CSP todavía, a propósito); age-gate real de 18+ con checkbox (`PasoEdad.tsx`) antes de la
+  primera pregunta del onboarding — antes solo era una frase en las legales, sin ningún control activo.
+  Un hallazgo del reporte original ("Descifrar/Diario sin límite de texto") era falso positivo (error
+  de búsqueda mío) — ambas rutas ya tenían `MAX_CARACTERES` desde antes.
+- **El Círculo: tope de 10 personas nuevas por mes** (`lib/limite-circulo.ts`, pedido explícito del
+  usuario — "10 al mes"). Local-first, mismo patrón que la prueba gratis: se resetea el día 1 de cada
+  mes, mensaje "vuelve el [fecha]" cuando se agota. Se corrigió un riesgo de hidratación (el cupo no se
+  puede leer de forma síncrona en el primer render) con un estado que arranca permisivo y se corrige en
+  `useEffect`, mismo patrón ya usado en otras pantallas.
+- **"LUMA" en dorado en TODA la app**: solo estaba arreglado en la cabecera del Coach; se corrigió
+  también en Entrar, Paywall (2 lugares) y la cabecera compartida del Onboarding. Verificado con
+  capturas en las 3 pantallas.
+PRÓXIMO PASO: preguntarle al usuario si subimos todo esto a GitHub (nada de lo de hoy está commiteado).
+
 ✅ CHECKPOINT — Ilustraciones reales del mazo (pedido del usuario): 78 imágenes Rider-Waite-Smith en
 `/public/tarot/` (6,2 MB, .webp de 360px). FUENTE Y LICENCIA: escaneos originales de 1909 de Pamela
 Colman Smith en Wikimedia Commons (dominio público) — se descartó a propósito usar repos de GitHub tipo
@@ -526,3 +552,8 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 - ✅ 2026-09-22 — Tarot: arreglado que "Carta del día" se quedaba congelada para siempre (la lectura se guardaba una vez y no volvía a pedirse, aunque cambiara el día). `TiradaGuardada.fecha` (YYYY-M-D) + `claveDelDia()` en `tarot/page.tsx`: al abrir "Carta del día", si la fecha guardada no es la de hoy se trata como si no hubiera nada guardado y se pide una lectura nueva. También se quitó la cajita "Repetir tu última tirada" cuando lo último visto fue Carta del día (era idéntica a tocar la fila de la lista, que ya se renueva sola). Verificado: se guarda con la fecha de hoy, y forzando una fecha vieja en localStorage pide una lectura nueva de verdad (comprobado con la IA real) en vez de mostrar la guardada. Pendiente de subir junto con las tiradas de 3 cartas.
 
 - ✅ 2026-09-22 — Tarot: frase ritual bajo "¿Qué tipo de tirada necesitas?" acortada a pedido del usuario (quitó el guiño a la física cuántica): "Haz una respiración profunda, cierra los ojos y conecta con la pregunta." — en cursiva, cabe en una línea. Verificado en preview. Pendiente de subir junto con lo demás del 22 (tiradas de 3 cartas, Carta del día se renueva sola, cajita Repetir quitada para Carta del día).
+
+- ⚠️ CHECKPOINT 2026-09-22 — Panel de administración (Capa 1) construido, pendiente de verificar en vivo. Código completo y verificado (tsc ✓, build ✓): `profiles.role` + `is_admin()` + RLS admin (migración `panel_admin_v1`, usuario anares.monat@gmail.com ya promovido a admin), tablas `event_log`/`error_log` (solo el servidor escribe, con la clave de servicio — sin política de INSERT para el cliente), `lib/supabase/admin.ts`, `lib/log-servidor.ts` (registrarEvento/registrarError/registrarLlamadaIA), `lib/ai-pricing.ts` (costo ESTIMADO, tabla de precio a verificar), conectado a las 6 rutas de IA (coach/tarot/descifrar/diario/numerologia/compatibilidad) tanto para costo como para error_log; `app/error.tsx` + `app/global-error.tsx` (Error Boundary global, regla UX #18); `lib/prueba-gratis.ts` dispara `primera_accion` (activación) solo la primera vez. Rutas: `/admin` (layout con guard server-side: sin sesión → /entrar, sin rol admin → /, verificado — probado sin sesión, redirige bien), `/admin/usuarios` (lista real vía `auth.admin.listUsers` + formulario para agregar a mano con `/api/admin/usuarios`), `/admin/ia`, `/admin/errores`, `/admin/ventas` (honesto "Sin datos", Hotmart no conectado).
+  BLOQUEADO: `SUPABASE_SECRET_KEY` está vacía en `.env.local` (necesaria para `clienteAdminSupabase()` — la API de administrar usuarios y los registros de servidor no funcionan sin ella). Se le pidió al usuario que la complete desde Supabase → Project Settings → API Keys → Secret keys. Pendiente tras eso: probar login real de admin (con `generateLink` para no depender del correo), agregar un usuario de prueba, revisar las 5 pantallas con datos reales, captura 375px + revisor-visual de la pantalla de Resumen (primera pantalla de este tipo nuevo, Regla 7), y el reporte de cierre con evidencia.
+
+- ✅ 2026-09-23 — Auditoría de seguridad ejecutada (usuario aprobó "procede a todo"). Corrección de mi propio reporte: Descifrar y Diario YA tenían tope de caracteres (4000/2000) — mi hallazgo original estaba mal (error de búsqueda), no hizo falta tocarlos. Lo que sí se construyó: (1) `lib/rate-limit.ts` — límite de peticiones por minuto en memoria (por IP), conectado a las 6 rutas de IA (8/min) + log-event/log-error (30/min) + /api/admin/usuarios (10/min); LIMITACIÓN HONESTA anotada en el propio archivo: en Vercel serverless no es un límite global perfecto entre instancias — sirve como freno real hoy (tráfico casi nulo), se recomienda Upstash Redis cuando haya tráfico de verdad. (2) `/api/numerologia` y `/api/compatibilidad` ahora validan `arcano`/`signo1`/`signo2` contra las listas reales (`MAZO_TAROT`, `SIGNOS_ZODIACO`) en vez de aceptar cualquier texto. (3) Cabeceras de seguridad (`next.config.ts`: X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy) — SIN CSP todavía (riesgo de romper hidratación sin pruebas cuidadosas, queda pendiente aparte). (4) Confirmación real de mayoría de edad: `lib/edad-confirmada.ts` + `components/onboarding/PasoEdad.tsx`, primer paso del onboarding, bloquea "Continuar" sin marcar la casilla — antes solo existía la frase fija en las páginas legales. Verificado: tsc ✓, build ✓, flujo de edad probado en preview (checkbox → Continuar → entra a la primera pregunta, flag guardada). Pendiente (deferido, no se tocó): quota por usuario en El Círculo (bajo impacto mientras la app no sea pública) y CSP estricta.

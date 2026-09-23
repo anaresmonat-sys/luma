@@ -88,7 +88,7 @@ export default function PaywallLuma() {
           >
             <X size={20} strokeWidth={2} aria-hidden="true" />
           </a>
-          <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--text-tertiary)] [font-family:var(--font-display)]">
+          <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--accent-lite)] [font-family:var(--font-display)]">
           LUMA
         </span>
           <span className="size-11" aria-hidden="true" />
@@ -154,7 +154,7 @@ export default function PaywallLuma() {
         >
           <X size={20} strokeWidth={2} aria-hidden="true" />
         </a>
-        <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--text-tertiary)] [font-family:var(--font-display)]">
+        <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--accent-lite)] [font-family:var(--font-display)]">
           LUMA
         </span>
         <span className="size-11" aria-hidden="true" />

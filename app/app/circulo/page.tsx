@@ -10,9 +10,11 @@
 // arcano + signo, sin costo de API adicional — cada perfil solo cuesta la
 // interpretación de IA, igual que las otras funciones). Persistencia: con
 // sesión real, sincroniza a Supabase (`circulo_perfiles`); sin sesión, sigue
-// funcionando en localStorage. Sin gate de plan todavía — la pregunta de qué
-// es exactamente "LUMA VIP" sigue sin resolver (ver ESTADO.md); cuando se
-// decida, aquí es donde se aplicaría el límite para el plan gratuito.
+// funcionando en localStorage. Tope de 10 personas nuevas al mes (pedido del
+// usuario, 2026-09-23, para no gastar IA sin freno — ver lib/limite-circulo.ts).
+// Sin gate de PLAN todavía — la pregunta de qué es exactamente "LUMA VIP"
+// sigue sin resolver (ver ESTADO.md); cuando se decida, este tope pasa a ser
+// el del plan gratuito específicamente.
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -28,6 +30,7 @@ import { imagenDeCarta } from '@/lib/tarotDeck';
 import { leerCirculo, agregarAlCirculo, quitarDelCirculo, type PersonaCirculo } from '@/lib/almacenamiento-circulo';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { leerCirculoSupabase, agregarAlCirculoSupabase, quitarDelCirculoSupabase } from '@/lib/supabase/circulo';
+import { LIMITE_MENSUAL, cupoRestante, consumirCupo, proximoReinicio } from '@/lib/limite-circulo';
 
 const RELLENO_DIFUMINADO =
   'Aquí va la lectura completa de esta persona, con su forma de vincularse y lo que conviene tener presente.';
@@ -41,11 +44,17 @@ export default function CirculoPage() {
   const [estado, setEstado] = useState<'reposo' | 'cargando' | 'error'>('reposo');
   const [abierta, setAbierta] = useState<string | null>(null);
   const [conPlan, setConPlan] = useState(false);
+  // Arranca en "cupo lleno disponible" (lo mismo que calcularía el servidor,
+  // que no tiene localStorage) para no romper la hidratación — se corrige en
+  // el useEffect, mismo patrón ya usado en el resto de la app para datos que
+  // solo existen en el navegador.
+  const [restante, setRestante] = useState(LIMITE_MENSUAL);
 
   useEffect(() => {
     let cancelado = false;
     setPersonas(leerCirculo());
     setConPlan(planActivo());
+    setRestante(cupoRestante());
     void (async () => {
       const supabase = crearClienteNavegador();
       const {
@@ -76,7 +85,7 @@ export default function CirculoPage() {
   }
 
   async function agregar() {
-    if (!fecha || !nombre.trim()) return;
+    if (!fecha || !nombre.trim() || restante <= 0) return;
     setEstado('cargando');
     try {
       const numero = calcularNumeroVida(fecha);
@@ -118,6 +127,8 @@ export default function CirculoPage() {
       }
 
       const siguiente = agregarAlCirculo(nueva);
+      consumirCupo();
+      setRestante(cupoRestante());
       setPersonas(siguiente);
       setNombre('');
       setFecha('');
@@ -150,14 +161,30 @@ export default function CirculoPage() {
         su arcano y su forma de amar.
       </p>
 
-      {!mostrarForm && (
-        <button
-          type="button"
-          onClick={() => setMostrarForm(true)}
-          className="mt-4 flex h-[46px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-dashed border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[13px] font-bold text-[var(--accent-lite)]"
-        >
-          + Agregar a alguien
-        </button>
+      {!mostrarForm && restante > 0 && (
+        <>
+          <button
+            type="button"
+            onClick={() => setMostrarForm(true)}
+            className="mt-4 flex h-[46px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-dashed border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[13px] font-bold text-[var(--accent-lite)]"
+          >
+            + Agregar a alguien
+          </button>
+          <p className="mt-1.5 text-center text-[11px] text-[var(--text-tertiary)]">
+            Te quedan {restante} de {LIMITE_MENSUAL} este mes
+          </p>
+        </>
+      )}
+
+      {!mostrarForm && restante <= 0 && (
+        <div className="mt-4 rounded-[var(--radius-card)] border border-dashed border-[color-mix(in_oklab,var(--accent)_35%,transparent)] p-4 text-center">
+          <p className="text-[13px] font-semibold text-[var(--text-primary)]">
+            Ya agregaste a tus {LIMITE_MENSUAL} personas de este mes
+          </p>
+          <p className="mt-1 text-[11.5px] leading-relaxed text-[var(--text-tertiary)]">
+            Vuelve el {proximoReinicio()} para agregar más.
+          </p>
+        </div>
       )}
 
       <AnimatePresence>
@@ -182,7 +209,11 @@ export default function CirculoPage() {
               max={new Date().toISOString().slice(0, 10)}
               className="h-12 w-full rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] px-3 text-[14px] text-[var(--text-primary)] outline-none focus-visible:border-[var(--accent)]"
             />
-            <AppButton onClick={agregar} disabled={!fecha || !nombre.trim() || estado === 'cargando'} busy={estado === 'cargando'}>
+            <AppButton
+              onClick={agregar}
+              disabled={!fecha || !nombre.trim() || estado === 'cargando' || restante <= 0}
+              busy={estado === 'cargando'}
+            >
               {estado === 'cargando' ? 'Calculando…' : 'Descubrir su Arcano ✨'}
             </AppButton>
             {estado === 'error' && (

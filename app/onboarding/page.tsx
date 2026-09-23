@@ -9,13 +9,15 @@
 // El paywall vive en /paywall y se muestra desde la pantalla real cuando la
 // persona agota su prueba gratis (ver lib/prueba-gratis.ts).
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { PasoShell } from '@/components/onboarding/ui';
 import { PreguntaChips } from '@/components/onboarding/PreguntaChips';
 import { Reconocimiento } from '@/components/onboarding/Reconocimiento';
+import { PasoEdad } from '@/components/onboarding/PasoEdad';
 import { construirPasos, RUTA_POR_AYUDA, type Respuestas } from './flujo';
 import { guardarRespuestas } from '@/lib/almacenamiento-onboarding';
+import { edadConfirmada, confirmarEdad } from '@/lib/edad-confirmada';
 
 const PISO_PROGRESO = 6; // endowed progress (Nunes & Drèze 2006) — nunca arranca en 0%
 
@@ -23,6 +25,13 @@ export default function OnboardingLuma() {
   const [indice, setIndice] = useState(0);
   const [direccion, setDireccion] = useState<1 | -1>(1);
   const [respuestas, setRespuestas] = useState<Respuestas>({});
+  // Confirmación de edad (auditoría 2026-09-23) — se lee en efecto, no en el
+  // estado inicial: localStorage es client-only y leerlo de forma síncrona en
+  // el primer render rompe la hidratación (mismo patrón ya usado en /paywall).
+  const [pidiendoEdad, setPidiendoEdad] = useState(false);
+  useEffect(() => {
+    if (!edadConfirmada()) setPidiendoEdad(true);
+  }, []);
 
   const pasos = construirPasos(respuestas);
   const progreso = PISO_PROGRESO + (indice / pasos.length) * (100 - PISO_PROGRESO);
@@ -47,6 +56,19 @@ export default function OnboardingLuma() {
     }
     setDireccion(1);
     setIndice((i) => i + 1);
+  }
+
+  if (pidiendoEdad) {
+    return (
+      <PasoShell progreso={PISO_PROGRESO} onBack={() => (window.location.href = '/')} direccion={1}>
+        <PasoEdad
+          onContinuar={() => {
+            confirmarEdad();
+            setPidiendoEdad(false);
+          }}
+        />
+      </PasoShell>
+    );
   }
 
   const paso = pasos[indice];

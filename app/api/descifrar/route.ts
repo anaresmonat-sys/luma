@@ -6,6 +6,8 @@
 
 import { NextResponse } from 'next/server';
 import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
+import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
+import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
@@ -43,6 +45,10 @@ function extraerJSON(texto: string): AnalisisJSON | null {
 }
 
 export async function POST(request: Request) {
+  if (limiteExcedido(`descifrar:${identificadorDePeticion(request)}`, 8, 60_000)) {
+    return NextResponse.json({ error: 'Demasiadas peticiones seguidas — espera un momento.' }, { status: 429 });
+  }
+
   let cuerpo: { texto?: unknown };
   try {
     cuerpo = await request.json();
@@ -65,6 +71,7 @@ export async function POST(request: Request) {
     });
 
     const bloqueTexto = respuesta.content.find((b) => b.type === 'text');
+    await registrarLlamadaIA('descifrar', AI_MODEL, respuesta.usage.input_tokens, respuesta.usage.output_tokens);
     const crudo = bloqueTexto && bloqueTexto.type === 'text' ? bloqueTexto.text : '';
     const analisis = crudo ? extraerJSON(crudo) : null;
 
@@ -81,6 +88,7 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error('Error en /api/descifrar:', error instanceof Error ? error.message : error);
+    await registrarError(error instanceof Error ? error.message : String(error), '/api/descifrar');
     return NextResponse.json({ error: 'No se pudo generar el análisis' }, { status: 502 });
   }
 }

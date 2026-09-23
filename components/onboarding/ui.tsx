@@ -22,7 +22,7 @@ export function OnboardingHeader({
   return (
     <div className="sticky top-0 z-20 bg-[var(--bg)]/95 backdrop-blur-sm">
       <div className="mx-auto flex h-11 w-full max-w-[480px] items-center justify-center px-4">
-        <a href="/" className="text-[13px] font-semibold tracking-[0.04em] text-[var(--text-tertiary)]">
+        <a href="/" className="text-[13px] font-semibold tracking-[0.04em] text-[var(--accent-lite)]">
           LUMA
         </a>
       </div>

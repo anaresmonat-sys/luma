@@ -4,6 +4,8 @@
 // verdad una vez sin pagar; al segundo intento en CUALQUIERA de las 4, se la
 // manda a elegir un plan). Una sola bandera global, no una por función.
 
+import { registrarEvento } from '@/lib/registrar-evento';
+
 const CLAVE = 'luma_prueba_gratis_usada';
 const CLAVE_PLAN = 'luma_plan_activo';
 
@@ -27,7 +29,13 @@ export function pruebaGratisDisponible(): boolean {
 
 export function consumirPruebaGratis(): void {
   try {
+    // Es la primera acción de valor real (docs/sistema/21-BACKOFFICE.md:
+    // "activación") solo la PRIMERA vez que se llama en este navegador — se
+    // comprueba ANTES de escribir la bandera para no registrar el evento
+    // de nuevo en cada acción siguiente.
+    const esPrimeraVez = window.localStorage.getItem(CLAVE) !== '1';
     window.localStorage.setItem(CLAVE, '1');
+    if (esPrimeraVez) registrarEvento('primera_accion');
   } catch {
     // localStorage puede fallar (modo privado, cuota) — no bloquea el flujo.
   }
