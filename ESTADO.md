@@ -7,6 +7,22 @@ se deja SIN cambios por ahora (decisión suya). PENDIENTES tras publicar: (1) Su
 Configuration: agregar el dominio de Vercel, si no el login por correo no funciona en producción; (2) existe un
 proyecto duplicado `luma-app` en Vercel, borrarlo cuando se confirme que `luma` funciona; (3) protección de las
 rutas de IA en el servidor (hoy cualquiera con la URL puede gastar el crédito de $10; tope natural = saldo).
+✅ CHECKPOINT — PUNTO 2 del análisis de mercado (2026-09-24, SIN commitear): (a) el límite del resultado
+gratis se avisa ANTES de escribir: nuevos `components/app/AvisoPrueba.tsx` + `lib/use-prueba-gratis.ts`
+(hook hydration-safe: arranca en "disponible" y se corrige tras montar) en Descifrar, Diario y Coach —
+"🎁 Tu primer resultado es gratis" si está disponible; si ya se usó: tarjeta "Ya usaste tu resultado
+gratis" + "Ver planes", campo de texto en solo lectura y botón "Elegir mi plan". La comprobación de la
+prueba ahora va ANTES de validar el texto (antes se avisaba al pulsar Analizar/Guardar, ya escrito).
+Tarot no cambió (ya redirige al tocar la tirada, sin trabajo previo). Verificado en pantalla (nuevo y
+"ya usado") y build ✓. (b) `components/paywall/Timeline.tsx`: "Todo LUMA, sin límites" → "Todo LUMA, con
+uso justo cada día" (regla: nunca prometer ilimitado). PENDIENTE ligado: definir y APLICAR en el servidor
+el tope diario numérico por plan pago (idea previa ~40 resultados/día; calcular con costo real por
+llamada ~US$0,005-0,02) cuando se conecte Hotmart; hoy solo existe el tope global de US$5/día.
+Decisión aplazada por el usuario/recomendación: cambiar la prueba de 3 días (cobro directo tras el
+resultado gratis vs prueba de 7 días) — decidir con las primeras ~300 visitas; toca landing, planes,
+Términos, Reembolsos y Hotmart a la vez. Otros del análisis: captura de pantalla en Descifrar,
+recordatorios + guardar diario/tiradas/círculo en la cuenta, medir el embudo de compra.
+
 📌 RECORDATORIO PENDIENTE (el usuario lo aplazó el 2026-09-24 por un error técnico del panel de Supabase
 — Chrome traduciendo la página — y pidió que se le recuerde): poner `SUPABASE_URL` y
 `SUPABASE_SECRET_KEY` en Vercel (proyecto luma, Production). Recordárselo al retomar. Ver detalle abajo.
@@ -556,7 +572,7 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 ## Monetización (DECIDE-INFORMA — el usuario puede ajustar el precio con /precios)
 - Modelo: **freemium onboarding-first** (quiz → preview de valor → paywall → registro/login).
 - Prueba: **3 días** · Garantía: **7 días**.
-- Precio: **US$9,99/mes + US$71,99/año** ("más de 4 meses gratis").
+- Precio: **US$9,99/mes + US$89,99/año** ("3 meses gratis", ~US$7,50/mes) — cambiado el 2026-09-24 por decisión del usuario (antes 71,99). Al conectar Hotmart, crear el producto anual con ese precio. Prueba: 1 resultado gratis sin cuenta + 3 días de prueba + garantía 7 días (decidido mantener las tres capas).
 - Suelo de MERCADO: mediana ~$10-15/mes → $9,99 dentro de rango. Suelo de COSTO: costo IA ~$1,20/usuaria/mes → margen ~88%. PASA con holgura.
   Cupos: Gratis = 1 tirada/mes + check-in + carta del día + diario básico. Premium = ilimitado con tope blando (~40 resultados/día).
 - Suelo de CANAL: se chequea antes de la 1ª campaña pagada (Sesión 8).

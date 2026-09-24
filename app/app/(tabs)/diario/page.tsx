@@ -15,6 +15,8 @@ import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton } from '@/components/app/AppButton';
 import { MoodPicker } from '@/components/app/MoodPicker';
 import { AvisoIA } from '@/components/app/AvisoIA';
+import { AvisoPrueba } from '@/components/app/AvisoPrueba';
+import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import { EMOCIONES_DIARIO, ENTRADA_DIARIO_EJEMPLO } from '@/lib/seed-datos';
 import { leerYLimpiarEntradaPendiente } from '@/lib/almacenamiento-diario';
 import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
@@ -42,6 +44,7 @@ export default function DiarioPage() {
   const [patron, setPatron] = useState<string | null>(null);
   const [guardando, setGuardando] = useState(false);
   const [errorPatron, setErrorPatron] = useState(false);
+  const { disponible, refrescar } = usePruebaDisponible();
 
   useEffect(() => {
     const pendiente = leerYLimpiarEntradaPendiente();
@@ -80,13 +83,13 @@ export default function DiarioPage() {
   }, [registros]);
 
   async function guardar() {
+    if (!pruebaGratisDisponible()) {
+      window.location.href = '/paywall';
+      return;
+    }
     if (!texto.trim()) {
       setErrorVacio(true);
       window.setTimeout(() => setErrorVacio(false), 2200);
-      return;
-    }
-    if (!pruebaGratisDisponible()) {
-      window.location.href = '/paywall';
       return;
     }
     setGuardando(true);
@@ -105,6 +108,7 @@ export default function DiarioPage() {
       const datos: { patron?: string } = await res.json();
       if (!datos.patron) throw new Error('sin patrón');
       consumirPruebaGratis();
+      refrescar();
       setPatron(datos.patron);
       try {
         window.localStorage.setItem(CLAVE_ULTIMO_PATRON, datos.patron);
@@ -172,6 +176,10 @@ export default function DiarioPage() {
           </AnimatePresence>
         </div>
 
+        <motion.div variants={item} className="mb-2">
+          <AvisoPrueba disponible={disponible} />
+        </motion.div>
+
         <motion.p variants={item} className="mt-1 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">
           ¿Cómo te sientes hoy?
         </motion.p>
@@ -199,7 +207,8 @@ export default function DiarioPage() {
             onKeyDown={(e) => {
               if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') guardar();
             }}
-            placeholder={ENTRADA_DIARIO_EJEMPLO}
+            placeholder={disponible ? ENTRADA_DIARIO_EJEMPLO : 'Elige tu plan para seguir…'}
+            readOnly={!disponible}
             rows={4}
             className="min-h-24 w-full flex-1 resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
           />
@@ -226,7 +235,7 @@ export default function DiarioPage() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.15 }}
               >
-                {guardado ? 'Guardado ✓' : guardando ? 'Guardando…' : 'Guardar'}
+                {guardado ? 'Guardado ✓' : guardando ? 'Guardando…' : disponible ? 'Guardar' : 'Elegir mi plan'}
               </motion.span>
             </AnimatePresence>
           </AppButton>

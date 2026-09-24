@@ -16,6 +16,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton, AppLinkButton } from '@/components/app/AppButton';
 import { AvisoIA } from '@/components/app/AvisoIA';
+import { AvisoPrueba } from '@/components/app/AvisoPrueba';
+import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import { CONVERSACION_EJEMPLO } from '@/lib/seed-datos';
 import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
 import { guardarMensajePendiente } from '@/lib/almacenamiento-coach';
@@ -55,14 +57,16 @@ export default function DescifrarPage() {
   const [analisis, setAnalisis] = useState<ItemAnalisis[]>([]);
   const [mensajeError, setMensajeError] = useState('Necesito un poco más de contexto — pega al menos un par de mensajes.');
 
+  const { disponible, refrescar } = usePruebaDisponible();
+
   async function analizar() {
+    if (!pruebaGratisDisponible()) {
+      window.location.href = '/paywall';
+      return;
+    }
     if (texto.trim().length < MIN_CARACTERES) {
       setMensajeError('Necesito un poco más de contexto — pega al menos un par de mensajes.');
       setEstado('error');
-      return;
-    }
-    if (!pruebaGratisDisponible()) {
-      window.location.href = '/paywall';
       return;
     }
     setEstado('cargando');
@@ -80,6 +84,7 @@ export default function DescifrarPage() {
       const datos: { analisis?: ItemAnalisis[] } = await res.json();
       if (!datos.analisis) throw new Error('sin análisis');
       consumirPruebaGratis();
+      refrescar();
       setAnalisis(datos.analisis);
       setEstado('resultado');
     } catch {
@@ -106,6 +111,9 @@ export default function DescifrarPage() {
           <ScreenHeader titulo="Descifra la conversación" tituloDisplay />
         </motion.div>
         <div className="flex flex-1 flex-col">
+        <motion.div variants={item} className="mb-2">
+          <AvisoPrueba disponible={disponible} />
+        </motion.div>
         <motion.div variants={item} className="grid grid-cols-3 gap-2">
           {MODOS.map((m) => (
             <motion.button
@@ -152,7 +160,8 @@ export default function DescifrarPage() {
                   onKeyDown={(e) => {
                     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') analizar();
                   }}
-                  placeholder="Pega aquí la conversación…"
+                  placeholder={disponible ? 'Pega aquí la conversación…' : 'Elige tu plan para seguir…'}
+                  readOnly={!disponible}
                   rows={4}
                   className="min-h-24 w-full flex-1 resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
                 />
@@ -192,11 +201,11 @@ export default function DescifrarPage() {
                       transition={{ duration: 0.7, repeat: Infinity, ease: 'linear' }}
                     />
                   )}
-                  {estado === 'cargando' ? 'Analizando…' : 'Analizar'}
+                  {estado === 'cargando' ? 'Analizando…' : disponible ? 'Analizar' : 'Elegir mi plan'}
                 </AppButton>
               </div>
 
-              {texto.trim() === '' && (
+              {texto.trim() === '' && disponible && (
                 <button
                   type="button"
                   onClick={() => {

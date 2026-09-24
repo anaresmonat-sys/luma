@@ -10,7 +10,7 @@
 - Mediana de precio de la categoría (mensual): ~US$10–15/mes equivalente | fuente: benchmarks de apps de astrología (Nebula 3-meses = ~$13,3/mes; Co-Star Plus ~$6/mes; "ask an advisor" apps $10–20/mes) | fecha: 2026-09-09
 - Rango de los líderes investigados: Nebula US$7,99/sem · US$39,99/3m · US$49,99/año · prueba 3 días | fecha: 2026-09-09
 - **Precio elegido para esta app (propuesto):** US$9,99/mes · anual por definir (ver nota) · **Desvío vs mediana mensual:** ≈ −20% a −0% (dentro de rango; ligeramente por debajo → posicionamiento "precio honesto" frente a Nebula)
-- Nota anual: el resumen validado declaró US$59,99/año, pero eso equivale a ~6 meses gratis (descuento ~50%). Alternativas a decidir con el usuario: US$59,99 (agresivo, bueno para flujo de caja LATAM) vs US$79,99–89,99 ("2–3 meses gratis", protege ingreso). RECOMENDADO de partida: **US$9,99/mes + US$71,99/año** ("más de 4 meses gratis").
+- Nota anual: el resumen validado declaró US$59,99/año, pero eso equivale a ~6 meses gratis (descuento ~50%). Alternativas a decidir con el usuario: US$59,99 (agresivo, bueno para flujo de caja LATAM) vs US$79,99–89,99 ("2–3 meses gratis", protege ingreso). RECOMENDADO de partida: **US$9,99/mes + US$71,99/año** ("más de 4 meses gratis"). **DECIDIDO 2026-09-24 (usuario, tras el análisis de mercado): US$9,99/mes + US$89,99/año ("3 meses gratis", equivale a ~US$7,50/mes) — 9 meses × 9,99 = 89,91 → 89,99.** Prueba: se mantienen el resultado gratis sin cuenta Y los 3 días de prueba; garantía 7 días.
 - Price parity por país: pendiente (02C) — de partida precio único USD; revisar tras primeras ventas.
 
 ## 2. CICLO DE DECISIÓN

@@ -11,7 +11,7 @@ import { motion, useReducedMotion } from 'motion/react';
 export function TimelineTrial({ diasPrueba, precioTexto }: { diasPrueba: number; precioTexto: string }) {
   const reduce = useReducedMotion();
   const nodos = [
-    { estado: 'hecho' as const, titulo: 'Hoy — acceso completo', detalle: 'Todo LUMA, sin límites' },
+    { estado: 'hecho' as const, titulo: 'Hoy — acceso completo', detalle: 'Todo LUMA, con uso justo cada día' },
     { estado: 'hecho' as const, titulo: `Día ${diasPrueba - 1} — te avisamos`, detalle: 'Aviso antes de cualquier cobro' },
     { estado: 'pendiente' as const, titulo: `Día ${diasPrueba} — 1er cobro: ${precioTexto}`, detalle: 'Cancela antes sin costo' },
   ];

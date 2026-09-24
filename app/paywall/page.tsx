@@ -4,7 +4,7 @@
 // docs/sistema/50-DISENO-ONBOARDING-PAYWALL.md §C (C1 blueprint, C4 timeline
 // como visual default de todo paywall CON trial, C4ter checkout externo).
 // Precios/plazos: FICHA-MERCADO.md §1/§4 (Prueba 3 · Garantía 7 · 9,99/mes ·
-// 71,99/año). Copy trazado a FICHA-AVATAR.md (57 §9 — ver comentarios inline).
+// 89,99/año — "3 meses gratis", decisión del usuario 2026-09-24). Copy trazado a FICHA-AVATAR.md (57 §9 — ver comentarios inline).
 //
 // C3ter (mockups honestos pre-Hotmart): el CTA de pago SIMULA el flujo con
 // estado local — Hotmart se conecta en Sesión 6. Nunca se finge un cobro real.
@@ -42,11 +42,11 @@ const PLAN_ANUAL: PlanPaywall = {
   id: 'anual',
   nombre: 'Anual',
   badge: 'MÁS POPULAR',
-  precioMes: '$6,00',
+  precioMes: '$7,50',
   sufijo: '/mes aprox.',
-  descomposicionDia: 'menos de $0,20 al día',
-  totalAnual: 'Se cobra $71,99/año',
-  ahorro: 'más de 4 meses gratis',
+  descomposicionDia: 'menos de $0,25 al día',
+  totalAnual: 'Se cobra $89,99/año',
+  ahorro: '3 meses gratis',
 };
 
 const PLAN_MENSUAL: PlanPaywall = {
@@ -56,7 +56,7 @@ const PLAN_MENSUAL: PlanPaywall = {
 };
 
 const PRECIO_TEXTO: Record<'anual' | 'mensual', string> = {
-  anual: '$71,99/año',
+  anual: '$89,99/año',
   mensual: '$9,99/mes',
 };
 
@@ -282,10 +282,11 @@ export default function PaywallLuma() {
             whileTap={{ scale: 0.97 }}
             className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
-            Empezar mi plan {seleccionado === 'anual' ? 'Anual' : 'Mensual'} gratis
+            Empezar mis {TRIAL_DIAS} días gratis
           </motion.button>
           <p className="mt-3 text-center text-[13px] text-[var(--text-tertiary)]">
-            Cancela cuando quieras. Te avisamos antes de cualquier cobro.
+            Después, {seleccionado === 'anual' ? '$89,99 al año' : '$9,99 al mes'}, con renovación automática.
+            Cancela cuando quieras: te avisamos antes de cada cobro.
           </p>
 
           <div className="mt-4 flex items-center justify-center gap-2">

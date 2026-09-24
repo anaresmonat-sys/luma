@@ -11,6 +11,8 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { LumaAvatar } from '@/components/app/LumaAvatar';
 import { AvisoIA } from '@/components/app/AvisoIA';
+import { AvisoPrueba } from '@/components/app/AvisoPrueba';
+import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import type { MensajeCoach } from '@/lib/seed-datos';
 import { aperturaCoach } from '@/lib/coach-saludo';
 import { leerRespuestas } from '@/lib/almacenamiento-onboarding';
@@ -26,6 +28,7 @@ export default function CoachPage() {
   const [escribiendo, setEscribiendo] = useState(false);
   const [avisoVoz, setAvisoVoz] = useState(false);
   const [error, setError] = useState(false);
+  const { disponible, refrescar } = usePruebaDisponible();
 
   // El hilo arranca vacío: LUMA abre con un saludo según el motivo elegido en el
   // onboarding (y el nombre del Mapa de Poder, si existe). Si llega un mensaje
@@ -94,6 +97,7 @@ export default function CoachPage() {
       return;
     }
     consumirPruebaGratis();
+    refrescar();
     const mensaje: MensajeCoach = { id: crypto.randomUUID(), autor: 'yo', texto };
     const nuevoHilo = [...hilo, mensaje];
     setHilo(nuevoHilo);
@@ -134,6 +138,8 @@ export default function CoachPage() {
           </div>
         </div>
       </div>
+
+      <AvisoPrueba disponible={disponible} className="mb-2 shrink-0" />
 
       <div ref={chatRef} role="log" aria-live="polite" className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto py-2">
         <motion.div
@@ -252,7 +258,8 @@ export default function CoachPage() {
         <input
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
-          placeholder="Cuéntame qué pasó…"
+          placeholder={disponible ? 'Cuéntame qué pasó…' : 'Elige tu plan para seguir…'}
+          readOnly={!disponible}
           aria-label="Mensaje para LUMA"
           className="h-11 flex-1 bg-transparent text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
         />
