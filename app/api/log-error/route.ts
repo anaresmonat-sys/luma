@@ -4,7 +4,7 @@
 
 import { NextResponse } from 'next/server';
 import { crearClienteServidor } from '@/lib/supabase/server';
-import { registrarError } from '@/lib/log-servidor';
+import { registrarError, hayDemasiadosRegistros } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
@@ -29,6 +29,9 @@ export async function POST(request: Request) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (await hayDemasiadosRegistros('error_log')) {
+    return NextResponse.json({ ok: true });
+  }
   await registrarError(message, context, user?.id ?? null);
   return NextResponse.json({ ok: true });
 }

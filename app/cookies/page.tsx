@@ -11,11 +11,19 @@ export default function Page() {
       </p>
 
       <h2>Lo único que usamos hoy: cookies esenciales</h2>
-      <p>
-        LUMA usa únicamente las cookies necesarias para mantener tu sesión iniciada (de Supabase Auth, nuestro
-        proveedor de inicio de sesión). Sin ellas, tendrías que volver a entrar con tu correo cada vez que abrieras
-        la app. Estas cookies no sirven para rastrearte ni para mostrarte publicidad — solo para que la app funcione.
-      </p>
+      <p>LUMA usa únicamente dos tipos de cookies, ambas necesarias para que la app funcione y para protegerla:</p>
+      <ul>
+        <li>
+          <strong>Sesión iniciada</strong> (de Supabase Auth, nuestro proveedor de inicio de sesión): sin ella
+          tendrías que volver a entrar con tu correo cada vez que abrieras la app.
+        </li>
+        <li>
+          <strong>Identificador anónimo de prueba</strong> (<code>luma_anon</code>, dura un año): un código al azar
+          que sirve para llevar la cuenta de tu resultado gratis y evitar abusos. No contiene tu nombre ni tu
+          correo, no se usa para publicidad y no puede leerse desde el navegador.
+        </li>
+      </ul>
+      <p>Ninguna de las dos sirve para rastrearte ni para mostrarte publicidad.</p>
 
       <h2>Almacenamiento en tu dispositivo</h2>
       <p>

@@ -71,6 +71,10 @@ export default function CoachPage() {
           })),
         }),
       });
+      if (res.status === 402) {
+        window.location.href = '/paywall';
+        return;
+      }
       if (!res.ok) throw new Error('respuesta no OK');
       const datos: { texto?: string } = await res.json();
       if (!datos.texto) throw new Error('sin texto');

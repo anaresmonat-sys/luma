@@ -9,6 +9,7 @@ import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
 import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
+import { controlarAccesoGratis } from '@/lib/prueba-servidor';
 
 export const runtime = 'nodejs';
 
@@ -45,6 +46,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Falta el registro' }, { status: 400 });
   }
 
+  const acceso = await controlarAccesoGratis(request, usuarioIdIA);
+  if (!acceso.permitido) {
+    return NextResponse.json({ error: 'prueba_agotada' }, { status: 402 });
+  }
+
   try {
     const client = clienteAnthropic();
     const respuesta = await client.messages.create({
@@ -64,11 +70,13 @@ export async function POST(request: Request) {
     const patron = bloqueTexto && bloqueTexto.type === 'text' ? bloqueTexto.text.trim() : '';
 
     if (!patron) {
+      await acceso.devolver();
       return NextResponse.json({ error: 'Sin respuesta' }, { status: 502 });
     }
 
     return NextResponse.json({ patron });
   } catch (error) {
+    await acceso.devolver();
     console.error('Error en /api/diario:', error instanceof Error ? error.message : error);
     await registrarError(error instanceof Error ? error.message : String(error), '/api/diario');
     return NextResponse.json({ error: 'No se pudo generar la reflexión' }, { status: 502 });

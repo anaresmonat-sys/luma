@@ -72,6 +72,10 @@ export default function DescifrarPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ texto }),
       });
+      if (res.status === 402) {
+        window.location.href = '/paywall';
+        return;
+      }
       if (!res.ok) throw new Error('respuesta no OK');
       const datos: { analisis?: ItemAnalisis[] } = await res.json();
       if (!datos.analisis) throw new Error('sin análisis');

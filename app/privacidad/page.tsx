@@ -41,6 +41,12 @@ export default function Page() {
           <strong>Datos de uso</strong> — qué funciones usas y cuándo, para saber si la app funciona bien y arreglar
           errores.
         </li>
+        <li>
+          <strong>Datos de protección contra abusos</strong> — un identificador anónimo al azar en una cookie (para
+          contar tu resultado gratis) y una huella de tu conexión de internet (un código irreconocible, no tu
+          dirección IP), que se borra a los 30 días. Los usamos solo para evitar el uso fraudulento de la prueba
+          gratis, con base en nuestro interés legítimo de proteger el servicio.
+        </li>
       </ul>
       <p>
         <strong>Lo que NUNCA te pedimos:</strong> tu número de tarjeta, contraseñas de otros servicios, o documentos

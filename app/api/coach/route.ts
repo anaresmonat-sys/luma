@@ -10,6 +10,7 @@ import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
 import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
+import { controlarAccesoGratis } from '@/lib/prueba-servidor';
 
 export const runtime = 'nodejs';
 
@@ -113,6 +114,11 @@ INSTRUCCIÓN DE PERSONALIZACIÓN: Usa sutilmente el perfil emocional y astrológ
     return NextResponse.json({ error: 'La conversación no es válida' }, { status: 400 });
   }
 
+  const acceso = await controlarAccesoGratis(request, usuarioIdIA);
+  if (!acceso.permitido) {
+    return NextResponse.json({ error: 'prueba_agotada' }, { status: 402 });
+  }
+
   try {
     const client = clienteAnthropic();
     const respuesta = await client.messages.create({
@@ -127,11 +133,13 @@ INSTRUCCIÓN DE PERSONALIZACIÓN: Usa sutilmente el perfil emocional y astrológ
     const texto = bloqueTexto && bloqueTexto.type === 'text' ? bloqueTexto.text : '';
 
     if (!texto) {
+      await acceso.devolver();
       return NextResponse.json({ error: 'Sin respuesta' }, { status: 502 });
     }
 
     return NextResponse.json({ texto });
   } catch (error) {
+    await acceso.devolver();
     console.error('Error en /api/coach:', error instanceof Error ? error.message : error);
     await registrarError(error instanceof Error ? error.message : String(error), '/api/coach');
     return NextResponse.json({ error: 'No se pudo generar la respuesta' }, { status: 502 });

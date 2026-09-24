@@ -97,6 +97,10 @@ export default function DiarioPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ texto, animo }),
       });
+      if (res.status === 402) {
+        window.location.href = '/paywall';
+        return;
+      }
       if (!res.ok) throw new Error('respuesta no OK');
       const datos: { patron?: string } = await res.json();
       if (!datos.patron) throw new Error('sin patrón');

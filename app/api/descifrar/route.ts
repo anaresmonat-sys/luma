@@ -9,6 +9,7 @@ import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
 import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
+import { controlarAccesoGratis } from '@/lib/prueba-servidor';
 
 export const runtime = 'nodejs';
 
@@ -69,6 +70,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Falta la conversación' }, { status: 400 });
   }
 
+  const acceso = await controlarAccesoGratis(request, usuarioIdIA);
+  if (!acceso.permitido) {
+    return NextResponse.json({ error: 'prueba_agotada' }, { status: 402 });
+  }
+
   try {
     const client = clienteAnthropic();
     const respuesta = await client.messages.create({
@@ -84,6 +90,7 @@ export async function POST(request: Request) {
     const analisis = crudo ? extraerJSON(crudo) : null;
 
     if (!analisis || !analisis.vemos || !analisis.riesgo || !analisis.pregunta) {
+      await acceso.devolver();
       return NextResponse.json({ error: 'Sin respuesta' }, { status: 502 });
     }
 
@@ -95,6 +102,7 @@ export async function POST(request: Request) {
       ],
     });
   } catch (error) {
+    await acceso.devolver();
     console.error('Error en /api/descifrar:', error instanceof Error ? error.message : error);
     await registrarError(error instanceof Error ? error.message : String(error), '/api/descifrar');
     return NextResponse.json({ error: 'No se pudo generar el análisis' }, { status: 502 });

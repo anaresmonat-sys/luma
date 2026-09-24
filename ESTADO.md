@@ -7,6 +7,57 @@ se deja SIN cambios por ahora (decisión suya). PENDIENTES tras publicar: (1) Su
 Configuration: agregar el dominio de Vercel, si no el login por correo no funciona en producción; (2) existe un
 proyecto duplicado `luma-app` en Vercel, borrarlo cuando se confirme que `luma` funciona; (3) protección de las
 rutas de IA en el servidor (hoy cualquiera con la URL puede gastar el crédito de $10; tope natural = saldo).
+📌 RECORDATORIO PENDIENTE (el usuario lo aplazó el 2026-09-24 por un error técnico del panel de Supabase
+— Chrome traduciendo la página — y pidió que se le recuerde): poner `SUPABASE_URL` y
+`SUPABASE_SECRET_KEY` en Vercel (proyecto luma, Production). Recordárselo al retomar. Ver detalle abajo.
+
+⏸️ ESTADO ACTUAL (2026-09-24) — ESPERANDO AL USUARIO ANTES DE PUBLICAR. Todo el trabajo de la prueba gratis
+en servidor + blindaje está hecho, verificado (tsc ✓ build ✓ npm audit 0) y SIN COMMITEAR (archivos:
+lib/prueba-servidor.ts, lib/log-servidor.ts, rutas coach/tarot/descifrar/diario, log-event/log-error, las 4
+pantallas con manejo del 402, páginas Cookies/Privacidad). La migración `prueba_gratis_servidor` y el
+candado del rol YA están aplicados en la base de producción (no afectan al código publicado hoy).
+BLOQUEO: en Vercel (proyecto `luma`, verificado leyendo solo nombres) FALTAN `SUPABASE_URL` y
+`SUPABASE_SECRET_KEY`; sin ellas, en producción los controles de servidor quedan apagados (fail-open),
+y el panel admin y "eliminar cuenta" fallan. El usuario debe ponerlas él mismo (no por el chat) y
+decir "listo"; además Vercel le pidió activar la verificación en dos pasos (se le avisó de rehacer el
+QR porque el original quedó expuesto en una captura del chat). SIGUIENTE PASO tras el "listo": commit +
+push a main, esperar el despliegue, y comprobar en el sitio publicado que el 2º resultado gratis corta
+(402) y que /admin abre. PENDIENTE de decisión: construir "acceso de cortesía" (suscripción manual) para
+que las probadoras no queden bloqueadas tras su primer resultado, porque "Empezar mi plan" del paywall
+es una simulación local y ya no desbloquea nada en el servidor.
+
+✅ CHECKPOINT — PRUEBA GRATIS CONTROLADA EN EL SERVIDOR + blindaje antifraude (2026-09-24). Decisión
+del usuario: la prueba sigue SIN CUENTA, UN SOLO resultado gratis en total, tope por navegador; lo
+pago se decide siempre en el servidor. Opinión previa dada al usuario: en web no hay "ID de
+dispositivo", el contador del navegador no protege el gasto (lo protege el servidor).
+- Migración `prueba_gratis_servidor`: tablas `uso_gratis` (por cookie anónima) y `uso_gratis_ip`
+  (huella HMAC de la conexión + día; se purga >30 días), RLS activo SIN políticas (solo
+  service_role), funciones atómicas `reservar_uso_gratis` / `devolver_uso_gratis` (permiso solo
+  service_role; probado: una usuaria común no puede llamarlas ni leer las tablas).
+- `lib/prueba-servidor.ts` + las 4 rutas gateadas (coach, tarot, descifrar, diario): cookie
+  `luma_anon` httpOnly (1 año, secure en producción) → 1 resultado gratis; máx. 10 por conexión al
+  día (generoso a propósito: IP móvil compartida en LATAM); plan activo (`subscriptions`
+  active/trialing/trial vigente) o rol admin NO gastan la prueba; la reserva se hace tras validar
+  la entrada y se DEVUELVE si la IA falla; ante cualquier fallo de la consulta NO se bloquea a
+  nadie (fail-open; tope global de gasto de lib/tope-ia.ts sigue de red de seguridad);
+  interruptor de emergencia `PRUEBA_SERVIDOR=off`. Si se agota → 402 `prueba_agotada` y las 4
+  pantallas redirigen a /paywall. numerologia/compatibilidad NO consumen la prueba (siguen siendo
+  funciones libres, acotadas por límite de velocidad + tope global).
+- Probado con HTTP real: 200 → 402 con el mismo navegador; navegador distinto → 200; cookie
+  inventada → cuenta como dispositivo nuevo; admin 3×200; petición inválida NO gasta la prueba.
+- IMPORTANTE (consecuencia real): "Empezar mi plan" del paywall es una SIMULACIÓN local
+  (`desbloquearPorPlan`); ya no desbloquea nada en el servidor. Hasta conectar Hotmart, quien gaste
+  su resultado gratis (que no sea admin) no puede seguir. Para dar acceso a probadoras: insertar
+  una fila `subscriptions` (estado 'active') a su cuenta, o construir "acceso de cortesía".
+- Otros arreglos de esta pasada: `/api/log-event` ya no acepta eventos internos falsificados
+  (lista `TIPOS_DESDE_NAVEGADOR`; antes cualquiera podía enviar `cuenta_eliminada`), su `metadata`
+  se limita a ~1 KB, y ambas rutas de registro abiertas tienen tope GLOBAL por minuto en la base
+  (`hayDemasiadosRegistros`). Cookies/Privacidad actualizadas: declaran el identificador anónimo y
+  la huella de conexión (interés legítimo, 30 días).
+- Batería de pruebas de blindaje pasada: candado de rol, admin sin sesión (307/403), CSRF en
+  eliminar cuenta, open redirect, validación de entradas (400), límite de velocidad (30 OK / 5
+  frenadas), HSTS y cabeceras, tope global de gasto. tsc ✓ build ✓ npm audit 0. Sin commitear.
+
 ✅ CHECKPOINT — AUDITORÍA DE SEGURIDAD completa (2026-09-23, pedida por el usuario; Etapa 1 solo
 lectura, Etapa 2 aplicada tras su "aplica todo lo que puedas"). 11 hallazgos (4 críticos).
 **APLICADO y verificado:** (1) CRÍTICO — cualquier usuaria podía ascenderse a admin editando

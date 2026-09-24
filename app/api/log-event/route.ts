@@ -5,13 +5,13 @@
 
 import { NextResponse } from 'next/server';
 import { crearClienteServidor } from '@/lib/supabase/server';
-import { registrarEvento, TIPOS_DE_EVENTO, type TipoDeEvento } from '@/lib/log-servidor';
+import { registrarEvento, TIPOS_DESDE_NAVEGADOR, hayDemasiadosRegistros, type TipoDeEvento } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
 function esTipoValido(t: unknown): t is TipoDeEvento {
-  return typeof t === 'string' && (TIPOS_DE_EVENTO as readonly string[]).includes(t);
+  return typeof t === 'string' && (TIPOS_DESDE_NAVEGADOR as readonly string[]).includes(t);
 }
 
 export async function POST(request: Request) {
@@ -38,9 +38,16 @@ export async function POST(request: Request) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const metadata =
-    cuerpo.metadata && typeof cuerpo.metadata === 'object' ? (cuerpo.metadata as Record<string, unknown>) : {};
+  // Datos extra: solo un objeto pequeño (máx. ~1 KB); si no, se guarda vacío — evita llenar la base.
+  const metadataCruda =
+    cuerpo.metadata && typeof cuerpo.metadata === 'object' && !Array.isArray(cuerpo.metadata)
+      ? (cuerpo.metadata as Record<string, unknown>)
+      : {};
+  const metadata = JSON.stringify(metadataCruda).length <= 1024 ? metadataCruda : {};
 
+  if (await hayDemasiadosRegistros('event_log')) {
+    return NextResponse.json({ ok: true });
+  }
   await registrarEvento(cuerpo.type, user?.id ?? null, metadata);
   return NextResponse.json({ ok: true });
 }

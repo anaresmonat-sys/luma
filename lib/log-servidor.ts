@@ -16,6 +16,28 @@ export const TIPOS_DE_EVENTO = [
 ] as const;
 export type TipoDeEvento = (typeof TIPOS_DE_EVENTO)[number];
 
+/** Eventos que el NAVEGADOR puede reportar. Los demás (p. ej. cuenta_eliminada) los
+ * escribe solo el servidor: si /api/log-event los aceptara, cualquiera podría falsificarlos. */
+export const TIPOS_DESDE_NAVEGADOR: readonly TipoDeEvento[] = ['primera_accion', 'onboarding_completado'];
+
+const MAX_REGISTROS_POR_MINUTO = 200;
+
+/** Freno global contra inundación de las rutas de registro abiertas (sin sesión): el límite por
+ * conexión vive en memoria y no cubre ataques repartidos. Ante cualquier fallo, no bloquea. */
+export async function hayDemasiadosRegistros(tabla: 'event_log' | 'error_log'): Promise<boolean> {
+  try {
+    const desde = new Date(Date.now() - 60_000).toISOString();
+    const { count, error } = await clienteAdminSupabase()
+      .from(tabla)
+      .select('id', { count: 'exact', head: true })
+      .gte('created_at', desde);
+    if (error || count === null) return false;
+    return count >= MAX_REGISTROS_POR_MINUTO;
+  } catch {
+    return false;
+  }
+}
+
 export async function registrarEvento(
   type: TipoDeEvento,
   userId: string | null,
