@@ -11,6 +11,15 @@ import { GraficoTendencia } from '@/components/admin/GraficoTendencia';
 
 export const dynamic = 'force-dynamic';
 
+// Camino de compra — conteos anónimos de event_log (sin cookies). Orden = orden real del camino.
+const PASOS_EMBUDO = [
+  { tipo: 'landing_vista', etiqueta: 'Vieron la página de ventas' },
+  { tipo: 'onboarding_iniciado', etiqueta: 'Empezaron el recorrido de inicio' },
+  { tipo: 'onboarding_completado', etiqueta: 'Terminaron el recorrido' },
+  { tipo: 'paywall_visto', etiqueta: 'Vieron los planes' },
+  { tipo: 'plan_elegido', etiqueta: 'Tocaron "Empezar mis 3 días gratis"' },
+] as const;
+
 function formatearUsd(n: number): string {
   return `$${n.toLocaleString('es', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
@@ -59,6 +68,19 @@ export default async function AdminResumenPage() {
       valor: cuentasPorDia.get(clave) ?? 0,
     };
   });
+
+  const desde7dias = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const conteosEmbudo = await Promise.all(
+    PASOS_EMBUDO.map((p) =>
+      supabase
+        .from('event_log')
+        .select('id', { count: 'exact', head: true })
+        .eq('type', p.tipo)
+        .gte('created_at', desde7dias)
+    )
+  );
+  const embudo = PASOS_EMBUDO.map((p, i) => ({ ...p, total: conteosEmbudo[i].count ?? 0 }));
+  const maximoEmbudo = Math.max(embudo[0].total, 1);
 
   const avisos: Aviso[] = [];
   if ((erroresSemana ?? 0) > 5) {
@@ -110,6 +132,45 @@ export default async function AdminResumenPage() {
           </Glosa>{' '}
           aparecerán aquí en cuanto empiecen a llegar ventas reales.
         </SinDatos>
+      </Seccion>
+
+      <Seccion titulo="Camino de compra (últimos 7 días)">
+        {embudo[0].total === 0 && embudo[3].total === 0 ? (
+          <SinDatos>
+            Aún sin visitas registradas — aparecerán aquí en cuanto alguien entre a la página de ventas. Así vas a ver
+            en qué paso se cae la gente antes de pagar.
+          </SinDatos>
+        ) : (
+          <div className="flex flex-col gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_22%,transparent)] bg-[var(--surface)] p-4">
+            {embudo.map((p, i) => {
+              const anterior = i > 0 ? embudo[i - 1].total : 0;
+              const porcentaje = i > 0 && anterior > 0 ? Math.round((p.total / anterior) * 100) : null;
+              return (
+                <div key={p.tipo}>
+                  <div className="flex items-baseline justify-between gap-3 text-[12.5px]">
+                    <span className="text-[var(--text-secondary)]">{p.etiqueta}</span>
+                    <span className="shrink-0 font-semibold tabular-nums text-[var(--text-primary)]">
+                      {p.total}
+                      {porcentaje !== null && (
+                        <span className="ml-1.5 font-normal text-[var(--text-tertiary)]">· {porcentaje}%</span>
+                      )}
+                    </span>
+                  </div>
+                  <div className="mt-1 h-2 rounded-full bg-[color-mix(in_oklab,var(--text-tertiary)_16%,transparent)]">
+                    <div
+                      className="h-2 rounded-full bg-[var(--accent)]"
+                      style={{ width: `${Math.min(100, (p.total / maximoEmbudo) * 100)}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+            <p className="text-[11.5px] leading-snug text-[var(--text-tertiary)]">
+              Cada porcentaje es de quienes llegaron al paso anterior. Donde el número cae más, ahí está el problema
+              (la página de ventas, el recorrido o la pantalla de planes).
+            </p>
+          </div>
+        )}
       </Seccion>
 
       <Seccion titulo="Usuarios">

@@ -394,24 +394,6 @@ export default function TarotPage() {
           →
         </span>
       </Link>
-
-      <Link
-        href="/app/mapa-poder?desde=tarot"
-        className="mt-2 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3"
-      >
-        <span className="text-[17px] leading-none" aria-hidden="true">
-          🔮
-        </span>
-        <span className="flex-1">
-          <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Conócete a ti misma</span>
-          <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
-            Tu arcano de nacimiento, con tu fecha
-          </span>
-        </span>
-        <span aria-hidden="true" className="text-[var(--accent-lite)]">
-          →
-        </span>
-      </Link>
     </div>
   );
 }

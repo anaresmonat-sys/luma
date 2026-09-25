@@ -18,6 +18,7 @@ import { PasoEdad } from '@/components/onboarding/PasoEdad';
 import { construirPasos, RUTA_POR_AYUDA, type Respuestas } from './flujo';
 import { guardarRespuestas } from '@/lib/almacenamiento-onboarding';
 import { edadConfirmada, confirmarEdad } from '@/lib/edad-confirmada';
+import { registrarEvento, registrarEventoUnaVez } from '@/lib/registrar-evento';
 
 const PISO_PROGRESO = 6; // endowed progress (Nunes & Drèze 2006) — nunca arranca en 0%
 
@@ -30,6 +31,7 @@ export default function OnboardingLuma() {
   // el primer render rompe la hidratación (mismo patrón ya usado en /paywall).
   const [pidiendoEdad, setPidiendoEdad] = useState(false);
   useEffect(() => {
+    registrarEventoUnaVez('onboarding_iniciado');
     if (!edadConfirmada()) setPidiendoEdad(true);
   }, []);
 
@@ -51,6 +53,7 @@ export default function OnboardingLuma() {
     if (indice + 1 >= pasos.length) {
       // Última pregunta ("ayuda") respondida: guarda y salta directo a la función real.
       guardarRespuestas(respuestasFinal);
+      registrarEvento('onboarding_completado');
       window.location.href = (respuestasFinal.ayuda && RUTA_POR_AYUDA[respuestasFinal.ayuda]) || '/app/descifrar';
       return;
     }

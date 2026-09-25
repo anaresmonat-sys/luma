@@ -25,6 +25,7 @@ import { leerRespuestas } from '@/lib/almacenamiento-onboarding';
 import { beneficiosPlan, contarRespuestas, type Respuestas } from '@/app/onboarding/flujo';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { desbloquearPorPlan } from '@/lib/prueba-gratis';
+import { registrarEvento, registrarEventoUnaVez } from '@/lib/registrar-evento';
 
 const TRIAL_DIAS = 3;
 
@@ -81,6 +82,7 @@ export default function PaywallLuma() {
   // un salto breve de beneficios genéricos → personalizados tras montar.
   useEffect(() => {
     setRespuestas(leerRespuestas());
+    registrarEventoUnaVez('paywall_visto');
   }, []);
 
   const nRespuestas = respuestas ? contarRespuestas(respuestas) : 0;
@@ -276,6 +278,7 @@ export default function PaywallLuma() {
           <motion.button
             type="button"
             onClick={() => {
+              registrarEvento('plan_elegido', { plan: seleccionado });
               desbloquearPorPlan();
               setConfirmado(true);
             }}

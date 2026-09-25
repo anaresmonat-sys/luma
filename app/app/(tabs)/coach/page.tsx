@@ -202,7 +202,7 @@ export default function CoachPage() {
               exit={{ opacity: 0 }}
               className="self-start rounded-[15px_15px_15px_5px] border border-[color-mix(in_oklab,var(--accent)_24%,transparent)] bg-[var(--surface)] px-3 py-2.5 text-[12px] text-[var(--text-tertiary)]"
             >
-              LUMA está escribiendo…
+              <span className="font-semibold text-[var(--accent-lite)]">LUMA</span> está escribiendo…
             </motion.div>
           )}
         </AnimatePresence>

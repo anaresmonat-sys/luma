@@ -13,12 +13,26 @@ export const TIPOS_DE_EVENTO = [
   'primera_accion', // activación: el primer resultado real que recibe (lib/prueba-gratis.ts)
   'onboarding_completado',
   'cuenta_eliminada', // auditoría legal 2026-09-23: derecho de eliminación (47-LEGAL-FISCAL-Y-PRIVACIDAD.md §3)
+  // Camino de compra (60-OPERACION-DE-CONVERSION.md): conteos anónimos, sin cookies ni identificadores.
+  'landing_vista',
+  'onboarding_iniciado',
+  'paywall_visto',
+  'plan_elegido',
+  'sinergia_calculada', // uso de la mini-calculadora de la página de ventas
 ] as const;
 export type TipoDeEvento = (typeof TIPOS_DE_EVENTO)[number];
 
 /** Eventos que el NAVEGADOR puede reportar. Los demás (p. ej. cuenta_eliminada) los
  * escribe solo el servidor: si /api/log-event los aceptara, cualquiera podría falsificarlos. */
-export const TIPOS_DESDE_NAVEGADOR: readonly TipoDeEvento[] = ['primera_accion', 'onboarding_completado'];
+export const TIPOS_DESDE_NAVEGADOR: readonly TipoDeEvento[] = [
+  'primera_accion',
+  'onboarding_completado',
+  'landing_vista',
+  'onboarding_iniciado',
+  'paywall_visto',
+  'plan_elegido',
+  'sinergia_calculada',
+];
 
 const MAX_REGISTROS_POR_MINUTO = 200;
 

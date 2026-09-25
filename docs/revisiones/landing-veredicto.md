@@ -68,3 +68,52 @@ Top defectos:
 3. [Solución, chip "descifrar la conversación" — heredado, sin tocar esta ronda] Sigue con fill de acento ~13%, muy cerca del 10% de --chip-bg de los chips numerados 01/02/03 → la distinción se apoya más en forma/posición que en un salto de color contundente → fix: subir a ~18-20% (pendiente desde Ronda 4, confirmado sin cambios en landing-solucion-375.png de esta ronda).
 4. [Problema, lista de 4 preguntas — heredado, cosmético] ⏳ sigue siendo emoji-objeto contra 😕😳😩 emoji-cara: mezcla de categoría menor, no bloqueante → fix opcional, sin prisa.
 5. [Craft general] jerarquía, profundidad, identidad y movimiento siguen en 3/4 (sólidos, no ejemplares); solo encaje llegó a 4 esta ronda gracias al fix de Oferta → fix: si se busca craft de showcase (18-20/20), sería la siguiente prioridad, pero ya cumple el gate de craft (≥16/20).
+
+---
+
+# VEREDICTO revisor-visual — landing (Ronda 7 · sección nueva 5B Sinergia + El Círculo)
+Fecha: 2026-09-25 00:00
+Screenshot: docs/revisiones/landing-375.png (página completa; sección puntuada sobre docs/revisiones/landing-sinergia-375-antes.png y docs/revisiones/landing-sinergia-375-despues.png)
+Usabilidad: 33/40
+Craft: 16/20
+Copy (si vende): 17/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:3 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:2 h9:4 h10:3
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+Detalle copy: idea:3 especificidad:4 emoción:3 oferta:4 acción:3 (trazabilidad a FICHA-AVATAR.md: NO VERIFICADA en esta ronda, no se leyó la ficha del avatar)
+Efecto de 5B en la página: EMPEORA LIGERAMENTE el conjunto (h8 3→2, encaje 4→3, copy acción 4→3), aunque suma un gancho de curiosidad genuino y bien ejecutado en sí mismo. No rompe nada previo; el neto es negativo por dilución del camino de venta, no por bug.
+Verificado en código (SinergiaCirculo.tsx): whileTap 0.97 en el botón; conteo animado del % con reduced-motion (aparece directo); barra que se llena; aria-live en el resultado; aviso "Elige los dos signos" al calcular incompleto (botón nunca disabled: CTA vivo); relleno borroso aria-hidden y de relleno (no expone análisis real); tope "10 personas al mes" honesto. NO hay transición de celebración ni undo/limpiar del cálculo (solo cambiar selects).
+Top defectos:
+1. [Sección 5B, resultado calculado, caja borrosa (aprox. y 1200-1380 del recorte "después")] Dos botones dorados de relleno sólido en la MISMA tarjeta y a ~250px de distancia ("Calcular sinergia" y "Descifrar mi primera conversación"), y el segundo es un CTA dorado a media página antes de la Oferta: compiten con el CTA héroe y rompen "una acción primaria por pantalla" → fix: "Calcular sinergia" pasa a variante outline/secundaria (borde oro, sin relleno); solo el CTA de la caja borrosa queda en oro sólido.
+2. [Sección 5B completa, ubicación entre carrusel de la app y Oferta (page.tsx línea 151)] La página gira de vender "descifrar conversaciones" a un juego de horóscopo justo antes del precio; la sección pesa ~2 pantallas de scroll (≈1990px a 2x) y desvía a quien estaba a punto de decidir → fix: reducir a lo esencial (calculadora + una sola fila de 3 tarjetas de Círculo con menos alto) o mover la sección antes de Solución/carrusel, nunca inmediatamente antes de Oferta.
+3. [El Círculo, carrusel de 3 tarjetas (aprox. y 1520-1790 recorte "antes")] Las tarjetas se recortan de golpe en el margen derecho del contenedor (no sangran hasta el borde de pantalla), no hay indicador de que hay más (puntos/flecha) y solo se ven 1,3 de 3; la tercera ("Mi cita") queda escondida y el elemento parece interactivo sin destino → fix: hacer sangrar el carrusel al borde (-mx del padding y pl inicial), mostrar ~1,5 tarjetas y añadir 3 puntos indicadores, o apilar en vertical las 3 tarjetas cortas.
+4. [Calculadora, selects nativos (recorte "antes" y 630-940)] Tras el título y el párrafo, el usuario debe abrir dos <select> nativos para ver algo; la tarjeta arranca vacía sin resultado ni ejemplo precargado (empty state que no enseña) → fix: precargar una pareja de ejemplo con su % ya visible (ej. Libra + Piscis, la que ya usa el carrusel) o un valor por defecto en cada select, con el borroso ya activo.
+5. [Resultado, caja borrosa (recorte "después" y 1020-1380)] El texto encima del difuminado más el botón lleva ~330px de alto con relleno visible detrás que se ve turbio y ocupa más que el propio resultado (95%); además los emoji 💞🌸✨ de las tarjetas se mezclan con glifos ♎︎♓︎ de texto: dos sistemas en la misma tarjeta (el sistema emoji sí está permitido por la ficha, pero el glifo del signo sale en dorado plano y el emoji a color) → fix: reducir el alto de la caja a ~2 líneas de relleno y unificar el encabezado de tarjeta (emoji solo o glifo solo).
+
+---
+
+# VEREDICTO revisor-visual — landing (Ronda 8 · sección 5B reubicada y compactada)
+Fecha: 2026-09-25 00:00
+Screenshot: docs/revisiones/landing-375.png (página completa; sección puntuada sobre docs/revisiones/landing-sinergia-375-despues.png y SinergiaCirculo.tsx)
+Usabilidad: 34/40
+Craft: 16/20
+Copy (si vende): 18/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:3 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:4 h10:3
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+Detalle copy: idea:3 especificidad:4 emoción:3 oferta:4 acción:4 (trazabilidad a FICHA-AVATAR.md: NO VERIFICADA, no se leyó la ficha del avatar en esta ronda)
+Verificación de los cambios pedidos:
+- CONFIRMADO: 5B ya no queda pegada a la Oferta; va tras "Cómo funciona" y antes del recorrido por la app (defecto 2 de R7 mitigado, h8 2→3, acción 3→4).
+- CONFIRMADO en captura y código (línea 157-164): "Calcular sinergia" es botón de contorno; el único oro sólido de la sección es el CTA de la caja borrosa (defecto 1 de R7 cerrado).
+- CONFIRMADO: el carrusel sangra al borde derecho (-mx-5 + px-5) y hay pista "Desliza para ver más →" (defecto 3 cerrado a medias: la pista es solo texto de 12px en terciario, sin puntos; el propio texto se oculta en desktop).
+- PARCIAL: calculadora con selects precargados (Leo–Sagitario en el código), pero el resultado NO se ve hasta tocar "Calcular"; y la captura "después" muestra Aries–Leo/95% mientras el código precarga Leo–Sagitario, o sea el recorte no corresponde al estado por defecto actual y no prueba lo que se dice haber cambiado.
+- Quitado el párrafo de fricciones: CONFIRMADO en captura (la caja borrosa ya no muestra relleno turbio visible, solo el texto y el botón).
+Verificado en código: whileTap 0.97, conteo animado con reduced-motion, barra que se llena, aria-live, aviso de selección incompleta, botón nunca disabled. Sin undo/limpiar ni celebración.
+Top defectos:
+1. [Usabilidad, transversal] 34/40 queda a 2 puntos del gate (≥36): h3, h7, h10 siguen en 3 sin defecto puntual; la página acumula 3 chips/secciones de "juego" y demostración antes de la Oferta → fix: pasada de pulido de ayuda contextual/atajos, no hay fix de una línea.
+2. [5B, resultado, caja borrosa (aprox. y 1080-1350 del recorte)] El bloque con borde, texto de 3 líneas y botón dorado de 2 líneas ("Descifrar mi primera / conversación") ocupa casi tanto como el resultado; el CTA en 2 líneas dentro de caja estrecha se ve apretado y rompe el encaje → fix: CTA a ancho completo con texto corto en 1 línea ("Descifrar mi conversación") o quitar el borde del contenedor.
+3. [5B, calculadora, estado inicial] La tarjeta abre solo con selects y un botón contorno tenue; el número héroe (95%) no existe hasta el tap, y el botón de contorno sobre fondo oscuro cálido se lee casi como deshabilitado (borde 45% acento, fill oscuro) → fix: calcular al montar con el ejemplo precargado (resultado ya visible) o subir el borde del contorno a ≥70% acento.
+4. [Círculo, tarjetas (aprox. y 1680-1870)] Mezcla emoji a color (💞) con glifo del signo (♎︎) en dorado plano en la misma cabecera; el carrusel solo insinúa la 2ª tarjeta y la 3ª no se ve → fix: añadir 3 puntos indicadores o reducir el ancho de tarjeta a ~220px para mostrar 1,5.
+5. [Evidencia] Recorte "después" no coincide con el estado por defecto del código (Aries–Leo vs Leo–Sagitario), y landing-375.png a 83px de ancho efectivo (9090px de alto) no permite verificar detalles → fix: regenerar los recortes desde el build actual antes de la Ronda 9.

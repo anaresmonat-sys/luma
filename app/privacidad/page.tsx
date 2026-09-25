@@ -28,9 +28,10 @@ export default function Page() {
           indispensable para calcular tu numerología y tu arcano personal, el corazón de esa función.
         </li>
         <li>
-          <strong>Lo que le cuentas a LUMA</strong> — los mensajes que analizas, tus conversaciones con el coach,
-          tus tiradas de tarot y tus entradas del diario. Se guardan para que puedas volver a verlos y para que la IA
-          entienda mejor tu situación con el tiempo.
+          <strong>Lo que le cuentas a LUMA</strong> — los mensajes o capturas de pantalla que analizas, tus
+          conversaciones con el coach, tus tiradas de tarot y tus entradas del diario. Los textos se guardan para que
+          puedas volver a verlos y para que la IA entienda mejor tu situación con el tiempo. <strong>Las capturas de
+          pantalla no se guardan</strong>: se envían a la IA solo para leerlas y analizarlas, y se descartan.
         </li>
         <li>
           <strong>Datos de otras personas que tú decides guardar</strong> — si usas "El Círculo", puedes anotar el
@@ -39,7 +40,8 @@ export default function Page() {
         </li>
         <li>
           <strong>Datos de uso</strong> — qué funciones usas y cuándo, para saber si la app funciona bien y arreglar
-          errores.
+          errores. También contamos, de forma anónima, cuántas personas llegan a cada pantalla de compra (página de
+          ventas, recorrido de inicio, planes): es un simple contador, sin cookies ni datos que te identifiquen.
         </li>
         <li>
           <strong>Datos de protección contra abusos</strong> — un identificador anónimo al azar en una cookie (para

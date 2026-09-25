@@ -12,8 +12,10 @@ import { Problema } from '@/components/landing/Problema';
 import { Agitacion } from '@/components/landing/Agitacion';
 import { Solucion } from '@/components/landing/Solucion';
 import { AppPorDentro } from '@/components/landing/AppPorDentro';
+import { SinergiaCirculo } from '@/components/landing/SinergiaCirculo';
 import { Oferta } from '@/components/landing/Oferta';
 import { Garantia } from '@/components/landing/Garantia';
+import { MedirVista } from '@/components/analitica/MedirVista';
 import { Faq } from '@/components/landing/Faq';
 import { CtaFinal } from '@/components/landing/CtaFinal';
 import { FooterLegal } from '@/components/landing/FooterLegal';
@@ -25,6 +27,7 @@ const CTA_LABEL = 'Descifrar mi primera conversación';
 export default function LandingLuma() {
   return (
     <div className="min-h-dvh bg-[var(--bg)] text-[var(--text-primary)] [font-family:var(--font-body)]">
+      <MedirVista tipo="landing_vista" />
       <a
         href="#contenido"
         className="fixed left-4 top-4 z-50 -translate-y-16 rounded-[4px] bg-[var(--accent)] px-4 py-2 text-[14px] font-semibold text-[var(--bg)] transition-transform duration-150 focus:translate-y-0"
@@ -91,7 +94,7 @@ export default function LandingLuma() {
         pasos={[
           {
             titulo: 'Pega el chat',
-            detalle: 'Copias la conversación de WhatsApp, subes una captura o lo cuentas por voz.',
+            detalle: 'Copias la conversación de WhatsApp o subes una captura.',
           },
           {
             titulo: 'LUMA lo descifra',
@@ -110,6 +113,11 @@ export default function LandingLuma() {
         }}
       />
 
+      {/* 4B · SINERGIA + EL CÍRCULO — gancho sutil de curiosidad (idea del usuario, 2026-09-25).
+          Va DESPUÉS de explicar el mecanismo y ANTES del recorrido por la app, para que la oferta
+          quede seguida del recorrido y no de un desvío (hallazgo del revisor independiente). */}
+      <SinergiaCirculo ctaLabel={CTA_LABEL} ctaHref={CTA_HREF} />
+
       {/* 5 · LA APP POR DENTRO — carrusel manual (19 §5), screenshots REALES a 375px
           tomados de la app interna ya construida y revisada (Sesión 5) */}
       <AppPorDentro
@@ -126,11 +134,11 @@ export default function LandingLuma() {
             label: 'Hechos, riesgo y qué responder',
           },
           {
-            src: '/carrusel/coach.webp',
+            src: '/carrusel/coach.webp?v=2',
             label: 'Tu coach, siempre disponible',
           },
           {
-            src: '/carrusel/tarot.webp',
+            src: '/carrusel/tarot.webp?v=2',
             label: 'Una tirada leída para ti',
           },
           {
@@ -138,7 +146,7 @@ export default function LandingLuma() {
             label: 'Tu arcano de nacimiento, leído',
           },
           {
-            src: '/carrusel/diario.webp',
+            src: '/carrusel/diario.webp?v=2',
             label: 'Tus patrones, al fin visibles',
           },
         ]}
@@ -160,7 +168,7 @@ export default function LandingLuma() {
           ctaLabel: CTA_LABEL,
           ctaHref: CTA_HREF,
           features: [
-            'Descifra tus conversaciones: pega el texto, con uso justo cada día',
+            'Descifra tus conversaciones: pega el texto o sube una captura, con uso justo cada día',
             'Chat con LUMA, tu tarotista y coach, cuando quieras',
             'Tiradas de tarot leídas para tu caso, no genéricas',
             'Diario emocional que te muestra tus patrones',
@@ -174,7 +182,7 @@ export default function LandingLuma() {
           ctaLabel: CTA_LABEL,
           ctaHref: CTA_HREF,
           features: [
-            'Descifra tus conversaciones: pega el texto, con uso justo cada día',
+            'Descifra tus conversaciones: pega el texto o sube una captura, con uso justo cada día',
             'Chat con LUMA cuando lo necesites',
             'Tiradas de tarot para tu caso, no genéricas',
             'Diario emocional con tus patrones',

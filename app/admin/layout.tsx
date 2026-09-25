@@ -42,7 +42,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--accent)]">Panel privado</p>
           <h1 className="text-[22px] font-semibold text-[var(--text-primary)] [font-family:var(--font-display)]">
-            LUMA — Administración
+            <span className="text-[var(--accent-lite)]">LUMA</span> — Administración
           </h1>
         </div>
         <a href="/app" className="text-[12px] font-semibold text-[var(--text-tertiary)]">

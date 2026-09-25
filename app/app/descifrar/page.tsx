@@ -58,13 +58,50 @@ export default function DescifrarPage() {
   const [mensajeError, setMensajeError] = useState('Necesito un poco más de contexto — pega al menos un par de mensajes.');
 
   const { disponible, refrescar } = usePruebaDisponible();
+  const [imagen, setImagen] = useState<{ datos: string; vista: string } | null>(null);
+
+  // La captura se reduce en el navegador (máx. 1600 px, JPEG) antes de enviarla: pesa
+  // mucho menos, viaja más rápido y cabe en el límite de tamaño del servidor.
+  async function prepararImagen(archivo: File) {
+    if (!['image/png', 'image/jpeg', 'image/webp'].includes(archivo.type)) {
+      setMensajeError('Usa una imagen PNG, JPG o WebP.');
+      setEstado('error');
+      return;
+    }
+    try {
+      const bitmap = await createImageBitmap(archivo);
+      const escala = Math.min(1, 1600 / Math.max(bitmap.width, bitmap.height));
+      const lienzo = document.createElement('canvas');
+      lienzo.width = Math.round(bitmap.width * escala);
+      lienzo.height = Math.round(bitmap.height * escala);
+      const contexto = lienzo.getContext('2d');
+      if (!contexto) throw new Error('sin lienzo');
+      contexto.fillStyle = 'white';
+      contexto.fillRect(0, 0, lienzo.width, lienzo.height);
+      contexto.drawImage(bitmap, 0, 0, lienzo.width, lienzo.height);
+      const vista = lienzo.toDataURL('image/jpeg', 0.85);
+      const datos = vista.split(',')[1] ?? '';
+      if (!datos || datos.length > 3_000_000) throw new Error('imagen no válida o muy pesada');
+      setImagen({ datos, vista });
+      setEstado('reposo');
+    } catch {
+      setMensajeError('No pude leer esa imagen. Prueba con otra captura.');
+      setEstado('error');
+    }
+  }
 
   async function analizar() {
     if (!pruebaGratisDisponible()) {
       window.location.href = '/paywall';
       return;
     }
-    if (texto.trim().length < MIN_CARACTERES) {
+    if (modo === 'captura') {
+      if (!imagen) {
+        setMensajeError('Elige primero una captura de la conversación.');
+        setEstado('error');
+        return;
+      }
+    } else if (texto.trim().length < MIN_CARACTERES) {
       setMensajeError('Necesito un poco más de contexto — pega al menos un par de mensajes.');
       setEstado('error');
       return;
@@ -74,7 +111,7 @@ export default function DescifrarPage() {
       const res = await fetch('/api/descifrar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ texto }),
+        body: JSON.stringify(modo === 'captura' && imagen ? { imagen: { tipo: 'image/jpeg', datos: imagen.datos } } : { texto }),
       });
       if (res.status === 402) {
         window.location.href = '/paywall';
@@ -218,6 +255,70 @@ export default function DescifrarPage() {
                 </button>
               )}
             </motion.div>
+          ) : modo === 'captura' ? (
+            <motion.div
+              key="captura"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, delay: 0.07 }}
+              className="flex flex-col"
+            >
+              <div className="mt-3 flex flex-col items-center gap-3 rounded-[var(--radius-card)] border border-dashed border-[color-mix(in_oklab,var(--accent)_45%,transparent)] bg-[var(--surface-2)] p-4 text-center">
+                {imagen ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={imagen.vista}
+                    alt="Vista previa de tu captura"
+                    className="max-h-64 w-auto rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)]"
+                  />
+                ) : (
+                  <span className="text-[32px]" aria-hidden="true">
+                    📸
+                  </span>
+                )}
+                <label
+                  className={`flex h-11 cursor-pointer items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] px-4 text-[13px] font-semibold text-[var(--accent-lite)] ${
+                    disponible ? '' : 'pointer-events-none opacity-50'
+                  }`}
+                >
+                  {imagen ? 'Cambiar captura' : 'Elegir captura del chat'}
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                    className="sr-only"
+                    disabled={!disponible}
+                    onChange={(e) => {
+                      const archivo = e.target.files?.[0];
+                      if (archivo) void prepararImagen(archivo);
+                      e.target.value = '';
+                    }}
+                  />
+                </label>
+                <p className="text-[11px] leading-snug text-[var(--text-tertiary)]">
+                  Tu captura se envía a la IA solo para leerla y analizarla. No la guardamos.
+                </p>
+              </div>
+
+              <AnimatePresence>
+                {estado === 'error' && (
+                  <motion.p
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-2 overflow-hidden text-[11px] font-semibold leading-snug text-[var(--an-risk)]"
+                  >
+                    {mensajeError}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+
+              <div className="mt-3">
+                <AppButton onClick={analizar} disabled={estado === 'cargando'} busy={estado === 'cargando'}>
+                  {estado === 'cargando' ? 'Analizando…' : disponible ? 'Analizar captura' : 'Elegir mi plan'}
+                </AppButton>
+              </div>
+            </motion.div>
           ) : (
             <motion.div
               key="otro-modo"
@@ -228,13 +329,11 @@ export default function DescifrarPage() {
               className="mt-3 flex flex-col items-center gap-2 rounded-[var(--radius-card)] border border-dashed border-[color-mix(in_oklab,var(--accent)_35%,transparent)] px-4 py-10 text-center"
             >
               <span className="text-[26px]" aria-hidden="true">
-                {modo === 'captura' ? '📸' : '🎤'}
+                🎤
               </span>
               <p className="text-[13px] font-semibold text-[var(--text-primary)]">Próximamente</p>
               <p className="text-[11.5px] text-[var(--text-secondary)]">
-                {modo === 'captura'
-                  ? 'Vas a poder subir una captura del chat y LUMA la va a leer por ti.'
-                  : 'Vas a poder contarlo en voz alta y LUMA lo transcribe por ti.'}
+                Vas a poder contarlo en voz alta y LUMA lo transcribe por ti.
               </p>
               <button type="button" onClick={() => setModo('texto')} className="mt-1 text-[11px] font-bold text-[var(--accent-lite)]">
                 Volver a pegar texto
@@ -280,7 +379,11 @@ export default function DescifrarPage() {
                 <AppLinkButton href="/app/tarot">Explorar con tarot</AppLinkButton>
                 <Link
                   href="/app/coach"
-                  onClick={() => guardarMensajePendiente(`¿Qué podría responderle a esto?\n\n"${texto}"`)}
+                  onClick={() =>
+                    guardarMensajePendiente(
+                      `¿Qué podría responderle a esto?\n\n"${texto.trim() || analisis.find((a) => a.id === 'vemos')?.texto || ''}"`
+                    )
+                  }
                   className="flex h-[46px] w-full items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[13px] font-semibold text-[var(--accent-lite)]"
                 >
                   ¿Qué podría responderle?

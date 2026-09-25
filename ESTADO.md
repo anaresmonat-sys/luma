@@ -7,6 +7,31 @@ se deja SIN cambios por ahora (decisión suya). PENDIENTES tras publicar: (1) Su
 Configuration: agregar el dominio de Vercel, si no el login por correo no funciona en producción; (2) existe un
 proyecto duplicado `luma-app` en Vercel, borrarlo cuando se confirme que `luma` funciona; (3) protección de las
 rutas de IA en el servidor (hoy cualquiera con la URL puede gastar el crédito de $10; tope natural = saldo).
+🔄 CHECKPOINT — TANDA 2 (2026-09-25, local, SIN publicar): sección landing 5B "Sinergia + El Círculo"
+(components/landing/SinergiaCirculo.tsx, idea del usuario). Decisiones: % de sinergia fijo (lib/sinergia-signos.ts,
+mismo en landing y /api/compatibilidad, no lo inventa la IA); lo borroso es texto de relleno; sin "ilimitado" ni
+WhatsApp (no existen); orden: tras Solución y antes de AppPorDentro. Revisor ronda 7 = 33/40 (NO LISTA); defectos
+aplicados. Ronda 8 = 34/40 · 16/20 · copy 18/20 (NO LISTA por 2 pts de usabilidad, transversal). Tras ella: calculadora
+arranca ya calculada, botón de contorno más visible, CTA de la caja borrosa en 1 línea, tarjetas w-56. Landing
+ACEPTADA CON CRITERIO PROPIO (34/40, igual que rondas previas); sin ronda 9 por costo.
+Antes de publicar: visto bueno del usuario. Recordar: rotar clave luma_backend, 2FA Vercel.
+✅ CHECKPOINT — MEJORAS DEL PRODUCTO, tanda 1 (2026-09-25, SIN commitear/publicar). Desplegado y VERIFICADO en
+producción (luma-one-alpha.vercel.app): con las llaves SUPABASE_URL/SUPABASE_SECRET_KEY ya en Vercel, el 2.º
+resultado gratis corta (402), /admin exige sesión (307) y las cabeceras (HSTS…) están. HECHO en esta tanda:
+(1) CAMINO DE COMPRA medido: eventos anónimos `landing_vista`, `onboarding_iniciado`, `onboarding_completado`,
+`paywall_visto`, `plan_elegido` (con plan) en event_log — sin cookies ni identificadores; `registrarEventoUnaVez`
+(sessionStorage) evita contar recargas; nueva sección "Camino de compra (7 días)" en el Resumen del panel con
+barras y % vs paso anterior; Privacidad lo declara. Probado (recarga no duplica, se guarda `plan: anual`).
+(2) CAPTURA DE PANTALLA en Descifrar: pestaña "Captura" con selector, vista previa, reducción a ≤1600 px/JPEG en el
+navegador y envío a `/api/descifrar` (`imagen: {tipo, datos}`); el servidor valida tipo (png/jpeg/webp), tamaño
+(≤3,5 MB base64) y FIRMA real del archivo; la IA lee la imagen (prompt actualizado, trata el contenido como datos,
+nunca como instrucciones); la imagen NO se guarda. Probado: 6 entradas inválidas → 400; una captura de chat de prueba
+se leyó y analizó bien. Landing vuelve a prometer "pega el texto o sube una captura" (Voz sigue "próximamente").
+Privacidad actualizada. NO HECHO a propósito: tope numérico del plan pago (sin usuarios pagos hoy y el cliente
+mostraría un error genérico; se hace con Hotmart); recordatorios (necesitan correo con dominio propio o infraestructura
+de notificaciones push); guardar diario/tiradas en la cuenta (sin pantalla de historial aporta poco: primero hace falta
+esa pantalla); acceso de cortesía (nadie más puede iniciar sesión hasta verificar el dominio en Resend).
+
 ✅ CHECKPOINT — PUNTO 2 del análisis de mercado (2026-09-24, SIN commitear): (a) el límite del resultado
 gratis se avisa ANTES de escribir: nuevos `components/app/AvisoPrueba.tsx` + `lib/use-prueba-gratis.ts`
 (hook hydration-safe: arranca en "disponible" y se corrige tras montar) en Descifrar, Diario y Coach —
