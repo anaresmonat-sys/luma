@@ -191,10 +191,12 @@ export default function LandingLuma() {
         }}
       />
 
-      {/* 7 · GARANTÍA — FICHA-MERCADO §4: garantía 7 días > prueba 3 días */}
+      {/* 7 · GARANTÍA — FICHA-MERCADO §4: garantía 15 días > prueba 3 días.
+          Plazo real confirmado en el checkout de Hotmart (2026-09-28): su mínimo
+          disponible es 15 días, no 7 (el 7 era una cifra provisional). */}
       <Garantia
-        nombre="la Garantía de Calma de 7 Días"
-        condicionMarked="Pruebas [b]3 días gratis[/b]: si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, tienes [b]7 días[/b] para el reembolso completo."
+        nombre="la Garantía de Calma de 15 Días"
+        condicionMarked="Pruebas [b]3 días gratis[/b]: si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, tienes [b]15 días[/b] para el reembolso completo."
         pisoLegal="Respaldada por la garantía de Hotmart"
       />
 
@@ -224,7 +226,7 @@ export default function LandingLuma() {
           {
             pregunta: '¿Y si no me convence?',
             respuestaMarked:
-              '3 días gratis para probarla y 7 días de garantía tras el primer cobro. Cancelas cuando quieras, sin trámites.',
+              '3 días gratis para probarla y 15 días de garantía tras el primer cobro. Cancelas cuando quieras, sin trámites.',
           },
         ]}
       />
@@ -236,7 +238,7 @@ export default function LandingLuma() {
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
         recap="Descifra chats · Chat con LUMA · Tarot para tu caso · Diario de patrones · sin cobros por mensaje"
-        psMarked="PS — Empiezas gratis. Los 3 días de prueba son de verdad: si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, tienes 7 días para el reembolso completo."
+        psMarked="PS — Empiezas gratis. Los 3 días de prueba son de verdad: si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, tienes 15 días para el reembolso completo."
       />
       </main>
 

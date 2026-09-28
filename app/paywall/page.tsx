@@ -319,7 +319,7 @@ export default function PaywallLuma() {
             </span>
             <span className="flex items-center gap-1.5 whitespace-nowrap">
               <ShieldCheck size={14} aria-hidden="true" />
-              Garantía de Calma de 7 días
+              Garantía de Calma de 15 días
             </span>
           </p>
         </motion.div>

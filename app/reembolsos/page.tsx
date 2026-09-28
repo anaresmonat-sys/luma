@@ -11,9 +11,9 @@ export default function Page() {
         termine ese período, no pagas absolutamente nada.
       </p>
 
-      <h2>Garantía de 7 días</h2>
+      <h2>Garantía de 15 días</h2>
       <p>
-        Si después de tu primer cobro sientes que LUMA no es para ti, tienes <strong>7 días desde ese cobro</strong>{' '}
+        Si después de tu primer cobro sientes que LUMA no es para ti, tienes <strong>15 días desde ese cobro</strong>{' '}
         para pedir el reembolso completo — sin preguntas incómodas.
       </p>
 
@@ -35,8 +35,8 @@ export default function Page() {
       <h2>Si compras desde Brasil</h2>
       <p>
         La ley brasileña (Código de Defensa del Consumidor) te da derecho a desistir de tu compra dentro de los 7
-        días siguientes, con devolución completa — este derecho ya está incluido en nuestra garantía de 7 días de
-        arriba.
+        días siguientes, con devolución completa — este derecho ya está incluido en nuestra garantía de 15 días de
+        arriba, que dura más tiempo.
       </p>
 
       <h2>Después de un reembolso</h2>

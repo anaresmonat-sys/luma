@@ -7,7 +7,40 @@ se deja SIN cambios por ahora (decisión suya). PENDIENTES tras publicar: (1) Su
 Configuration: agregar el dominio de Vercel, si no el login por correo no funciona en producción; (2) existe un
 proyecto duplicado `luma-app` en Vercel, borrarlo cuando se confirme que `luma` funciona; (3) protección de las
 rutas de IA en el servidor (hoy cualquiera con la URL puede gastar el crédito de $10; tope natural = saldo).
-🔄 CHECKPOINT — TANDA 2 (2026-09-25, local, SIN publicar): sección landing 5B "Sinergia + El Círculo"
+✅ 2026-09-26 — PUBLICADO (commit 6f518ed + 903ae38) y CLAVE SECRETA DE SUPABASE ROTADA: `luma_backend` borrada, `luma_backend_2`
+en Vercel, verificado en producción (evento de prueba guardado antes y después del borrado). .env.local ya con la clave nueva (verificada, 200) y códigos de
+recuperación de la 2FA de Vercel guardados por el usuario (26-sep). Proyecto duplicado `luma-app` BORRADO (26-sep).
+✅ 2026-09-27 — DOMINIO PROPIO: `tuluma.app` comprado (Porkbun), conectado en Vercel (A/CNAME, ambos verificados) y
+verificado en Resend (DKIM+SPF+DMARC). Supabase Auth con SMTP custom de Resend (hola@tuluma.app). Probado con
+un correo real que no es del usuario: "Delivered" en Resend. Ya cualquier persona puede registrarse y recibir su
+enlace de acceso — desbloquea vender. Pendiente: comprar/conectar Hotmart.
+✅ 2026-09-27 — AUDITORÍA DE SEGURIDAD (27-REVISION-SEGURIDAD.md): sin críticos. Verificado en vivo: RLS por
+usuario en las 10 tablas de datos + admin_lee_todo aparte; /admin redirige sin sesión (307); descifrar valida
+firma real de imagen (magic bytes); cuenta/eliminar exige sesión+origen; rate limits activos (429 al pasar el
+tope); npm audit 0 vulnerabilidades; Next 16.3.4 (parcheado CVE-2025-29927); .env nunca commiteado; sin
+fallbacks inseguros ni CORS abierto; cabeceras HSTS/X-Frame/nosniff sirviendo en producción; cookie de prueba
+gratis httpOnly+secure+sameSite. ⚠️ 2 hallazgos NO críticos, pendientes: (1) registro con CONTRASEÑA sigue
+activo a nivel Supabase Auth aunque la app solo usa enlace mágico — alguien podría crear cuentas llamando
+directo a la API de Supabase, saltándose onboarding/paywall (spam de cuentas, no fuga de datos de otras
+personas); arreglo: Authentication → Sign In/Providers → Email → desactivar "Enable sign up" con contraseña,
+dejar solo OTP/magic link. (2) "Leaked Password Protection" desactivada (advisor de Supabase) — activarla en
+Authentication → Policies, cero costo, cero riesgo. Sin CSP todavía (anotado ya antes, no bloqueante). Costo de
+la propia auditoría: ~$0,04 en llamadas de prueba al Coach, ya limpiadas de ai_calls; cuentas de prueba
+borradas de auth.users.
+🔄 2026-09-28 — CONECTANDO HOTMART (en curso, paso a paso con el usuario en su panel): cuenta creada, producto
+"LUMA" tipo Suscripción creado (ID 8610914, estado Borrador). Planes creados: Mensual $9,99 USD y Anual $89,99
+USD, ambos con 3 días de prueba GRATIS y pago al contado. Plazo de reembolso: Hotmart NO ofrece 7 días (mínimo
+real: 15/21/30) → se eligió 15 días. Por eso el copy de garantía se actualizó de "7 días" a "15 días" en TODA la
+web (app/page.tsx, app/paywall/page.tsx, app/reembolsos/page.tsx) — SIN publicar todavía (se publica junto con
+el resto de Hotmart). Falta: completar "Datos personales" en Hotmart, revisar/crear la clase del área de
+miembros con el texto de acceso, enviar a aprobación, y luego el webhook (HOTMART_HOTTOK, endpoint
+/api/webhooks/hotmart, tablas processed_events/webhook_log/payment_transactions — implementación completa en
+docs/sistema/18-VENTA-HOTMART.md, NO improvisar una versión simplificada).
+✅ 2026-09-28 — PRODUCTO HOTMART APROBADO: "LUMA" (ID 8610914), planes Mensual $9,99 y Anual $89,99 (USD),
+3 días de prueba gratis en ambos, garantía 15 días, categoría Relaciones, área de miembros con la clase
+"Cómo acceder a LUMA" publicada. Siguiente: construir /api/webhooks/hotmart (autenticidad+frescura+idempotencia
++FSM, según 18) y guiar al usuario a sacar el HOTTOK del panel de Hotmart (Herramientas → Webhook).
+🔄 CHECKPOINT — TANDA 2 (2026-09-25, ya publicado el 26): sección landing 5B "Sinergia + El Círculo"
 (components/landing/SinergiaCirculo.tsx, idea del usuario). Decisiones: % de sinergia fijo (lib/sinergia-signos.ts,
 mismo en landing y /api/compatibilidad, no lo inventa la IA); lo borroso es texto de relleno; sin "ilimitado" ni
 WhatsApp (no existen); orden: tras Solución y antes de AppPorDentro. Revisor ronda 7 = 33/40 (NO LISTA); defectos
