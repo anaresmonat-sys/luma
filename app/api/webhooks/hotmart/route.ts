@@ -80,14 +80,11 @@ export async function POST(req: Request) {
   const event: string = payload.event;
   const eventId: string =
     payload.id ?? payload.event_id ?? payload.data?.purchase?.transaction ?? `${event}:${payload.data?.buyer?.email}:${ts ?? ''}`;
-  // El correo viaja en sitios distintos según el evento: una compra lo trae en `data.buyer`,
-  // pero SWITCH_PLAN y SUBSCRIPTION_CANCELLATION lo traen en `data.subscriber`/`data.subscription`
-  // (confirmado con "Enviar prueba de configuración" del panel de Hotmart, 2026-09-28).
+  // El correo viaja en sitios distintos según el evento (confirmado con el payload real de
+  // "Enviar prueba de configuración" del panel de Hotmart, 2026-09-28): una compra lo trae en
+  // `data.buyer`; SWITCH_PLAN y SUBSCRIPTION_CANCELLATION lo traen en `data.subscription.user`.
   const email: string | undefined =
-    payload.data?.buyer?.email ??
-    payload.data?.subscriber?.email ??
-    payload.data?.subscription?.subscriber?.email ??
-    payload.email;
+    payload.data?.buyer?.email ?? payload.data?.subscription?.user?.email ?? payload.email;
   const productoId: string | undefined = String(payload.data?.product?.id ?? '');
   const transactionId: string | undefined = payload.data?.purchase?.transaction;
   const amountMinor: number | null = payload.data?.purchase?.price?.value
@@ -108,15 +105,16 @@ export async function POST(req: Request) {
   // 6. Cambio de plan (mensual↔anual): no toca el status, solo el plan guardado. Dedupe propio.
   if (event === PLAN_CHANGE_EVENT) {
     if (!email) {
-      // DEBUG TEMPORAL 2026-09-28: para ver dónde trae el correo el payload real de SWITCH_PLAN
-      // en esta cuenta — se quita en cuanto se confirme el campo correcto.
-      await registrarError(`SWITCH_PLAN sin email — payload: ${rawBody.slice(0, 1500)}`, '/api/webhooks/hotmart:debug');
       await registrarLog(admin, { event_id: eventId, type: event, result: 'error', detail: 'sin_email' });
       return NextResponse.json({ received: true, ignored: 'sin_email' });
     }
     const { data: userId } = await admin.rpc('buscar_usuario_por_email', { p_email: email });
     if (userId) {
-      const planNuevo = /anual/i.test(offerCode ?? '') || /anual/i.test(payload.data?.subscription?.plan?.name ?? '') ? 'anual' : 'mensual';
+      // El plan nuevo (al que se cambió) viene en `data.plans`, el elemento con `current: true`
+      // (confirmado con el payload real, 2026-09-28) — no en `data.subscription.plan`.
+      const planesPayload: Array<{ current?: boolean; name?: string }> = Array.isArray(payload.data?.plans) ? payload.data.plans : [];
+      const nombrePlanActual = planesPayload.find((p) => p.current)?.name ?? '';
+      const planNuevo = /anual/i.test(offerCode ?? '') || /anual/i.test(nombrePlanActual) ? 'anual' : 'mensual';
       await admin.from('subscriptions').update({ plan: planNuevo, updated_at: new Date().toISOString() }).eq('user_id', userId);
       await registrarLog(admin, { event_id: eventId, type: event, result: 'applied' });
     }
