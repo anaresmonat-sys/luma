@@ -80,7 +80,14 @@ export async function POST(req: Request) {
   const event: string = payload.event;
   const eventId: string =
     payload.id ?? payload.event_id ?? payload.data?.purchase?.transaction ?? `${event}:${payload.data?.buyer?.email}:${ts ?? ''}`;
-  const email: string | undefined = payload.data?.buyer?.email ?? payload.email;
+  // El correo viaja en sitios distintos según el evento: una compra lo trae en `data.buyer`,
+  // pero SWITCH_PLAN y SUBSCRIPTION_CANCELLATION lo traen en `data.subscriber`/`data.subscription`
+  // (confirmado con "Enviar prueba de configuración" del panel de Hotmart, 2026-09-28).
+  const email: string | undefined =
+    payload.data?.buyer?.email ??
+    payload.data?.subscriber?.email ??
+    payload.data?.subscription?.subscriber?.email ??
+    payload.email;
   const productoId: string | undefined = String(payload.data?.product?.id ?? '');
   const transactionId: string | undefined = payload.data?.purchase?.transaction;
   const amountMinor: number | null = payload.data?.purchase?.price?.value
