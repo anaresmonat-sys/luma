@@ -139,11 +139,21 @@ export async function POST(req: Request) {
         email_confirm: true,
       });
       if (errorCrear || !creado?.user) {
-        await registrarError(errorCrear?.message ?? 'sin usuario creado', '/api/webhooks/hotmart');
-        await registrarLog(admin, { event_id: eventId, type: event, result: 'error', detail: 'no_se_creo_usuario' });
-        return NextResponse.json({ error: 'no se pudo crear el usuario' }, { status: 502 });
+        // Hotmart puede mandar varios eventos de la misma compra casi a la vez (el propio test
+        // de "Enviar prueba de configuración" lo hace): si dos peticiones llegan juntas, las dos
+        // pueden no encontrar la cuenta todavía y las dos intentan crearla — una gana, la otra
+        // recibe "ya existe". En ese caso NO es un fallo real: se vuelve a buscar por email antes
+        // de rendirse.
+        const { data: reintento } = await admin.rpc('buscar_usuario_por_email', { p_email: email });
+        if (!reintento) {
+          await registrarError(errorCrear?.message ?? 'sin usuario creado', '/api/webhooks/hotmart');
+          await registrarLog(admin, { event_id: eventId, type: event, result: 'error', detail: 'no_se_creo_usuario' });
+          return NextResponse.json({ error: 'no se pudo crear el usuario' }, { status: 502 });
+        }
+        userId = reintento;
+      } else {
+        userId = creado.user.id;
       }
-      userId = creado.user.id;
     }
 
     // Estado ANTES de aplicar el evento (para decidir si mandamos el correo de bienvenida).
