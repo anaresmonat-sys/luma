@@ -108,6 +108,9 @@ export async function POST(req: Request) {
   // 6. Cambio de plan (mensual↔anual): no toca el status, solo el plan guardado. Dedupe propio.
   if (event === PLAN_CHANGE_EVENT) {
     if (!email) {
+      // DEBUG TEMPORAL 2026-09-28: para ver dónde trae el correo el payload real de SWITCH_PLAN
+      // en esta cuenta — se quita en cuanto se confirme el campo correcto.
+      await registrarError(`SWITCH_PLAN sin email — payload: ${rawBody.slice(0, 1500)}`, '/api/webhooks/hotmart:debug');
       await registrarLog(admin, { event_id: eventId, type: event, result: 'error', detail: 'sin_email' });
       return NextResponse.json({ received: true, ignored: 'sin_email' });
     }
