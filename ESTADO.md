@@ -38,8 +38,27 @@ miembros con el texto de acceso, enviar a aprobación, y luego el webhook (HOTMA
 docs/sistema/18-VENTA-HOTMART.md, NO improvisar una versión simplificada).
 ✅ 2026-09-28 — PRODUCTO HOTMART APROBADO: "LUMA" (ID 8610914), planes Mensual $9,99 y Anual $89,99 (USD),
 3 días de prueba gratis en ambos, garantía 15 días, categoría Relaciones, área de miembros con la clase
-"Cómo acceder a LUMA" publicada. Siguiente: construir /api/webhooks/hotmart (autenticidad+frescura+idempotencia
-+FSM, según 18) y guiar al usuario a sacar el HOTTOK del panel de Hotmart (Herramientas → Webhook).
+"Cómo acceder a LUMA" publicada.
+✅ 2026-09-28 — WEBHOOK DE HOTMART CONSTRUIDO Y VERIFICADO EN PRODUCCIÓN: app/api/webhooks/hotmart/route.ts
+(autenticidad hottok en tiempo constante, anti-replay, dedupe por event_id, ledger de payment_transactions,
+FSM de membresía en lib/membership-fsm.ts, crea la cuenta passwordless si no existe y manda el enlace mágico
+por Resend en la primera activación). HOTMART_HOTTOK en Vercel. Probado con "Enviar prueba de configuración"
+de Hotmart: los 8 eventos configurados (Compra aprobada/completa/reembolsada/cancelada, Chargeback, Compra
+atrasada, Cancelación de Suscripción, Cambio de Plan) se procesan bien — última ronda: 7/7 sin errores (1
+bloqueo "illegal" esperado, por seguridad, cuando el orden desordenado del test intenta reactivar un
+reembolso ya terminal). Datos y cuentas de prueba limpiados de Supabase. Nombres reales de eventos de ESTA
+cuenta de Hotmart (no todos coinciden con la doc genérica): PURCHASE_APPROVED, PURCHASE_COMPLETE,
+PURCHASE_CANCELED (evento propio, distinto de SUBSCRIPTION_CANCELLATION), PURCHASE_REFUNDED,
+PURCHASE_CHARGEBACK, PURCHASE_DELAYED, SUBSCRIPTION_CANCELLATION, SWITCH_PLAN. El email llega en rutas
+distintas según el evento: compras → data.buyer.email; SWITCH_PLAN → data.subscription.user.email;
+SUBSCRIPTION_CANCELLATION → data.subscriber.email (todas ya cubiertas en el código).
+⚠️ Pendiente antes de la primera venta real: (1) HOTMART_PRODUCT_ID sin configurar todavía (el webhook no
+filtra por producto — solo hay un producto en la cuenta, así que no es urgente, pero conviene fijarlo);
+(2) el evento de INICIO DE TRIAL es un placeholder sin verificar (doctrina 18: puede llegar como
+PURCHASE_APPROVED con valor 0 en vez de un evento propio — hacer una compra sandbox real con período de
+prueba y capturar el JSON antes de confiar en la métrica trial→pago); (3) el paywall todavía no enlaza a
+los links de pago reales de Hotmart (falta conectar los botones "Empezar mi plan" a los links de checkout
+del producto); (4) reconciliación semanal de suscripciones (18 → "RECONCILIACIÓN SEMANAL") no implementada.
 🔄 CHECKPOINT — TANDA 2 (2026-09-25, ya publicado el 26): sección landing 5B "Sinergia + El Círculo"
 (components/landing/SinergiaCirculo.tsx, idea del usuario). Decisiones: % de sinergia fijo (lib/sinergia-signos.ts,
 mismo en landing y /api/compatibilidad, no lo inventa la IA); lo borroso es texto de relleno; sin "ilimitado" ni

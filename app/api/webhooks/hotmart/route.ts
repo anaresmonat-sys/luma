@@ -135,9 +135,6 @@ export async function POST(req: Request) {
   }
 
   if (!email) {
-    // DEBUG TEMPORAL 2026-09-28: última verificación de rutas de correo que faltan — se quita en
-    // cuanto se confirme (mismo procedimiento ya usado con éxito para SWITCH_PLAN).
-    await registrarError(`${event} sin email — payload: ${rawBody.slice(0, 1500)}`, '/api/webhooks/hotmart:debug');
     await registrarLog(admin, { event_id: eventId, type: event, result: 'error', detail: 'sin_email' });
     return NextResponse.json({ received: true, ignored: 'sin_email' });
   }
