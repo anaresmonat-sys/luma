@@ -80,11 +80,16 @@ export async function POST(req: Request) {
   const event: string = payload.event;
   const eventId: string =
     payload.id ?? payload.event_id ?? payload.data?.purchase?.transaction ?? `${event}:${payload.data?.buyer?.email}:${ts ?? ''}`;
-  // El correo viaja en sitios distintos según el evento (confirmado con el payload real de
-  // "Enviar prueba de configuración" del panel de Hotmart, 2026-09-28): una compra lo trae en
-  // `data.buyer`; SWITCH_PLAN y SUBSCRIPTION_CANCELLATION lo traen en `data.subscription.user`.
+  // El correo viaja en sitios distintos según el evento — verificado uno por uno con el payload
+  // real de "Enviar prueba de configuración" (2026-09-28): una compra lo trae en `data.buyer`;
+  // SWITCH_PLAN en `data.subscription.user`. Se dejan también las rutas más comunes de la doc de
+  // Hotmart para SUBSCRIPTION_CANCELLATION, que no llegó a confirmarse con el mismo detalle.
   const email: string | undefined =
-    payload.data?.buyer?.email ?? payload.data?.subscription?.user?.email ?? payload.email;
+    payload.data?.buyer?.email ??
+    payload.data?.subscription?.user?.email ??
+    payload.data?.subscriber?.email ??
+    payload.data?.subscription?.subscriber?.email ??
+    payload.email;
   const productoId: string | undefined = String(payload.data?.product?.id ?? '');
   const transactionId: string | undefined = payload.data?.purchase?.transaction;
   const amountMinor: number | null = payload.data?.purchase?.price?.value
@@ -130,6 +135,9 @@ export async function POST(req: Request) {
   }
 
   if (!email) {
+    // DEBUG TEMPORAL 2026-09-28: última verificación de rutas de correo que faltan — se quita en
+    // cuanto se confirme (mismo procedimiento ya usado con éxito para SWITCH_PLAN).
+    await registrarError(`${event} sin email — payload: ${rawBody.slice(0, 1500)}`, '/api/webhooks/hotmart:debug');
     await registrarLog(admin, { event_id: eventId, type: event, result: 'error', detail: 'sin_email' });
     return NextResponse.json({ received: true, ignored: 'sin_email' });
   }
