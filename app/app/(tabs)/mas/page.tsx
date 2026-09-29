@@ -52,6 +52,15 @@ export default function MasPage() {
 
   useEffect(() => {
     setGratisDisponible(pruebaGratisDisponible());
+    // El recordatorio local no sabe si ya hay un plan real (cortesía o pago) —
+    // se corrige con la verdad del servidor en cuanto llega (mismo defecto real
+    // corregido en lib/use-prueba-gratis.ts, 2026-09-29).
+    fetch('/api/mi-plan')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((datos: { activo?: boolean } | null) => {
+        if (datos?.activo) setGratisDisponible(false);
+      })
+      .catch(() => {});
     let cancelado = false;
     void (async () => {
       const supabase = crearClienteNavegador();

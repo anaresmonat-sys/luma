@@ -258,7 +258,7 @@ export default function TarotPage() {
                 disabled={cargando === t.id}
                 className="flex w-full items-center gap-3 py-4 text-left disabled:opacity-70"
               >
-                {tirada?.cartas[0]?.imagen ? (
+                {abierto && tirada?.cartas[0]?.imagen ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={tirada.cartas[0].imagen.replace('/tarot/', '/tarot/mini/')}
