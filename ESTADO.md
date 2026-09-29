@@ -59,6 +59,22 @@ PURCHASE_APPROVED con valor 0 en vez de un evento propio — hacer una compra sa
 prueba y capturar el JSON antes de confiar en la métrica trial→pago); (3) el paywall todavía no enlaza a
 los links de pago reales de Hotmart (falta conectar los botones "Empezar mi plan" a los links de checkout
 del producto); (4) reconciliación semanal de suscripciones (18 → "RECONCILIACIÓN SEMANAL") no implementada.
+🔄 2026-09-29 — PAYWALL CONECTADO A HOTMART (código listo, SIN publicar): lib/hotmart-links.ts con los
+enlaces reales de pago (plan Mensual off=l96aiyz9, plan Anual/"Plan Luna" off=0zkut925,
+showOnlyTrial=1). El botón "Empezar mis 3 días gratis" de app/paywall/page.tsx ya no simula un
+desbloqueo local (se quitó desbloquearPorPlan/pantalla "Vista previa de tu pago") — redirige de
+verdad a pay.hotmart.com. Compilado y buildado sin errores. `lib/prueba-gratis.ts`: planActivo()
+queda como simulación residual, solo usada hoy en app/app/circulo/page.tsx para un aviso de UI menor
+(no es una puerta de seguridad — el acceso real ya lo decide el servidor vía controlarAccesoGratis +
+la suscripción real). Falta: publicar (pendiente del OK del usuario) y luego una compra de prueba
+real de punta a punta.
+✅ 2026-09-28 — CORREO DE SOPORTE: `soporte@tuluma.app` creado como reenvío gratis en Porkbun hacia
+anares.monat@gmail.com (sirve para redes sociales y atención a compradoras). Se intentó primero crear
+una cuenta de Gmail dedicada (soportetuluma@gmail.com), pero Google bloqueó la verificación por
+teléfono ("número usado demasiadas veces") — se descartó esa vía. Alias de ENVÍO también configurado en
+Gmail (Ajustes → Cuentas → Enviar correo como), vía SMTP de Resend (smtp.resend.com, llave
+`gmail-alias-soporte`, sending access) — verificado con el enlace de confirmación que llegó por el
+reenvío. Ya se puede recibir Y responder como soporte@tuluma.app desde el Gmail de siempre.
 🔄 CHECKPOINT — TANDA 2 (2026-09-25, ya publicado el 26): sección landing 5B "Sinergia + El Círculo"
 (components/landing/SinergiaCirculo.tsx, idea del usuario). Decisiones: % de sinergia fijo (lib/sinergia-signos.ts,
 mismo en landing y /api/compatibilidad, no lo inventa la IA); lo borroso es texto de relleno; sin "ilimitado" ni

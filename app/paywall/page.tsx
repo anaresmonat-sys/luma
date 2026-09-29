@@ -16,7 +16,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { X, Lock, ShieldCheck, Check } from 'lucide-react';
+import { X, Lock, ShieldCheck } from 'lucide-react';
 import { CheckCustom, Hairline } from '@/components/landing/ui';
 import { MarkedCopy } from '@/components/landing/MarkedCopy';
 import { TimelineTrial } from '@/components/paywall/Timeline';
@@ -24,20 +24,10 @@ import { PlanCards, type PlanPaywall } from '@/components/paywall/PlanCards';
 import { leerRespuestas } from '@/lib/almacenamiento-onboarding';
 import { beneficiosPlan, contarRespuestas, type Respuestas } from '@/app/onboarding/flujo';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
-import { desbloquearPorPlan } from '@/lib/prueba-gratis';
 import { registrarEvento, registrarEventoUnaVez } from '@/lib/registrar-evento';
+import { checkoutHotmart } from '@/lib/hotmart-links';
 
 const TRIAL_DIAS = 3;
-
-// Fecha exacta del primer cobro (hoy + días de prueba) — el marco legal de
-// renovaciones automáticas exige la fecha, no un conteo de días (47-LEGAL §2).
-// Solo se llama desde la vista previa de pago, que aparece tras un clic (nunca
-// en el render inicial del servidor), así que no hay riesgo de hidratación.
-function fechaPrimerCobro(): string {
-  const fecha = new Date();
-  fecha.setDate(fecha.getDate() + TRIAL_DIAS);
-  return fecha.toLocaleDateString('es', { day: 'numeric', month: 'long' });
-}
 
 const PLAN_ANUAL: PlanPaywall = {
   id: 'anual',
@@ -73,7 +63,6 @@ export default function PaywallLuma() {
   const reduce = useReducedMotion();
   const [seleccionado, setSeleccionado] = useState<'anual' | 'mensual'>('anual');
   const [respuestas, setRespuestas] = useState<Respuestas | null>(null);
-  const [confirmado, setConfirmado] = useState(false);
 
   // Lectura en efecto (no lazy initializer): localStorage es client-only —
   // leerlo de forma síncrona en el render inicial rompe la hidratación
@@ -87,73 +76,6 @@ export default function PaywallLuma() {
 
   const nRespuestas = respuestas ? contarRespuestas(respuestas) : 0;
   const beneficios = respuestas ? beneficiosPlan(respuestas) : BENEFICIOS_GENERICOS;
-
-  if (confirmado) {
-    return (
-      <div className="flex min-h-dvh flex-col [font-family:var(--font-body)]">
-        {/* Mismo header que el resto del funnel (antes solo dejaba la X flotando sin marca) */}
-        <div className="flex h-14 items-center justify-between px-3">
-          <a
-            href="/"
-            aria-label="Cerrar"
-            className="flex size-11 items-center justify-center rounded-[var(--radius-button)] text-[var(--text-secondary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-          >
-            <X size={20} strokeWidth={2} aria-hidden="true" />
-          </a>
-          <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--accent-lite)] [font-family:var(--font-display)]">
-          LUMA
-        </span>
-          <span className="size-11" aria-hidden="true" />
-        </div>
-        <div className="flex flex-1 flex-col items-center justify-center px-6 pb-14 text-center">
-        <motion.div
-          initial={{ opacity: 0, scale: reduce ? 1 : 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: reduce ? 0.2 : 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="flex max-w-[340px] flex-col items-center"
-        >
-          <span
-            aria-hidden="true"
-            className="flex size-16 items-center justify-center rounded-full bg-[color-mix(in_oklab,var(--accent)_15%,transparent)]"
-          >
-            <Check size={28} strokeWidth={2.5} color="var(--accent)" aria-hidden="true" />
-          </span>
-          <h1 className="mt-5 text-[24px] font-bold text-[var(--text-primary)] [font-family:var(--font-display)]">
-            Vista previa de tu pago
-          </h1>
-          <p className="mt-3 text-[15px] leading-relaxed text-[var(--text-secondary)]">
-            Aquí se abrirá Hotmart para activar tu prueba — nada se cobró todavía.
-          </p>
-
-          <div className="mt-5 w-full rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_18%,transparent)] bg-[var(--surface)] p-4 text-left">
-            <div className="flex items-center justify-between text-[14px]">
-              <span className="text-[var(--text-secondary)]">Plan</span>
-              <span className="font-semibold text-[var(--text-primary)]">
-                {seleccionado === 'anual' ? 'Anual' : 'Mensual'}
-              </span>
-            </div>
-            <div className="mt-2 flex items-center justify-between text-[14px]">
-              <span className="text-[var(--text-secondary)]">Hoy</span>
-              <span className="font-semibold text-[var(--accent)]">$0,00</span>
-            </div>
-            <div className="mt-2 flex items-center justify-between text-[14px]">
-              <span className="text-[var(--text-secondary)]">1er cobro ({fechaPrimerCobro()})</span>
-              <span className="font-semibold text-[var(--text-primary)]">{PRECIO_TEXTO[seleccionado]}</span>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setConfirmado(false)}
-            className="mt-6 flex min-h-11 items-center px-3 text-[14px] font-medium text-[var(--accent)] underline-offset-4 hover:underline"
-          >
-            Volver a los planes
-          </button>
-        </motion.div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex min-h-dvh flex-col [font-family:var(--font-body)]">
@@ -279,8 +201,7 @@ export default function PaywallLuma() {
             type="button"
             onClick={() => {
               registrarEvento('plan_elegido', { plan: seleccionado });
-              desbloquearPorPlan();
-              setConfirmado(true);
+              window.location.href = checkoutHotmart(seleccionado);
             }}
             whileTap={{ scale: 0.97 }}
             className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
