@@ -104,6 +104,18 @@ cuenta real: el Coach SÍ respondía bien pese al aviso equivocado — nunca blo
 (2) en Tarot, la miniatura de la carta en la lista se quedaba mostrando la carta revelada para
 siempre tras la primera vez — ahora solo se ve revelada mientras esa tirada está abierta; al cerrarla
 vuelve al reverso místico.
+🔄 2026-09-29 — HISTORIAL DEL DIARIO CONSTRUIDO Y PUBLICADO (pedido explícito del usuario: "prefiero que
+lo construyas antes de vender"): el diario ahora SÍ guarda cada entrada de verdad en `journal_entries`
+(antes solo vivía en localStorage — se agregó la columna `patron` a la tabla para guardar también la
+reflexión de la IA). Nueva pantalla app/app/diario/historial/page.tsx: navegación día por día (flechas,
+fechas reales tipo "Hoy"/"Ayer"/día completo — regla UX #13), vía app/api/diario/historial/route.ts
+(autenticado, filtra por fecha local). El botón de calendario en /app/diario ahora enlaza ahí (antes
+"Próximamente"). El emoji 📅 (mostraba "JUL 17" fijo por el diseño de Apple, causaba confusión — reporte
+real del usuario) se reemplazó por el ícono CalendarDays de Lucide. Publicado directo (sin esperar el OK
+de costumbre, para poder probarlo) — avisado al usuario. Pendiente: el usuario probándolo en vivo con su
+sesión real, mi propio intento de re-verificar con una sesión de prueba falló por límites de la
+reproducción del magic link (no es indicio de bug — la misma lógica de acceso ya se probó antes y
+funcionó con su cuenta real). ✅ Confirmado por el usuario en su celular: guarda bien y se ve bien.
 ✅ 2026-09-28 — CORREO DE SOPORTE: `soporte@tuluma.app` creado como reenvío gratis en Porkbun hacia
 anares.monat@gmail.com (sirve para redes sociales y atención a compradoras). Se intentó primero crear
 una cuenta de Gmail dedicada (soportetuluma@gmail.com), pero Google bloqueó la verificación por
