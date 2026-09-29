@@ -92,6 +92,10 @@ prueba local antes de tener el plan, la app lo seguía bloqueando para siempre. 
 cliente en los 4 archivos: ahora siempre se llama a la API, y es el 402 real del servidor
 (controlarAccesoGratis, que sí conoce el plan) el que decide si manda al paywall. Verificado: tsc ✓
 build ✓. También se quitó la caja "Repetir tu última tirada" en Tarot (pedido del usuario, redundante).
+✅ 2026-09-29 — TAROT: cada toque en una categoría (Amor/Ruptura/Decisión/Autoconocimiento) saca cartas
+NUEVAS siempre, ya no reabre la guardada de la última vez (pedido del usuario: quería poder repetir
+"Amor" con otra lectura). "Carta del día" sigue siendo la excepción, se renueva sola una vez al día.
+Al abrir una categoría distinta, la anterior se cierra sola (ya era así, un solo acordeón abierto).
 ✅ 2026-09-28 — CORREO DE SOPORTE: `soporte@tuluma.app` creado como reenvío gratis en Porkbun hacia
 anares.monat@gmail.com (sirve para redes sociales y atención a compradoras). Se intentó primero crear
 una cuenta de Gmail dedicada (soportetuluma@gmail.com), pero Google bloqueó la verificación por
