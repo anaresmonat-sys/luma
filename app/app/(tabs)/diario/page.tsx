@@ -19,7 +19,7 @@ import { AvisoPrueba } from '@/components/app/AvisoPrueba';
 import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import { EMOCIONES_DIARIO, ENTRADA_DIARIO_EJEMPLO } from '@/lib/seed-datos';
 import { leerYLimpiarEntradaPendiente } from '@/lib/almacenamiento-diario';
-import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
+import { consumirPruebaGratis } from '@/lib/prueba-gratis';
 
 const CLAVE_ULTIMO_PATRON = 'luma_diario_ultimo_patron';
 
@@ -83,10 +83,9 @@ export default function DiarioPage() {
   }, [registros]);
 
   async function guardar() {
-    if (!pruebaGratisDisponible()) {
-      window.location.href = '/paywall';
-      return;
-    }
+    // No cortar aquí mirando solo localStorage: ese valor no sabe si ya hay un
+    // plan (pagado o de cortesía) — la verdad la decide el servidor con el 402
+    // de más abajo (defecto real: bloqueaba a alguien con cortesía activa).
     if (!texto.trim()) {
       setErrorVacio(true);
       window.setTimeout(() => setErrorVacio(false), 2200);

@@ -19,7 +19,7 @@ import { AvisoIA } from '@/components/app/AvisoIA';
 import { AvisoPrueba } from '@/components/app/AvisoPrueba';
 import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import { CONVERSACION_EJEMPLO } from '@/lib/seed-datos';
-import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
+import { consumirPruebaGratis } from '@/lib/prueba-gratis';
 import { guardarMensajePendiente } from '@/lib/almacenamiento-coach';
 
 type Modo = 'texto' | 'captura' | 'voz';
@@ -91,10 +91,9 @@ export default function DescifrarPage() {
   }
 
   async function analizar() {
-    if (!pruebaGratisDisponible()) {
-      window.location.href = '/paywall';
-      return;
-    }
+    // No cortar aquí mirando solo localStorage: ese valor no sabe si ya hay un
+    // plan (pagado o de cortesía) — la verdad la decide el servidor con el 402
+    // de más abajo (defecto real: bloqueaba a alguien con cortesía activa).
     if (modo === 'captura') {
       if (!imagen) {
         setMensajeError('Elige primero una captura de la conversación.');

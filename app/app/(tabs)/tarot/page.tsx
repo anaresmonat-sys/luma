@@ -21,7 +21,7 @@ import { AvisoIA } from '@/components/app/AvisoIA';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { TIRADAS_TAROT } from '@/lib/seed-datos';
 import { guardarEntradaPendiente } from '@/lib/almacenamiento-diario';
-import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
+import { consumirPruebaGratis } from '@/lib/prueba-gratis';
 import { drawCards, cartaDelDia, citaDeCarta, POSICIONES_TIRADA, type CartaExtraida } from '@/lib/tarotDeck';
 
 const CLAVE_ULTIMA_TIRADA = 'luma_ultima_tirada';
@@ -149,10 +149,10 @@ export default function TarotPage() {
     // nueva (antes se quedaba congelada en la primera vez que se abrió).
     const desactualizada = id === 'carta-del-dia' && guardadas[id]?.fecha !== claveDelDia();
     if (!guardadas[id] || desactualizada) {
-      if (!pruebaGratisDisponible()) {
-        window.location.href = '/paywall';
-        return;
-      }
+      // OJO: no cortar aquí mirando solo localStorage — ese valor no sabe si la
+      // persona ya tiene un plan (pagado o de cortesía). La verdad la decide el
+      // servidor, con el 402 de abajo (defecto real: a alguien con cortesía
+      // activa lo mandaba al paywall sin siquiera preguntarle a la base de datos).
       const pregunta = TIRADAS_TAROT.find((t) => t.id === id)?.pregunta ?? '';
       // Carta del día: 1 sola carta (estándar del sector). El resto: 3 cartas con
       // posición propia, leídas por la IA como una sola historia conectada.
@@ -358,22 +358,9 @@ export default function TarotPage() {
         })}
       </motion.div>
 
-      {/* Carta del día ya se renueva sola y es la última de la lista: repetirla
-          aparte sería idéntico a tocarla ahí arriba, sin aportar nada. */}
-      {ultima && ultima !== 'carta-del-dia' && guardadas[ultima] && (
-        <button
-          type="button"
-          onClick={() => alternar(ultima)}
-          className="mt-4 flex items-center justify-between rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3 text-left"
-        >
-          <span className="text-[12.5px] font-semibold text-[var(--accent-lite)]">
-            Repetir tu última tirada: {TIRADAS_TAROT.find((t) => t.id === ultima)?.nombre}
-          </span>
-          <span aria-hidden="true" className="text-[var(--accent-lite)]">
-            →
-          </span>
-        </button>
-      )}
+      {/* La caja "Repetir tu última tirada" se quitó (pedido del usuario, no
+          aportaba: cada tirada ya se guarda y se puede reabrir tocándola arriba
+          en la lista, esto era un atajo redundante y sin sentido claro). */}
 
       <p className="mt-8 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">Más lecturas</p>
 

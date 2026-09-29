@@ -16,7 +16,7 @@ import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import type { MensajeCoach } from '@/lib/seed-datos';
 import { aperturaCoach } from '@/lib/coach-saludo';
 import { leerRespuestas } from '@/lib/almacenamiento-onboarding';
-import { pruebaGratisDisponible, consumirPruebaGratis } from '@/lib/prueba-gratis';
+import { consumirPruebaGratis } from '@/lib/prueba-gratis';
 import { leerYLimpiarMensajePendiente } from '@/lib/almacenamiento-coach';
 import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
 
@@ -92,10 +92,9 @@ export default function CoachPage() {
   function enviar(contenido: string) {
     const texto = contenido.trim();
     if (!texto) return;
-    if (!pruebaGratisDisponible()) {
-      window.location.href = '/paywall';
-      return;
-    }
+    // No cortar aquí mirando solo localStorage: ese valor no sabe si ya hay un
+    // plan (pagado o de cortesía) — la verdad la decide el servidor con el 402
+    // de más abajo (defecto real: bloqueaba a alguien con cortesía activa).
     consumirPruebaGratis();
     refrescar();
     const mensaje: MensajeCoach = { id: crypto.randomUUID(), autor: 'yo', texto };
