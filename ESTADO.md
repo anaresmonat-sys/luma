@@ -77,6 +77,13 @@ de tuluma.app para CUALQUIER persona (no solo el admin) — Supabase Auth → UR
 agregaron https://www.tuluma.app/** y https://tuluma.app/** a la lista; Site URL ya estaba bien
 (https://www.tuluma.app). Verificado por el usuario: ya entra bien desde el celular. Este bug habría
 bloqueado el acceso de TODAS las compradoras reales — bien encontrado antes de vender.
+✅ 2026-09-29 — DEFECTO REAL CORREGIDO (feedback de la usuaria probando la app): la tirada de tarot
+"Amor" asumía que la usuaria tenía pareja (pregunta fija "¿Qué necesito comprender sobre esta
+relación?" + instrucción de la IA que solo hablaba de "su vínculo romántico"). Corregido en
+lib/seed-datos.ts (pregunta → "¿Qué necesito comprender sobre mi vida amorosa ahora?") y
+app/api/tarot/route.ts (la IA ahora lee el momento actual sin pareja si no se menciona a nadie, en
+vez de inventar una relación). Se revisó el resto de la app (Coach, Diario, Numerología,
+Compatibilidad) buscando el mismo problema — no se encontró en ninguna otra parte.
 ✅ 2026-09-28 — CORREO DE SOPORTE: `soporte@tuluma.app` creado como reenvío gratis en Porkbun hacia
 anares.monat@gmail.com (sirve para redes sociales y atención a compradoras). Se intentó primero crear
 una cuenta de Gmail dedicada (soportetuluma@gmail.com), pero Google bloqueó la verificación por
