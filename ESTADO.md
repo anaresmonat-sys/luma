@@ -96,6 +96,14 @@ build ✓. También se quitó la caja "Repetir tu última tirada" en Tarot (pedi
 NUEVAS siempre, ya no reabre la guardada de la última vez (pedido del usuario: quería poder repetir
 "Amor" con otra lectura). "Carta del día" sigue siendo la excepción, se renueva sola una vez al día.
 Al abrir una categoría distinta, la anterior se cierra sola (ya era así, un solo acordeón abierto).
+✅ 2026-09-29 — DOS DEFECTOS MÁS CORREGIDOS (probando con la cuenta real, cortesía+admin):
+(1) el aviso "Ya usaste tu resultado gratis" (Coach/Diario/Descifrar/Tarot y la pantalla "Más") solo
+miraba localStorage y no sabía si la cuenta ya tenía plan real — nuevo endpoint /api/mi-plan (GET,
+autenticado) da la verdad del servidor y el aviso se corrige solo al cargar. Verificado con la
+cuenta real: el Coach SÍ respondía bien pese al aviso equivocado — nunca bloqueaba, solo confundía.
+(2) en Tarot, la miniatura de la carta en la lista se quedaba mostrando la carta revelada para
+siempre tras la primera vez — ahora solo se ve revelada mientras esa tirada está abierta; al cerrarla
+vuelve al reverso místico.
 ✅ 2026-09-28 — CORREO DE SOPORTE: `soporte@tuluma.app` creado como reenvío gratis en Porkbun hacia
 anares.monat@gmail.com (sirve para redes sociales y atención a compradoras). Se intentó primero crear
 una cuenta de Gmail dedicada (soportetuluma@gmail.com), pero Google bloqueó la verificación por
