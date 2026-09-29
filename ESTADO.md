@@ -66,8 +66,17 @@ desbloqueo local (se quitó desbloquearPorPlan/pantalla "Vista previa de tu pago
 verdad a pay.hotmart.com. Compilado y buildado sin errores. `lib/prueba-gratis.ts`: planActivo()
 queda como simulación residual, solo usada hoy en app/app/circulo/page.tsx para un aviso de UI menor
 (no es una puerta de seguridad — el acceso real ya lo decide el servidor vía controlarAccesoGratis +
-la suscripción real). Falta: publicar (pendiente del OK del usuario) y luego una compra de prueba
-real de punta a punta.
+la suscripción real). PUBLICADO. Falta: la compra de prueba real de punta a punta.
+✅ 2026-09-29 — ACCESO DE CORTESÍA construido y publicado: botón en /admin/usuarios ("+ Dar acceso de
+cortesía" / "Quitar cortesía"), vía app/api/admin/cortesia/route.ts (upsert/delete en `subscriptions`,
+plan='cortesia', estado='active', sin fecha de fin — el mismo camino que ya usa un pago real, sin código
+nuevo en la app). La persona debe registrarse ella misma en tuluma.app antes de poder dársela.
+✅ 2026-09-29 — BUG REAL CORREGIDO (crítico): el enlace mágico de acceso apuntaba a "localhost" en vez
+de tuluma.app para CUALQUIER persona (no solo el admin) — Supabase Auth → URL Configuration tenía
+"Redirect URLs" vacía desde que se cambió de dominio, así que Supabase caía al Site URL viejo. Se
+agregaron https://www.tuluma.app/** y https://tuluma.app/** a la lista; Site URL ya estaba bien
+(https://www.tuluma.app). Verificado por el usuario: ya entra bien desde el celular. Este bug habría
+bloqueado el acceso de TODAS las compradoras reales — bien encontrado antes de vender.
 ✅ 2026-09-28 — CORREO DE SOPORTE: `soporte@tuluma.app` creado como reenvío gratis en Porkbun hacia
 anares.monat@gmail.com (sirve para redes sociales y atención a compradoras). Se intentó primero crear
 una cuenta de Gmail dedicada (soportetuluma@gmail.com), pero Google bloqueó la verificación por

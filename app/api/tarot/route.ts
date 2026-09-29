@@ -28,7 +28,7 @@ export const runtime = 'nodejs';
 // diario) en vez de forzar todo a lo romántico; aquí se replica con un mismo lector
 // experto en simbolismo de tarot cuyo ángulo de lectura cambia según la categoría.
 const ENFOQUE_POR_CATEGORIA: Record<string, string> = {
-  amor: 'Enfoca la lectura en su vínculo romántico o la persona que le importa: qué dice la carta de esa relación o de cómo se está vinculando.',
+  amor: 'Enfoca la lectura en su vida amorosa, sin asumir si tiene pareja o no. Si la pregunta o el contexto menciona a alguien concreto, léela sobre ese vínculo (qué dice la carta de esa relación o de cómo se está vinculando). Si NO menciona a nadie, léela sobre su momento actual sin pareja: qué le dice la carta sobre lo que está abierta a recibir, un patrón que repite al buscar o evitar el amor, o cómo se está relacionando consigo misma mientras tanto — nunca inventes una persona ni una relación que ella no mencionó.',
   ruptura: 'Enfoca la lectura en el cierre de un ciclo o vínculo que terminó: qué le impide soltar, qué necesita para cerrarlo con paz.',
   decision: 'Enfoca la lectura en una decisión de vida que tiene por delante (no asumas que es sobre pareja salvo que la pregunta lo diga): qué factor no está viendo, qué camino sugiere la carta.',
   autoconocimiento: 'Enfoca la lectura en ella misma: un patrón, una sombra o una fortaleza propia — NO la traduzcas a una relación de pareja salvo que la pregunta lo mencione explícitamente.',
