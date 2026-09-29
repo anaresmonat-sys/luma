@@ -44,6 +44,7 @@ export default function MasPage() {
   const [aviso, setAviso] = useState<string | null>(null);
   const [conSesion, setConSesion] = useState(false);
   const [correo, setCorreo] = useState<string | null>(null);
+  const [nombre, setNombre] = useState<string | null>(null);
   const [cerrando, setCerrando] = useState(false);
   const [gratisDisponible, setGratisDisponible] = useState(true);
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false);
@@ -70,6 +71,14 @@ export default function MasPage() {
       if (!cancelado) {
         setConSesion(Boolean(user));
         setCorreo(user?.email ?? null);
+      }
+      // Pedido del usuario, 2026-09-29: mostrar el nombre en vez del correo se
+      // siente más personal. El nombre solo existe si ya completó el Mapa de
+      // Poder (o si un admin lo agregó a mano) — si no, se sigue viendo el
+      // correo, nunca un hueco vacío.
+      if (user) {
+        const { data: perfil } = await supabase.from('profiles').select('nombre').eq('id', user.id).maybeSingle();
+        if (!cancelado && perfil?.nombre) setNombre(perfil.nombre);
       }
     })();
     return () => {
@@ -128,7 +137,7 @@ export default function MasPage() {
           <User size={20} strokeWidth={2.5} color="var(--on-accent)" aria-hidden="true" />
         </span>
         <div className="flex-1">
-          <p className="text-[15px] font-semibold text-[var(--text-primary)]">{correo ?? 'Tu cuenta'}</p>
+          <p className="text-[15px] font-semibold text-[var(--text-primary)]">{nombre ?? correo ?? 'Tu cuenta'}</p>
           {gratisDisponible ? (
             <p className="mt-0.5 text-[11px] font-semibold text-[var(--text-secondary)]">Sin plan activo todavía</p>
           ) : (
