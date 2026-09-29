@@ -4,13 +4,14 @@
 // aprobado). Check-in + registro libre + reflexión generada por IA real vía
 // /api/diario (antes mostraba SIEMPRE la misma frase fija sin importar lo que
 // la usuaria escribiera — defecto real reportado por el usuario en la
-// auditoría 2026-09-18). El ícono de calendario y "Ver mi patrón" abren V2 (no
-// construido aún: "Próximamente" honesto en vez de fingir que funciona — 11),
-// igual que el mic.
+// auditoría 2026-09-18). El ícono de calendario abre /app/diario/historial
+// (construido 2026-09-29, pedido del usuario antes de vender). "Ver mi patrón"
+// sigue en "Próximamente" (honesto — 11), igual que el mic.
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
+import { CalendarDays } from 'lucide-react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton } from '@/components/app/AppButton';
 import { MoodPicker } from '@/components/app/MoodPicker';
@@ -154,14 +155,13 @@ export default function DiarioPage() {
             titulo="Diario emocional"
             volverHref="/app"
             derecha={
-              <button
-                type="button"
-                onClick={() => tocarProximamente('Próximamente: historial de tu diario')}
+              <Link
+                href="/app/diario/historial"
                 aria-label="Historial del diario"
-                className="flex size-11 items-center justify-center text-[16px]"
+                className="flex size-11 items-center justify-center text-[var(--text-secondary)]"
               >
-                📅
-              </button>
+                <CalendarDays size={20} strokeWidth={1.75} aria-hidden="true" />
+              </Link>
             }
           />
         </motion.div>

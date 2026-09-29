@@ -10,6 +10,7 @@ import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
 import { controlarAccesoGratis } from '@/lib/prueba-servidor';
+import { crearClienteServidor } from '@/lib/supabase/server';
 
 export const runtime = 'nodejs';
 
@@ -72,6 +73,22 @@ export async function POST(request: Request) {
     if (!patron) {
       await acceso.devolver();
       return NextResponse.json({ error: 'Sin respuesta' }, { status: 502 });
+    }
+
+    // Guardar de verdad el registro (antes solo vivía en localStorage, así que
+    // se perdía al cambiar de celular o borrar datos del navegador — defecto
+    // real, 2026-09-29: sin esto no hay ningún historial que mostrar). Solo con
+    // sesión real: con RLS (insert_own), cada quien solo puede escribir la suya.
+    // Si falla el guardado, la reflexión igual se entrega — no se bloquea a
+    // nadie por un problema de la base de datos.
+    if (usuarioIdIA) {
+      const supabase = await crearClienteServidor();
+      const { error: errorGuardar } = await supabase
+        .from('journal_entries')
+        .insert({ user_id: usuarioIdIA, texto, animo, patron });
+      if (errorGuardar) {
+        await registrarError(errorGuardar.message, '/api/diario:guardar');
+      }
     }
 
     return NextResponse.json({ patron });
