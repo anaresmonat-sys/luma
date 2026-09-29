@@ -7,6 +7,7 @@
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
 import { Tarjeta, Seccion, SinDatos } from '@/components/admin/Tarjeta';
 import { FormularioAgregarUsuario } from '@/components/admin/FormularioAgregarUsuario';
+import { BotonCortesia } from '@/components/admin/BotonCortesia';
 import { Glosa } from '@/components/admin/Glosa';
 
 export const dynamic = 'force-dynamic';
@@ -37,6 +38,7 @@ export default async function AdminUsuariosPage() {
       creado: u.created_at,
       ultimoAcceso: u.last_sign_in_at,
       estadoPlan: (suscripcionPorId.get(u.id) as any)?.estado ?? 'sin_suscripcion',
+      plan: (suscripcionPorId.get(u.id) as any)?.plan ?? null,
     }))
     .sort((a, b) => new Date(b.creado).getTime() - new Date(a.creado).getTime());
 
@@ -81,6 +83,15 @@ export default async function AdminUsuariosPage() {
                       </Glosa>
                     </span>
                   </th>
+                  <th className="px-3 py-2.5">
+                    <span className="inline-flex items-center">
+                      Cortesía
+                      <Glosa termino="Cortesía">
+                        Acceso completo activado a mano, sin que la persona haya pagado — para dejar
+                        entrar a alguien de confianza a probar la app.
+                      </Glosa>
+                    </span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -89,11 +100,14 @@ export default async function AdminUsuariosPage() {
                     <td className="px-3 py-2.5 text-[var(--text-primary)]">{u.nombre}</td>
                     <td className="px-3 py-2.5 text-[var(--text-secondary)]">{u.email}</td>
                     <td className="px-3 py-2.5 text-[var(--text-secondary)]">
-                      {u.estadoPlan === 'sin_suscripcion' ? 'Sin plan' : u.estadoPlan}
+                      {u.estadoPlan === 'sin_suscripcion' ? 'Sin plan' : u.plan === 'cortesia' ? 'Cortesía' : u.estadoPlan}
                     </td>
                     <td className="px-3 py-2.5 text-[var(--text-secondary)]">{formatearFecha(u.creado)}</td>
                     <td className="px-3 py-2.5 text-[var(--text-secondary)]">{formatearFecha(u.ultimoAcceso)}</td>
                     <td className="px-3 py-2.5 text-[var(--text-secondary)]">{u.role === 'admin' ? 'Admin' : 'Usuaria'}</td>
+                    <td className="px-3 py-2.5">
+                      <BotonCortesia userId={u.id} esCortesia={u.plan === 'cortesia'} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
