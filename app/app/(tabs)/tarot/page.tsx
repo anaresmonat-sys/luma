@@ -144,11 +144,13 @@ export default function TarotPage() {
       return;
     }
 
-    // "Carta del día" se renueva sola cada día: si la guardada es de una fecha
-    // anterior, se trata como si no hubiera nada guardado y se pide una lectura
-    // nueva (antes se quedaba congelada en la primera vez que se abrió).
-    const desactualizada = id === 'carta-del-dia' && guardadas[id]?.fecha !== claveDelDia();
-    if (!guardadas[id] || desactualizada) {
+    // Pedido del usuario, 2026-09-29: cada toque saca una carta NUEVA, siempre
+    // — antes reabría la tirada guardada de la última vez, y no había forma de
+    // repetir "Amor" (o cualquier categoría) con una lectura distinta. Única
+    // excepción: "Carta del día", que se renueva sola una vez al día (estándar
+    // del sector) — ahí sí se reutiliza la guardada mientras sea de hoy.
+    const yaEsDeHoy = id === 'carta-del-dia' && guardadas[id]?.fecha === claveDelDia();
+    if (!yaEsDeHoy) {
       // OJO: no cortar aquí mirando solo localStorage — ese valor no sabe si la
       // persona ya tiene un plan (pagado o de cortesía). La verdad la decide el
       // servidor, con el 402 de abajo (defecto real: a alguien con cortesía
