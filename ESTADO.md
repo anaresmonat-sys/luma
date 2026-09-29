@@ -84,6 +84,14 @@ lib/seed-datos.ts (pregunta → "¿Qué necesito comprender sobre mi vida amoros
 app/api/tarot/route.ts (la IA ahora lee el momento actual sin pareja si no se menciona a nadie, en
 vez de inventar una relación). Se revisó el resto de la app (Coach, Diario, Numerología,
 Compatibilidad) buscando el mismo problema — no se encontró en ninguna otra parte.
+✅ 2026-09-29 — DEFECTO REAL CORREGIDO (crítico, encontrado probando el acceso de cortesía): en
+Tarot/Coach/Diario/Descifrar, el botón de acción miraba PRIMERO un recordatorio guardado en el propio
+celular (localStorage "¿ya usaste tu prueba gratis?") y mandaba al paywall sin llegar a preguntarle
+al servidor — así que a cualquiera con un plan real (cortesía o pagado) que YA hubiera gastado su
+prueba local antes de tener el plan, la app lo seguía bloqueando para siempre. Quitado el atajo del
+cliente en los 4 archivos: ahora siempre se llama a la API, y es el 402 real del servidor
+(controlarAccesoGratis, que sí conoce el plan) el que decide si manda al paywall. Verificado: tsc ✓
+build ✓. También se quitó la caja "Repetir tu última tirada" en Tarot (pedido del usuario, redundante).
 ✅ 2026-09-28 — CORREO DE SOPORTE: `soporte@tuluma.app` creado como reenvío gratis en Porkbun hacia
 anares.monat@gmail.com (sirve para redes sociales y atención a compradoras). Se intentó primero crear
 una cuenta de Gmail dedicada (soportetuluma@gmail.com), pero Google bloqueó la verificación por
