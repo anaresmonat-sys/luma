@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { CalendarDays } from 'lucide-react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
+import { LumaAvatar } from '@/components/app/LumaAvatar';
 import { AppButton } from '@/components/app/AppButton';
 import { MoodPicker } from '@/components/app/MoodPicker';
 import { AvisoIA } from '@/components/app/AvisoIA';
@@ -98,7 +99,7 @@ export default function DiarioPage() {
       const res = await fetch('/api/diario', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ texto, animo }),
+        body: JSON.stringify({ texto, animo, origen: trajoLectura ? 'tarot' : undefined }),
       });
       if (res.status === 402) {
         window.location.href = '/paywall';
@@ -254,12 +255,7 @@ export default function DiarioPage() {
             variants={item}
             className="mt-4 flex items-start gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] p-3"
           >
-            <span
-              aria-hidden="true"
-              className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_oklab,var(--accent)_22%,transparent)] text-[13px] text-[var(--accent-lite)]"
-            >
-              ⚠️
-            </span>
+            <LumaAvatar size={28} />
             <p className="text-[11.5px] leading-relaxed text-[var(--text-primary)]">
               <span className="font-bold text-[var(--accent-lite)]">LUMA:</span> {patron}
             </p>

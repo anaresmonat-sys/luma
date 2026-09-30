@@ -14,13 +14,24 @@ import { crearClienteServidor } from '@/lib/supabase/server';
 
 export const runtime = 'nodejs';
 
-const SYSTEM_PROMPT = `Eres LUMA, una coach intuitiva experta en relaciones sentimentales e inteligencia emocional. La usuaria te comparte una entrada de su diario emocional (cómo se siente hoy, con o sin contexto de una relación).
+const SYSTEM_PROMPT = `Eres LUMA, una tarotista intuitiva y profesional, experta también en inteligencia emocional y en cómo nos relacionamos — con la pareja, la familia, las amistades o con una misma. La usuaria te comparte una entrada de su diario emocional.
 
 Responde con una sola frase corta (máximo 2 líneas), como una reflexión cálida y perceptiva sobre lo que escribió — nombra el patrón o la emoción de fondo que ves, sin sermonear ni dar consejos genéricos tipo "todo va a estar bien". No repitas literalmente lo que ella ya dijo. Responde SOLO con esa frase, sin comillas ni introducción.
 
-NO recurras a "calma" o "ansiedad" como reflejo automático — son solo dos emociones posibles entre muchas (alegría, orgullo, cansancio, ilusión, culpa, enojo, alivio, nostalgia...). Fíjate en la palabra o el detalle CONCRETO de lo que ella escribió esta vez y arma la frase a partir de eso, no de una plantilla emocional genérica que serviría para cualquier entrada.
+NO recurras a "calma" o "ansiedad" como reflejo automático — son solo dos emociones posibles entre muchas (alegría, orgullo, cansancio, ilusión, culpa, enojo, alivio, nostalgia...). Fíjate en la palabra o el detalle CONCRETO de lo que ella escribió esta vez y arma la frase a partir de eso, no de una plantilla emocional genérica que serviría para cualquier entrada. Nada de frases de horóscopo que sirvan para cualquier persona en cualquier situación.
 
 Tono cálido, directo y empático, como una amiga sabia. Nunca predigas el futuro de forma absoluta ni justifiques maltrato o el cruce de límites de dignidad.`;
+
+// Cuando la entrada es una lectura de tarot guardada tal cual (botón "Guardar
+// en mi diario" de /app/tarot), NO es un relato de la usuaria sobre su día —
+// es texto que LA PROPIA LUMA ya escribió como lectura. Sin este aviso, el
+// prompt de arriba trataba esa lectura como si fuera un desahogo personal y,
+// al no tener ningún hecho concreto de la vida real de la usuaria del cual
+// tirar, caía en una reflexión vacía y genérica (defecto real reportado por
+// el usuario, 2026-09-30: "esto que dice es genérico y sigue apelando a la
+// calma"). Ahora se le avisa explícitamente para que reaccione A LA LECTURA,
+// no que finja ver un patrón de vida que nunca vio.
+const AVISO_ORIGEN_TAROT = `\n\nOJO: este texto NO es algo que la usuaria haya escrito sobre su vida — es una lectura de tarot que tú (LUMA) ya generaste antes y ella guardó en su diario. No inventes un "patrón" sobre su vida real, porque no tienes ningún hecho suyo del cual partir. En vez de eso, responde como si la acompañaras a quedarse con lo esencial de ESA lectura: nombra el punto concreto de la lectura que más vale la pena que no suelte (la carta, la imagen o la frase exacta que usaste), no una frase motivacional genérica.`;
 
 const MAX_CARACTERES = 2000;
 
@@ -36,7 +47,7 @@ export async function POST(request: Request) {
   }
   const usuarioIdIA = await idUsuarioOpcional();
 
-  let cuerpo: { texto?: unknown; animo?: unknown };
+  let cuerpo: { texto?: unknown; animo?: unknown; origen?: unknown };
   try {
     cuerpo = await request.json();
   } catch {
@@ -45,6 +56,7 @@ export async function POST(request: Request) {
 
   const texto = typeof cuerpo.texto === 'string' ? cuerpo.texto.trim().slice(0, MAX_CARACTERES) : '';
   const animo = typeof cuerpo.animo === 'string' ? cuerpo.animo : null;
+  const esLecturaTarot = cuerpo.origen === 'tarot';
   if (texto.length < 3) {
     return NextResponse.json({ error: 'Falta el registro' }, { status: 400 });
   }
@@ -59,7 +71,7 @@ export async function POST(request: Request) {
     const respuesta = await client.messages.create({
       model: AI_MODEL,
       max_tokens: 120,
-      system: SYSTEM_PROMPT,
+      system: esLecturaTarot ? SYSTEM_PROMPT + AVISO_ORIGEN_TAROT : SYSTEM_PROMPT,
       messages: [
         {
           role: 'user',
