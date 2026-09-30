@@ -143,7 +143,10 @@ export default function TarotPage() {
       setAbierta(null);
       return;
     }
+    await sacarCartas(id);
+  }
 
+  async function sacarCartas(id: string) {
     // Pedido del usuario, 2026-09-29: cada toque saca una carta NUEVA, siempre
     // — antes reabría la tirada guardada de la última vez, y no había forma de
     // repetir "Amor" (o cualquier categoría) con una lectura distinta. Única
