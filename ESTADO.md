@@ -116,6 +116,15 @@ de costumbre, para poder probarlo) — avisado al usuario. Pendiente: el usuario
 sesión real, mi propio intento de re-verificar con una sesión de prueba falló por límites de la
 reproducción del magic link (no es indicio de bug — la misma lógica de acceso ya se probó antes y
 funcionó con su cuenta real). ✅ Confirmado por el usuario en su celular: guarda bien y se ve bien.
+✅ 2026-09-30 — DEFECTO REAL CORREGIDO (feedback de la usuaria: dos entradas del diario reflejaron
+"calma" seguidas): el objetivo del Coach decía literalmente "reducir la ansiedad", y ni Coach ni
+Diario tenían instrucción explícita contra caer en calma/ansiedad como reflejo automático — el modelo
+se ancla ahí si el prompt lo insinúa. Se quitó esa frase del objetivo del Coach y se agregó a ambos
+prompts una regla explícita: nombrar la emoción o el detalle CONCRETO de lo que la usuaria escribió
+(no una plantilla emocional genérica). Verificado con 5 pruebas reales (3 Diario + 2 Coach, casos
+bien distintos entre sí: orgullo, susto familiar, insomnio por una decisión, llanto con la madre,
+miedo+alivio al renunciar) — ninguna cayó en "calma", cada una lee lo específico. Se revisaron
+también Tarot/Descifrar/Compatibilidad/Numerología: sin el mismo problema, no se tocaron.
 ✅ 2026-09-28 — CORREO DE SOPORTE: `soporte@tuluma.app` creado como reenvío gratis en Porkbun hacia
 anares.monat@gmail.com (sirve para redes sociales y atención a compradoras). Se intentó primero crear
 una cuenta de Gmail dedicada (soportetuluma@gmail.com), pero Google bloqueó la verificación por
