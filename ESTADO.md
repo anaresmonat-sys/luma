@@ -784,6 +784,11 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 - 📋 Sesión 6: servicios externos + seguridad · 7: testing + pulido + rigor · 8: adquisición + lanzamiento + backoffice.
 
 ## Problemas conocidos ⚠️
+- [tope-ia] `lib/tope-ia.ts` — freno de gasto GLOBAL de IA en $5 USD/día (toda la app junta, no por
+  persona), vía `AI_DAILY_BUDGET_USD`. Con poco tráfico no se nota, pero cuando haya clientes reales
+  pagando podría cortarle el acceso a quien ya pagó (el freno no distingue plan activo de prueba
+  gratis). Decisión del usuario, 2026-09-30: dejarlo así por ahora, revisar cada semana una vez haya
+  clientes reales y subir el tope (o eximir a cuentas con plan activo) si hace falta.
 - [FICHA-AVATAR] APROBADA con 10 VoC (3 son paráfrasis). Antes del LANZAMIENTO: 5-10 conversaciones
   reales del avatar (archivo 44). Guía lista: docs/investigacion/guia-entrevistas-avatar.md.
 - [legal] /privacidad /terminos /cookies /reembolsos /aviso-ia son BORRADOR — contenido definitivo antes del lanzamiento (archivo 47).

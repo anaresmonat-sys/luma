@@ -184,8 +184,10 @@ export default function InicioPage() {
               />
             );
           })()}
-          <span className="mt-6 text-[13px] font-bold text-[var(--accent-lite)] [@media(min-height:681px)_and_(max-height:760px)]:mt-3 [@media(max-height:680px)]:mt-2">Abrir mi lectura de hoy →</span>
         </Link>
+        <div className="mt-6 w-full [@media(min-height:681px)_and_(max-height:760px)]:mt-3 [@media(max-height:680px)]:mt-2">
+          <AppLinkButton href="/app/tarot">Abrir mi lectura de tarot hoy →</AppLinkButton>
+        </div>
 
         <div className="grid shrink-0 grid-cols-2 gap-3 pb-2">
           <AppLinkButton href="/app/descifrar" compact>
