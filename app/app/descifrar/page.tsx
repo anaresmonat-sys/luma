@@ -196,7 +196,7 @@ export default function DescifrarPage() {
                   onKeyDown={(e) => {
                     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') analizar();
                   }}
-                  placeholder={disponible ? 'Pega aquí la conversación…' : 'Elige tu plan para seguir…'}
+                  placeholder={disponible ? 'Copia la conversación y pégala aquí…' : 'Elige tu plan para seguir…'}
                   readOnly={!disponible}
                   rows={4}
                   className="min-h-24 w-full flex-1 resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
