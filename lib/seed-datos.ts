@@ -117,8 +117,3 @@ export const LECTURAS_TAROT: Record<string, { numero: string; nombre: string; ci
   },
 };
 
-export const ENTRADA_DIARIO_EJEMPLO =
-  'Hoy me sentí insegura porque no me contestó en todo el día. Me dio vueltas toda la tarde y pensé que ya no le importo.';
-
-export const PATRON_DIARIO_EJEMPLO =
-  'veo un patrón que se repite — has sentido inseguridad ante la falta de respuesta 3 veces este mes.';

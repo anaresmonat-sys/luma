@@ -19,7 +19,7 @@ import { MoodPicker } from '@/components/app/MoodPicker';
 import { AvisoIA } from '@/components/app/AvisoIA';
 import { AvisoPrueba } from '@/components/app/AvisoPrueba';
 import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
-import { EMOCIONES_DIARIO, ENTRADA_DIARIO_EJEMPLO } from '@/lib/seed-datos';
+import { EMOCIONES_DIARIO } from '@/lib/seed-datos';
 import { leerYLimpiarEntradaPendiente } from '@/lib/almacenamiento-diario';
 import { consumirPruebaGratis } from '@/lib/prueba-gratis';
 
@@ -207,7 +207,7 @@ export default function DiarioPage() {
             onKeyDown={(e) => {
               if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') guardar();
             }}
-            placeholder={disponible ? ENTRADA_DIARIO_EJEMPLO : 'Elige tu plan para seguir…'}
+            placeholder={disponible ? 'Cuéntame cómo va tu día…' : 'Elige tu plan para seguir…'}
             readOnly={!disponible}
             rows={4}
             className="min-h-24 w-full flex-1 resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
