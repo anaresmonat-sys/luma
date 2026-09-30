@@ -170,23 +170,27 @@ export default function InicioPage() {
           )}
         </div>
 
-        <Link href="/app/tarot" className="flex flex-col items-center gap-2">
-          {(() => {
-            const hoy = cartaDelDia();
-            return (
-              <CartaSacerdotisa
-                disparo="montaje"
-                numero={hoy.carta.numero}
-                nombre={hoy.carta.nombre}
-                cita={citaDeCarta(hoy)}
-                imagen={hoy.carta.image}
-                invertida={hoy.invertida}
-              />
-            );
-          })()}
-        </Link>
-        <div className="mt-6 w-full [@media(min-height:681px)_and_(max-height:760px)]:mt-3 [@media(max-height:680px)]:mt-2">
-          <AppLinkButton href="/app/tarot">Abrir mi lectura de tarot hoy →</AppLinkButton>
+        <div className="flex flex-col items-center gap-2">
+          <Link href="/app/tarot">
+            {(() => {
+              const hoy = cartaDelDia();
+              return (
+                <CartaSacerdotisa
+                  disparo="montaje"
+                  numero={hoy.carta.numero}
+                  nombre={hoy.carta.nombre}
+                  cita={citaDeCarta(hoy)}
+                  imagen={hoy.carta.image}
+                  invertida={hoy.invertida}
+                />
+              );
+            })()}
+          </Link>
+          <div className="mt-6 w-full [@media(min-height:681px)_and_(max-height:760px)]:mt-3 [@media(max-height:680px)]:mt-2">
+            <AppLinkButton href="/app/tarot">
+              <span aria-hidden="true">🔮</span>Abrir mi lectura de tarot hoy →
+            </AppLinkButton>
+          </div>
         </div>
 
         <div className="grid shrink-0 grid-cols-2 gap-3 pb-2">
