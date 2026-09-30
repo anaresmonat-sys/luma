@@ -145,12 +145,12 @@ export async function POST(request: Request) {
     const client = clienteAnthropic();
     const respuesta = await client.messages.create({
       model: AI_MODEL,
-      // 340 se quedaba corto para las "4-6 frases" de una tirada de 3 cartas y
-      // la respuesta se cortaba a mitad de una oración (defecto real, 2026-09-30:
-      // la lectura de Ruptura terminaba sin llegar al final). 550 da margen de
-      // sobra incluso para lecturas largas en español (más denso en tokens que
-      // el inglés).
-      max_tokens: cartas.length > 1 ? 550 : 220,
+      // 340/220 se quedaban cortos y la respuesta se cortaba a mitad de una
+      // oración — visto primero en Ruptura (3 cartas) y confirmado después en
+      // Carta del día (1 sola carta) durante una ronda de pruebas con 5
+      // personas distintas, 2026-09-30. Ambos números suben con margen de
+      // sobra para el español (más denso en tokens que el inglés).
+      max_tokens: cartas.length > 1 ? 550 : 320,
       system: SYSTEM_PROMPT,
       messages: [
         {
