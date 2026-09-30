@@ -8,7 +8,7 @@
 // (construido 2026-09-29, pedido del usuario antes de vender). "Ver mi patrón"
 // sigue en "Próximamente" (honesto — 11), igual que el mic.
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { CalendarDays } from 'lucide-react';
@@ -47,8 +47,18 @@ export default function DiarioPage() {
   const [guardando, setGuardando] = useState(false);
   const [errorPatron, setErrorPatron] = useState(false);
   const { disponible, refrescar } = usePruebaDisponible();
+  const inicializado = useRef(false);
 
   useEffect(() => {
+    // Guarda contra el doble disparo del efecto al montar (React vuelve a
+    // correrlo una vez más en desarrollo para detectar efectos secundarios mal
+    // limpiados). leerYLimpiarEntradaPendiente() BORRA lo pendiente al leerlo,
+    // así que sin este guard la segunda pasada ya no encontraba nada pendiente
+    // y caía en el "else" que restauraba la reflexión vieja — pareciendo que
+    // LUMA repetía el mismo mensaje genérico con una lectura de tarot recién
+    // traída (defecto real, 2026-09-30).
+    if (inicializado.current) return;
+    inicializado.current = true;
     const pendiente = leerYLimpiarEntradaPendiente();
     if (pendiente) {
       setTexto(pendiente);
@@ -56,7 +66,15 @@ export default function DiarioPage() {
     }
     try {
       setRegistros(Number(window.localStorage.getItem('luma_diario_contador') ?? 0));
-      setPatron(window.localStorage.getItem(CLAVE_ULTIMO_PATRON));
+      // No restaurar la última reflexión guardada cuando llega una lectura de
+      // tarot nueva para guardar: si no, la cajita de LUMA aparecía con el
+      // texto de una entrada anterior ANTES de tocar "Guardar", y si la
+      // persona no volvía a tocarlo (o no notó el cambio), parecía que LUMA
+      // "repetía el mismo mensaje genérico" — cuando en realidad nunca había
+      // respondido nada sobre esta lectura (defecto real, 2026-09-30).
+      if (!pendiente) {
+        setPatron(window.localStorage.getItem(CLAVE_ULTIMO_PATRON));
+      }
     } catch {
       // localStorage puede fallar (modo privado, cuota) — no bloquea el flujo.
     }
