@@ -23,8 +23,6 @@ import { EMOCIONES_DIARIO } from '@/lib/seed-datos';
 import { leerYLimpiarEntradaPendiente } from '@/lib/almacenamiento-diario';
 import { consumirPruebaGratis } from '@/lib/prueba-gratis';
 
-const CLAVE_ULTIMO_PATRON = 'luma_diario_ultimo_patron';
-
 const contenedor = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.07 } },
@@ -52,11 +50,8 @@ export default function DiarioPage() {
   useEffect(() => {
     // Guarda contra el doble disparo del efecto al montar (React vuelve a
     // correrlo una vez más en desarrollo para detectar efectos secundarios mal
-    // limpiados). leerYLimpiarEntradaPendiente() BORRA lo pendiente al leerlo,
-    // así que sin este guard la segunda pasada ya no encontraba nada pendiente
-    // y caía en el "else" que restauraba la reflexión vieja — pareciendo que
-    // LUMA repetía el mismo mensaje genérico con una lectura de tarot recién
-    // traída (defecto real, 2026-09-30).
+    // limpiados) — sin este guard, leerYLimpiarEntradaPendiente() (que BORRA lo
+    // pendiente al leerlo) perdía el texto de la lectura en la segunda pasada.
     if (inicializado.current) return;
     inicializado.current = true;
     const pendiente = leerYLimpiarEntradaPendiente();
@@ -66,15 +61,6 @@ export default function DiarioPage() {
     }
     try {
       setRegistros(Number(window.localStorage.getItem('luma_diario_contador') ?? 0));
-      // No restaurar la última reflexión guardada cuando llega una lectura de
-      // tarot nueva para guardar: si no, la cajita de LUMA aparecía con el
-      // texto de una entrada anterior ANTES de tocar "Guardar", y si la
-      // persona no volvía a tocarlo (o no notó el cambio), parecía que LUMA
-      // "repetía el mismo mensaje genérico" — cuando en realidad nunca había
-      // respondido nada sobre esta lectura (defecto real, 2026-09-30).
-      if (!pendiente) {
-        setPatron(window.localStorage.getItem(CLAVE_ULTIMO_PATRON));
-      }
     } catch {
       // localStorage puede fallar (modo privado, cuota) — no bloquea el flujo.
     }
@@ -129,11 +115,6 @@ export default function DiarioPage() {
       consumirPruebaGratis();
       refrescar();
       setPatron(datos.patron);
-      try {
-        window.localStorage.setItem(CLAVE_ULTIMO_PATRON, datos.patron);
-      } catch {
-        // ver nota de abajo.
-      }
     } catch {
       setErrorPatron(true);
     }
