@@ -186,11 +186,12 @@ export default function InicioPage() {
               );
             })()}
           </Link>
-          <div className="mt-6 w-full [@media(min-height:681px)_and_(max-height:760px)]:mt-3 [@media(max-height:680px)]:mt-2">
-            <AppLinkButton href="/app/tarot">
-              <span aria-hidden="true">🔮</span>Abrir mi lectura de tarot hoy →
-            </AppLinkButton>
-          </div>
+          <Link
+            href="/app/tarot"
+            className="mt-6 flex h-[48px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-gradient-to-b from-[var(--accent-lite)] to-[var(--accent)] text-[14px] font-bold text-[var(--on-accent)] shadow-[0_8px_16px_-10px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-transform duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(min-height:681px)_and_(max-height:760px)]:mt-3 [@media(min-height:681px)_and_(max-height:760px)]:h-11 [@media(max-height:680px)]:mt-2 [@media(max-height:680px)]:h-9 [@media(max-height:680px)]:text-[12.5px]"
+          >
+            <span aria-hidden="true">🔮</span>Abrir mi lectura de tarot hoy →
+          </Link>
         </div>
 
         <div className="grid shrink-0 grid-cols-2 gap-3 pb-2">
