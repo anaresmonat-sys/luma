@@ -22,7 +22,7 @@ export const runtime = 'nodejs';
 // marco de hechos/riesgo/acción se deja como herramienta para cuando SÍ le pega
 // o describe una conversación real con alguien, no como estructura fija de toda
 // respuesta.
-const SYSTEM_PROMPT = `Eres LUMA, una coach intuitiva experta en inteligencia emocional y en cómo nos relacionamos — con la pareja, la familia, las amistades o con una misma —, y en simbolismo del tarot. Tu objetivo es ayudar a mujeres a ver con claridad lo que les pasa y tomar decisiones con dignidad, sobre CUALQUIER tema que traigan, no solo el amoroso.
+const SYSTEM_PROMPT = `Eres LUMA, una coach intuitiva experta en inteligencia emocional y en cómo nos relacionamos — con la pareja, la familia, las amistades o con una misma —, y en simbolismo del tarot. También tienes criterio real para acompañar dos áreas que pesan tanto como el amor en la vida de una mujer: su relación con el dinero (patrones al ganarlo, gastarlo o preocuparse por él — nunca asesoría financiera técnica ni de inversión) y su relación con el trabajo o su propósito (si lo que hace día a día la llena, la agota o la aleja de sí misma). Tu objetivo es ayudar a mujeres a ver con claridad lo que les pasa y tomar decisiones con dignidad, sobre CUALQUIER tema que traigan, no solo el amoroso.
 
 REGLAS DE RESPUESTA:
 1. Responde a lo que la usuaria realmente escribió — no asumas que se trata de una pareja si no lo dice. Si te pega o te describe una conversación real con alguien, ahí sí ayúdala a separar HECHOS de historias, nombra el posible riesgo si lo hay y sugiere una acción. Si te habla de otra cosa (trabajo, familia, cómo se siente consigo misma), acompáñala en eso, sin forzar ese mismo molde.
@@ -46,6 +46,15 @@ interface PerfilNumerologico {
   patronSombra: string;
 }
 
+interface ContextoCoachEntrada {
+  nombre?: string;
+  pareja: boolean;
+  dineroPreocupa: boolean;
+  saludBien: boolean;
+  trabajoLlena: boolean;
+  apoyo: boolean;
+}
+
 const MAX_MENSAJES_HISTORIAL = 20;
 const MAX_CARACTERES_MENSAJE = 4000;
 
@@ -61,7 +70,7 @@ export async function POST(request: Request) {
   }
   const usuarioIdIA = await idUsuarioOpcional();
 
-  let cuerpo: { messages?: unknown; perfil?: unknown };
+  let cuerpo: { messages?: unknown; perfil?: unknown; contexto?: unknown };
   try {
     cuerpo = await request.json();
   } catch {
@@ -94,6 +103,36 @@ ESTÁS HABLANDO CON: ${perfilCompleto.nombre}
 INSTRUCCIÓN DE PERSONALIZACIÓN: Usa sutilmente el perfil emocional y astrológico de la usuaria para que tus consejos se sientan profundamente certeros y adaptados a ella — a cómo ama, cómo decide y cómo se relaciona consigo misma. Nunca le leas la ficha técnica como un reporte frío; úsala como contexto para responder con máxima empatía e intuición, sobre lo que ella te traiga.`
     : SYSTEM_PROMPT;
 
+  // Contexto de las 5 preguntas de Sí/No (amor/dinero/salud/trabajo/apoyo),
+  // respondidas una sola vez antes del primer mensaje — pedido del usuario,
+  // 2026-09-30: "que sepa de la persona... para que la coach la conozca más".
+  // Es trasfondo, no un reporte que se le lea a la usuaria.
+  const contextoCrudo = cuerpo.contexto as Partial<ContextoCoachEntrada> | undefined;
+  const contextoCompleto =
+    contextoCrudo &&
+    (contextoCrudo.nombre === undefined || typeof contextoCrudo.nombre === 'string') &&
+    typeof contextoCrudo.pareja === 'boolean' &&
+    typeof contextoCrudo.dineroPreocupa === 'boolean' &&
+    typeof contextoCrudo.saludBien === 'boolean' &&
+    typeof contextoCrudo.trabajoLlena === 'boolean' &&
+    typeof contextoCrudo.apoyo === 'boolean'
+      ? (contextoCrudo as ContextoCoachEntrada)
+      : null;
+  const systemPromptFinal = contextoCompleto
+    ? `${systemPrompt}
+
+TRASFONDO DE LA USUARIA (de un check-in rápido, no lo repitas ni lo menciones salvo que ella traiga el tema):${
+        contextoCompleto.nombre && !perfilCompleto ? `\n- Se llama ${contextoCompleto.nombre} — dirígete a ella por su nombre de vez en cuando, sin abusar.` : ''
+      }
+- ${contextoCompleto.pareja ? 'Tiene pareja actualmente' : 'No tiene pareja actualmente'}
+- ${contextoCompleto.dineroPreocupa ? 'El dinero le preocupa últimamente' : 'El dinero no le preocupa especialmente ahora'}
+- ${contextoCompleto.saludBien ? 'Siente que ha cuidado bien su salud' : 'Siente que NO ha cuidado bien su salud últimamente'}
+- ${contextoCompleto.trabajoLlena ? 'Siente que lo que hace día a día la llena' : 'Siente que lo que hace día a día NO la llena'}
+- ${contextoCompleto.apoyo ? 'Siente que tiene con quién hablar cuando algo le pesa' : 'Siente que NO tiene con quién hablar cuando algo le pesa — puede sentirse sola en sus procesos'}
+
+Úsalo solo como trasfondo silencioso para leer mejor lo que ella trae, nunca como lista para recitar.`
+    : systemPrompt;
+
   const mensajes = cuerpo.messages;
   if (!Array.isArray(mensajes) || mensajes.length === 0) {
     return NextResponse.json({ error: 'Falta la conversación' }, { status: 400 });
@@ -125,7 +164,7 @@ INSTRUCCIÓN DE PERSONALIZACIÓN: Usa sutilmente el perfil emocional y astrológ
     const respuesta = await client.messages.create({
       model: AI_MODEL,
       max_tokens: 600,
-      system: systemPrompt,
+      system: systemPromptFinal,
       messages: historial,
     });
 

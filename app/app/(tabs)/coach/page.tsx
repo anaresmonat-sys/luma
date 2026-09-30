@@ -19,6 +19,8 @@ import { leerRespuestas } from '@/lib/almacenamiento-onboarding';
 import { consumirPruebaGratis } from '@/lib/prueba-gratis';
 import { leerYLimpiarMensajePendiente } from '@/lib/almacenamiento-coach';
 import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
+import { leerContextoCoach, type ContextoCoach } from '@/lib/almacenamiento-contexto-coach';
+import { ContextoCoachPaso } from '@/components/app/ContextoCoach';
 
 export default function CoachPage() {
   const [hilo, setHilo] = useState<MensajeCoach[]>([]);
@@ -29,6 +31,8 @@ export default function CoachPage() {
   const [avisoVoz, setAvisoVoz] = useState(false);
   const [error, setError] = useState(false);
   const { disponible, refrescar } = usePruebaDisponible();
+  const [contexto, setContexto] = useState<ContextoCoach | null>(null);
+  const [contextoListo, setContextoListo] = useState(false);
 
   // El hilo arranca vacío: LUMA abre con un saludo según el motivo elegido en el
   // onboarding (y el nombre del Mapa de Poder, si existe). Si llega un mensaje
@@ -37,10 +41,24 @@ export default function CoachPage() {
   // client-only y leerlo de forma síncrona en el primer render rompe la
   // hidratación (mismo problema ya resuelto en /paywall).
   useEffect(() => {
-    setApertura(aperturaCoach(leerRespuestas()?.motivo, leerMapaPoder()?.nombre));
+    const mapaPoder = leerMapaPoder();
+    const contextoGuardado = leerContextoCoach();
+    setApertura(aperturaCoach(leerRespuestas()?.motivo, mapaPoder?.nombre ?? contextoGuardado?.nombre));
     const pendiente = leerYLimpiarMensajePendiente();
     if (pendiente) setTexto(pendiente);
+    setContexto(contextoGuardado);
+    setContextoListo(true);
   }, []);
+
+  // Cuando termina el paso de preguntas (incluido el nombre, si no lo teníamos
+  // ya del Mapa de Poder), el saludo de arriba del chat se re-personaliza con
+  // ese nombre nuevo.
+  function alTerminarContexto(nuevo: ContextoCoach) {
+    setContexto(nuevo);
+    if (!leerMapaPoder()?.nombre && nuevo.nombre) {
+      setApertura(aperturaCoach(leerRespuestas()?.motivo, nuevo.nombre));
+    }
+  }
 
   // Mantiene visible lo último de la charla al llegar un mensaje o la respuesta de LUMA.
   useEffect(() => {
@@ -68,6 +86,7 @@ export default function CoachPage() {
                 patronSombra: mapaPoder.puntoCiego,
               }
             : undefined,
+          contexto: contexto ?? undefined,
           messages: hiloActual.map((m) => ({
             role: m.autor === 'yo' ? 'user' : 'assistant',
             content: m.texto,
@@ -138,6 +157,10 @@ export default function CoachPage() {
         </div>
       </div>
 
+      {contextoListo && !contexto ? (
+        <ContextoCoachPaso nombrePrellenado={leerMapaPoder()?.nombre} onListo={alTerminarContexto} />
+      ) : (
+        <>
       <AvisoPrueba disponible={disponible} className="mb-2 shrink-0" />
 
       <div ref={chatRef} role="log" aria-live="polite" className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto py-2">
@@ -275,6 +298,8 @@ export default function CoachPage() {
         </motion.button>
       </form>
       <AvisoIA className="mt-2 text-center" />
+        </>
+      )}
     </div>
   );
 }
