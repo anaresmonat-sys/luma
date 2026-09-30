@@ -125,6 +125,12 @@ prompts una regla explícita: nombrar la emoción o el detalle CONCRETO de lo qu
 bien distintos entre sí: orgullo, susto familiar, insomnio por una decisión, llanto con la madre,
 miedo+alivio al renunciar) — ninguna cayó en "calma", cada una lee lo específico. Se revisaron
 también Tarot/Descifrar/Compatibilidad/Numerología: sin el mismo problema, no se tocaron.
+✅ 2026-09-30 — TIRADA "AMOR" AMPLIADA MÁS (segundo pase, feedback de la usuaria): "vida amorosa" seguía
+sonando a pareja en el uso común, aunque el prompt ya cubría estar soltera. Pregunta fija reescrita a
+"¿Qué necesito comprender sobre el amor en mi vida ahora?" e instrucción de la IA explícita: puede ser
+pareja, familia, amistad o amor propio, se lee lo que ella mencione, sin dar por hecho que "amor" =
+pareja. Probado en vivo (sin mencionar a nadie) → la lectura habló de amor propio, sin inventar pareja,
+y cerró de forma inclusiva ("todo vínculo que llegue o ya exista").
 ✅ 2026-09-28 — CORREO DE SOPORTE: `soporte@tuluma.app` creado como reenvío gratis en Porkbun hacia
 anares.monat@gmail.com (sirve para redes sociales y atención a compradoras). Se intentó primero crear
 una cuenta de Gmail dedicada (soportetuluma@gmail.com), pero Google bloqueó la verificación por
