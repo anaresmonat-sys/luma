@@ -280,18 +280,18 @@ export default function TarotPage() {
       <div className="relative flex min-h-min flex-1 flex-col pb-4 pt-3">
         {fondo}
         <CabeceraVolver titulo={tema.nombre} onVolver={volverALista} />
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="mt-4 flex flex-col">
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="mt-4 flex flex-1 flex-col">
           <p className="text-center text-[22px] font-semibold leading-snug text-[var(--accent-lite)] [font-family:var(--font-display)]">
             ¿Cuál es tu pregunta sobre {tema.sobre}?
           </p>
-          <div className="mt-5 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] p-3">
+          <div className="mt-5 flex flex-1 flex-col rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] p-3">
             <textarea
               value={pregunta}
               onChange={(e) => setPregunta(e.target.value.slice(0, MAX_PREGUNTA))}
               placeholder="Escribe aquí tu pregunta…"
               aria-label={`Tu pregunta sobre ${tema.sobre}`}
               rows={4}
-              className="min-h-24 w-full resize-none bg-transparent text-[14px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
+              className="min-h-24 w-full flex-1 resize-none bg-transparent text-[14px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
             />
           </div>
           <div className="mt-4">
@@ -432,7 +432,7 @@ export default function TarotPage() {
             className="group flex h-14 w-full items-center justify-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_55%,transparent)] bg-[color-mix(in_oklab,var(--accent)_14%,transparent)] text-[15px] font-semibold text-[var(--accent-lite)] [font-family:var(--font-display)] [@media(max-height:720px)]:h-11"
           >
             <MiniReverso className="h-10 w-7 [@media(max-height:720px)]:h-8 [@media(max-height:720px)]:w-6" />
-            <span aria-hidden="true" className="text-[20px] leading-none">{cartaDia.emoji}</span>
+            <span aria-hidden="true" className="text-[15px] leading-none">{cartaDia.emoji}</span>
             {cartaDia.nombre}
           </motion.button>
         )}
@@ -444,12 +444,12 @@ export default function TarotPage() {
               whileTap={{ scale: 0.97 }}
               type="button"
               onClick={() => elegirTema(t)}
-              className="group flex h-[72px] items-center gap-2 last:odd:col-span-2 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-3 [@media(max-height:720px)]:h-14 [@media(min-height:841px)]:h-20"
+              className="group flex h-[72px] items-center gap-2 last:odd:col-span-2 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-2.5 [@media(max-height:720px)]:h-14 [@media(min-height:841px)]:h-20"
             >
               <MiniReverso className="h-[52px] w-9 [@media(max-height:720px)]:h-10 [@media(max-height:720px)]:w-7 [@media(min-height:841px)]:h-14 [@media(min-height:841px)]:w-10" />
-              <span className="flex flex-1 flex-col items-center justify-center gap-1 text-center [@media(max-height:720px)]:gap-0">
-                <span aria-hidden="true" className="text-[22px] leading-none [@media(max-height:720px)]:text-[18px]">{t.emoji}</span>
-                <span className="text-[13px] font-semibold leading-tight text-[var(--text-primary)] [font-family:var(--font-display)]">{t.nombre}</span>
+              <span className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5">
+                <span aria-hidden="true" className="shrink-0 text-[14px] leading-none">{t.emoji}</span>
+                <span className="text-center text-[13px] font-semibold leading-tight text-[var(--text-primary)] [font-family:var(--font-display)] max-[380px]:text-[12px]">{t.nombre}</span>
               </span>
             </motion.button>
           ))}
