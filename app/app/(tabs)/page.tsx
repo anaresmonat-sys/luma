@@ -115,7 +115,7 @@ export default function InicioPage() {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="flex min-h-0 flex-1 flex-col justify-between gap-8 [@media(min-height:681px)_and_(max-height:760px)]:gap-4 [@media(min-height:621px)_and_(max-height:680px)]:gap-3 [@media(max-height:620px)]:gap-2"
+        className="flex min-h-0 flex-1 flex-col justify-between gap-8 [@media(min-height:721px)_and_(max-height:840px)]:gap-4 [@media(min-height:621px)_and_(max-height:720px)]:gap-3 [@media(max-height:620px)]:gap-2"
       >
         <div>
           <div className="flex items-center justify-between">
@@ -132,7 +132,7 @@ export default function InicioPage() {
           <div className="mt-4 [@media(max-height:620px)]:mt-2">
             <MoodPicker emociones={EMOCIONES_INICIO} seleccion={animo} onSeleccionar={elegirAnimo} />
           </div>
-          <div className="mt-2 h-7 [@media(min-height:621px)_and_(max-height:680px)]:h-3 [@media(max-height:620px)]:h-0">
+          <div className="mt-2 h-7 [@media(min-height:621px)_and_(max-height:720px)]:h-3 [@media(max-height:620px)]:h-0">
             <AnimatePresence>
               {guardado && (
                 <motion.p
@@ -187,7 +187,7 @@ export default function InicioPage() {
           </Link>
           <Link
             href="/app/tarot"
-            className="mt-6 flex h-[48px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-gradient-to-b from-[var(--accent-lite)] to-[var(--accent)] text-[14px] font-bold text-[var(--on-accent)] shadow-[0_8px_16px_-10px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-transform duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(min-height:681px)_and_(max-height:760px)]:mt-3 [@media(min-height:681px)_and_(max-height:760px)]:h-11 [@media(min-height:621px)_and_(max-height:680px)]:mt-2 [@media(min-height:621px)_and_(max-height:680px)]:h-9 [@media(min-height:621px)_and_(max-height:680px)]:text-[12.5px] [@media(max-height:620px)]:mt-1 [@media(max-height:620px)]:h-8 [@media(max-height:620px)]:text-[12px]"
+            className="mt-6 flex h-[48px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-gradient-to-b from-[var(--accent-lite)] to-[var(--accent)] text-[14px] font-bold text-[var(--on-accent)] shadow-[0_8px_16px_-10px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-transform duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(min-height:721px)_and_(max-height:840px)]:mt-3 [@media(min-height:721px)_and_(max-height:840px)]:h-11 [@media(min-height:621px)_and_(max-height:720px)]:mt-2 [@media(min-height:621px)_and_(max-height:720px)]:h-9 [@media(min-height:621px)_and_(max-height:720px)]:text-[12.5px] [@media(max-height:620px)]:mt-1 [@media(max-height:620px)]:h-8 [@media(max-height:620px)]:text-[12px]"
           >
             <span aria-hidden="true">🔮</span>Abrir mi lectura de tarot hoy →
           </Link>

@@ -56,7 +56,7 @@ export function CartaSacerdotisa({
         }}
       />
       <div
-        className="relative flex h-[15rem] w-[8.75rem] flex-col items-center justify-center overflow-hidden rounded-[var(--radius-button)] [@media(min-height:681px)_and_(max-height:760px)]:h-[12rem] [@media(min-height:681px)_and_(max-height:760px)]:w-[7rem] [@media(min-height:621px)_and_(max-height:680px)]:h-[10rem] [@media(min-height:621px)_and_(max-height:680px)]:w-[5.9rem] [@media(max-height:620px)]:h-[7.5rem] [@media(max-height:620px)]:w-[4.4rem]"
+        className="relative flex h-[15rem] w-[8.75rem] flex-col items-center justify-center overflow-hidden rounded-[var(--radius-button)] [@media(min-height:721px)_and_(max-height:840px)]:h-[12rem] [@media(min-height:721px)_and_(max-height:840px)]:w-[7rem] [@media(min-height:621px)_and_(max-height:720px)]:h-[10rem] [@media(min-height:621px)_and_(max-height:720px)]:w-[5.9rem] [@media(max-height:620px)]:h-[7.5rem] [@media(max-height:620px)]:w-[4.4rem]"
         style={{
           transform: 'rotateX(6deg) rotateY(-14deg) rotate(-3deg)',
           transformStyle: 'preserve-3d',
@@ -112,7 +112,7 @@ export function CartaSacerdotisa({
       />
     </motion.div>
     {imagen && (
-      <div className="mt-8 max-w-[16rem] text-center [@media(min-height:681px)_and_(max-height:760px)]:mt-5 [@media(min-height:621px)_and_(max-height:680px)]:mt-3 [@media(max-height:620px)]:mt-1">
+      <div className="mt-8 max-w-[16rem] text-center [@media(min-height:721px)_and_(max-height:840px)]:mt-5 [@media(min-height:621px)_and_(max-height:720px)]:mt-3 [@media(max-height:620px)]:mt-1">
         <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--accent)]">
           {numero} · {nombre}
           {invertida ? ' (invertida)' : ''}
