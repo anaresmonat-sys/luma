@@ -4,10 +4,16 @@
 // con una invitación a escribir (decisión del usuario, 2026-09-20: quitar la
 // conversación de ejemplo, que parecía una charla ya empezada por otra persona).
 
+/** Frase de arranque que, en vez de rellenar la caja de texto, lleva a otra pantalla. */
+export interface ArranqueEnlace {
+  texto: string;
+  href: string;
+}
+
 export interface ApeturaCoach {
   saludo: string;
   /** Frases de arranque: rellenan la caja de texto, no se envían solas. */
-  arranques: string[];
+  arranques: Array<string | ArranqueEnlace>;
 }
 
 const POR_MOTIVO: Record<string, ApeturaCoach> = {
@@ -46,8 +52,13 @@ const POR_MOTIVO: Record<string, ApeturaCoach> = {
 };
 
 const GENERICA: ApeturaCoach = {
-  saludo: 'Aquí estoy. Cuéntame qué está pasando, con calma.',
-  arranques: ['Necesito desahogarme', 'No sé qué responderle', 'Quiero entender qué siento'],
+  saludo: 'Aquí estoy. ¿De qué quieres que hablemos hoy?',
+  arranques: [
+    'Necesito desahogarme',
+    { texto: 'Quiero que leas un mensaje', href: '/app/descifrar' },
+    'Quiero entender qué siento',
+    'Quiero hablar de mi trabajo o mi dinero',
+  ],
 };
 
 export function aperturaCoach(motivo: string | undefined, nombre: string | undefined): ApeturaCoach {

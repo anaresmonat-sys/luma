@@ -168,7 +168,11 @@ export default function CoachPage() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25 }}
-          className="max-w-[82%] self-start rounded-[15px_15px_15px_5px] border border-[color-mix(in_oklab,var(--accent)_24%,transparent)] bg-[var(--surface)] px-3 py-2.5 text-[14px] leading-snug text-[var(--text-primary)]"
+          className={`rounded-[15px_15px_15px_5px] border border-[color-mix(in_oklab,var(--accent)_24%,transparent)] bg-[var(--surface)] px-3 py-2.5 text-[14px] leading-snug text-[var(--text-primary)] ${
+            // Antes de la primera palabra, la caja del saludo crece y ocupa el hueco libre (pedido de la dueña,
+            // 2026-10-02): así las frases de arranque quedan abajo, junto a la caja de escribir.
+            hilo.length === 0 ? 'min-h-[88px] flex-1 self-stretch' : 'max-w-[82%] self-start'
+          }`}
         >
           {apertura.saludo}
         </motion.div>
@@ -230,18 +234,26 @@ export default function CoachPage() {
         </AnimatePresence>
 
         {!escribiendo && hilo.length === 0 && (
-          <div className="flex flex-col items-start gap-2 pt-1">
-            {apertura.arranques.map((r) => (
-              <motion.button
-                key={r}
-                whileTap={{ scale: 0.97 }}
-                type="button"
-                onClick={() => setTexto(r + ' ')}
-                className="rounded-full border border-[color-mix(in_oklab,var(--accent)_34%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2 text-left text-[12.5px] font-semibold text-[var(--accent-lite)]"
-              >
-                {r}
-              </motion.button>
-            ))}
+          <div className="flex shrink-0 flex-col items-start gap-2 pt-1">
+            {apertura.arranques.map((r) => {
+              const clase =
+                'rounded-full border border-[color-mix(in_oklab,var(--accent)_34%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2 text-left text-[12.5px] font-semibold text-[var(--accent-lite)]';
+              // Una frase de arranque puede llevar a otra pantalla (ej. Descifrar) en vez de rellenar la caja.
+              if (typeof r !== 'string') {
+                return (
+                  <motion.div key={r.texto} whileTap={{ scale: 0.97 }}>
+                    <Link href={r.href} className={`inline-block ${clase}`}>
+                      {r.texto} →
+                    </Link>
+                  </motion.div>
+                );
+              }
+              return (
+                <motion.button key={r} whileTap={{ scale: 0.97 }} type="button" onClick={() => setTexto(r + ' ')} className={clase}>
+                  {r}
+                </motion.button>
+              );
+            })}
           </div>
         )}
       </div>
