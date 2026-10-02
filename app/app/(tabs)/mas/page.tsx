@@ -129,7 +129,7 @@ export default function MasPage() {
         <h1 className="text-[16px] font-semibold text-[var(--text-primary)] [font-family:var(--font-display)]">Más</h1>
       </div>
 
-      <div className="mt-2 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] p-4">
+      <div className="mt-2 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] p-4 [@media(max-height:840px)]:p-3">
         <span
           className="flex size-12 shrink-0 items-center justify-center rounded-full"
           style={{ background: 'linear-gradient(150deg, var(--accent-lite), var(--card-title))' }}
@@ -175,7 +175,7 @@ export default function MasPage() {
             key={o.label}
             type="button"
             onClick={() => tocarProximamente(o.label)}
-            className={`flex items-center gap-3 py-3 text-left text-[13px] font-medium text-[var(--text-primary)] ${
+            className={`flex items-center gap-3 py-3 text-left text-[13px] font-medium text-[var(--text-primary)] [@media(max-height:840px)]:py-2 [@media(max-height:720px)]:py-1.5 ${
               i > 0 ? 'border-t border-[color-mix(in_oklab,var(--text-tertiary)_18%,transparent)]' : ''
             }`}
           >
@@ -189,7 +189,7 @@ export default function MasPage() {
           <Link
             key={o.label}
             href={o.href}
-            className="flex items-center gap-3 border-t border-[color-mix(in_oklab,var(--text-tertiary)_18%,transparent)] py-3 text-[13px] font-medium text-[var(--text-primary)]"
+            className="flex items-center gap-3 border-t border-[color-mix(in_oklab,var(--text-tertiary)_18%,transparent)] py-3 text-[13px] font-medium text-[var(--text-primary)] [@media(max-height:840px)]:py-2 [@media(max-height:720px)]:py-1.5"
           >
             <span className="text-[16px]" aria-hidden="true">
               {o.emoji}
@@ -207,14 +207,14 @@ export default function MasPage() {
           type="button"
           onClick={cerrarSesion}
           disabled={cerrando}
-          className="mt-6 flex h-11 w-full items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--text-tertiary)_30%,transparent)] text-[13px] font-semibold text-[var(--text-secondary)] disabled:opacity-60"
+          className="mt-6 flex h-11 w-full items-center justify-center rounded-[var(--radius-button)] [@media(max-height:840px)]:mt-3 [@media(max-height:720px)]:h-9 border border-[color-mix(in_oklab,var(--text-tertiary)_30%,transparent)] text-[13px] font-semibold text-[var(--text-secondary)] disabled:opacity-60"
         >
           {cerrando ? 'Cerrando sesión…' : 'Cerrar sesión'}
         </button>
       )}
 
       {conSesion && (
-        <div className="mt-6 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--an-risk)_30%,transparent)] p-4">
+        <div className="mt-6 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--an-risk)_30%,transparent)] p-4 [@media(max-height:840px)]:mt-3 [@media(max-height:840px)]:p-3">
           <p className="text-[12.5px] font-semibold text-[var(--an-risk)]">Zona de riesgo</p>
           {!confirmandoBorrado ? (
             <button

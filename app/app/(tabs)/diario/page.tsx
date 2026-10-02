@@ -272,19 +272,19 @@ export default function DiarioPage() {
           variants={item}
           type="button"
           onClick={() => tocarProximamente('Próximamente: tu patrón completo')}
-          className="mt-3 flex h-11 w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[12.5px] font-bold text-[var(--accent-lite)]"
+          className="mt-3 flex h-11 w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[12.5px] font-bold text-[var(--accent-lite)] [@media(max-height:840px)]:hidden"
         >
           Ver mi patrón →
         </motion.button>
 
         <motion.div variants={item} className="mt-3">
-          <Link href="/app/mapa-poder" className="flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3">
+          <Link href="/app/mapa-poder" className="flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3 [@media(max-height:840px)]:py-2">
             <span className="text-[17px] leading-none" aria-hidden="true">
               🔮
             </span>
             <span className="flex-1">
               <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Conócete a ti misma</span>
-              <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
+              <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)] [@media(max-height:840px)]:hidden">
                 Tu arcano de nacimiento, con tu fecha
               </span>
             </span>
@@ -297,7 +297,7 @@ export default function DiarioPage() {
         {registros > 0 ? (
           <motion.div
             variants={item}
-            className="mt-8 flex flex-col items-center gap-1 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-4 py-5 text-center [@media(max-height:840px)]:mt-4 [@media(max-height:720px)]:mt-3 [@media(max-height:720px)]:py-2 [@media(max-height:700px)]:hidden"
+            className="mt-8 flex flex-col items-center gap-1 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-4 py-5 text-center [@media(max-height:840px)]:mt-4 [@media(max-height:840px)]:hidden"
           >
             <span className="text-[28px] font-bold lining-nums tabular-nums text-[var(--accent-lite)] [font-family:var(--font-display)]">
               {registrosMostrados}
@@ -307,7 +307,7 @@ export default function DiarioPage() {
             </span>
           </motion.div>
         ) : (
-          <motion.p variants={item} className="mt-8 text-center text-[11px] leading-relaxed text-[var(--text-tertiary)] [@media(max-height:840px)]:mt-4 [@media(max-height:720px)]:mt-3 [@media(max-height:700px)]:hidden">
+          <motion.p variants={item} className="mt-8 text-center text-[11px] leading-relaxed text-[var(--text-tertiary)] [@media(max-height:840px)]:hidden">
             💡 Escribir aunque sean 2 líneas ayuda a que LUMA vea tus patrones con el tiempo.
           </motion.p>
         )}
