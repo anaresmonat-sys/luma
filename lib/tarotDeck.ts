@@ -134,18 +134,17 @@ export function cartaDelDia(fecha: Date = new Date()): CartaExtraida {
  * (estándar del sector para el draw diario). Pedido del usuario, 2026-09-22:
  * "que la app sea más pro", tras investigar apps top (Raka, Nummi, Jenova). */
 export const POSICIONES_TIRADA: Record<string, [string, string, string]> = {
-  // Posiciones NEUTRAS a propósito (pedido del usuario, 2026-09-30: "una
-  // experta tarotista no pregunta nunca... tiene que leer las cartas según
-  // salgan"). Antes se le preguntaba a la usuaria a quién se refería el amor
-  // (pareja/familia/una misma/etc.) antes de tirar — eso es justo lo que no
-  // quiere: nada de preguntas previas. Estas 3 posiciones sirven igual para
-  // pareja, familia, amistad o una misma; es la IA quien decide, por el
-  // simbolismo real de las cartas que salieron, de qué amor está hablando esa
-  // tirada en concreto (ver ENFOQUE_POR_CATEGORIA.amor en app/api/tarot/route.ts).
-  amor: ['Cómo estás dando amor ahora', 'Lo que bloquea ese amor', 'Hacia dónde te lleva'],
+  // Pedido del usuario, 2026-10-02: "Amor" es el tema de PAREJA o de alguien que
+  // te interesa (lo que más se consulta); el amor propio vive en Autoconocimiento
+  // y la familia/amistades/trabajo en Relaciones. Estas posiciones NO se muestran
+  // en pantalla (se quitó el texto sobre las cartas) — solo las usa la IA para leer.
+  amor: ['Lo que sientes tú', 'Lo que siente la otra persona', 'Hacia dónde va esto'],
   ruptura: ['Qué se cerró', 'Qué te cuesta soltar', 'Qué viene después'],
   decision: ['Un camino', 'El otro camino', 'Lo que de verdad necesitas ver'],
   autoconocimiento: ['Lo que muestras', 'Lo que ocultas', 'Lo que estás llamada a integrar'],
+  relaciones: ['Lo que sientes tú', 'Lo que influye en el vínculo', 'Lo que podría ayudar'],
+  salud: ['Cómo estás ahora', 'Lo que influye', 'Lo que te ayuda'],
+  prosperidad: ['Tu situación ahora', 'Lo que lo frena', 'Cómo avanzar'],
 };
 
 /** Frase corta para mostrar bajo el nombre de la carta (reemplaza la "cita"

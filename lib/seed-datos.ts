@@ -73,15 +73,23 @@ export interface TiradaTarot {
   id: string;
   emoji: string;
   nombre: string;
+  /** Pregunta que viaja a la IA cuando la persona NO escribe la suya. */
   pregunta: string;
+  /** Completa "¿Cuál es tu pregunta sobre …?" (vacío = esa tirada no pregunta nada). */
+  sobre: string;
 }
 
+// Pedido del usuario, 2026-10-02: 7 temas + Carta del día. Al tocar un tema LUMA
+// pregunta "¿Cuál es tu pregunta sobre …?" (opcional); la Carta del día no pregunta.
 export const TIRADAS_TAROT: TiradaTarot[] = [
-  { id: 'amor', emoji: '❤️', nombre: 'Amor', pregunta: '¿Qué necesito comprender sobre el amor en mi vida ahora?' },
-  { id: 'ruptura', emoji: '💔', nombre: 'Ruptura', pregunta: '¿Qué me está impidiendo cerrar este ciclo?' },
-  { id: 'decision', emoji: '🧭', nombre: 'Decisión', pregunta: '¿Qué necesito considerar antes de decidir?' },
-  { id: 'autoconocimiento', emoji: '🪷', nombre: 'Autoconocimiento', pregunta: '¿Qué no estoy viendo de mí misma?' },
-  { id: 'carta-del-dia', emoji: '☀️', nombre: 'Carta del día', pregunta: '¿Qué energía puedo observar hoy?' },
+  { id: 'amor', emoji: '❤️', nombre: 'Amor', sobre: 'el amor', pregunta: '¿Qué necesito comprender sobre esta persona o sobre mi relación de pareja ahora?' },
+  { id: 'ruptura', emoji: '💔', nombre: 'Ruptura', sobre: 'tu ruptura', pregunta: '¿Qué me está impidiendo cerrar este ciclo?' },
+  { id: 'decision', emoji: '🧭', nombre: 'Decisión', sobre: 'tu decisión', pregunta: '¿Qué necesito considerar antes de decidir?' },
+  { id: 'autoconocimiento', emoji: '🪷', nombre: 'Autoconocimiento', sobre: 'ti misma', pregunta: '¿Qué no estoy viendo de mí misma?' },
+  { id: 'relaciones', emoji: '👥', nombre: 'Relaciones', sobre: 'tus relaciones', pregunta: '¿Qué necesito comprender sobre mis relaciones con familia, amistades o compañeros?' },
+  { id: 'salud', emoji: '🌿', nombre: 'Salud y bienestar', sobre: 'tu salud y bienestar', pregunta: '¿Qué necesita mi bienestar ahora mismo?' },
+  { id: 'prosperidad', emoji: '💰', nombre: 'Prosperidad', sobre: 'tu prosperidad', pregunta: '¿Qué necesito ver sobre mi dinero y mi trabajo ahora?' },
+  { id: 'carta-del-dia', emoji: '☀️', nombre: 'Carta del día', sobre: '', pregunta: '¿Qué energía puedo observar hoy?' },
 ];
 
 export const LECTURAS_TAROT: Record<string, { numero: string; nombre: string; cita: string; lectura: string }> = {
