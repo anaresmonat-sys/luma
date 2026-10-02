@@ -245,7 +245,7 @@ export default function LandingLuma() {
       {/* 10 · FOOTER LEGAL — las páginas enlazadas existen como borrador (contenido pendiente, archivo 47) */}
       <FooterLegal
         appName="LUMA"
-        soporteEmail="hola@luma.app"
+        soporteEmail="soporte@tuluma.app"
         enlaces={[
           { label: 'Privacidad', href: '/privacidad' },
           { label: 'Términos', href: '/terminos' },

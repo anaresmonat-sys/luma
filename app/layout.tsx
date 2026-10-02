@@ -18,7 +18,7 @@ const hanken = Hanken_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://luma.app"),
+  metadataBase: new URL("https://www.tuluma.app"),
   title: "LUMA — Claridad para el corazón",
   description:
     "Pega la conversación y entiende qué está pasando de verdad. Tarot, inteligencia emocional y una coach con IA para tu vida amorosa. Prueba 3 días gratis.",
