@@ -242,7 +242,7 @@ export default function TarotPage() {
         ¿Qué tipo de tirada necesitas?
       </h1>
       {/* Ritual antes de elegir (pedido del usuario, 2026-09-22; acortada a pedido suyo). */}
-      <p className="mt-1.5 text-[12px] italic leading-relaxed text-[var(--text-secondary)]">
+      <p className="mt-1.5 text-[12px] italic leading-relaxed text-[var(--text-secondary)] [@media(max-height:720px)]:hidden">
         Haz una respiración profunda, cierra los ojos y conecta con la pregunta.
       </p>
 
@@ -259,7 +259,7 @@ export default function TarotPage() {
                 onClick={() => alternar(t.id)}
                 aria-expanded={abierto}
                 disabled={cargando === t.id}
-                className="flex w-full items-center gap-3 py-4 text-left disabled:opacity-70"
+                className="flex w-full items-center gap-3 py-4 text-left disabled:opacity-70 [@media(max-height:840px)]:py-2.5 [@media(max-height:720px)]:py-1.5"
               >
                 {abierto && tirada?.cartas[0]?.imagen ? (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -267,14 +267,14 @@ export default function TarotPage() {
                     src={tirada.cartas[0].imagen.replace('/tarot/', '/tarot/mini/')}
                     alt=""
                     aria-hidden="true"
-                    className="h-16 w-11 shrink-0 rounded-md object-cover shadow-[0_8px_16px_-8px_rgb(10_5_8/0.6)]"
+                    className="h-16 w-11 shrink-0 [@media(max-height:840px)]:h-14 [@media(max-height:840px)]:w-10 [@media(max-height:720px)]:h-12 [@media(max-height:720px)]:w-8 rounded-md object-cover shadow-[0_8px_16px_-8px_rgb(10_5_8/0.6)]"
                     style={{ transform: tirada.cartas[0].invertida ? 'rotate(180deg)' : undefined }}
                   />
                 ) : (
                   // Reverso en miniatura: la carta que saldrá es al azar, así que no se anticipa ninguna.
                   <span
                     aria-hidden="true"
-                    className="relative flex h-16 w-11 shrink-0 items-center justify-center rounded-md"
+                    className="relative flex h-16 w-11 shrink-0 [@media(max-height:840px)]:h-14 [@media(max-height:840px)]:w-10 [@media(max-height:720px)]:h-12 [@media(max-height:720px)]:w-8 items-center justify-center rounded-md"
                     style={{
                       background: 'linear-gradient(160deg, color-mix(in oklab, var(--bloom-vino) 75%, var(--bg)), var(--bg) 70%)',
                       boxShadow:
@@ -367,7 +367,7 @@ export default function TarotPage() {
           aportaba: cada tirada ya se guarda y se puede reabrir tocándola arriba
           en la lista, esto era un atajo redundante y sin sentido claro). */}
 
-      <p className="mt-8 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">Más lecturas</p>
+      <p className="mt-8 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)] [@media(max-height:840px)]:mt-4">Más lecturas</p>
 
       <Link
         href="/app/compatibilidad"

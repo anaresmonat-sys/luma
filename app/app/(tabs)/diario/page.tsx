@@ -209,7 +209,7 @@ export default function DiarioPage() {
             placeholder={disponible ? 'Cuéntame cómo va tu día…' : 'Elige tu plan para seguir…'}
             readOnly={!disponible}
             rows={4}
-            className="min-h-24 w-full flex-1 resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
+            className="min-h-24 w-full flex-1 resize-none [@media(max-height:720px)]:min-h-16 bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
           />
           <div className="mt-2 flex items-center justify-between">
             <button
@@ -297,7 +297,7 @@ export default function DiarioPage() {
         {registros > 0 ? (
           <motion.div
             variants={item}
-            className="mt-8 flex flex-col items-center gap-1 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-4 py-5 text-center"
+            className="mt-8 flex flex-col items-center gap-1 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-4 py-5 text-center [@media(max-height:840px)]:mt-4 [@media(max-height:720px)]:mt-3 [@media(max-height:720px)]:py-2 [@media(max-height:700px)]:hidden"
           >
             <span className="text-[28px] font-bold lining-nums tabular-nums text-[var(--accent-lite)] [font-family:var(--font-display)]">
               {registrosMostrados}
@@ -307,7 +307,7 @@ export default function DiarioPage() {
             </span>
           </motion.div>
         ) : (
-          <motion.p variants={item} className="mt-8 text-center text-[11px] leading-relaxed text-[var(--text-tertiary)]">
+          <motion.p variants={item} className="mt-8 text-center text-[11px] leading-relaxed text-[var(--text-tertiary)] [@media(max-height:840px)]:mt-4 [@media(max-height:720px)]:mt-3 [@media(max-height:700px)]:hidden">
             💡 Escribir aunque sean 2 líneas ayuda a que LUMA vea tus patrones con el tiempo.
           </motion.p>
         )}
