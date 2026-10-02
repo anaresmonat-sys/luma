@@ -104,6 +104,37 @@ function CartaReverso({ retraso }: { retraso: number }) {
   );
 }
 
+/** Mini carta con el reverso del mazo (ciruela, doble marco dorado y logo de LUMA) para los cuadritos de temas. */
+function MiniReverso({ className = '' }: { className?: string }) {
+  // Carta "flotando" en 3D: misma perspectiva que la carta del día de Inicio, brillo
+  // diagonal, sombra de contacto y resplandor dorado tenue. Estática (sin animación
+  // constante); solo se eleva al pasar o tocar el cuadrito padre (clase `group`).
+  return (
+    <span aria-hidden="true" className={`relative isolate inline-flex shrink-0 ${className}`} style={{ perspective: '240px' }}>
+      <span className="absolute inset-0 -z-10 rounded-full opacity-40 blur-[10px]" style={{ background: 'var(--accent)' }} />
+      <span className="absolute -bottom-1.5 left-1/2 -z-10 h-2 w-4/5 -translate-x-1/2 rounded-full blur-[4px]" style={{ background: 'rgb(10 5 8 / 0.7)' }} />
+      <span
+        className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-md transition-transform duration-150 group-hover:-translate-y-1 group-active:-translate-y-1.5"
+        style={{
+          transform: 'rotateX(8deg) rotateY(-16deg) rotate(-4deg)',
+          transformStyle: 'preserve-3d',
+          background: 'linear-gradient(160deg, color-mix(in oklab, var(--bloom-vino) 75%, var(--bg)), var(--bg) 70%)',
+          boxShadow:
+            '0 14px 16px -8px rgb(10 5 8 / 0.8), 0 4px 8px -4px rgb(10 5 8 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.3), inset 0 0 0 1px color-mix(in oklab, var(--accent) 85%, transparent)',
+        }}
+      >
+        <span className="absolute inset-[3px] rounded-[4px]" style={{ border: '1px solid color-mix(in oklab, var(--accent) 40%, transparent)' }} />
+        <span
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(125deg, transparent 30%, rgb(255 255 255 / 0.2) 48%, transparent 64%)' }}
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/luma-icon.png" alt="" className="relative h-5 w-auto brightness-125 [@media(max-height:720px)]:h-4" />
+      </span>
+    </span>
+  );
+}
+
 function CabeceraVolver({ titulo, onVolver }: { titulo: string; onVolver: () => void }) {
   return (
     <div className="flex shrink-0 items-center justify-between py-2">
@@ -398,8 +429,9 @@ export default function TarotPage() {
             whileTap={{ scale: 0.98 }}
             type="button"
             onClick={() => elegirTema(cartaDia)}
-            className="flex h-14 w-full items-center justify-center gap-2 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_55%,transparent)] bg-[color-mix(in_oklab,var(--accent)_14%,transparent)] text-[15px] font-semibold text-[var(--accent-lite)] [font-family:var(--font-display)] [@media(max-height:720px)]:h-11"
+            className="group flex h-14 w-full items-center justify-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_55%,transparent)] bg-[color-mix(in_oklab,var(--accent)_14%,transparent)] text-[15px] font-semibold text-[var(--accent-lite)] [font-family:var(--font-display)] [@media(max-height:720px)]:h-11"
           >
+            <MiniReverso className="h-10 w-7 [@media(max-height:720px)]:h-8 [@media(max-height:720px)]:w-6" />
             <span aria-hidden="true" className="text-[20px] leading-none">{cartaDia.emoji}</span>
             {cartaDia.nombre}
           </motion.button>
@@ -412,10 +444,13 @@ export default function TarotPage() {
               whileTap={{ scale: 0.97 }}
               type="button"
               onClick={() => elegirTema(t)}
-              className="flex h-[72px] flex-col items-center justify-center gap-1 last:odd:col-span-2 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-2 text-center [@media(max-height:720px)]:h-14 [@media(max-height:720px)]:gap-0 [@media(min-height:841px)]:h-20"
+              className="group flex h-[72px] items-center gap-2 last:odd:col-span-2 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-3 [@media(max-height:720px)]:h-14 [@media(min-height:841px)]:h-20"
             >
-              <span aria-hidden="true" className="text-[22px] leading-none [@media(max-height:720px)]:text-[18px]">{t.emoji}</span>
-              <span className="text-[13px] font-semibold leading-tight text-[var(--text-primary)] [font-family:var(--font-display)]">{t.nombre}</span>
+              <MiniReverso className="h-[52px] w-9 [@media(max-height:720px)]:h-10 [@media(max-height:720px)]:w-7 [@media(min-height:841px)]:h-14 [@media(min-height:841px)]:w-10" />
+              <span className="flex flex-1 flex-col items-center justify-center gap-1 text-center [@media(max-height:720px)]:gap-0">
+                <span aria-hidden="true" className="text-[22px] leading-none [@media(max-height:720px)]:text-[18px]">{t.emoji}</span>
+                <span className="text-[13px] font-semibold leading-tight text-[var(--text-primary)] [font-family:var(--font-display)]">{t.nombre}</span>
+              </span>
             </motion.button>
           ))}
         </div>
