@@ -31,7 +31,7 @@ export function beneficiosPlan(r: Respuestas): { texto: string }[] {
   const porAyuda: Record<string, string> = {
     analizar: 'Descifra conversaciones confusas: hechos, riesgo y qué responder',
     coach: 'Habla con LUMA, tu coach, cuando lo necesites',
-    tarot: 'Tiradas de tarot con tu pregunta, no genéricas',
+    tarot: 'Tiradas de tarot con tus preguntas, no genéricas',
     diario: 'Tu diario emocional para ver tus patrones con el tiempo',
   };
   const principal = (r.ayuda && porAyuda[r.ayuda]) || porAyuda.analizar;
