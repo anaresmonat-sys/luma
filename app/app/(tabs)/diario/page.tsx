@@ -6,7 +6,8 @@
 // la usuaria escribiera — defecto real reportado por el usuario en la
 // auditoría 2026-09-18). El ícono de calendario abre /app/diario/historial
 // (construido 2026-09-29, pedido del usuario antes de vender). "Ver mi patrón"
-// sigue en "Próximamente" (honesto — 11), igual que el mic.
+// sigue en "Próximamente" (honesto — 11). Sin botón de micrófono propio
+// (decisión de la dueña, 2026-10-13): el teclado del móvil ya dicta.
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
@@ -222,17 +223,7 @@ export default function DiarioPage() {
             rows={4}
             className="min-h-24 w-full flex-1 resize-none [@media(max-height:720px)]:min-h-16 bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
           />
-          <div className="mt-2 flex items-center justify-between">
-            <button
-              type="button"
-              aria-label="Grabar nota de voz"
-              onClick={() => tocarProximamente('Próximamente: nota de voz')}
-              className="flex size-11 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[color-mix(in_oklab,var(--accent)_15%,transparent)] text-[15px]"
-            >
-              🎤
-            </button>
-            <span className="text-[11px] text-[var(--text-tertiary)]">o cuéntalo en voz alta</span>
-          </div>
+          <p className="mt-2 text-[11px] text-[var(--text-tertiary)]">Puedes dictar con el micrófono de tu teclado.</p>
         </motion.div>
 
         <motion.div variants={item} className="mt-3">

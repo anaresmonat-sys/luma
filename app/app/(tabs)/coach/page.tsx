@@ -28,7 +28,6 @@ export default function CoachPage() {
   const [texto, setTexto] = useState('');
   const chatRef = useRef<HTMLDivElement | null>(null);
   const [escribiendo, setEscribiendo] = useState(false);
-  const [avisoVoz, setAvisoVoz] = useState(false);
   const [error, setError] = useState(false);
   const [mensajeTope, setMensajeTope] = useState<string | null>(null);
   const { disponible, conPlan, refrescar } = usePruebaDisponible();
@@ -65,11 +64,6 @@ export default function CoachPage() {
   useEffect(() => {
     chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: 'smooth' });
   }, [hilo, escribiendo, error]);
-
-  function tocarMic() {
-    setAvisoVoz(true);
-    window.setTimeout(() => setAvisoVoz(false), 2200);
-  }
 
   async function pedirRespuesta(hiloActual: MensajeCoach[]) {
     try {
@@ -278,41 +272,17 @@ export default function CoachPage() {
         )}
       </div>
 
-      <div className="h-4 shrink-0">
-        <AnimatePresence>
-          {avisoVoz && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="text-[11px] font-semibold text-[var(--accent-lite)]"
-            >
-              Próximamente: nota de voz
-            </motion.p>
-          )}
-        </AnimatePresence>
-      </div>
-
       <form
         onSubmit={(e) => {
           e.preventDefault();
           enviar(texto);
         }}
-        className="flex shrink-0 items-center gap-1.5 rounded-full border border-[color-mix(in_oklab,var(--accent)_34%,transparent)] bg-[var(--surface-2)] py-1 pl-2 pr-1"
+        className="flex shrink-0 items-center gap-1.5 rounded-full border border-[color-mix(in_oklab,var(--accent)_34%,transparent)] bg-[var(--surface-2)] py-1 pl-4 pr-1"
       >
-        <motion.button
-          whileTap={{ scale: 0.9 }}
-          type="button"
-          onClick={tocarMic}
-          aria-label="Grabar nota de voz"
-          className="flex size-12 shrink-0 items-center justify-center rounded-full text-[15px] text-[var(--accent-lite)]"
-        >
-          🎤
-        </motion.button>
         <input
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
-          placeholder={disponible ? 'Cuéntame qué pasó…' : 'Elige tu plan para seguir…'}
+          placeholder={disponible ? 'Escribe o dicta lo que pasó…' : 'Elige tu plan para seguir…'}
           readOnly={!disponible}
           aria-label="Mensaje para LUMA"
           className="h-11 flex-1 bg-transparent text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"

@@ -4,9 +4,8 @@
 // aprobado). La función estrella. Sin nav inferior (flujo dedicado, no es pestaña).
 // Conectada a IA real vía /api/descifrar (patrón BFF — la clave vive en el
 // servidor). El primer análisis real es gratis (lib/prueba-gratis.ts); el
-// siguiente intento manda a elegir un plan. Captura/Voz muestran "Próximamente"
-// honesto (11: nunca un elemento tocable sin respuesta) hasta que OCR/voz→texto
-// estén conectados. El CTA "Analizar" NUNCA se deshabilita (ancla de craft): si
+// siguiente intento manda a elegir un plan. No hay modo "Voz" propio (decisión de
+// la dueña, 2026-10-13): el teclado del móvil ya dicta; se avisa con una pista. El CTA "Analizar" NUNCA se deshabilita (ancla de craft): si
 // el texto es muy corto para decir algo real, se explica por qué en vez de
 // apagar el botón.
 
@@ -22,7 +21,7 @@ import { CONVERSACION_EJEMPLO } from '@/lib/seed-datos';
 import { consumirPruebaGratis } from '@/lib/prueba-gratis';
 import { guardarMensajePendiente } from '@/lib/almacenamiento-coach';
 
-type Modo = 'texto' | 'captura' | 'voz';
+type Modo = 'texto' | 'captura';
 type Estado = 'reposo' | 'cargando' | 'error' | 'resultado';
 
 interface ItemAnalisis {
@@ -38,7 +37,6 @@ const MIN_CARACTERES = 15;
 const MODOS: { id: Modo; emoji: string; label: string }[] = [
   { id: 'texto', emoji: '📋', label: 'Pega texto' },
   { id: 'captura', emoji: '📸', label: 'Captura' },
-  { id: 'voz', emoji: '🎤', label: 'Voz' },
 ];
 
 const contenedor = {
@@ -158,7 +156,7 @@ export default function DescifrarPage() {
         <motion.div variants={item} className="mb-2">
           <AvisoPrueba disponible={disponible} conPlan={conPlan} />
         </motion.div>
-        <motion.div variants={item} className="grid grid-cols-3 gap-2">
+        <motion.div variants={item} className="grid grid-cols-2 gap-2">
           {MODOS.map((m) => (
             <motion.button
               key={m.id}
@@ -209,17 +207,9 @@ export default function DescifrarPage() {
                   rows={4}
                   className="min-h-24 w-full flex-1 resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
                 />
-                <div className="mt-2 flex items-center justify-between">
-                  <button
-                    type="button"
-                    aria-label="Grabar nota de voz"
-                    onClick={() => setModo('voz')}
-                    className="flex size-11 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[color-mix(in_oklab,var(--accent)_15%,transparent)] text-[15px]"
-                  >
-                    🎤
-                  </button>
-                  <span className="text-[11px] text-[var(--text-tertiary)]">o toca para grabar — próximamente</span>
-                </div>
+                <p className="mt-2 text-[11px] text-[var(--text-tertiary)]">
+                  Puedes dictar con el micrófono de tu teclado.
+                </p>
               </div>
 
               <AnimatePresence>
@@ -262,7 +252,7 @@ export default function DescifrarPage() {
                 </button>
               )}
             </motion.div>
-          ) : modo === 'captura' ? (
+          ) : (
             <motion.div
               key="captura"
               initial={{ opacity: 0, y: 8 }}
@@ -325,26 +315,6 @@ export default function DescifrarPage() {
                   {estado === 'cargando' ? 'Analizando…' : disponible ? 'Analizar captura' : 'Elegir mi plan'}
                 </AppButton>
               </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="otro-modo"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="mt-3 flex flex-col items-center gap-2 rounded-[var(--radius-card)] border border-dashed border-[color-mix(in_oklab,var(--accent)_35%,transparent)] px-4 py-10 text-center"
-            >
-              <span className="text-[26px]" aria-hidden="true">
-                🎤
-              </span>
-              <p className="text-[13px] font-semibold text-[var(--text-primary)]">Próximamente</p>
-              <p className="text-[11.5px] text-[var(--text-secondary)]">
-                Vas a poder contarlo en voz alta y LUMA lo transcribe por ti.
-              </p>
-              <button type="button" onClick={() => setModo('texto')} className="mt-1 text-[11px] font-bold text-[var(--accent-lite)]">
-                Volver a pegar texto
-              </button>
             </motion.div>
           )}
         </AnimatePresence>
