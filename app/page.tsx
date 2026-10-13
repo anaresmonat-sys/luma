@@ -124,6 +124,7 @@ export default function LandingLuma() {
         tituloMarked="Desliza y mira [acento]cómo se siente[/acento]"
         ctaLabel="Tu primera lectura de tarot gratis"
         ctaHref="/onboarding?ayuda=tarot"
+        ctaNota="Tu primera lectura es gratis · sin tarjeta · sin registro"
         frames={[
           {
             src: '/carrusel/inicio.webp',

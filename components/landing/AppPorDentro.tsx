@@ -32,6 +32,8 @@ export interface AppPorDentroProps {
   /** CTA mid-page: mismas medidas y MISMO verbo del CTA héroe (19). */
   ctaLabel: string;
   ctaHref: string;
+  /** Línea pequeña bajo el CTA (p. ej. "Tu primera lectura es gratis · sin tarjeta"). */
+  ctaNota?: string;
   id?: string;
 }
 
@@ -41,6 +43,7 @@ export function AppPorDentro({
   frames,
   ctaLabel,
   ctaHref,
+  ctaNota,
   id,
 }: AppPorDentroProps) {
   warnCopy('AppPorDentro → título', tituloMarked, 8);
@@ -208,8 +211,9 @@ export function AppPorDentro({
         </motion.div>
 
         {/* CTA mid-page (reglas de CTA de 19): tras la prueba visual, cuando la confianza es alta */}
-        <motion.div variants={item} className="mt-10 flex justify-center">
+        <motion.div variants={item} className="mt-10 flex flex-col items-center">
           <CtaButton href={ctaHref}>{ctaLabel}</CtaButton>
+          {ctaNota && <p className="mt-3 text-[13px] text-[var(--text-secondary)]">{ctaNota}</p>}
         </motion.div>
       </motion.div>
     </SectionShell>
