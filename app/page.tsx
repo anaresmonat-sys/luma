@@ -47,7 +47,7 @@ export default function LandingLuma() {
         subtitleMarked="En un minuto: [b]hechos, riesgo y qué responder[/b], con tarot y coach."
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
-        socialProof={<span>Tu primer resultado es gratis · sin tarjeta · sin registro</span>}
+        socialProof={<span>Tu primera lectura es gratis · sin tarjeta · sin registro</span>}
         visual={<HeroDemoLuma />}
       />
 
@@ -159,7 +159,7 @@ export default function LandingLuma() {
         kicker="Tu plan"
         tituloMarked="Menos que [acento]una consulta con tarotista o coach[/acento]"
         trialDias={3}
-        notaPrevia="Primero pruebas un resultado gratis, sin tarjeta: descifra una conversación o saca tus cartas. Si te convence, eliges plan con 3 días de prueba."
+        notaPrevia="Primero pruebas una lectura gratis, sin tarjeta: descifra una conversación o saca tus cartas. Si te convence, eliges plan con 3 días de prueba."
         anual={{
           nombre: 'Anual',
           badge: 'LA MÁS ELEGIDA',
@@ -168,7 +168,7 @@ export default function LandingLuma() {
           totalAnual: 'Se cobra $89,99/año',
           ahorro: '3 meses gratis',
           descomposicionDia: 'menos de $0,25 al día',
-          ctaLabel: CTA_LABEL,
+          ctaLabel: 'Empezar gratis',
           ctaHref: CTA_HREF,
           features: [
             'Descifra tus conversaciones: pega el texto o sube una captura, con uso justo cada día',
@@ -182,7 +182,7 @@ export default function LandingLuma() {
           nombre: 'Mensual',
           precioMes: '$9,99',
           sufijo: '/mes',
-          ctaLabel: CTA_LABEL,
+          ctaLabel: 'Empezar gratis',
           ctaHref: CTA_HREF,
           features: [
             'Descifra tus conversaciones: pega el texto o sube una captura, con uso justo cada día',
@@ -229,7 +229,7 @@ export default function LandingLuma() {
           {
             pregunta: '¿Y si no me convence?',
             respuestaMarked:
-              'Tu primer resultado es gratis y sin tarjeta. Si te convence, tienes 3 días de prueba y 15 días de garantía tras el primer cobro. Cancelas cuando quieras.',
+              'Tu primera lectura es gratis y sin tarjeta. Si te convence, tienes 3 días de prueba y 15 días de garantía tras el primer cobro. Cancelas cuando quieras.',
           },
         ]}
       />
@@ -241,7 +241,7 @@ export default function LandingLuma() {
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
         recap="Descifra chats · Chat con LUMA · Tarot para tu caso · Diario de patrones · sin cobros por mensaje"
-        psMarked="PS — Empiezas gratis: tu primer resultado no lleva tarjeta. Y los 3 días de prueba son de verdad: si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, tienes 15 días para el reembolso completo."
+        psMarked="PS — Empiezas gratis: tu primera lectura no lleva tarjeta. Y los 3 días de prueba son de verdad: si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, tienes 15 días para el reembolso completo."
       />
       </main>
 

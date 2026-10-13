@@ -17,7 +17,7 @@ export function AvisoPrueba({
   if (disponible) {
     return (
       <p className={`text-center text-[11px] font-semibold text-[var(--accent-lite)] ${className}`}>
-        🎁 Tu primer resultado es gratis
+        🎁 Tu primera lectura es gratis
       </p>
     );
   }
@@ -25,7 +25,7 @@ export function AvisoPrueba({
     <div
       className={`rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] p-3 ${className}`}
     >
-      <p className="text-[12.5px] font-semibold text-[var(--text-primary)]">Ya usaste tu resultado gratis</p>
+      <p className="text-[12.5px] font-semibold text-[var(--text-primary)]">Ya usaste tu lectura gratis</p>
       <p className="mt-0.5 text-[11.5px] leading-snug text-[var(--text-secondary)]">
         Elige tu plan para seguir — así no pierdes lo que escribas.
       </p>
