@@ -39,7 +39,10 @@ export function ScreenHeader({
       >
         {titulo}
       </h1>
-      <div className="flex size-11 shrink-0 items-center justify-center">{derecha}</div>
+      {/* Slot de 44px que mantiene el título centrado; el contenido (p. ej. la píldora "Historial") se ancla a la derecha y puede ser más ancho. */}
+      <div className="relative size-11 shrink-0">
+        <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center justify-end">{derecha}</div>
+      </div>
     </div>
   );
 }

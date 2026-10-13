@@ -168,10 +168,10 @@ export default function DiarioPage() {
               <Link
                 href="/app/diario/historial"
                 aria-label="Historial del diario"
-                className="flex min-h-11 min-w-11 flex-col items-center justify-center gap-0.5 text-[var(--accent-lite)]"
+                className="flex h-9 items-center gap-1.5 rounded-full border border-[color-mix(in_oklab,var(--accent)_55%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 text-[var(--accent-lite)]"
               >
-                <CalendarDays size={20} strokeWidth={1.75} aria-hidden="true" />
-                <span className="text-[10.5px] font-semibold leading-none">Historial</span>
+                <CalendarDays size={16} strokeWidth={1.75} aria-hidden="true" />
+                <span className="text-[12px] font-semibold leading-none">Historial</span>
               </Link>
             }
           />
