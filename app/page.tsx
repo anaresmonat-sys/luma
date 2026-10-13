@@ -46,7 +46,30 @@ export default function LandingLuma() {
         subtitleMarked="En un minuto: [b]hechos, riesgo y qué responder[/b], con tarot y coach."
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
-        socialProof={<span>Tu primera lectura es gratis · sin tarjeta · sin registro</span>}
+        socialProof={
+          <span className="flex flex-col items-center gap-1.5">
+            <span>Tu primera lectura es gratis · sin tarjeta · sin registro</span>
+            <span>
+              <span className="font-semibold text-[var(--text-primary)]">Elige bien: </span>
+              {[
+                ['analizar', 'conversación'],
+                ['tarot', 'tarot'],
+                ['coach', 'coach'],
+                ['diario', 'diario'],
+              ].map(([id, texto], i) => (
+                <span key={id}>
+                  {i > 0 && ' · '}
+                  <a
+                    href={`/onboarding?ayuda=${id}`}
+                    className="font-semibold text-[var(--accent)] underline decoration-[color-mix(in_oklab,var(--accent)_45%,transparent)] underline-offset-4 [touch-action:manipulation]"
+                  >
+                    {texto}
+                  </a>
+                </span>
+              ))}
+            </span>
+          </span>
+        }
         visual={<HeroDemoLuma />}
       />
 
