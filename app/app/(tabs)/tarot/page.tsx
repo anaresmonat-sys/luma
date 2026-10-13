@@ -17,6 +17,7 @@ import { AppButton, AppLinkButton } from '@/components/app/AppButton';
 import { AvisoIA } from '@/components/app/AvisoIA';
 import { InvitacionPlan } from '@/components/app/InvitacionPlan';
 import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
+import { modoPersonaNueva } from '@/lib/modo-revision';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { TIRADAS_TAROT, type TiradaTarot } from '@/lib/seed-datos';
 import { guardarEntradaPendiente } from '@/lib/almacenamiento-diario';
@@ -195,6 +196,26 @@ export default function TarotPage() {
     if (quiereRitual && pruebaGratisDisponible()) {
       setCartasRitual(drawCards(6));
       setVista('ritual');
+      setListo(true);
+      return;
+    }
+    if (quiereRitual) {
+      // Llegó por "Tu primera lectura de tarot gratis" pero este navegador ya la gastó: se le dice claro
+      // en vez de dejarla en la lista de temas. Con plan o administradora, la lista de siempre.
+      let cancelado = false;
+      fetch('/api/mi-plan')
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d: { activo?: boolean } | null) => {
+          if (cancelado) return;
+          if (d?.activo && !modoPersonaNueva()) setListo(true);
+          else window.location.href = '/paywall?motivo=lectura-usada';
+        })
+        .catch(() => {
+          if (!cancelado) setListo(true);
+        });
+      return () => {
+        cancelado = true;
+      };
     }
     setListo(true);
   }, []);
