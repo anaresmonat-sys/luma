@@ -361,7 +361,7 @@ export default function TarotPage() {
       </p>
     );
     const ecoPregunta = pregunta.trim() ? (
-      <p className="mt-2 max-w-[300px] text-center text-[12px] italic leading-snug text-[var(--text-tertiary)]">
+      <p className="mt-2 max-w-[300px] text-center text-[13px] italic leading-snug text-[var(--text-secondary)]">
         Tu pregunta: {pregunta.trim()}
       </p>
     ) : null;
@@ -393,6 +393,18 @@ export default function TarotPage() {
                     rows={4}
                     className="h-28 w-full resize-none bg-transparent text-[14px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
                   />
+                </div>
+                <div className="mt-3 flex flex-wrap justify-center gap-2">
+                  {['¿Debería escribirle?', '¿Cómo va mi dinero?', '¿Qué decisión me conviene?'].map((ej) => (
+                    <button
+                      key={ej}
+                      type="button"
+                      onClick={() => setPregunta(ej)}
+                      className="min-h-11 rounded-full border border-[color-mix(in_oklab,var(--accent)_40%,transparent)] px-3.5 text-[13px] font-semibold text-[var(--accent-lite)] [touch-action:manipulation]"
+                    >
+                      {ej}
+                    </button>
+                  ))}
                 </div>
               </div>
               <div className="mt-4 w-full">
@@ -633,9 +645,12 @@ export default function TarotPage() {
               </p>
               <div className="mt-2.5">
                 <AppLinkButton href="/paywall" compact>
-                  Probar 3 días gratis
+                  Quiero mis 3 días gratis
                 </AppLinkButton>
               </div>
+              <p className="mt-2 text-[11.5px] leading-snug text-[var(--text-secondary)]">
+                Después, $9,99 al mes o $89,99 al año. Cancelas cuando quieras y tienes 15 días de garantía.
+              </p>
             </div>
           )}
           <div className="mt-1 flex w-full flex-col gap-2">

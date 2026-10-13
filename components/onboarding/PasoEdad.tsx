@@ -38,6 +38,9 @@ export function PasoEdad({ onContinuar }: { onContinuar: () => void }) {
           LUMA habla de relaciones, tarot e inteligencia emocional para adultos. Confirma tu edad y empiezas: tu primera
           lectura es gratis, sin tarjeta.
         </p>
+        <p className="mt-2 max-w-[340px] text-[14px] leading-relaxed text-[var(--text-secondary)]">
+          Aquí nadie te juzga: es un espacio privado.
+        </p>
       </div>
 
       <div>
@@ -69,7 +72,7 @@ export function PasoEdad({ onContinuar }: { onContinuar: () => void }) {
         </div>
       </div>
 
-      <div>
+      <div className="mt-auto">
         <motion.button
           type="button"
           whileTap={{ scale: 0.97 }}
@@ -80,19 +83,17 @@ export function PasoEdad({ onContinuar }: { onContinuar: () => void }) {
             }
             onContinuar();
           }}
-          className={`flex h-14 w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-bold text-[var(--on-accent)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] transition-opacity duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] ${
-            marcado ? '' : 'opacity-70'
-          }`}
+          className="flex h-14 w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-bold text-[var(--on-accent)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)]"
         >
           Empezar mi lectura gratis
         </motion.button>
         <p className="mt-3 text-center text-[12px] leading-snug text-[var(--text-tertiary)]">
           Al continuar aceptas los{' '}
-          <Link href="/terminos" className="underline underline-offset-2">
+          <Link href="/terminos" className="inline-block py-2 underline underline-offset-2">
             Términos
           </Link>{' '}
           y la{' '}
-          <Link href="/privacidad" className="underline underline-offset-2">
+          <Link href="/privacidad" className="inline-block py-2 underline underline-offset-2">
             Privacidad
           </Link>
           .

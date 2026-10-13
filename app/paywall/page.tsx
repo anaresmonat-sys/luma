@@ -37,7 +37,7 @@ const PLAN_ANUAL: PlanPaywall = {
   sufijo: '/mes aprox.',
   descomposicionDia: 'menos de $0,25 al día',
   totalAnual: 'Se cobra $89,99/año',
-  ahorro: '3 meses gratis',
+  ahorro: 'Ahorras 3 meses frente al plan mensual',
 };
 
 const PLAN_MENSUAL: PlanPaywall = {
@@ -72,6 +72,12 @@ export default function PaywallLuma() {
   // (el HTML que sirve el servidor no puede conocer ese valor). Se probó y
   // confirmó: React marcaba "Hydration failed" en dev. El costo aceptado es
   // un salto breve de beneficios genéricos → personalizados tras montar.
+  useEffect(() => {
+    const reiniciar = () => setAbriendoPago(false);
+    window.addEventListener('pageshow', reiniciar);
+    return () => window.removeEventListener('pageshow', reiniciar);
+  }, []);
+
   useEffect(() => {
     setRespuestas(leerRespuestas());
     setLecturaUsada(new URLSearchParams(window.location.search).get('motivo') === 'lectura-usada');
@@ -148,26 +154,6 @@ export default function PaywallLuma() {
           ))}
         </motion.ul>
 
-        {/* Visual del valor: TIMELINE del trial (default C4) — responde por qué ahora / puedo cancelar.
-            Micro-encabezado propio para no leerse como el mismo componente que
-            el value stack de arriba (2 bloques seguidos de marcador circular). */}
-        <motion.div
-          initial={{ opacity: 0, y: reduce ? 0 : 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-7"
-        >
-          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.08em] text-[var(--accent)]">
-            Cómo funciona tu prueba
-          </p>
-          {/* Único hairline degradé de la pantalla (gate binario de conversión) */}
-          <Hairline surface="surface">
-            <div className="p-5">
-              <TimelineTrial diasPrueba={TRIAL_DIAS} precioTexto={PRECIO_TEXTO[seleccionado]} />
-            </div>
-          </Hairline>
-        </motion.div>
-
         {/* Plan cards tocables — anual pre-seleccionado */}
         <motion.div
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
@@ -193,6 +179,26 @@ export default function PaywallLuma() {
             trialDias={TRIAL_DIAS}
             onSeleccionar={setSeleccionado}
           />
+        </motion.div>
+
+        {/* Visual del valor: TIMELINE del trial (default C4) — responde por qué ahora / puedo cancelar.
+            Micro-encabezado propio para no leerse como el mismo componente que
+            el value stack de arriba (2 bloques seguidos de marcador circular). */}
+        <motion.div
+          initial={{ opacity: 0, y: reduce ? 0 : 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-7"
+        >
+          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.08em] text-[var(--accent)]">
+            Cómo funciona tu prueba
+          </p>
+          {/* Único hairline degradé de la pantalla (gate binario de conversión) */}
+          <Hairline surface="surface">
+            <div className="p-5">
+              <TimelineTrial diasPrueba={TRIAL_DIAS} precioTexto={PRECIO_TEXTO[seleccionado]} />
+            </div>
+          </Hairline>
         </motion.div>
 
         {/* CTA único + reversibilidad + salida limpia */}
@@ -245,6 +251,7 @@ export default function PaywallLuma() {
             onClick={() => {
               if (abriendoPago) return;
               setAbriendoPago(true);
+              window.setTimeout(() => setAbriendoPago(false), 8000);
               registrarEvento('plan_elegido', { plan: seleccionado });
               window.location.href = checkoutHotmart(seleccionado);
             }}
@@ -254,7 +261,7 @@ export default function PaywallLuma() {
             {abriendoPago ? 'Abriendo el pago seguro…' : `Empezar mis ${TRIAL_DIAS} días gratis`}
           </motion.button>
           <p className="mt-2 text-center text-[12px] leading-snug text-[var(--text-tertiary)]">
-            Después, {seleccionado === 'anual' ? '$89,99 al año' : '$9,99 al mes'}. Cancelas cuando quieras: te avisamos antes de cada cobro.
+            Después, {seleccionado === 'anual' ? '$89,99 al año' : '$9,99 al mes'}. Cancelas cuando quieras y tienes 15 días de garantía desde el primer cobro.
           </p>
         </div>
       </div>

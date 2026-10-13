@@ -165,6 +165,9 @@ export async function POST(request: Request) {
     const client = clienteAnthropic();
     const respuesta = await client.messages.create({
       model: AI_MODEL,
+      // Sin "pensar" antes de responder: el modelo gastaba todo max_tokens en un bloque de razonamiento y
+      // devolvía el texto cortado o vacío (visto en Tarot 3 cartas y en Descifrar, 2026-10-13).
+      thinking: { type: 'disabled' },
       // 340/220 se quedaban cortos y la respuesta se cortaba a mitad de una
       // oración — visto primero en Ruptura (3 cartas) y confirmado después en
       // Carta del día (1 sola carta) durante una ronda de pruebas con 5

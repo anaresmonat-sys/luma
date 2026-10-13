@@ -42,6 +42,8 @@ function Card({
   return (
     <motion.button
       type="button"
+      role="radio"
+      aria-checked={seleccionado}
       onClick={onClick}
       whileTap={{ scale: 0.98 }}
       className={`relative w-full rounded-[var(--radius-card)] p-5 text-left transition-colors duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
@@ -71,7 +73,7 @@ function Card({
           </span>
           <h3 className="text-[16px] font-semibold text-[var(--text-primary)]">{plan.nombre}</h3>
         </span>
-        <TrialBadge dias={trialDias} />
+        {seleccionado && <TrialBadge dias={trialDias} />}
       </div>
       <p className="mt-3 flex items-baseline gap-1">
         <span className="text-[24px] font-bold leading-none tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]">
@@ -100,7 +102,7 @@ export function PlanCards({
   onSeleccionar: (id: 'anual' | 'mensual') => void;
 }) {
   return (
-    <div className="flex flex-col gap-3">
+    <div role="radiogroup" aria-label="Elige tu plan" className="flex flex-col gap-3">
       <Card plan={anual} seleccionado={seleccionado === 'anual'} trialDias={trialDias} onClick={() => onSeleccionar('anual')} />
       <Card plan={mensual} seleccionado={seleccionado === 'mensual'} trialDias={trialDias} onClick={() => onSeleccionar('mensual')} />
     </div>

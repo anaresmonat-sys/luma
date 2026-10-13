@@ -115,6 +115,9 @@ export async function POST(request: Request) {
     const client = clienteAnthropic();
     const respuesta = await client.messages.create({
       model: AI_MODEL,
+      // Sin "pensar" antes de responder: el modelo gastaba todo max_tokens en un bloque de razonamiento y
+      // devolvía el texto cortado o vacío (visto en Tarot 3 cartas y en Descifrar, 2026-10-13).
+      thinking: { type: 'disabled' },
       // 400 se quedaba corto con conversaciones largas: el JSON llegaba cortado a mitad y no se
       // podía leer ("No se pudo analizar tu mensaje", visto en el móvil de la dueña, 2026-10-13).
       max_tokens: 800,

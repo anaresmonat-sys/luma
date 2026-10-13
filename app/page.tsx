@@ -182,6 +182,7 @@ export default function LandingLuma() {
         tituloMarked="Menos que [acento]una consulta con tarotista o coach[/acento]"
         trialDias={3}
         notaPrevia="Si tu primera lectura te convence, eliges plan con 3 días de prueba."
+        notaCompra="Pago seguro con Hotmart · 15 días de garantía desde el primer cobro · uso justo cada día"
         anual={{
           nombre: 'Anual',
           badge: 'LA MÁS ELEGIDA',
@@ -190,10 +191,10 @@ export default function LandingLuma() {
           totalAnual: 'Se cobra $89,99/año',
           ahorro: '3 meses gratis',
           descomposicionDia: 'menos de $0,25 al día',
-          ctaLabel: 'Empezar gratis',
+          ctaLabel: 'Empezar con el plan anual',
           ctaHref: CTA_HREF,
           features: [
-            'Descifra tus conversaciones: pega el texto o sube una captura, con uso justo cada día',
+            'Descifra tus conversaciones: pega el texto o sube una captura',
             'Chat con LUMA, tu tarotista y coach, cuando quieras',
             'Tiradas de tarot leídas para tu caso, no genéricas',
             'Diario emocional que te muestra tus patrones',
@@ -204,10 +205,10 @@ export default function LandingLuma() {
           nombre: 'Mensual',
           precioMes: '$9,99',
           sufijo: '/mes',
-          ctaLabel: 'Empezar gratis',
+          ctaLabel: 'Empezar con el plan mensual',
           ctaHref: CTA_HREF,
           features: [
-            'Descifra tus conversaciones: pega el texto o sube una captura, con uso justo cada día',
+            'Descifra tus conversaciones: pega el texto o sube una captura',
             'Chat con LUMA cuando lo necesites',
             'Tiradas de tarot para tu caso, no genéricas',
             'Diario emocional con tus patrones',

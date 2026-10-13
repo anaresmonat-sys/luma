@@ -169,6 +169,9 @@ TRASFONDO DE LA USUARIA (de un check-in rápido, no lo repitas ni lo menciones s
     const client = clienteAnthropic();
     const respuesta = await client.messages.create({
       model: AI_MODEL,
+      // Sin "pensar" antes de responder: el modelo gastaba todo max_tokens en un bloque de razonamiento y
+      // devolvía el texto cortado o vacío (visto en Tarot 3 cartas y en Descifrar, 2026-10-13).
+      thinking: { type: 'disabled' },
       max_tokens: 600,
       system: systemPromptFinal,
       messages: historial,

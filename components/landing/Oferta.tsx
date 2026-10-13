@@ -49,6 +49,8 @@ export interface OfertaProps {
   };
   /** Línea opcional bajo el título: lo que se puede probar ANTES de elegir plan (primer resultado gratis). */
   notaPrevia?: string;
+  /** Línea bajo los planes (garantía y pago): pegada a los botones de compra. */
+  notaCompra?: string;
   /** default 'oferta' — lo observa StickyCtaMobile. */
   id?: string;
 }
@@ -101,6 +103,7 @@ export function Oferta({
   mensual,
   stack,
   notaPrevia,
+  notaCompra,
   id = 'oferta',
 }: OfertaProps) {
   warnCopy('Oferta → título', tituloMarked, 8);
@@ -199,6 +202,11 @@ export function Oferta({
             </div>
           </motion.div>
         </div>
+        {notaCompra && (
+          <motion.p variants={item} className="mx-auto mt-5 max-w-[460px] text-center text-[13px] leading-relaxed text-[var(--text-secondary)]">
+            {notaCompra}
+          </motion.p>
+        )}
       </motion.div>
     </SectionShell>
   );
