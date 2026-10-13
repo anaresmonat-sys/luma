@@ -3,7 +3,17 @@ import Link from 'next/link';
 // Aviso del resultado gratis, a la vista ANTES de escribir. Con la prueba
 // disponible: una línea que fija la expectativa. Ya usada: tarjeta con la salida
 // (planes) para que nadie escriba un texto largo y se entere al final.
-export function AvisoPrueba({ disponible, className = '' }: { disponible: boolean; className?: string }) {
+export function AvisoPrueba({
+  disponible,
+  conPlan,
+  className = '',
+}: {
+  disponible: boolean;
+  /** true = cuenta con plan, prueba de Hotmart o administradora; null = aún sin saber. En ambos casos no se avisa nada. */
+  conPlan: boolean | null;
+  className?: string;
+}) {
+  if (conPlan !== false) return null;
   if (disponible) {
     return (
       <p className={`text-center text-[11px] font-semibold text-[var(--accent-lite)] ${className}`}>

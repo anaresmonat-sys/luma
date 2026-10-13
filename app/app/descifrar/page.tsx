@@ -57,7 +57,7 @@ export default function DescifrarPage() {
   const [analisis, setAnalisis] = useState<ItemAnalisis[]>([]);
   const [mensajeError, setMensajeError] = useState('Necesito un poco más de contexto — pega al menos un par de mensajes.');
 
-  const { disponible, refrescar } = usePruebaDisponible();
+  const { disponible, conPlan, refrescar } = usePruebaDisponible();
   const [imagen, setImagen] = useState<{ datos: string; vista: string } | null>(null);
 
   // La captura se reduce en el navegador (máx. 1600 px, JPEG) antes de enviarla: pesa
@@ -156,7 +156,7 @@ export default function DescifrarPage() {
         </motion.div>
         <div className="flex flex-1 flex-col">
         <motion.div variants={item} className="mb-2">
-          <AvisoPrueba disponible={disponible} />
+          <AvisoPrueba disponible={disponible} conPlan={conPlan} />
         </motion.div>
         <motion.div variants={item} className="grid grid-cols-3 gap-2">
           {MODOS.map((m) => (

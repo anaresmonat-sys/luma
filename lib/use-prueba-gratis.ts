@@ -17,6 +17,9 @@ import { pruebaGratisDisponible } from '@/lib/prueba-gratis';
 
 export function usePruebaDisponible() {
   const [disponible, setDisponible] = useState(true);
+  // null = todavía no sabemos si hay plan: en ese caso no se pinta ningún aviso (evita que
+  // alguien con plan vea un instante "Tu primer resultado es gratis", que sería falso).
+  const [conPlan, setConPlan] = useState<boolean | null>(null);
   const refrescar = useCallback(() => setDisponible(pruebaGratisDisponible()), []);
   useEffect(() => {
     refrescar();
@@ -24,14 +27,17 @@ export function usePruebaDisponible() {
     fetch('/api/mi-plan')
       .then((r) => (r.ok ? r.json() : null))
       .then((datos: { activo?: boolean } | null) => {
-        if (!cancelado && datos?.activo) setDisponible(true);
+        if (cancelado) return;
+        if (datos?.activo) setDisponible(true);
+        setConPlan(Boolean(datos?.activo));
       })
       .catch(() => {
         // Sin conexión o fallo: se queda con lo que ya calculó localStorage.
+        if (!cancelado) setConPlan(false);
       });
     return () => {
       cancelado = true;
     };
   }, [refrescar]);
-  return { disponible, refrescar };
+  return { disponible, conPlan, refrescar };
 }

@@ -45,7 +45,7 @@ export default function DiarioPage() {
   const [guardando, setGuardando] = useState(false);
   const [errorPatron, setErrorPatron] = useState(false);
   const [mensajeTope, setMensajeTope] = useState<string | null>(null);
-  const { disponible, refrescar } = usePruebaDisponible();
+  const { disponible, conPlan, refrescar } = usePruebaDisponible();
   const inicializado = useRef(false);
 
   useEffect(() => {
@@ -186,7 +186,7 @@ export default function DiarioPage() {
         </div>
 
         <motion.div variants={item} className="mb-2">
-          <AvisoPrueba disponible={disponible} />
+          <AvisoPrueba disponible={disponible} conPlan={conPlan} />
         </motion.div>
 
         <motion.p variants={item} className="mt-1 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">

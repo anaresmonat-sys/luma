@@ -31,7 +31,7 @@ export default function CoachPage() {
   const [avisoVoz, setAvisoVoz] = useState(false);
   const [error, setError] = useState(false);
   const [mensajeTope, setMensajeTope] = useState<string | null>(null);
-  const { disponible, refrescar } = usePruebaDisponible();
+  const { disponible, conPlan, refrescar } = usePruebaDisponible();
   const [contexto, setContexto] = useState<ContextoCoach | null>(null);
   const [contextoListo, setContextoListo] = useState(false);
 
@@ -171,7 +171,7 @@ export default function CoachPage() {
         <ContextoCoachPaso nombrePrellenado={leerMapaPoder()?.nombre} onListo={alTerminarContexto} />
       ) : (
         <>
-      <AvisoPrueba disponible={disponible} className="mb-2 shrink-0" />
+      <AvisoPrueba disponible={disponible} conPlan={conPlan} className="mb-2 shrink-0" />
 
       <div ref={chatRef} role="log" aria-live="polite" className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto py-2">
         <motion.div
