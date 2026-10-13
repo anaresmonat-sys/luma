@@ -50,7 +50,7 @@ export default function LandingLuma() {
           <span className="flex flex-col items-center gap-1.5">
             <span>Tu primera lectura es gratis · sin tarjeta · sin registro</span>
             <span>
-              <span className="font-semibold text-[var(--text-primary)]">Elige bien: </span>
+              <span className="font-semibold text-[var(--text-primary)]">Elige por dónde empezar: </span>
               {[
                 ['analizar', 'conversación'],
                 ['tarot', 'tarot'],
