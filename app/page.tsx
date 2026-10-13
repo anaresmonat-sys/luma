@@ -47,26 +47,26 @@ export default function LandingLuma() {
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
         socialProof={
-          <span className="flex flex-col items-center gap-1.5">
+          <span className="flex flex-col items-center gap-3">
             <span>Tu primera lectura es gratis · sin tarjeta · sin registro</span>
-            <span>
-              <span className="mb-1 block font-semibold text-[var(--text-primary)]">Elige la que más te vibre:</span>
-              {[
-                ['analizar', 'conversación'],
-                ['tarot', 'tarot'],
-                ['coach', 'coach'],
-                ['diario', 'diario'],
-              ].map(([id, texto], i) => (
-                <span key={id}>
-                  {i > 0 && ' · '}
+            <span className="flex flex-col items-center gap-2">
+              <span className="font-semibold text-[var(--text-primary)]">Elige la lectura que más te vibre:</span>
+              <span className="flex flex-wrap justify-center gap-1.5">
+                {[
+                  ['analizar', 'Conversación'],
+                  ['tarot', 'Tarot'],
+                  ['coach', 'Coach'],
+                  ['diario', 'Diario'],
+                ].map(([id, texto]) => (
                   <a
+                    key={id}
                     href={`/onboarding?ayuda=${id}`}
-                    className="font-semibold text-[var(--accent)] underline decoration-[color-mix(in_oklab,var(--accent)_45%,transparent)] underline-offset-4 [touch-action:manipulation]"
+                    className="inline-flex min-h-11 items-center rounded-full border border-[color-mix(in_oklab,var(--accent)_50%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] px-3 text-[13px] font-semibold text-[var(--accent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
                   >
                     {texto}
                   </a>
-                </span>
-              ))}
+                ))}
+              </span>
             </span>
           </span>
         }
@@ -181,7 +181,7 @@ export default function LandingLuma() {
         kicker="Tu plan"
         tituloMarked="Menos que [acento]una consulta con tarotista o coach[/acento]"
         trialDias={3}
-        notaPrevia="Primero pruebas una lectura gratis, sin tarjeta: descifra una conversación o saca tus cartas. Si te convence, eliges plan con 3 días de prueba."
+        notaPrevia="Si tu primera lectura te convence, eliges plan con 3 días de prueba."
         anual={{
           nombre: 'Anual',
           badge: 'LA MÁS ELEGIDA',

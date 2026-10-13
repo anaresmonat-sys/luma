@@ -3,7 +3,7 @@
 // LUMA — Paywall (Sesión 4, paso 2 de la SECUENCIA MAESTRA). Blueprint:
 // docs/sistema/50-DISENO-ONBOARDING-PAYWALL.md §C (C1 blueprint, C4 timeline
 // como visual default de todo paywall CON trial, C4ter checkout externo).
-// Precios/plazos: FICHA-MERCADO.md §1/§4 (Prueba 3 · Garantía 7 · 9,99/mes ·
+// Precios/plazos: FICHA-MERCADO.md §1/§4 (Prueba 3 · Garantía 15 · 9,99/mes ·
 // 89,99/año — "3 meses gratis", decisión del usuario 2026-09-24). Copy trazado a FICHA-AVATAR.md (57 §9 — ver comentarios inline).
 //
 // C3ter (mockups honestos pre-Hotmart): el CTA de pago SIMULA el flujo con
@@ -65,6 +65,7 @@ export default function PaywallLuma() {
   const [respuestas, setRespuestas] = useState<Respuestas | null>(null);
   // Llegó porque ya gastó su lectura gratis: se le dice claro, en vez de caer sin explicación.
   const [lecturaUsada, setLecturaUsada] = useState(false);
+  const [abriendoPago, setAbriendoPago] = useState(false);
 
   // Lectura en efecto (no lazy initializer): localStorage es client-only —
   // leerlo de forma síncrona en el render inicial rompe la hidratación
@@ -96,7 +97,7 @@ export default function PaywallLuma() {
         <span className="size-11" aria-hidden="true" />
       </div>
 
-      <div className="mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pb-10 pt-4">
+      <div className="mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pb-40 pt-4">
         {/* Dispositivo ownable de FICHA-ARTE — repite el motivo del funnel (Hero,
             Casos, PlanListo), en tamaño reducido y sin animación de entrada. */}
         <motion.div
@@ -110,7 +111,7 @@ export default function PaywallLuma() {
           </div>
         </motion.div>
 
-        {/* Headline: lo que LUMA ES (tu tarotista y coach) + el plazo; sin prometer un resultado emocional */}
+        {/* Headline: promesa concreta (entender qué pasa y qué responder) + la escena del avatar en el subtítulo; sin prometer un resultado emocional */}
         <motion.div
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -123,12 +124,12 @@ export default function PaywallLuma() {
             </p>
           )}
           <h1 className="text-balance text-[28px] font-bold leading-[1.15] text-[var(--text-primary)] [font-family:var(--font-display)]">
-            <MarkedCopy text={`${TRIAL_DIAS} días para probar [acento]LUMA[/acento], tu tarotista y coach`} />
+            <MarkedCopy text={`${TRIAL_DIAS} días para [acento]entender qué pasa[/acento] y qué responder`} />
           </h1>
           {/* Ancla emocional de FICHA-AVATAR (se repite landing+onboarding+paywall):
               "obsesionada mirando el teléfono" → "en 1 minuto entiendes qué pasa" */}
           <p className="mt-2 text-[15px] leading-snug text-[var(--text-secondary)]">
-            <MarkedCopy text="[b]Descifra mensajes[/b], saca tus cartas y habla con LUMA cuando lo necesites." />
+            <MarkedCopy text="Para esas noches [b]mirando el teléfono[/b], esperando que responda." />
           </p>
         </motion.div>
 
@@ -201,22 +202,6 @@ export default function PaywallLuma() {
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="mt-7"
         >
-          <motion.button
-            type="button"
-            onClick={() => {
-              registrarEvento('plan_elegido', { plan: seleccionado });
-              window.location.href = checkoutHotmart(seleccionado);
-            }}
-            whileTap={{ scale: 0.97 }}
-            className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-          >
-            Empezar mis {TRIAL_DIAS} días gratis
-          </motion.button>
-          <p className="mt-3 text-center text-[13px] text-[var(--text-tertiary)]">
-            Después, {seleccionado === 'anual' ? '$89,99 al año' : '$9,99 al mes'}, con renovación automática.
-            Cancela cuando quieras: te avisamos antes de cada cobro.
-          </p>
-
           <div className="mt-4 flex items-center justify-center gap-2">
             <a
               href="/"
@@ -248,6 +233,30 @@ export default function PaywallLuma() {
             </span>
           </p>
         </motion.div>
+      </div>
+
+      {/* CTA fijo al fondo: siempre a la vista desde la primera pantalla (ronda 6 del revisor).
+          Va fuera de los bloques animados porque un transform rompe position:fixed. */}
+      <div className="fixed inset-x-0 bottom-0 z-20 bg-gradient-to-t from-[var(--bg)] via-[var(--bg)] to-transparent pb-3 pt-6">
+        <div className="mx-auto w-full max-w-[480px] px-5">
+          <motion.button
+            type="button"
+            disabled={abriendoPago}
+            onClick={() => {
+              if (abriendoPago) return;
+              setAbriendoPago(true);
+              registrarEvento('plan_elegido', { plan: seleccionado });
+              window.location.href = checkoutHotmart(seleccionado);
+            }}
+            whileTap={abriendoPago ? undefined : { scale: 0.97 }}
+            className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] transition-opacity [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] disabled:opacity-70"
+          >
+            {abriendoPago ? 'Abriendo el pago seguro…' : `Empezar mis ${TRIAL_DIAS} días gratis`}
+          </motion.button>
+          <p className="mt-2 text-center text-[12px] leading-snug text-[var(--text-tertiary)]">
+            Después, {seleccionado === 'anual' ? '$89,99 al año' : '$9,99 al mes'}. Cancelas cuando quieras: te avisamos antes de cada cobro.
+          </p>
+        </div>
       </div>
     </div>
   );

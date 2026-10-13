@@ -15,8 +15,8 @@ export function OnboardingHeader({
   progreso,
   onBack,
 }: {
-  /** 0-100, YA con el piso de 5-8% aplicado por quien orquesta el flujo. */
-  progreso: number;
+  /** 0-100, YA con el piso de 5-8% aplicado por quien orquesta el flujo. Sin valor = sin barra (paso único). */
+  progreso?: number;
   onBack: () => void;
 }) {
   return (
@@ -35,17 +35,21 @@ export function OnboardingHeader({
         >
           <ChevronLeft size={22} strokeWidth={2} aria-hidden="true" />
         </button>
-        <div className="h-[3px] flex-1 overflow-hidden rounded-full bg-[color-mix(in_oklab,var(--text-tertiary)_15%,transparent)]">
-          <motion.div
-            className="h-full rounded-full bg-[var(--accent)]"
-            initial={false}
-            animate={{ width: `${progreso}%` }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          />
-        </div>
-        <span className="w-10 shrink-0 text-right text-[11px] tabular-nums text-[var(--text-tertiary)]">
-          {Math.round(progreso)}%
-        </span>
+        {progreso !== undefined && (
+          <>
+            <div className="h-[3px] flex-1 overflow-hidden rounded-full bg-[color-mix(in_oklab,var(--text-tertiary)_15%,transparent)]">
+              <motion.div
+                className="h-full rounded-full bg-[var(--accent)]"
+                initial={false}
+                animate={{ width: `${progreso}%` }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              />
+            </div>
+            <span className="w-10 shrink-0 text-right text-[11px] tabular-nums text-[var(--text-tertiary)]">
+              {Math.round(progreso)}%
+            </span>
+          </>
+        )}
       </div>
     </div>
   );
@@ -153,7 +157,7 @@ export function PasoShell({
   direccion,
   children,
 }: {
-  progreso: number;
+  progreso?: number;
   onBack: () => void;
   /** 1 = avanzando (entra desde la derecha) · -1 = retrocediendo. */
   direccion: 1 | -1;

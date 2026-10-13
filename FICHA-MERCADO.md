@@ -10,7 +10,7 @@
 - Mediana de precio de la categoría (mensual): ~US$10–15/mes equivalente | fuente: benchmarks de apps de astrología (Nebula 3-meses = ~$13,3/mes; Co-Star Plus ~$6/mes; "ask an advisor" apps $10–20/mes) | fecha: 2026-09-09
 - Rango de los líderes investigados: Nebula US$7,99/sem · US$39,99/3m · US$49,99/año · prueba 3 días | fecha: 2026-09-09
 - **Precio elegido para esta app (propuesto):** US$9,99/mes · anual por definir (ver nota) · **Desvío vs mediana mensual:** ≈ −20% a −0% (dentro de rango; ligeramente por debajo → posicionamiento "precio honesto" frente a Nebula)
-- Nota anual: el resumen validado declaró US$59,99/año, pero eso equivale a ~6 meses gratis (descuento ~50%). Alternativas a decidir con el usuario: US$59,99 (agresivo, bueno para flujo de caja LATAM) vs US$79,99–89,99 ("2–3 meses gratis", protege ingreso). RECOMENDADO de partida: **US$9,99/mes + US$71,99/año** ("más de 4 meses gratis"). **DECIDIDO 2026-09-24 (usuario, tras el análisis de mercado): US$9,99/mes + US$89,99/año ("3 meses gratis", equivale a ~US$7,50/mes) — 9 meses × 9,99 = 89,91 → 89,99.** Prueba: se mantienen el resultado gratis sin cuenta Y los 3 días de prueba; garantía 7 días.
+- Nota anual: el resumen validado declaró US$59,99/año, pero eso equivale a ~6 meses gratis (descuento ~50%). Alternativas a decidir con el usuario: US$59,99 (agresivo, bueno para flujo de caja LATAM) vs US$79,99–89,99 ("2–3 meses gratis", protege ingreso). RECOMENDADO de partida: **US$9,99/mes + US$71,99/año** ("más de 4 meses gratis"). **DECIDIDO 2026-09-24 (usuario, tras el análisis de mercado): US$9,99/mes + US$89,99/año ("3 meses gratis", equivale a ~US$7,50/mes) — 9 meses × 9,99 = 89,91 → 89,99.** Prueba: se mantienen el resultado gratis sin cuenta Y los 3 días de prueba; garantía 15 días (mínimo que permite Hotmart; plazo real confirmado en el checkout, 2026-09-28).
 - Price parity por país: pendiente (02C) — de partida precio único USD; revisar tras primeras ventas.
 
 ## 2. CICLO DE DECISIÓN
@@ -29,10 +29,10 @@
 - Plazos de garantía que admite Hotmart: **7, 15, 21 o 30 días** | verificado en: help.hotmart.com "How to adjust the guarantee period" | fecha: 2026-09-09
 - En suscripción, la garantía aplica SOLO al primer cargo (tras la prueba), no a renovaciones
 - Prueba elegida: 3
-- Garantía elegida: 7
-- (unidad: días. Prueba 3 días · Garantía 7 días.)
-- ⚠️ REGLA DURA (18): garantía > prueba → 7 > 3 → **SÍ cumple**. La garantía cubre el primer cargo real.
-- Desde cuándo cuenta la garantía: desde el primer cobro (post-prueba) — confirmado por doc de Hotmart. El copy puede fijar "7 días desde el primer cobro".
+- Garantía elegida: 15
+- (unidad: días. Prueba 3 días · Garantía 15 días.)
+- ⚠️ REGLA DURA (18): garantía > prueba → 15 > 3 → **SÍ cumple**. La garantía cubre el primer cargo real.
+- Desde cuándo cuenta la garantía: desde el primer cobro (post-prueba) — confirmado por doc de Hotmart. El copy puede fijar "15 días desde el primer cobro".
 
 ## 5. CONVERSIÓN ESPERABLE (para saber si un número es malo, no para prometer)
 - Conversión visita→registro del nicho: NO ENCONTRADO con cifra citable — usar rango genérico de onboarding-first B2C (~20–35% inician onboarding) y medir el propio; se revisa el 2027-03-09

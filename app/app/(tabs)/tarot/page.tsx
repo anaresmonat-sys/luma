@@ -181,6 +181,8 @@ export default function TarotPage() {
   const [elegidas, setElegidas] = useState<number[]>([]);
   // Orden del ritual: primero la pregunta (opcional), luego elegir las 3 cartas, luego se revelan.
   const [ritualPreguntada, setRitualPreguntada] = useState(false);
+  // Las cartas se revelan un instante DESPUÉS de elegir la tercera (continuidad, no salto brusco).
+  const [ritualReveladas, setRitualReveladas] = useState(false);
   const [desdeRitual, setDesdeRitual] = useState(false);
   const reduce = useReducedMotion();
   const { disponible, conPlan } = usePruebaDisponible();
@@ -197,10 +199,20 @@ export default function TarotPage() {
     setListo(true);
   }, []);
 
+  useEffect(() => {
+    if (elegidas.length !== 3) {
+      setRitualReveladas(false);
+      return;
+    }
+    const t = window.setTimeout(() => setRitualReveladas(true), reduce ? 0 : 750);
+    return () => window.clearTimeout(t);
+  }, [elegidas, reduce]);
+
   function volverALista() {
     setDesdeRitual(false);
     setElegidas([]);
     setRitualPreguntada(false);
+    setRitualReveladas(false);
     setVista('lista');
     setTema(null);
     setTirada(null);
@@ -315,17 +327,32 @@ export default function TarotPage() {
     const temaRitual = TIRADAS_TAROT.find((t) => t.id === 'autoconocimiento');
     const paso: 'pregunta' | 'elegir' | 'reveladas' = !ritualPreguntada
       ? 'pregunta'
-      : elegidas.length < 3
+      : !ritualReveladas
         ? 'elegir'
         : 'reveladas';
     const sacadas = paso === 'reveladas' ? elegidas.map((i) => cartasRitual[i]) : [];
 
     function tocarCarta(i: number) {
-      setElegidas((prev) => (prev.includes(i) || prev.length >= 3 ? prev : [...prev, i]));
+      if (elegidas.length === 3) return;
+      // Tocar una carta ya elegida la des-elige.
+      setElegidas((prev) => (prev.includes(i) ? prev.filter((n) => n !== i) : prev.length >= 3 ? prev : [...prev, i]));
     }
     function elegirPorMi() {
       const orden = [0, 1, 2, 3, 4, 5].sort(() => Math.random() - 0.5);
       setElegidas(orden.slice(0, 3));
+    }
+    // "Volver" retrocede un paso del ritual; solo sale del ritual desde el primero.
+    function volverRitual() {
+      if (paso === 'reveladas') {
+        setElegidas([]);
+        return;
+      }
+      if (paso === 'elegir') {
+        if (elegidas.length > 0) setElegidas([]);
+        else setRitualPreguntada(false);
+        return;
+      }
+      volverALista();
     }
 
     const fraseRitual = (
@@ -342,7 +369,7 @@ export default function TarotPage() {
     return (
       <div className="relative flex min-h-min flex-1 flex-col pb-4 pt-3">
         {fondo}
-        <CabeceraVolver titulo="Tus cartas" onVolver={volverALista} />
+        <CabeceraVolver titulo="Tus cartas" onVolver={volverRitual} />
         <motion.div
           key={paso}
           initial={{ opacity: 0, y: reduce ? 0 : 8 }}
@@ -352,82 +379,72 @@ export default function TarotPage() {
         >
           {paso === 'pregunta' && (
             <>
-              {fraseRitual}
-              <div className="mt-5 flex w-full flex-1 flex-col">
-                <label htmlFor="ritual-pregunta" className="text-center text-[16px] font-semibold text-[var(--text-primary)]">
-                  ¿Cuál es tu pregunta?
+              <div className="flex w-full flex-1 flex-col items-center justify-center">
+                {fraseRitual}
+                <label htmlFor="ritual-pregunta" className="mt-6 text-center text-[16px] font-semibold text-[var(--text-primary)]">
+                  ¿Cuál es tu pregunta? <span className="font-normal text-[var(--text-tertiary)]">(opcional)</span>
                 </label>
-                <div className="mt-3 flex flex-1 flex-col rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] p-3">
+                <div className="mt-3 w-full rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] p-3">
                   <textarea
                     id="ritual-pregunta"
                     value={pregunta}
                     onChange={(e) => setPregunta(e.target.value.slice(0, MAX_PREGUNTA))}
-                    placeholder="Escribe aquí tu pregunta…"
+                    placeholder="Escribe aquí tu pregunta, o déjalo en blanco y que hablen las cartas…"
                     rows={4}
-                    className="min-h-24 w-full flex-1 resize-none bg-transparent text-[14px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
+                    className="h-28 w-full resize-none bg-transparent text-[14px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
                   />
                 </div>
               </div>
               <div className="mt-4 w-full">
-                <AppButton onClick={() => setRitualPreguntada(true)} disabled={!pregunta.trim()}>
-                  Elegir mis cartas
-                </AppButton>
+                <AppButton onClick={() => setRitualPreguntada(true)}>Elegir mis cartas</AppButton>
               </div>
-              <button
-                type="button"
-                onClick={() => {
-                  setPregunta('');
-                  setRitualPreguntada(true);
-                }}
-                className="mt-3 flex h-11 w-full items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[13px] font-bold text-[var(--accent-lite)]"
-              >
-                Prefiero que hablen solo las cartas
-              </button>
             </>
           )}
 
           {paso === 'elegir' && (
             <>
-              <p className="max-w-[300px] text-center text-[22px] font-semibold leading-snug text-[var(--accent-lite)] [font-family:var(--font-display)]">
-                Elige tres cartas
-              </p>
-              <p className="mt-1.5 text-center text-[14px] text-[var(--text-secondary)]">
-                {elegidas.length === 0 ? 'Deja que tu intuición decida.' : `${elegidas.length} de 3`}
-              </p>
-              {ecoPregunta}
-              <div className="mt-6 grid flex-1 grid-cols-3 content-center gap-x-3 gap-y-5 [@media(max-height:720px)]:mt-4 [@media(max-height:720px)]:gap-y-3">
-                {cartasRitual.map((_, i) => {
-                  const orden = elegidas.indexOf(i);
-                  const marcada = orden >= 0;
-                  return (
-                    <motion.button
-                      key={i}
-                      type="button"
-                      aria-label={`Carta ${i + 1} de 6${marcada ? ', elegida' : ''}`}
-                      aria-pressed={marcada}
-                      onClick={() => tocarCarta(i)}
-                      whileTap={{ scale: 0.95 }}
-                      animate={reduce ? undefined : { y: marcada ? -10 : [0, -4, 0] }}
-                      transition={marcada ? { duration: 0.25 } : { duration: 3, repeat: Infinity, delay: (i % 3) * 0.4, ease: 'easeInOut' }}
-                      className="group relative flex justify-center rounded-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-                    >
-                      <MiniReverso className="h-[118px] w-[76px] [@media(max-height:720px)]:h-[96px] [@media(max-height:720px)]:w-[62px]" />
-                      {marcada && (
-                        <span
-                          aria-hidden="true"
-                          className="absolute -top-2 left-1/2 flex size-6 -translate-x-1/2 items-center justify-center rounded-full bg-[var(--accent)] text-[12px] font-bold text-[var(--on-accent)] shadow-[0_0_14px_color-mix(in_oklab,var(--accent)_70%,transparent)]"
-                        >
-                          {orden + 1}
-                        </span>
-                      )}
-                    </motion.button>
-                  );
-                })}
+              <div className="flex w-full flex-1 flex-col items-center justify-center">
+                <p className="max-w-[300px] text-center text-[22px] font-semibold leading-snug text-[var(--accent-lite)] [font-family:var(--font-display)]">
+                  Elige tres cartas
+                </p>
+                <p className="mt-1.5 text-center text-[14px] text-[var(--text-secondary)]">
+                  {elegidas.length === 0 ? 'Deja que tu intuición decida.' : `${elegidas.length} de 3 · toca una para quitarla`}
+                </p>
+                {ecoPregunta}
+                <div className="mt-6 grid w-full grid-cols-3 gap-x-3 gap-y-5 [@media(max-height:720px)]:mt-4 [@media(max-height:720px)]:gap-y-3">
+                  {cartasRitual.map((_, i) => {
+                    const orden = elegidas.indexOf(i);
+                    const marcada = orden >= 0;
+                    return (
+                      <motion.button
+                        key={i}
+                        type="button"
+                        aria-label={`Carta ${i + 1} de 6${marcada ? ', elegida' : ''}`}
+                        aria-pressed={marcada}
+                        onClick={() => tocarCarta(i)}
+                        whileTap={{ scale: 0.95 }}
+                        animate={reduce ? undefined : { y: marcada ? -10 : [0, -3, 0] }}
+                        transition={marcada ? { duration: 0.25 } : { duration: 3.4, repeat: Infinity, delay: (i % 3) * 0.4, ease: 'easeInOut' }}
+                        className="group relative flex min-h-[124px] justify-center rounded-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                      >
+                        <MiniReverso className="h-[118px] w-[76px] [@media(max-height:720px)]:h-[96px] [@media(max-height:720px)]:w-[62px]" />
+                        {marcada && (
+                          <span
+                            aria-hidden="true"
+                            className="absolute -top-2 left-1/2 flex size-6 -translate-x-1/2 items-center justify-center rounded-full bg-[var(--accent)] text-[12px] font-bold text-[var(--on-accent)] shadow-[0_0_14px_color-mix(in_oklab,var(--accent)_70%,transparent)]"
+                          >
+                            {orden + 1}
+                          </span>
+                        )}
+                      </motion.button>
+                    );
+                  })}
+                </div>
               </div>
               <button
                 type="button"
                 onClick={elegirPorMi}
-                className="mt-4 text-[13px] font-semibold text-[var(--text-tertiary)] underline underline-offset-4"
+                className="mt-3 flex min-h-11 items-center px-4 text-[14px] font-semibold text-[var(--text-secondary)] underline underline-offset-4"
               >
                 Prefiero que LUMA elija por mí
               </button>
@@ -436,45 +453,53 @@ export default function TarotPage() {
 
           {paso === 'reveladas' && (
             <>
-              <div className="flex flex-1 flex-col items-center justify-center">
-              <div className="flex justify-center gap-3">
-                {sacadas.map((c, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ rotateY: reduce ? 0 : 90, opacity: 0 }}
-                    animate={{ rotateY: 0, opacity: 1 }}
-                    transition={{ duration: reduce ? 0.2 : 0.7, delay: reduce ? 0 : i * 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    style={{ perspective: 600 }}
-                  >
-                    <div className="flex w-[100px] flex-col items-center gap-1.5">
-                      <div
-                        className="relative h-[156px] w-[100px] overflow-hidden rounded-[10px] border shadow-[0_0_22px_-6px_color-mix(in_oklab,var(--accent)_55%,transparent)] [@media(max-height:720px)]:h-[120px] [@media(max-height:720px)]:w-[76px]"
-                        style={{ borderColor: 'color-mix(in oklab, var(--accent) 65%, transparent)' }}
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={c.carta.image}
-                          alt={c.carta.nombre}
-                          className="h-full w-full object-cover"
-                          style={{ transform: c.invertida ? 'rotate(180deg)' : undefined }}
-                        />
+              <div className="flex w-full flex-1 flex-col items-center justify-center">
+                <p className="mb-4 text-center text-[20px] font-semibold text-[var(--accent-lite)] [font-family:var(--font-display)]">
+                  Estas son tus cartas
+                </p>
+                <div className="flex justify-center gap-3">
+                  {sacadas.map((c, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ rotateY: reduce ? 0 : 90, opacity: 0, scale: reduce ? 1 : 0.92 }}
+                      animate={{ rotateY: 0, opacity: 1, scale: 1 }}
+                      transition={{ duration: reduce ? 0.2 : 0.7, delay: reduce ? 0 : i * 0.35, ease: [0.16, 1, 0.3, 1] }}
+                      style={{ perspective: 600 }}
+                    >
+                      <div className="flex w-[100px] flex-col items-center gap-1.5">
+                        <div
+                          className="relative h-[156px] w-[100px] overflow-hidden rounded-[10px] border shadow-[0_0_26px_-4px_color-mix(in_oklab,var(--accent)_60%,transparent)] [@media(max-height:720px)]:h-[120px] [@media(max-height:720px)]:w-[76px]"
+                          style={{ borderColor: 'color-mix(in oklab, var(--accent) 65%, transparent)' }}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={c.carta.image}
+                            alt={c.carta.nombre}
+                            className="h-full w-full object-cover"
+                            style={{ transform: c.invertida ? 'rotate(180deg)' : undefined }}
+                          />
+                        </div>
+                        <span className="text-center text-[11px] font-semibold leading-tight text-[var(--text-primary)]">
+                          {c.carta.nombre}
+                          {c.invertida ? ' (invertida)' : ''}
+                        </span>
                       </div>
-                      <span className="text-center text-[11px] font-semibold leading-tight text-[var(--text-primary)]">
-                        {c.carta.nombre}
-                        {c.invertida ? ' (invertida)' : ''}
-                      </span>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  ))}
+                </div>
+                {sacadas.some((c) => c.invertida) && (
+                  <p className="mt-3 max-w-[300px] text-center text-[11.5px] leading-snug text-[var(--text-tertiary)]">
+                    Invertida: la carta salió al revés y suele hablar de lo que está bloqueado o guardado por dentro.
+                  </p>
+                )}
+                {ecoPregunta}
+                <p className="mt-4 max-w-[300px] text-center text-[16px] italic leading-snug text-[var(--accent-lite)] [font-family:var(--font-display)]">
+                  {pregunta.trim()
+                    ? 'Estas cartas tienen algo que decirte sobre eso que preguntas.'
+                    : 'Estas cartas tienen algo que decirte.'}
+                </p>
               </div>
-              {ecoPregunta}
-              <p className="mt-4 max-w-[300px] text-center text-[16px] italic leading-snug text-[var(--accent-lite)] [font-family:var(--font-display)]">
-                {pregunta.trim()
-                  ? 'Estas cartas tienen algo que decirte sobre eso que preguntas.'
-                  : 'Estas cartas tienen algo que decirte.'}
-              </p>
-              </div>
-              <div className="mt-auto w-full pt-4">
+              <div className="mt-4 w-full">
                 <AppButton onClick={() => temaRitual && void sacarCartas({ ...temaRitual, nombre: 'Tus cartas' }, pregunta.trim(), sacadas)}>
                   Ver mi lectura
                 </AppButton>
@@ -617,6 +642,7 @@ export default function TarotPage() {
             <AppLinkButton href="/app/diario" compact onClick={() => guardarEntradaPendiente(textoDiario)}>
               Guardar en mi diario
             </AppLinkButton>
+            {!desdeRitual && (
             <button
               type="button"
               onClick={volverALista}
@@ -624,6 +650,7 @@ export default function TarotPage() {
             >
               Hacer otra tirada
             </button>
+            )}
           </div>
           {!desdeRitual && !disponible && conPlan === false && <InvitacionPlan className="w-full" />}
           <AvisoIA className="text-center" />

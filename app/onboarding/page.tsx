@@ -14,8 +14,6 @@ import { guardarRespuestas } from '@/lib/almacenamiento-onboarding';
 import { edadConfirmada, confirmarEdad } from '@/lib/edad-confirmada';
 import { registrarEvento, registrarEventoUnaVez } from '@/lib/registrar-evento';
 
-const PISO_PROGRESO = 6;
-
 function entrarALaFuncion(ayuda: OpcionAyuda) {
   guardarRespuestas({ ayuda, ayudaLabel: OPCIONES_AYUDA[ayuda].label });
   registrarEvento('onboarding_completado');
@@ -43,7 +41,7 @@ export default function OnboardingLuma() {
   }
 
   return (
-    <PasoShell progreso={PISO_PROGRESO} onBack={() => (window.location.href = '/')} direccion={1}>
+    <PasoShell onBack={() => (window.location.href = '/')} direccion={1}>
       <PasoEdad
         onContinuar={() => {
           confirmarEdad();

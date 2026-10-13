@@ -22,7 +22,7 @@ export function PuertaEdad({ children }: { children: ReactNode }) {
   if (confirmada) return <>{children}</>;
 
   return (
-    <PasoShell progreso={6} onBack={() => (window.location.href = '/')} direccion={1}>
+    <PasoShell onBack={() => (window.location.href = '/')} direccion={1}>
       <PasoEdad
         onContinuar={() => {
           confirmarEdad();
