@@ -223,7 +223,7 @@ export default function DiarioPage() {
             rows={4}
             className="min-h-24 w-full flex-1 resize-none [@media(max-height:720px)]:min-h-16 bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
           />
-          <p className="mt-2 text-[11px] text-[var(--text-tertiary)]">Puedes dictar con el micrófono de tu teclado.</p>
+          <p className="mt-2 text-[11px] text-[var(--text-tertiary)]">Para hablar, toca el micrófono de tu teclado.</p>
         </motion.div>
 
         <motion.div variants={item} className="mt-3">

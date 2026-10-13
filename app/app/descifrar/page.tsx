@@ -208,7 +208,7 @@ export default function DescifrarPage() {
                   className="min-h-24 w-full flex-1 resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
                 />
                 <p className="mt-2 text-[11px] text-[var(--text-tertiary)]">
-                  Puedes dictar con el micrófono de tu teclado.
+                  Para hablar, toca el micrófono de tu teclado.
                 </p>
               </div>
 

@@ -272,6 +272,8 @@ export default function CoachPage() {
         )}
       </div>
 
+      <p className="mb-1 shrink-0 px-2 text-[11px] text-[var(--text-tertiary)]">Para hablar, toca el micrófono de tu teclado.</p>
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -282,7 +284,7 @@ export default function CoachPage() {
         <input
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
-          placeholder={disponible ? 'Escribe o dicta lo que pasó…' : 'Elige tu plan para seguir…'}
+          placeholder={disponible ? 'Cuéntame qué pasó…' : 'Elige tu plan para seguir…'}
           readOnly={!disponible}
           aria-label="Mensaje para LUMA"
           className="h-11 flex-1 bg-transparent text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
