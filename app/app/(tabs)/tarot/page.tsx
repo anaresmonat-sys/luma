@@ -167,6 +167,7 @@ export default function TarotPage() {
   const [vista, setVista] = useState<Vista>('lista');
   const [tema, setTema] = useState<TiradaTarot | null>(null);
   const [pregunta, setPregunta] = useState('');
+  const [mensajeTope, setMensajeTope] = useState<string | null>(null);
   const [preguntaUsada, setPreguntaUsada] = useState('');
   const [tirada, setTirada] = useState<TiradaGuardada | null>(null);
   const [delDia, setDelDia] = useState<TiradaGuardada | null>(null);
@@ -197,6 +198,7 @@ export default function TarotPage() {
     ultimoIntento.current = { tema: t, pregunta: preguntaUsuaria };
     setTema(t);
     setPreguntaUsada(preguntaUsuaria);
+    setMensajeTope(null);
 
     // Carta del día: una por día (estándar del sector) — si ya salió hoy, se reabre.
     if (t.id === 'carta-del-dia' && delDia) {
@@ -231,6 +233,14 @@ export default function TarotPage() {
       if (res.status === 402) {
         window.location.href = '/paywall';
         return;
+      }
+      if (res.status === 429) {
+        const tope: { error?: string; motivo?: string } | null = await res.json().catch(() => null);
+        if (tope?.motivo === 'tope_persona' && tope.error) {
+          setMensajeTope(tope.error);
+          setVista('error');
+          return;
+        }
       }
       if (!res.ok) throw new Error('respuesta no OK');
       const datos: { texto?: string } = await res.json();
@@ -337,7 +347,7 @@ export default function TarotPage() {
         <CabeceraVolver titulo={tema?.nombre ?? 'Tarot'} onVolver={volverALista} />
         <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
           <p className="max-w-[260px] text-[14px] leading-relaxed text-[var(--text-primary)]">
-            No pudimos leer tus cartas ahora mismo. No se ha gastado tu lectura.
+            {mensajeTope ?? 'No pudimos leer tus cartas ahora mismo. No se ha gastado tu lectura.'}
           </p>
           <div className="w-full max-w-[260px]">
             <AppButton

@@ -10,6 +10,7 @@ import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
 import { controlarAccesoGratis } from '@/lib/prueba-servidor';
+import { topePersonaExcedido } from '@/lib/limite-persona';
 import { crearClienteServidor } from '@/lib/supabase/server';
 
 export const runtime = 'nodejs';
@@ -59,6 +60,11 @@ export async function POST(request: Request) {
   const esLecturaTarot = cuerpo.origen === 'tarot';
   if (texto.length < 3) {
     return NextResponse.json({ error: 'Falta el registro' }, { status: 400 });
+  }
+
+  const topePersona = await topePersonaExcedido(usuarioIdIA, 'diario');
+  if (topePersona) {
+    return NextResponse.json({ error: topePersona, motivo: 'tope_persona' }, { status: 429 });
   }
 
   const acceso = await controlarAccesoGratis(request, usuarioIdIA);

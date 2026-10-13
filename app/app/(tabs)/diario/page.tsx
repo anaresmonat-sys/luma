@@ -44,6 +44,7 @@ export default function DiarioPage() {
   const [patron, setPatron] = useState<string | null>(null);
   const [guardando, setGuardando] = useState(false);
   const [errorPatron, setErrorPatron] = useState(false);
+  const [mensajeTope, setMensajeTope] = useState<string | null>(null);
   const { disponible, refrescar } = usePruebaDisponible();
   const inicializado = useRef(false);
 
@@ -99,6 +100,7 @@ export default function DiarioPage() {
     }
     setGuardando(true);
     setErrorPatron(false);
+    setMensajeTope(null);
     try {
       const res = await fetch('/api/diario', {
         method: 'POST',
@@ -108,6 +110,14 @@ export default function DiarioPage() {
       if (res.status === 402) {
         window.location.href = '/paywall';
         return;
+      }
+      if (res.status === 429) {
+        const tope: { error?: string; motivo?: string } | null = await res.json().catch(() => null);
+        if (tope?.motivo === 'tope_persona' && tope.error) {
+          setMensajeTope(tope.error);
+          setErrorPatron(true);
+          return;
+        }
       }
       if (!res.ok) throw new Error('respuesta no OK');
       const datos: { patron?: string } = await res.json();
@@ -264,7 +274,7 @@ export default function DiarioPage() {
 
         {errorPatron && (
           <motion.p variants={item} className="mt-4 text-center text-[11px] font-semibold text-[var(--an-risk)]">
-            Guardamos tu registro, pero no pudimos generar la reflexión esta vez.
+            {mensajeTope ?? 'Guardamos tu registro, pero no pudimos generar la reflexión esta vez.'}
           </motion.p>
         )}
 

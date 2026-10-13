@@ -30,6 +30,7 @@ export default function CoachPage() {
   const [escribiendo, setEscribiendo] = useState(false);
   const [avisoVoz, setAvisoVoz] = useState(false);
   const [error, setError] = useState(false);
+  const [mensajeTope, setMensajeTope] = useState<string | null>(null);
   const { disponible, refrescar } = usePruebaDisponible();
   const [contexto, setContexto] = useState<ContextoCoach | null>(null);
   const [contextoListo, setContextoListo] = useState(false);
@@ -97,6 +98,14 @@ export default function CoachPage() {
         window.location.href = '/paywall';
         return;
       }
+      if (res.status === 429) {
+        const tope: { error?: string; motivo?: string } | null = await res.json().catch(() => null);
+        if (tope?.motivo === 'tope_persona' && tope.error) {
+          setMensajeTope(tope.error);
+          setEscribiendo(false);
+          return;
+        }
+      }
       if (!res.ok) throw new Error('respuesta no OK');
       const datos: { texto?: string } = await res.json();
       if (!datos.texto) throw new Error('sin texto');
@@ -121,6 +130,7 @@ export default function CoachPage() {
     setHilo(nuevoHilo);
     setTexto('');
     setError(false);
+    setMensajeTope(null);
     setEscribiendo(true);
     void pedirRespuesta(nuevoHilo);
   }
@@ -205,6 +215,16 @@ export default function CoachPage() {
         </AnimatePresence>
 
         <AnimatePresence>
+          {mensajeTope && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="self-start rounded-[15px_15px_15px_5px] border border-[color-mix(in_oklab,var(--accent)_40%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2.5 text-[13px] leading-relaxed text-[var(--text-primary)]"
+            >
+              {mensajeTope}
+            </motion.div>
+          )}
           {error && (
             <motion.div
               initial={{ opacity: 0, y: 8 }}

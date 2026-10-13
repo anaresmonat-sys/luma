@@ -116,6 +116,14 @@ export default function DescifrarPage() {
         window.location.href = '/paywall';
         return;
       }
+      if (res.status === 429) {
+        const tope: { error?: string; motivo?: string } | null = await res.json().catch(() => null);
+        if (tope?.motivo === 'tope_persona' && tope.error) {
+          setMensajeError(tope.error);
+          setEstado('error');
+          return;
+        }
+      }
       if (!res.ok) throw new Error('respuesta no OK');
       const datos: { analisis?: ItemAnalisis[] } = await res.json();
       if (!datos.analisis) throw new Error('sin análisis');

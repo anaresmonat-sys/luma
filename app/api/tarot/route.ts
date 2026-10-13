@@ -17,6 +17,7 @@ import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
 import { controlarAccesoGratis } from '@/lib/prueba-servidor';
+import { topePersonaExcedido } from '@/lib/limite-persona';
 
 export const runtime = 'nodejs';
 
@@ -109,7 +110,7 @@ function normalizarCarta(c: unknown): CartaValida | null {
 }
 
 export async function POST(request: Request) {
-  if (limiteExcedido(`tarot:${identificadorDePeticion(request)}`, 8, 60_000)) {
+  if (limiteExcedido(`tarot:${identificadorDePeticion(request)}`, 4, 60_000)) {
     return NextResponse.json({ error: 'Demasiadas peticiones seguidas — espera un momento.' }, { status: 429 });
   }
   if (await topeDiarioIAExcedido()) {
@@ -149,6 +150,11 @@ export async function POST(request: Request) {
       return `${prefijo}${c.numero ? c.numero + ' — ' : ''}${c.nombre}${c.invertida ? ' (INVERTIDA)' : ''}. Palabras clave: ${c.palabrasClave.join(', ') || 'sin datos'}.`;
     })
     .join(' ');
+
+  const topePersona = await topePersonaExcedido(usuarioIdIA, 'tarot');
+  if (topePersona) {
+    return NextResponse.json({ error: topePersona, motivo: 'tope_persona' }, { status: 429 });
+  }
 
   const acceso = await controlarAccesoGratis(request, usuarioIdIA);
   if (!acceso.permitido) {

@@ -11,6 +11,7 @@ import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
 import { controlarAccesoGratis } from '@/lib/prueba-servidor';
+import { topePersonaExcedido } from '@/lib/limite-persona';
 
 export const runtime = 'nodejs';
 
@@ -55,11 +56,11 @@ interface ContextoCoachEntrada {
   apoyo: boolean;
 }
 
-const MAX_MENSAJES_HISTORIAL = 20;
+const MAX_MENSAJES_HISTORIAL = 12;
 const MAX_CARACTERES_MENSAJE = 4000;
 
 export async function POST(request: Request) {
-  if (limiteExcedido(`coach:${identificadorDePeticion(request)}`, 8, 60_000)) {
+  if (limiteExcedido(`coach:${identificadorDePeticion(request)}`, 4, 60_000)) {
     return NextResponse.json({ error: 'Demasiadas peticiones seguidas — espera un momento.' }, { status: 429 });
   }
   if (await topeDiarioIAExcedido()) {
@@ -152,6 +153,11 @@ TRASFONDO DE LA USUARIA (de un check-in rápido, no lo repitas ni lo menciones s
 
   if (historial.length === 0 || historial[historial.length - 1].role !== 'user') {
     return NextResponse.json({ error: 'La conversación no es válida' }, { status: 400 });
+  }
+
+  const topePersona = await topePersonaExcedido(usuarioIdIA, 'coach');
+  if (topePersona) {
+    return NextResponse.json({ error: topePersona, motivo: 'tope_persona' }, { status: 429 });
   }
 
   const acceso = await controlarAccesoGratis(request, usuarioIdIA);

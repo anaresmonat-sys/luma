@@ -10,6 +10,7 @@ import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
 import { controlarAccesoGratis } from '@/lib/prueba-servidor';
+import { topePersonaExcedido } from '@/lib/limite-persona';
 
 export const runtime = 'nodejs';
 
@@ -98,6 +99,11 @@ export async function POST(request: Request) {
   const texto = typeof cuerpo.texto === 'string' ? cuerpo.texto.trim().slice(0, MAX_CARACTERES) : '';
   if (!imagen && texto.length < 10) {
     return NextResponse.json({ error: 'Falta la conversación' }, { status: 400 });
+  }
+
+  const topePersona = await topePersonaExcedido(usuarioIdIA, 'descifrar');
+  if (topePersona) {
+    return NextResponse.json({ error: topePersona, motivo: 'tope_persona' }, { status: 429 });
   }
 
   const acceso = await controlarAccesoGratis(request, usuarioIdIA);
