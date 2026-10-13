@@ -151,3 +151,6 @@
 
 ## Idioma UI: español (mono-idioma) · Fecha de cierre de la ficha: 2026-09-10 · Aprobada por el usuario: **SÍ** (el usuario aprobó el tour y dio luz verde para construir el 2026-09-10). Cosa juzgada.
 - Único pendiente de arte separado: el RETRATO FINAL de LUMA (persona) para app + redes → se produce en la sesión de assets (archivo 20); no bloquea la construcción.
+
+## Actualización 2026-10-13 — barra inferior con iconos de línea
+Decisión de la dueña (tras la ronda 7 del revisor visual y una vista previa comparada): la barra inferior pasa de emojis a iconos de línea (lucide: House, MessageCircle, Sparkles, BookOpen, Ellipsis), gris apagado en reposo y dorado `--accent-lite` con trazo más grueso en el destino activo. Esto ajusta la excepción de la Ronda #4 SOLO para la barra de navegación; el resto de la app conserva sus emojis de estado de ánimo y de las tiradas.

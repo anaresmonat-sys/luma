@@ -1,19 +1,21 @@
 'use client';
 
-// Barra inferior de la app (5 destinos, FICHA-ARTE §Ronda #3/#4): Inicio · Coach ·
-// Tarot · Diario · Más. Emoji como sistema de íconos — decisión explícita del
-// usuario que ANULA la regla general anti-emoji SOLO para este proyecto (Ronda #4).
+// Barra inferior de la app (5 destinos): Inicio · Coach · Tarot · Diario · Más.
+// Iconos de línea (lucide), decisión de la dueña 2026-10-13 tras la ronda 7 del
+// revisor visual: los emojis de colores desentonaban con terciopelo y oro. El destino
+// activo va en dorado y con el trazo más grueso.
 // "Descifra la conversación" no vive aquí: se abre desde un acceso en Inicio.
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { BookOpen, Ellipsis, House, MessageCircle, Sparkles } from 'lucide-react';
 
 const DESTINOS = [
-  { href: '/app', emoji: '🏠', label: 'Inicio' },
-  { href: '/app/coach', emoji: '💬', label: 'Coach' },
-  { href: '/app/tarot', emoji: '🔮', label: 'Tarot' },
-  { href: '/app/diario', emoji: '📔', label: 'Diario' },
-  { href: '/app/mas', emoji: '⋯', label: 'Más' },
+  { href: '/app', Icono: House, label: 'Inicio' },
+  { href: '/app/coach', Icono: MessageCircle, label: 'Coach' },
+  { href: '/app/tarot', Icono: Sparkles, label: 'Tarot' },
+  { href: '/app/diario', Icono: BookOpen, label: 'Diario' },
+  { href: '/app/mas', Icono: Ellipsis, label: 'Más' },
 ] as const;
 
 export function BottomNav() {
@@ -34,9 +36,7 @@ export function BottomNav() {
               activo ? 'text-[var(--accent-lite)]' : 'text-[var(--text-tertiary)]'
             }`}
           >
-            <span className="text-[20px] leading-none" aria-hidden="true">
-              {d.emoji}
-            </span>
+            <d.Icono size={22} strokeWidth={activo ? 2.2 : 1.75} aria-hidden="true" />
             {d.label}
           </Link>
         );
