@@ -4,11 +4,12 @@
 // del monitor (defecto real reportado por el usuario, 2026-09-20).
 
 import type { ReactNode } from 'react';
+import { PuertaEdad } from '@/components/app/PuertaEdad';
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <div className="mx-auto w-full max-w-[480px] md:border-x md:border-[color-mix(in_oklab,var(--text-tertiary)_16%,transparent)]">
-      {children}
+      <PuertaEdad>{children}</PuertaEdad>
     </div>
   );
 }
