@@ -22,7 +22,7 @@ import { MarkedCopy } from '@/components/landing/MarkedCopy';
 import { TimelineTrial } from '@/components/paywall/Timeline';
 import { PlanCards, type PlanPaywall } from '@/components/paywall/PlanCards';
 import { leerRespuestas } from '@/lib/almacenamiento-onboarding';
-import { beneficiosPlan, contarRespuestas, type Respuestas } from '@/app/onboarding/flujo';
+import { beneficiosPlan, type Respuestas } from '@/app/onboarding/flujo';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { registrarEvento, registrarEventoUnaVez } from '@/lib/registrar-evento';
 import { checkoutHotmart } from '@/lib/hotmart-links';
@@ -74,7 +74,6 @@ export default function PaywallLuma() {
     registrarEventoUnaVez('paywall_visto');
   }, []);
 
-  const nRespuestas = respuestas ? contarRespuestas(respuestas) : 0;
   const beneficios = respuestas ? beneficiosPlan(respuestas) : BENEFICIOS_GENERICOS;
 
   return (
@@ -123,9 +122,6 @@ export default function PaywallLuma() {
           <p className="mt-2 text-[15px] leading-snug text-[var(--text-secondary)]">
             <MarkedCopy text="Para esas noches [b]mirando el teléfono[/b], esperando que responda." />
           </p>
-          {respuestas && nRespuestas > 0 && (
-            <p className="mt-2 text-[14px] text-[var(--text-secondary)]">Hecho con tus {nRespuestas} respuestas</p>
-          )}
         </motion.div>
 
         {/* Beneficios: personalizados si hay datos del onboarding, genéricos si no */}

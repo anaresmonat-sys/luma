@@ -11,20 +11,20 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton, AppLinkButton } from '@/components/app/AppButton';
 import { AvisoIA } from '@/components/app/AvisoIA';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { TIRADAS_TAROT, type TiradaTarot } from '@/lib/seed-datos';
 import { guardarEntradaPendiente } from '@/lib/almacenamiento-diario';
-import { consumirPruebaGratis } from '@/lib/prueba-gratis';
-import { drawCards, cartaDelDia, citaDeCarta, POSICIONES_TIRADA } from '@/lib/tarotDeck';
+import { consumirPruebaGratis, pruebaGratisDisponible } from '@/lib/prueba-gratis';
+import { drawCards, cartaDelDia, citaDeCarta, POSICIONES_TIRADA, type CartaExtraida } from '@/lib/tarotDeck';
 
 const CLAVE_TIRADAS_GUARDADAS = 'luma_tiradas_guardadas';
 const MAX_PREGUNTA = 200;
 
-type Vista = 'lista' | 'pregunta' | 'leyendo' | 'resultado' | 'error';
+type Vista = 'lista' | 'ritual' | 'pregunta' | 'leyendo' | 'resultado' | 'error';
 
 interface CartaTirada {
   numero: string;
@@ -171,13 +171,26 @@ export default function TarotPage() {
   const [preguntaUsada, setPreguntaUsada] = useState('');
   const [tirada, setTirada] = useState<TiradaGuardada | null>(null);
   const [delDia, setDelDia] = useState<TiradaGuardada | null>(null);
-  const ultimoIntento = useRef<{ tema: TiradaTarot; pregunta: string } | null>(null);
+  const ultimoIntento = useRef<{ tema: TiradaTarot; pregunta: string; forzada?: CartaExtraida } | null>(null);
+  // Ritual "Elige tu carta" (llega desde la página de ventas con ?ritual=1): 3 reversos,
+  // la persona elige una y esa es la carta que se lee. No es la Carta del día.
+  const [cartasRitual, setCartasRitual] = useState<CartaExtraida[]>([]);
+  const [elegida, setElegida] = useState<number | null>(null);
+  const [desdeRitual, setDesdeRitual] = useState(false);
+  const reduce = useReducedMotion();
 
   useEffect(() => {
     setDelDia(leerCartaDelDiaGuardada());
+    const quiereRitual = new URLSearchParams(window.location.search).get('ritual') === '1';
+    if (quiereRitual && pruebaGratisDisponible()) {
+      setCartasRitual(drawCards(3));
+      setVista('ritual');
+    }
   }, []);
 
   function volverALista() {
+    setDesdeRitual(false);
+    setElegida(null);
     setVista('lista');
     setTema(null);
     setTirada(null);
@@ -194,14 +207,15 @@ export default function TarotPage() {
     setVista('pregunta');
   }
 
-  async function sacarCartas(t: TiradaTarot, preguntaUsuaria: string) {
-    ultimoIntento.current = { tema: t, pregunta: preguntaUsuaria };
+  async function sacarCartas(t: TiradaTarot, preguntaUsuaria: string, forzada?: CartaExtraida) {
+    ultimoIntento.current = { tema: t, pregunta: preguntaUsuaria, forzada };
+    setDesdeRitual(Boolean(forzada));
     setTema(t);
     setPreguntaUsada(preguntaUsuaria);
     setMensajeTope(null);
 
     // Carta del día: una por día (estándar del sector) — si ya salió hoy, se reabre.
-    if (t.id === 'carta-del-dia' && delDia) {
+    if (t.id === 'carta-del-dia' && delDia && !forzada) {
       setTirada(delDia);
       setVista('resultado');
       return;
@@ -209,7 +223,7 @@ export default function TarotPage() {
 
     setVista('leyendo');
     const posiciones = POSICIONES_TIRADA[t.id];
-    const extraidas = t.id === 'carta-del-dia' ? [cartaDelDia()] : drawCards(posiciones?.length ?? 3);
+    const extraidas = forzada ? [forzada] : t.id === 'carta-del-dia' ? [cartaDelDia()] : drawCards(posiciones?.length ?? 3);
 
     // OJO: no cortar aquí mirando solo localStorage — no sabe si la persona tiene un
     // plan (pagado o de cortesía). La verdad la decide el servidor con el 402.
@@ -227,7 +241,9 @@ export default function TarotPage() {
           })),
           pregunta: t.pregunta,
           preguntaUsuaria,
-          categoria: t.id,
+          // El ritual de "Elige tu carta" no es la lectura del día: lee lo que la persona lleva
+          // dentro (y su pregunta, si la escribió), no "la energía de hoy".
+          categoria: forzada ? 'autoconocimiento' : t.id,
         }),
       });
       if (res.status === 402) {
@@ -255,9 +271,9 @@ export default function TarotPage() {
           imagen: e.carta.image,
         })),
         texto: datos.texto,
-        fecha: t.id === 'carta-del-dia' ? claveDelDia() : undefined,
+        fecha: t.id === 'carta-del-dia' && !forzada ? claveDelDia() : undefined,
       };
-      if (t.id === 'carta-del-dia') {
+      if (t.id === 'carta-del-dia' && !forzada) {
         setDelDia(nueva);
         try {
           window.localStorage.setItem(CLAVE_TIRADAS_GUARDADAS, JSON.stringify({ 'carta-del-dia': nueva }));
@@ -283,6 +299,107 @@ export default function TarotPage() {
       }}
     />
   );
+
+  // ── Vista: ritual "Elige tu carta" ───────────────────────────────────────
+  if (vista === 'ritual' && cartasRitual.length === 3) {
+    const cartaDia = TIRADAS_TAROT.find((t) => t.id === 'carta-del-dia');
+    const sacada = elegida !== null ? cartasRitual[elegida] : null;
+    return (
+      <div className="relative flex min-h-min flex-1 flex-col pb-4 pt-3">
+        {fondo}
+        <CabeceraVolver titulo="Tu carta" onVolver={volverALista} />
+        <motion.div
+          key={sacada ? 'revelada' : 'eleccion'}
+          initial={{ opacity: 0, y: reduce ? 0 : 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="mt-3 flex flex-1 flex-col items-center"
+        >
+          {!sacada ? (
+            <>
+              <p className="max-w-[300px] text-center text-[22px] font-semibold leading-snug text-[var(--accent-lite)] [font-family:var(--font-display)]">
+                Respira hondo. Piensa en eso que te pesa.
+              </p>
+              <p className="mt-2 text-center text-[14px] text-[var(--text-secondary)]">Elige una carta.</p>
+              <div className="mt-8 flex flex-1 items-center justify-center gap-3 [@media(max-height:720px)]:mt-5">
+                {cartasRitual.map((_, i) => (
+                  <motion.button
+                    key={i}
+                    type="button"
+                    aria-label={`Carta ${i + 1} de 3`}
+                    onClick={() => setElegida(i)}
+                    whileTap={{ scale: 0.95 }}
+                    animate={reduce ? undefined : { y: [0, -6, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, delay: i * 0.4, ease: 'easeInOut' }}
+                    className="group rounded-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                  >
+                    <MiniReverso className="h-[156px] w-[98px] [@media(max-height:720px)]:h-[120px] [@media(max-height:720px)]:w-[76px]" />
+                  </motion.button>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => setElegida(Math.floor(Math.random() * 3))}
+                className="mt-4 text-[13px] font-semibold text-[var(--text-tertiary)] underline underline-offset-4"
+              >
+                Prefiero que LUMA elija por mí
+              </button>
+            </>
+          ) : (
+            <>
+              <motion.div
+                initial={{ rotateY: reduce ? 0 : 90, opacity: 0 }}
+                animate={{ rotateY: 0, opacity: 1 }}
+                transition={{ duration: reduce ? 0.2 : 0.7, ease: [0.16, 1, 0.3, 1] }}
+                style={{ perspective: 600 }}
+                className="mt-1"
+              >
+                <div className="flex flex-col items-center gap-2">
+                  <div
+                    className="relative h-[200px] w-[128px] overflow-hidden rounded-[12px] border shadow-[0_0_28px_-6px_color-mix(in_oklab,var(--accent)_55%,transparent)] [@media(max-height:720px)]:h-[150px] [@media(max-height:720px)]:w-[96px]"
+                    style={{ borderColor: 'color-mix(in oklab, var(--accent) 65%, transparent)' }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={sacada.carta.image}
+                      alt={sacada.carta.nombre}
+                      className="h-full w-full object-cover"
+                      style={{ transform: sacada.invertida ? 'rotate(180deg)' : undefined }}
+                    />
+                  </div>
+                  <span className="text-[13px] font-semibold text-[var(--text-primary)]">
+                    {sacada.carta.nombre}
+                    {sacada.invertida ? ' (invertida)' : ''}
+                  </span>
+                </div>
+              </motion.div>
+              <p className="mt-3 max-w-[300px] text-center text-[15px] italic leading-snug text-[var(--accent-lite)] [font-family:var(--font-display)]">
+                Esta carta tiene algo que decirte sobre eso que piensas.
+              </p>
+              <div className="mt-4 flex w-full flex-col">
+                <label htmlFor="ritual-pregunta" className="text-[12px] font-semibold text-[var(--text-secondary)]">
+                  Si quieres, cuéntale qué te pesa (opcional)
+                </label>
+                <textarea
+                  id="ritual-pregunta"
+                  value={pregunta}
+                  onChange={(e) => setPregunta(e.target.value.slice(0, MAX_PREGUNTA))}
+                  placeholder="Escribe aquí lo que tienes en la cabeza…"
+                  rows={3}
+                  className="mt-1.5 h-24 w-full resize-none rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] p-3 text-[14px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
+                />
+              </div>
+              <div className="mt-auto w-full pt-3">
+                <AppButton onClick={() => cartaDia && void sacarCartas({ ...cartaDia, nombre: 'Tu carta' }, pregunta.trim(), sacada)}>
+                  Ver mi lectura
+                </AppButton>
+              </div>
+            </>
+          )}
+        </motion.div>
+      </div>
+    );
+  }
 
   // ── Vista: pregunta opcional ─────────────────────────────────────────────
   if (vista === 'pregunta' && tema) {
@@ -352,7 +469,7 @@ export default function TarotPage() {
           <div className="w-full max-w-[260px]">
             <AppButton
               onClick={() => {
-                if (ultimoIntento.current) void sacarCartas(ultimoIntento.current.tema, ultimoIntento.current.pregunta);
+                if (ultimoIntento.current) void sacarCartas(ultimoIntento.current.tema, ultimoIntento.current.pregunta, ultimoIntento.current.forzada);
               }}
             >
               Intentar de nuevo
@@ -399,6 +516,18 @@ export default function TarotPage() {
             </p>
           )}
           <p className="max-w-[300px] whitespace-pre-line text-center text-[13px] leading-relaxed text-[var(--text-secondary)]">{tirada.texto}</p>
+          {desdeRitual && (
+            <div className="w-full rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] p-3 text-center">
+              <p className="text-[14px] font-semibold leading-snug text-[var(--text-primary)]">
+                Tu carta de hoy es solo el principio. Mañana, LUMA te espera con la siguiente.
+              </p>
+              <div className="mt-2.5">
+                <AppLinkButton href="/paywall" compact>
+                  Probar 3 días gratis
+                </AppLinkButton>
+              </div>
+            </div>
+          )}
           <div className="mt-1 flex w-full flex-col gap-2">
             <AppLinkButton href="/app/diario" compact onClick={() => guardarEntradaPendiente(textoDiario)}>
               Guardar en mi diario

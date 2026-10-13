@@ -15,7 +15,6 @@ import { AvisoPrueba } from '@/components/app/AvisoPrueba';
 import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import type { MensajeCoach } from '@/lib/seed-datos';
 import { aperturaCoach } from '@/lib/coach-saludo';
-import { leerRespuestas } from '@/lib/almacenamiento-onboarding';
 import { consumirPruebaGratis } from '@/lib/prueba-gratis';
 import { leerYLimpiarMensajePendiente } from '@/lib/almacenamiento-coach';
 import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
@@ -24,7 +23,7 @@ import { ContextoCoachPaso } from '@/components/app/ContextoCoach';
 
 export default function CoachPage() {
   const [hilo, setHilo] = useState<MensajeCoach[]>([]);
-  const [apertura, setApertura] = useState(() => aperturaCoach(undefined, undefined));
+  const [apertura, setApertura] = useState(() => aperturaCoach(undefined));
   const [texto, setTexto] = useState('');
   const chatRef = useRef<HTMLDivElement | null>(null);
   const [escribiendo, setEscribiendo] = useState(false);
@@ -34,8 +33,8 @@ export default function CoachPage() {
   const [contexto, setContexto] = useState<ContextoCoach | null>(null);
   const [contextoListo, setContextoListo] = useState(false);
 
-  // El hilo arranca vacío: LUMA abre con un saludo según el motivo elegido en el
-  // onboarding (y el nombre del Mapa de Poder, si existe). Si llega un mensaje
+  // El hilo arranca vacío: LUMA abre con un saludo (con el nombre del Mapa de Poder
+  // o de las preguntas de contexto, si existe). Si llega un mensaje
   // real pendiente (ej. desde "¿Qué podría responderle?" en Descifrar), se
   // prellena la caja. Se lee en efecto, no en el estado inicial: localStorage es
   // client-only y leerlo de forma síncrona en el primer render rompe la
@@ -43,7 +42,7 @@ export default function CoachPage() {
   useEffect(() => {
     const mapaPoder = leerMapaPoder();
     const contextoGuardado = leerContextoCoach();
-    setApertura(aperturaCoach(leerRespuestas()?.motivo, mapaPoder?.nombre ?? contextoGuardado?.nombre));
+    setApertura(aperturaCoach(mapaPoder?.nombre ?? contextoGuardado?.nombre));
     const pendiente = leerYLimpiarMensajePendiente();
     if (pendiente) setTexto(pendiente);
     setContexto(contextoGuardado);
@@ -56,7 +55,7 @@ export default function CoachPage() {
   function alTerminarContexto(nuevo: ContextoCoach) {
     setContexto(nuevo);
     if (!leerMapaPoder()?.nombre && nuevo.nombre) {
-      setApertura(aperturaCoach(leerRespuestas()?.motivo, nuevo.nombre));
+      setApertura(aperturaCoach(nuevo.nombre));
     }
   }
 

@@ -170,7 +170,7 @@ export async function POST(request: Request) {
       // Carta del día (1 sola carta) durante una ronda de pruebas con 5
       // personas distintas, 2026-09-30. Ambos números suben con margen de
       // sobra para el español (más denso en tokens que el inglés).
-      max_tokens: cartas.length > 1 ? 800 : 320,
+      max_tokens: cartas.length > 1 ? 800 : 480,
       system: SYSTEM_PROMPT,
       messages: [
         {
