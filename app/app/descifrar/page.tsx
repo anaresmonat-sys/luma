@@ -154,7 +154,7 @@ export default function DescifrarPage() {
         </motion.div>
         <div className="flex flex-1 flex-col">
         <motion.div variants={item} className="mb-2">
-          <AvisoPrueba disponible={disponible} conPlan={conPlan} />
+          {estado !== 'resultado' && <AvisoPrueba disponible={disponible} conPlan={conPlan} />}
         </motion.div>
         <motion.div variants={item} className="grid grid-cols-2 gap-2">
           {MODOS.map((m) => (
@@ -225,6 +225,7 @@ export default function DescifrarPage() {
                 )}
               </AnimatePresence>
 
+              {!(estado === 'resultado' && !disponible) && (
               <div className="mt-3">
                 <AppButton onClick={analizar} disabled={estado === 'cargando'} busy={estado === 'cargando'}>
                   {estado === 'cargando' && (
@@ -238,6 +239,7 @@ export default function DescifrarPage() {
                   {estado === 'cargando' ? 'Analizando…' : disponible ? 'Analizar' : 'Elegir mi plan'}
                 </AppButton>
               </div>
+              )}
 
               {texto.trim() === '' && disponible && (
                 <button
@@ -310,11 +312,13 @@ export default function DescifrarPage() {
                 )}
               </AnimatePresence>
 
+              {!(estado === 'resultado' && !disponible) && (
               <div className="mt-3">
                 <AppButton onClick={analizar} disabled={estado === 'cargando'} busy={estado === 'cargando'}>
                   {estado === 'cargando' ? 'Analizando…' : disponible ? 'Analizar captura' : 'Elegir mi plan'}
                 </AppButton>
               </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
@@ -366,6 +370,21 @@ export default function DescifrarPage() {
                   ¿Qué podría responderle?
                 </Link>
               </motion.div>
+              {!disponible && conPlan === false && (
+                <motion.div
+                  variants={item}
+                  className="rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_40%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] p-3 text-center"
+                >
+                  <p className="text-[13.5px] font-semibold leading-snug text-[var(--text-primary)]">
+                    Esta era tu lectura gratis. Para seguir descifrando, elige tu plan.
+                  </p>
+                  <div className="mt-2.5">
+                    <AppLinkButton href="/paywall?motivo=lectura-usada" compact>
+                      Elegir mi plan
+                    </AppLinkButton>
+                  </div>
+                </motion.div>
+              )}
               <motion.div variants={item}>
                 <AvisoIA />
               </motion.div>
