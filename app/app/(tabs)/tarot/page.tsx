@@ -178,6 +178,8 @@ export default function TarotPage() {
   const [elegida, setElegida] = useState<number | null>(null);
   const [desdeRitual, setDesdeRitual] = useState(false);
   const reduce = useReducedMotion();
+  // Evita el parpadeo de la lista de temas antes de saltar al ritual (localStorage solo existe en el navegador).
+  const [listo, setListo] = useState(false);
 
   useEffect(() => {
     setDelDia(leerCartaDelDiaGuardada());
@@ -186,6 +188,7 @@ export default function TarotPage() {
       setCartasRitual(drawCards(3));
       setVista('ritual');
     }
+    setListo(true);
   }, []);
 
   function volverALista() {
@@ -300,6 +303,8 @@ export default function TarotPage() {
     />
   );
 
+  if (!listo) return <div className="flex-1" aria-hidden="true" />;
+
   // ── Vista: ritual "Elige tu carta" ───────────────────────────────────────
   if (vista === 'ritual' && cartasRitual.length === 3) {
     const cartaDia = TIRADAS_TAROT.find((t) => t.id === 'carta-del-dia');
@@ -318,7 +323,7 @@ export default function TarotPage() {
           {!sacada ? (
             <>
               <p className="max-w-[300px] text-center text-[22px] font-semibold leading-snug text-[var(--accent-lite)] [font-family:var(--font-display)]">
-                Respira hondo. Piensa en eso que te pesa.
+                Haz una respiración profunda, cierra los ojos y conecta con la pregunta.
               </p>
               <p className="mt-2 text-center text-[14px] text-[var(--text-secondary)]">Elige una carta.</p>
               <div className="mt-8 flex flex-1 items-center justify-center gap-3 [@media(max-height:720px)]:mt-5">
