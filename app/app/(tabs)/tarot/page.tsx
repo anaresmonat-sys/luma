@@ -324,7 +324,13 @@ export default function TarotPage() {
 
   // ── Vista: ritual "Elige tus cartas" ─────────────────────────────────────
   if (vista === 'ritual' && cartasRitual.length === 6) {
-    const temaRitual = TIRADAS_TAROT.find((t) => t.id === 'autoconocimiento');
+    const temaRitual: TiradaTarot = {
+      id: 'ritual',
+      emoji: '🔮',
+      nombre: 'Tus cartas',
+      sobre: '',
+      pregunta: 'Lectura libre: lo que la persona lleva dentro y necesita ver ahora',
+    };
     const paso: 'pregunta' | 'elegir' | 'reveladas' = !ritualPreguntada
       ? 'pregunta'
       : !ritualReveladas
@@ -512,7 +518,7 @@ export default function TarotPage() {
                 </p>
               </div>
               <div className="mt-4 w-full">
-                <AppButton onClick={() => temaRitual && void sacarCartas({ ...temaRitual, nombre: 'Tus cartas' }, pregunta.trim(), sacadas)}>
+                <AppButton onClick={() => void sacarCartas(temaRitual, pregunta.trim(), sacadas)}>
                   Ver mi lectura
                 </AppButton>
               </div>

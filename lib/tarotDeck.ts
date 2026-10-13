@@ -145,6 +145,8 @@ export const POSICIONES_TIRADA: Record<string, [string, string, string]> = {
   relaciones: ['Lo que sientes tú', 'Lo que influye en el vínculo', 'Lo que podría ayudar'],
   salud: ['Cómo estás ahora', 'Lo que influye', 'Lo que te ayuda'],
   prosperidad: ['Tu situación ahora', 'Lo que lo frena', 'Cómo avanzar'],
+  // Ritual "Elige tus cartas": cualquier pregunta libre. Las posiciones siguen a la PREGUNTA, no a un tema.
+  ritual: ['Lo que hay detrás de tu pregunta', 'Lo que está influyendo ahora', 'Hacia dónde apunta'],
 };
 
 /** Frase corta para mostrar bajo el nombre de la carta (reemplaza la "cita"
