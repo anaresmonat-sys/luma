@@ -111,7 +111,7 @@ export default function DescifrarPage() {
         body: JSON.stringify(modo === 'captura' && imagen ? { imagen: { tipo: 'image/jpeg', datos: imagen.datos } } : { texto }),
       });
       if (res.status === 402) {
-        window.location.href = '/paywall';
+        window.location.href = '/paywall?motivo=lectura-usada';
         return;
       }
       if (res.status === 429) {

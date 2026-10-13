@@ -63,6 +63,8 @@ export default function PaywallLuma() {
   const reduce = useReducedMotion();
   const [seleccionado, setSeleccionado] = useState<'anual' | 'mensual'>('anual');
   const [respuestas, setRespuestas] = useState<Respuestas | null>(null);
+  // Llegó porque ya gastó su lectura gratis: se le dice claro, en vez de caer sin explicación.
+  const [lecturaUsada, setLecturaUsada] = useState(false);
 
   // Lectura en efecto (no lazy initializer): localStorage es client-only —
   // leerlo de forma síncrona en el render inicial rompe la hidratación
@@ -71,6 +73,7 @@ export default function PaywallLuma() {
   // un salto breve de beneficios genéricos → personalizados tras montar.
   useEffect(() => {
     setRespuestas(leerRespuestas());
+    setLecturaUsada(new URLSearchParams(window.location.search).get('motivo') === 'lectura-usada');
     registrarEventoUnaVez('paywall_visto');
   }, []);
 
@@ -114,6 +117,11 @@ export default function PaywallLuma() {
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
           className="-mt-4"
         >
+          {lecturaUsada && (
+            <p className="mb-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_40%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2 text-[13px] font-semibold leading-snug text-[var(--text-primary)]">
+              Ya usaste tu lectura gratis. Con los {TRIAL_DIAS} días de prueba tienes LUMA completa.
+            </p>
+          )}
           <h1 className="text-balance text-[28px] font-bold leading-[1.15] text-[var(--text-primary)] [font-family:var(--font-display)]">
             <MarkedCopy text={`${TRIAL_DIAS} días para probar si LUMA te da la [acento]calma[/acento] que buscas`} />
           </h1>

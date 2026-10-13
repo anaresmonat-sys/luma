@@ -109,7 +109,7 @@ export default function DiarioPage() {
         body: JSON.stringify({ texto, animo, origen: trajoLectura ? 'tarot' : undefined }),
       });
       if (res.status === 402) {
-        window.location.href = '/paywall';
+        window.location.href = '/paywall?motivo=lectura-usada';
         return;
       }
       if (res.status === 429) {

@@ -88,7 +88,7 @@ export default function CoachPage() {
         }),
       });
       if (res.status === 402) {
-        window.location.href = '/paywall';
+        window.location.href = '/paywall?motivo=lectura-usada';
         return;
       }
       if (res.status === 429) {
