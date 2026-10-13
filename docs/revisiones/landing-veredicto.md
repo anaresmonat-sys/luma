@@ -117,3 +117,26 @@ Top defectos:
 3. [5B, calculadora, estado inicial] La tarjeta abre solo con selects y un botón contorno tenue; el número héroe (95%) no existe hasta el tap, y el botón de contorno sobre fondo oscuro cálido se lee casi como deshabilitado (borde 45% acento, fill oscuro) → fix: calcular al montar con el ejemplo precargado (resultado ya visible) o subir el borde del contorno a ≥70% acento.
 4. [Círculo, tarjetas (aprox. y 1680-1870)] Mezcla emoji a color (💞) con glifo del signo (♎︎) en dorado plano en la misma cabecera; el carrusel solo insinúa la 2ª tarjeta y la 3ª no se ve → fix: añadir 3 puntos indicadores o reducir el ancho de tarjeta a ~220px para mostrar 1,5.
 5. [Evidencia] Recorte "después" no coincide con el estado por defecto del código (Aries–Leo vs Leo–Sagitario), y landing-375.png a 83px de ancho efectivo (9090px de alto) no permite verificar detalles → fix: regenerar los recortes desde el build actual antes de la Ronda 9.
+
+---
+
+# VEREDICTO revisor-visual — landing (Ronda 6)
+Fecha: 2026-10-13 00:00
+Screenshot: docs/revisiones/landing-375.png (página completa 360x9298; primera pantalla en docs/revisiones/landing-hero-375.png)
+Usabilidad: 30/40
+Craft: 15/20
+Copy (si vende): 17/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:3 h5:4 h6:3 h7:3 h8:2 h9:3 h10:3
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+Detalle copy: idea:3 especificidad:3 emoción:4 oferta:4 acción:3 (trazabilidad a FICHA-AVATAR.md verificada: dolor 23:00/"releer", objeciones chatbot genérico/caro/Google/juicio/persona real salen de la ficha; sin prueba social real porque la ficha declara que aún no hay testimonios)
+Gate de carga cognitiva (primera pantalla): fallas = 2 de 8 (más de una acción: 1 CTA + 4 enlaces + "Entrar" + barra fija; elementos que parecen opciones sin que quede claro qué se elige). No llega a sobrecarga crítica pero es la zona más cargada de la página.
+Verificado en código: CtaButton con whileTap 0.97, alto 52px, nunca disabled, contraste oro sobre vino alto; StickyCtaMobile con cierre y volver arriba; reveal con reduced-motion y mejora progresiva; carrusel con flechas y puntos de 44px; FAQ con 5 objeciones reales. No hay celebración de hito ni conteo animado en la propia página de ventas (solo en la calculadora de sinergia).
+Limitación de evidencia: la captura de página completa llega a 77px de ancho efectivo; la caja dorada "Tu primera lectura de tarot gratis", Oferta, Garantía y FAQ se puntuaron sobre código + silueta, no a nivel de píxel.
+Top defectos:
+1. [Hero, bajo el botón principal: "Elige la que más te vibre: conversación · tarot · coach · diario"] Pone 4 enlaces subrayados de 13px (alto táctil ~18px, separados por " · ") junto al CTA héroe: mistap casi seguro en Android, rompe "una acción primaria por pantalla", diluye la Big Idea (descifrar la conversación) en 4 productos, y "Elige la que más te vibre" no dice qué se elige ni qué ocurre (coloquial, no tuteo neutro) → fix: convertirlos en 4 chips de ≥44px de alto en una fila con la etiqueta "Empieza por lo que necesites hoy", o quitarlos del hero y dejar solo el CTA + "Tu primera lectura es gratis · sin tarjeta · sin registro".
+2. [Hero, bloque de microcopy bajo el CTA] Tres niveles de texto de 13px casi iguales (línea gratis, etiqueta en negrita, enlaces en oro) comprimidos en ~70px: el ojo no sabe qué leer primero y empuja la demo de la carta fuera del primer viewport → fix: una sola línea de garantía bajo el CTA; mover las opciones de ayuda a una fila separada con aire de 24px.
+3. [Barra fija inferior del hero, captura landing-hero-375.png] La barra pegajosa con "Descifrar mi conversación gratis" aparece sobre la primera pantalla duplicando el CTA héroe a ~400px de él (en código solo debería mostrarse tras salir del hero; la captura indica que se activa con el hero a la vista o que la evidencia se tomó tras scrollear) → fix: verificar con IntersectionObserver real que no aparece con el hero visible y recapturar landing-hero-375.png sin scroll previo.
+4. [Verbos de CTA: hero "Descifrar mi conversación gratis" / carrusel "Tu primera lectura de tarot gratis" / planes "Empezar gratis"] Tres promesas distintas hacia el mismo destino; el botón de tarot a mitad de página compite con el mensaje del mecanismo y los dos botones de planes repiten "Empezar gratis" sin nombrar plan → fix: unificar a un solo verbo-beneficio ("Descifrar mi conversación gratis") en hero, carrusel y planes, dejando "con tarot" como variante solo en el enlace ?ayuda=tarot.
+5. [Mensaje "primera lectura gratis · sin tarjeta · sin registro" repetido 5 veces: hero, nota del carrusel, nota previa de Oferta, FAQ y PS] La repetición convierte la garantía en ruido y en la Oferta compite con "3 días de prueba" y "15 días de garantía" (tres plazos/condiciones seguidos sin jerarquía) → fix: decir la frase completa solo en hero y CTA final; en Oferta usar una sola línea ordenada: "1ª lectura gratis → 3 días de prueba → 15 días de reembolso", y nombrar la "Garantía de 15 Días" junto al botón de Anual.
