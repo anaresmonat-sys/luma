@@ -208,10 +208,9 @@ export default function LandingLuma() {
           ctaLabel: 'Empezar con el plan mensual',
           ctaHref: CTA_HREF,
           features: [
-            'Descifra tus conversaciones: pega el texto o sube una captura',
-            'Chat con LUMA cuando lo necesites',
-            'Tiradas de tarot para tu caso, no genéricas',
-            'Diario emocional con tus patrones',
+            'Todo lo del plan anual, pagando mes a mes',
+            'Descifrar, tarot, coach y diario cuando quieras',
+            'Sin cobros por mensaje ni por crédito',
             'Cancelas cuando quieras',
           ],
         }}
@@ -264,7 +263,7 @@ export default function LandingLuma() {
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
         recap="Descifra chats · Chat con LUMA · Tarot para tu caso · Diario de patrones · sin cobros por mensaje"
-        psMarked="PS — Empiezas gratis: tu primera lectura no lleva tarjeta. Y los 3 días de prueba son de verdad: si LUMA no es para ti, no pagas nada. Y si pagas y cambias de idea, tienes 15 días para el reembolso completo."
+        psMarked="PS — Tu primera lectura es gratis y sin tarjeta. Después, 3 días de prueba y 15 días de garantía desde el primer cobro."
       />
       </main>
 

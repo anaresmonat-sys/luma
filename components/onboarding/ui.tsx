@@ -20,12 +20,7 @@ export function OnboardingHeader({
   onBack: () => void;
 }) {
   return (
-    <div className="sticky top-0 z-20 bg-[var(--bg)]/95 backdrop-blur-sm">
-      <div className="mx-auto flex h-11 w-full max-w-[480px] items-center justify-center px-4">
-        <a href="/" className="text-[13px] font-semibold tracking-[0.04em] text-[var(--accent-lite)]">
-          LUMA
-        </a>
-      </div>
+    <div className="sticky top-0 z-20">
       <div className="mx-auto flex h-14 w-full max-w-[480px] items-center gap-3 px-4">
         <button
           type="button"

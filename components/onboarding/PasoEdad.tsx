@@ -89,11 +89,11 @@ export function PasoEdad({ onContinuar }: { onContinuar: () => void }) {
         </motion.button>
         <p className="mt-3 text-center text-[12px] leading-snug text-[var(--text-tertiary)]">
           Al continuar aceptas los{' '}
-          <Link href="/terminos" className="inline-block py-2 underline underline-offset-2">
+          <Link href="/terminos" className="inline-block py-3 underline underline-offset-2">
             Términos
           </Link>{' '}
           y la{' '}
-          <Link href="/privacidad" className="inline-block py-2 underline underline-offset-2">
+          <Link href="/privacidad" className="inline-block py-3 underline underline-offset-2">
             Privacidad
           </Link>
           .

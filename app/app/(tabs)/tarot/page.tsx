@@ -79,7 +79,7 @@ function MiniCartaTirada({ imagen, nombre, invertida }: { imagen?: string; nombr
           />
         )}
       </div>
-      <span className="text-center text-[10px] font-semibold leading-tight text-[var(--text-primary)]">
+      <span className="text-center text-[11.5px] font-semibold leading-tight text-[var(--text-primary)]">
         {nombre}
         {invertida ? ' (invertida)' : ''}
       </span>
@@ -675,15 +675,25 @@ export default function TarotPage() {
                   Quiero mis 3 días gratis
                 </AppLinkButton>
               </div>
-              <p className="mt-2 text-[11.5px] leading-snug text-[var(--text-secondary)]">
+              <p className="mt-2 text-[12.5px] leading-snug text-[var(--text-secondary)]">
                 Después, $9,99 al mes o $89,99 al año. Cancelas cuando quieras y tienes 15 días de garantía.
               </p>
             </div>
           )}
           <div className="mt-1 flex w-full flex-col gap-2">
-            <AppLinkButton href="/app/diario" compact onClick={() => guardarEntradaPendiente(textoDiario)}>
-              Guardar en mi diario
-            </AppLinkButton>
+            {desdeRitual ? (
+              <Link
+                href="/app/diario"
+                onClick={() => guardarEntradaPendiente(textoDiario)}
+                className="flex h-11 w-full items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[13px] font-bold text-[var(--accent-lite)]"
+              >
+                Guardar en mi diario
+              </Link>
+            ) : (
+              <AppLinkButton href="/app/diario" compact onClick={() => guardarEntradaPendiente(textoDiario)}>
+                Guardar en mi diario
+              </AppLinkButton>
+            )}
             {!desdeRitual && (
             <button
               type="button"
