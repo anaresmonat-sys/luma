@@ -8,7 +8,7 @@
 // pantalla futura (pendiente en ESTADO.md). Los screenshots reales los toma la IA
 // al cerrar la app (paso obligatorio de 19 §5).
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { CtaButton, Kicker, SectionShell, useReveal, VIEWPORT_ONCE } from './ui';
 import { MarkedCopy, warnCopy, warnRango } from './MarkedCopy';
@@ -32,8 +32,6 @@ export interface AppPorDentroProps {
   /** CTA mid-page: mismas medidas y MISMO verbo del CTA héroe (19). */
   ctaLabel: string;
   ctaHref: string;
-  /** Si existe, reemplaza al botón mid-page (p. ej. el bloque de primer resultado gratis). */
-  ctaSlot?: ReactNode;
   id?: string;
 }
 
@@ -43,7 +41,6 @@ export function AppPorDentro({
   frames,
   ctaLabel,
   ctaHref,
-  ctaSlot,
   id,
 }: AppPorDentroProps) {
   warnCopy('AppPorDentro → título', tituloMarked, 8);
@@ -212,7 +209,7 @@ export function AppPorDentro({
 
         {/* CTA mid-page (reglas de CTA de 19): tras la prueba visual, cuando la confianza es alta */}
         <motion.div variants={item} className="mt-10 flex justify-center">
-          {ctaSlot ?? <CtaButton href={ctaHref}>{ctaLabel}</CtaButton>}
+          <CtaButton href={ctaHref}>{ctaLabel}</CtaButton>
         </motion.div>
       </motion.div>
     </SectionShell>

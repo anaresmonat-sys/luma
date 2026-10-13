@@ -12,7 +12,6 @@ import { Problema } from '@/components/landing/Problema';
 import { Agitacion } from '@/components/landing/Agitacion';
 import { Solucion } from '@/components/landing/Solucion';
 import { AppPorDentro } from '@/components/landing/AppPorDentro';
-import { PrimerResultadoGratis } from '@/components/landing/PrimerResultadoGratis';
 import { SinergiaCirculo } from '@/components/landing/SinergiaCirculo';
 import { Oferta } from '@/components/landing/Oferta';
 import { Garantia } from '@/components/landing/Garantia';
@@ -123,9 +122,8 @@ export default function LandingLuma() {
           tomados de la app interna ya construida y revisada (Sesión 5) */}
       <AppPorDentro
         tituloMarked="Desliza y mira [acento]cómo se siente[/acento]"
-        ctaLabel={CTA_LABEL}
-        ctaHref={CTA_HREF}
-        ctaSlot={<PrimerResultadoGratis />}
+        ctaLabel="Tu primera lectura de tarot gratis"
+        ctaHref="/onboarding?ayuda=tarot"
         frames={[
           {
             src: '/carrusel/inicio.webp',
