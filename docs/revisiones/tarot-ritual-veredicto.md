@@ -22,3 +22,28 @@ Notas de verificación (código):
 Detalle usabilidad: h1:2 h2:3 h3:2 h4:3 h5:2 h6:3 h7:3 h8:2 h9:3 h10:2
 Detalle craft: jerarquía:2 profundidad:3 identidad:3 movimiento:3 encaje:2
 Detalle copy: idea:3 especificidad:2 emoción:3 oferta:2 acción:3 (ejes de especificidad y oferta ≤2: se corrigen aunque el total pase; garantía nombrada con plazo: NO presente en el gancho)
+
+# VEREDICTO revisor-visual — tarot-ritual (Ronda 2)
+Fecha: 2026-10-13 18:00
+Screenshot: docs/revisiones/tarot-ritual-1-pregunta-375.png · docs/revisiones/tarot-ritual-2-elegir-375.png · docs/revisiones/tarot-ritual-3-reveladas-375.png
+Usabilidad: 29/40
+Craft: 15/20
+Copy (si vende): 13/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Top defectos:
+1. Barra inferior (Inicio/Coach/Tarot/Diario/Más), visible en los 3 pasos -> los íconos son emojis a color (casa, burbuja, bola de cristal, libreta) con estilos distintos al SVG monocromo de la flecha "volver" y a la paleta vino/oro; anti-patrón "emojis como íconos" y desvío de FICHA-ARTE, lo primero que ve cualquiera -> reemplazar por íconos SVG (Lucide/Phosphor, fill para activo) en el color de acento/terciario; lo mismo con 🕯️ y ✨ del código de la lista (L674, L718).
+2. Gancho de la lectura final del ritual (page.tsx L629-L640, no capturado en las 3 imágenes) -> sigue sin precio posterior ni garantía nombrada con plazo; copy genérico "Tu tirada de hoy es solo el principio", CTA "Probar 3 días gratis" no en 1ª persona, y compite con "Guardar en mi diario" (dos AppLinkButton de peso similar). Copy: especificidad 2 y oferta 2 -> un CTA dominante "Quiero mi carta de mañana · 3 días gratis" con microcopy "Luego US$X/mes · cancela cuando quieras · garantía 7 días"; "Guardar en mi diario" como enlace secundario; añadir la captura de este paso al material.
+3. Paso 1, caja de texto (y=365-507) y vacío -> aunque más baja, sigue ~140px de caja vacía y ~170px de aire muerto entre la caja y el CTA; no hay chips de ejemplo que enseñen qué preguntar (ayuda contextual 2); además la frase superior repite literal la de la lista de temas -> añadir 2-3 chips tocables ("¿Qué necesito soltar?", "¿Debo escribirle?") que rellenen el campo y bajar la caja a 3 líneas; frase distinta de la de la lista.
+4. Pasos 2 y 3, jerarquía/encaje -> el eco "Tu pregunta: …" (12px cursiva terciaria) casi no se lee y es el ancla emocional; los nombres de carta en 11-12px bold y "Rey de Copas (invertida)" corta en 2 líneas contra 1 de las otras (columnas desparejas); la línea "Invertida: …" a 12px gris compite en peso con el eco -> eco a 14px en secundario; nombre en 13px y "(invertida)" en segunda línea para las tres, o un chip "al revés" bajo cada carta invertida.
+5. Paso 3, carta revelada -> la revelación (hito real) tiene resplandor pero no celebración ni cierre: aire de ~100px sobre el título y ~110px antes del CTA mientras las cartas son 100x156 en una banda estrecha; las 6 cartas del paso 2 flotan con desfase y aún mueven el blanco al tocar -> subir cartas a ~112x175 con un destello breve al terminar el último giro (apagado en reduced-motion) y pausar la flotación en pointer-down.
+
+Notas de verificación (código):
+- Corregido y verificado en código: CTA paso 1 ya no disabled (L399), "(opcional)" en label, des-elegir carta (L338), "Volver" retrocede un paso (L345-L356), enlace "elegir por mí" con min-h-11 (L447), "Hacer otra tirada" oculto con desdeRitual (L645), reduced-motion respetado en flotación y rotateY (L375, L426, L464).
+- Mejoras visibles en capturas: contenido centrado verticalmente, encabezado "Estas son tus cartas", explicación de "invertida".
+- Paleta vino/oro, Cormorant Garamond + Hanken Grotesk y radios coinciden con la ficha; no es clon de los ejemplos vetados.
+- No verificable: estados "leyendo" y "error", y la vista de resultado del ritual (sin captura).
+
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:2 h5:3 h6:3 h7:3 h8:3 h9:3 h10:2
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+Detalle copy: idea:3 especificidad:2 emoción:3 oferta:2 acción:3
