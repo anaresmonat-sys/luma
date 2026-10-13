@@ -55,7 +55,7 @@ const PRECIO_TEXTO: Record<'anual' | 'mensual', string> = {
 // mismos 3 pilares del producto, sin fingir personalización que no existe.
 const BENEFICIOS_GENERICOS = [
   { texto: 'Descifra conversaciones confusas: hechos, riesgo y qué responder' },
-  { texto: 'Tiradas de tarot leídas para tu caso, no genéricas' },
+  { texto: 'Tiradas de tarot con tu pregunta, no genéricas' },
   { texto: 'Un espacio privado, sin juicio, para desahogarte' },
 ];
 
@@ -110,7 +110,7 @@ export default function PaywallLuma() {
           </div>
         </motion.div>
 
-        {/* Headline — fórmula única de 52 §4: LUMA + "calma" (deseo tangible #1 de FICHA-AVATAR) */}
+        {/* Headline: lo que LUMA ES (tu tarotista y coach) + el plazo; sin prometer un resultado emocional */}
         <motion.div
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -123,12 +123,12 @@ export default function PaywallLuma() {
             </p>
           )}
           <h1 className="text-balance text-[28px] font-bold leading-[1.15] text-[var(--text-primary)] [font-family:var(--font-display)]">
-            <MarkedCopy text={`${TRIAL_DIAS} días para probar si LUMA te da la [acento]calma[/acento] que buscas`} />
+            <MarkedCopy text={`${TRIAL_DIAS} días para probar [acento]LUMA[/acento], tu tarotista y coach`} />
           </h1>
           {/* Ancla emocional de FICHA-AVATAR (se repite landing+onboarding+paywall):
               "obsesionada mirando el teléfono" → "en 1 minuto entiendes qué pasa" */}
           <p className="mt-2 text-[15px] leading-snug text-[var(--text-secondary)]">
-            <MarkedCopy text="Para esas noches [b]mirando el teléfono[/b], esperando que responda." />
+            <MarkedCopy text="[b]Descifra mensajes[/b], saca tus cartas y habla con LUMA cuando lo necesites." />
           </p>
         </motion.div>
 
@@ -244,7 +244,7 @@ export default function PaywallLuma() {
             </span>
             <span className="flex items-center gap-1.5 whitespace-nowrap">
               <ShieldCheck size={14} aria-hidden="true" />
-              Garantía de Calma de 15 días
+              Garantía de 15 días
             </span>
           </p>
         </motion.div>

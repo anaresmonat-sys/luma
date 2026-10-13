@@ -97,7 +97,7 @@ export default function LandingLuma() {
           },
           {
             emoji: '💔',
-            textoMarked: 'No es que pienses de más. Es que [acento]nadie te ayudó a ver la conversación con calma[/acento].',
+            textoMarked: 'No es que pienses de más. Es que [acento]nadie te ayudó a ver la conversación con claridad[/acento].',
           },
         ]}
         contraste={{
@@ -111,7 +111,7 @@ export default function LandingLuma() {
       {/* 4 · SOLUCIÓN */}
       <Solucion
         kicker="Cómo funciona"
-        tituloMarked="Tu conversación, [acento]vista con calma[/acento]"
+        tituloMarked="Tu conversación, [acento]vista con claridad[/acento]"
         mecanismo="descifrar la conversación"
         bigIdeaMarked="No piensas de más. LUMA separa los hechos de las historias, y desde ahí eliges: [b]una tirada, hablar con tu coach o anotarlo[/b]."
         pasos={[
@@ -220,8 +220,8 @@ export default function LandingLuma() {
           Plazo real confirmado en el checkout de Hotmart (2026-09-28): su mínimo
           disponible es 15 días, no 7 (el 7 era una cifra provisional). */}
       <Garantia
-        nombre="la Garantía de Calma de 15 Días"
-        condicionMarked="Pruebas [b]3 días gratis[/b]: si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, tienes [b]15 días[/b] para el reembolso completo."
+        nombre="Garantía de 15 Días"
+        condicionMarked="Pruebas [b]3 días gratis[/b] y, si LUMA no es para ti, no pagas nada. Y si pagas y cambias de idea, tienes [b]15 días[/b] para el reembolso completo."
         pisoLegal="Respaldada por la garantía de Hotmart"
       />
 
@@ -263,7 +263,7 @@ export default function LandingLuma() {
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
         recap="Descifra chats · Chat con LUMA · Tarot para tu caso · Diario de patrones · sin cobros por mensaje"
-        psMarked="PS — Empiezas gratis: tu primera lectura no lleva tarjeta. Y los 3 días de prueba son de verdad: si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, tienes 15 días para el reembolso completo."
+        psMarked="PS — Empiezas gratis: tu primera lectura no lleva tarjeta. Y los 3 días de prueba son de verdad: si LUMA no es para ti, no pagas nada. Y si pagas y cambias de idea, tienes 15 días para el reembolso completo."
       />
       </main>
 

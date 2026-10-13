@@ -30,8 +30,8 @@ export function esOpcionAyuda(valor: string | null): valor is OpcionAyuda {
 export function beneficiosPlan(r: Respuestas): { texto: string }[] {
   const porAyuda: Record<string, string> = {
     analizar: 'Descifra conversaciones confusas: hechos, riesgo y qué responder',
-    coach: 'Habla con LUMA, tu coach, cuando la ansiedad aparezca',
-    tarot: 'Tiradas de tarot pensadas para tu situación, no genéricas',
+    coach: 'Habla con LUMA, tu coach, cuando lo necesites',
+    tarot: 'Tiradas de tarot con tu pregunta, no genéricas',
     diario: 'Tu diario emocional para ver tus patrones con el tiempo',
   };
   const principal = (r.ayuda && porAyuda[r.ayuda]) || porAyuda.analizar;

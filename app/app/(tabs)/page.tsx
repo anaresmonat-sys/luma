@@ -153,7 +153,7 @@ export default function InicioPage() {
                 Tu progreso
               </p>
               <p className="mt-1 text-[12.5px] leading-relaxed text-[var(--text-secondary)]">
-                Hace 30 días sentiste ansiedad o tristeza{' '}
+                Hace 30 días marcaste un ánimo bajo{' '}
                 <strong className="text-[var(--text-primary)]">
                   {termometro.haceUnMes.negativos} de {termometro.haceUnMes.total} días
                 </strong>

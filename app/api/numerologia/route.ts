@@ -24,7 +24,7 @@ Responde EXCLUSIVAMENTE con un JSON válido, sin texto antes ni después, con es
 
 - "arquetipo": TU ARQUETIPO EMOCIONAL — cómo se comporta esta persona cuando se enamora.
 - "superpoder": TU SUPERPODER EN LAS RELACIONES — su mayor atractivo inconsciente.
-- "puntoCiego": TU PUNTO CIEGO / PATRÓN DE SOMBRA — qué error o ansiedad suele repetir por una herida del pasado.
+- "puntoCiego": TU PUNTO CIEGO / PATRÓN DE SOMBRA — qué error o miedo suele repetir por una herida del pasado.
 - "consejo": TU CONSEJO DE SOBERANÍA — una afirmación breve de dignidad para mantener su centro.
 
 Tono cálido, certero, empático y protector — como una amiga sabia que la conoce de verdad. Nunca prediga el futuro de forma absoluta ni justifique maltrato o el cruce de límites de dignidad.`;
