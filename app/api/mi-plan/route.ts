@@ -33,7 +33,8 @@ export async function GET() {
     const conPlan = (suscripciones ?? []).some(
       (s: { current_period_end: string | null }) => !s.current_period_end || new Date(s.current_period_end).getTime() > ahora
     );
-    return NextResponse.json({ activo: perfil?.role === 'admin' || conPlan });
+    const esAdmin = perfil?.role === 'admin';
+    return NextResponse.json({ activo: esAdmin || conPlan, admin: esAdmin });
   } catch {
     // Disponibilidad primero: si falla la consulta, no se afirma nada de más —
     // el aviso local sigue siendo el respaldo y el 402 real del servidor sigue

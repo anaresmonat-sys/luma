@@ -14,6 +14,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { pruebaGratisDisponible } from '@/lib/prueba-gratis';
+import { modoPersonaNueva } from '@/lib/modo-revision';
 
 export function usePruebaDisponible() {
   const [disponible, setDisponible] = useState(true);
@@ -28,8 +29,10 @@ export function usePruebaDisponible() {
       .then((r) => (r.ok ? r.json() : null))
       .then((datos: { activo?: boolean } | null) => {
         if (cancelado) return;
-        if (datos?.activo) setDisponible(true);
-        setConPlan(Boolean(datos?.activo));
+        // Modo revisión de la dueña: se ve como una persona nueva aunque tenga acceso completo.
+        const activo = Boolean(datos?.activo) && !modoPersonaNueva();
+        if (activo) setDisponible(true);
+        setConPlan(activo);
       })
       .catch(() => {
         // Sin conexión o fallo: se queda con lo que ya calculó localStorage.
