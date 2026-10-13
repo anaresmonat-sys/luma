@@ -39,6 +39,6 @@ export function beneficiosPlan(r: Respuestas): { texto: string }[] {
   return [
     { texto: principal },
     { texto: secundaria },
-    { texto: 'Un espacio privado, sin juicio, para desahogarte' },
+    { texto: 'Un espacio privado, sin juicio, para pensar en voz alta' },
   ];
 }

@@ -56,7 +56,7 @@ const PRECIO_TEXTO: Record<'anual' | 'mensual', string> = {
 const BENEFICIOS_GENERICOS = [
   { texto: 'Descifra conversaciones confusas: hechos, riesgo y qué responder' },
   { texto: 'Tiradas de tarot con tus preguntas, no genéricas' },
-  { texto: 'Un espacio privado, sin juicio, para desahogarte' },
+  { texto: 'Un espacio privado, sin juicio, para pensar en voz alta' },
 ];
 
 export default function PaywallLuma() {
