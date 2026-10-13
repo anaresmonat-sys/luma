@@ -272,7 +272,7 @@ export default function CoachPage() {
         )}
       </div>
 
-      <p className="mb-1 shrink-0 px-2 text-[11px] text-[var(--text-tertiary)]">Para hablar, toca el micrófono de tu teclado.</p>
+      <p className="mb-1 shrink-0 px-2 text-[11px] text-[var(--text-tertiary)]">Escribe, o toca el micrófono de tu teclado para hablar.</p>
 
       <form
         onSubmit={(e) => {
