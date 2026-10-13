@@ -168,9 +168,10 @@ export default function DiarioPage() {
               <Link
                 href="/app/diario/historial"
                 aria-label="Historial del diario"
-                className="flex size-11 items-center justify-center text-[var(--text-secondary)]"
+                className="flex min-h-11 min-w-11 flex-col items-center justify-center gap-0.5 text-[var(--accent-lite)]"
               >
                 <CalendarDays size={20} strokeWidth={1.75} aria-hidden="true" />
+                <span className="text-[10.5px] font-semibold leading-none">Historial</span>
               </Link>
             }
           />
