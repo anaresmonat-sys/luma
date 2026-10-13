@@ -47,6 +47,8 @@ export interface OfertaProps {
     totalTachado: string;
     nota?: string;
   };
+  /** Línea opcional bajo el título: lo que se puede probar ANTES de elegir plan (primer resultado gratis). */
+  notaPrevia?: string;
   /** default 'oferta' — lo observa StickyCtaMobile. */
   id?: string;
 }
@@ -98,6 +100,7 @@ export function Oferta({
   anual,
   mensual,
   stack,
+  notaPrevia,
   id = 'oferta',
 }: OfertaProps) {
   warnCopy('Oferta → título', tituloMarked, 8);
@@ -111,6 +114,9 @@ export function Oferta({
           <h2 className="text-balance text-[30px] font-bold leading-[1.15] text-[var(--text-primary)] [font-family:var(--font-display)] md:text-[40px]">
             <MarkedCopy text={tituloMarked} />
           </h2>
+          {notaPrevia && (
+            <p className="mx-auto mt-3 max-w-[460px] text-[15px] leading-relaxed text-[var(--text-secondary)]">{notaPrevia}</p>
+          )}
         </motion.div>
 
         {/* Stack de valor Hormozi — ARRIBA de los planes; el tachado es del TOTAL

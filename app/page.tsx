@@ -22,7 +22,7 @@ import { FooterLegal } from '@/components/landing/FooterLegal';
 import { BackToTop, StickyCtaMobile } from '@/components/landing/ui';
 
 const CTA_HREF = '/onboarding';
-const CTA_LABEL = 'Descifrar mi primera conversación';
+const CTA_LABEL = 'Descifrar mi conversación gratis';
 
 export default function LandingLuma() {
   return (
@@ -46,7 +46,7 @@ export default function LandingLuma() {
         subtitleMarked="En un minuto: [b]hechos, riesgo y qué responder[/b], con tarot y coach."
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
-        socialProof={<span>Empieza gratis 3 días · sin cobros por mensaje · cancela cuando quieras</span>}
+        socialProof={<span>Tu primer resultado es gratis · sin tarjeta · sin registro</span>}
         visual={<HeroDemoLuma />}
       />
 
@@ -157,6 +157,7 @@ export default function LandingLuma() {
         kicker="Tu plan"
         tituloMarked="Menos que [acento]una consulta con tarotista o coach[/acento]"
         trialDias={3}
+        notaPrevia="Primero pruebas un resultado gratis, sin tarjeta: descifra una conversación o saca tus cartas. Si te convence, eliges plan con 3 días de prueba."
         anual={{
           nombre: 'Anual',
           badge: 'LA MÁS ELEGIDA',
@@ -226,7 +227,7 @@ export default function LandingLuma() {
           {
             pregunta: '¿Y si no me convence?',
             respuestaMarked:
-              '3 días gratis para probarla y 15 días de garantía tras el primer cobro. Cancelas cuando quieras, sin trámites.',
+              'Tu primer resultado es gratis y sin tarjeta. Si te convence, tienes 3 días de prueba y 15 días de garantía tras el primer cobro. Cancelas cuando quieras.',
           },
         ]}
       />
@@ -238,7 +239,7 @@ export default function LandingLuma() {
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
         recap="Descifra chats · Chat con LUMA · Tarot para tu caso · Diario de patrones · sin cobros por mensaje"
-        psMarked="PS — Empiezas gratis. Los 3 días de prueba son de verdad: si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, tienes 15 días para el reembolso completo."
+        psMarked="PS — Empiezas gratis: tu primer resultado no lleva tarjeta. Y los 3 días de prueba son de verdad: si LUMA no te da calma, no pagas nada. Y si pagas y no era para ti, tienes 15 días para el reembolso completo."
       />
       </main>
 
