@@ -16,6 +16,7 @@ import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton, AppLinkButton } from '@/components/app/AppButton';
 import { AvisoIA } from '@/components/app/AvisoIA';
 import { AvisoPrueba } from '@/components/app/AvisoPrueba';
+import { InvitacionPlan } from '@/components/app/InvitacionPlan';
 import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import { CONVERSACION_EJEMPLO } from '@/lib/seed-datos';
 import { consumirPruebaGratis } from '@/lib/prueba-gratis';
@@ -371,18 +372,8 @@ export default function DescifrarPage() {
                 </Link>
               </motion.div>
               {!disponible && conPlan === false && (
-                <motion.div
-                  variants={item}
-                  className="rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_40%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] p-3 text-center"
-                >
-                  <p className="text-[13.5px] font-semibold leading-snug text-[var(--text-primary)]">
-                    Esta era tu lectura gratis. Para seguir descifrando, elige tu plan.
-                  </p>
-                  <div className="mt-2.5">
-                    <AppLinkButton href="/paywall?motivo=lectura-usada" compact>
-                      Elegir mi plan
-                    </AppLinkButton>
-                  </div>
+                <motion.div variants={item}>
+                  <InvitacionPlan />
                 </motion.div>
               )}
               <motion.div variants={item}>

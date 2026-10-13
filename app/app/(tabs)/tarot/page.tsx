@@ -15,6 +15,8 @@ import { motion, useReducedMotion } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton, AppLinkButton } from '@/components/app/AppButton';
 import { AvisoIA } from '@/components/app/AvisoIA';
+import { InvitacionPlan } from '@/components/app/InvitacionPlan';
+import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { TIRADAS_TAROT, type TiradaTarot } from '@/lib/seed-datos';
 import { guardarEntradaPendiente } from '@/lib/almacenamiento-diario';
@@ -181,6 +183,7 @@ export default function TarotPage() {
   const [ritualPreguntada, setRitualPreguntada] = useState(false);
   const [desdeRitual, setDesdeRitual] = useState(false);
   const reduce = useReducedMotion();
+  const { disponible, conPlan } = usePruebaDisponible();
   // Evita el parpadeo de la lista de temas antes de saltar al ritual (localStorage solo existe en el navegador).
   const [listo, setListo] = useState(false);
 
@@ -622,6 +625,7 @@ export default function TarotPage() {
               Hacer otra tirada
             </button>
           </div>
+          {!desdeRitual && !disponible && conPlan === false && <InvitacionPlan className="w-full" />}
           <AvisoIA className="text-center" />
         </motion.div>
       </div>

@@ -19,6 +19,7 @@ import { AppButton } from '@/components/app/AppButton';
 import { MoodPicker } from '@/components/app/MoodPicker';
 import { AvisoIA } from '@/components/app/AvisoIA';
 import { AvisoPrueba } from '@/components/app/AvisoPrueba';
+import { InvitacionPlan } from '@/components/app/InvitacionPlan';
 import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import { EMOCIONES_DIARIO } from '@/lib/seed-datos';
 import { leerYLimpiarEntradaPendiente } from '@/lib/almacenamiento-diario';
@@ -188,7 +189,7 @@ export default function DiarioPage() {
         </div>
 
         <motion.div variants={item} className="mb-2">
-          <AvisoPrueba disponible={disponible} conPlan={conPlan} />
+          {!patron && !guardando && !guardado && <AvisoPrueba disponible={disponible} conPlan={conPlan} />}
         </motion.div>
 
         <motion.p variants={item} className="mt-1 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">
@@ -226,6 +227,7 @@ export default function DiarioPage() {
           <p className="mt-2 text-[11px] text-[var(--text-tertiary)]">Escribe, o toca el micrófono de tu teclado para hablar.</p>
         </motion.div>
 
+        {!(patron && !disponible) && (
         <motion.div variants={item} className="mt-3">
           <AppButton onClick={guardar} disabled={guardando} busy={guardando}>
             <AnimatePresence mode="wait" initial={false}>
@@ -250,6 +252,7 @@ export default function DiarioPage() {
             </AnimatePresence>
           </div>
         </motion.div>
+        )}
 
         {patron && (
           <motion.div
@@ -263,6 +266,7 @@ export default function DiarioPage() {
           </motion.div>
         )}
         {patron && <AvisoIA className="mt-2" />}
+        {patron && !disponible && conPlan === false && <InvitacionPlan className="mt-3" />}
 
         {errorPatron && (
           <motion.p variants={item} className="mt-4 text-center text-[11px] font-semibold text-[var(--an-risk)]">

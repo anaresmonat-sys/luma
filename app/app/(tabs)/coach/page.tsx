@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { LumaAvatar } from '@/components/app/LumaAvatar';
 import { AvisoIA } from '@/components/app/AvisoIA';
 import { AvisoPrueba } from '@/components/app/AvisoPrueba';
+import { InvitacionPlan } from '@/components/app/InvitacionPlan';
 import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import type { MensajeCoach } from '@/lib/seed-datos';
 import { aperturaCoach } from '@/lib/coach-saludo';
@@ -164,7 +165,7 @@ export default function CoachPage() {
         <ContextoCoachPaso nombrePrellenado={leerMapaPoder()?.nombre} onListo={alTerminarContexto} />
       ) : (
         <>
-      <AvisoPrueba disponible={disponible} conPlan={conPlan} className="mb-2 shrink-0" />
+      {hilo.length === 0 && <AvisoPrueba disponible={disponible} conPlan={conPlan} className="mb-2 shrink-0" />}
 
       <div ref={chatRef} role="log" aria-live="polite" className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto py-2">
         <motion.div
@@ -206,6 +207,10 @@ export default function CoachPage() {
             )
           )}
         </AnimatePresence>
+
+        {!disponible && conPlan === false && !escribiendo && hilo.some((m) => m.autor === 'luma') && (
+          <InvitacionPlan className="shrink-0" />
+        )}
 
         <AnimatePresence>
           {mensajeTope && (
