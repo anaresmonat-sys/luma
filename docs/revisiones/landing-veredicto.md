@@ -167,3 +167,29 @@ Top defectos:
 3. [Hero, bloque bajo el CTA: "Tu primera lectura es gratis…" + "Elige la lectura que más te vibre:" + 4 píldoras] Dos líneas de 13px consecutivas con peso parecido y 4 destinos que no explican qué cambia; la etiqueta compite con el CTA héroe y es coloquial ("te vibre") → fix: etiqueta "O empieza por lo que necesitas hoy" en text-tertiary 12px, con 16px de aire sobre ella, y píldoras en tono secundario (borde 30%, sin fill) para que el botón dorado sea indiscutiblemente la acción primaria.
 4. [Garantía + FAQ #5 + PS del CTA final] La misma condición (3 días de prueba / 15 días de reembolso) se redacta tres veces con tres textos distintos en la mitad inferior; el nombre "Garantía de 15 Días" no aparece junto a ningún botón de compra (la Garantía va DESPUÉS de las dos cards, separada por el fin de sección) → fix: añadir bajo el CTA de Anual la microlínea "Garantía de 15 Días · cancelas cuando quieras" y recortar el PS a una sola frase.
 5. [Craft general, ejes jerarquía/profundidad/identidad/movimiento en 3] Ninguna sección llega al nivel showcase: la página de ventas no cuenta números ni se dibujan anillos propios (conteo animado solo en la calculadora de sinergia), y no hay celebración en el único hito de la página (resultado de sinergia) → fix: un solo dispositivo firma repetido en las secciones (p. ej. la carta de tarot con resplandor como separador de sección) y conteo animado del "95%" ya precargado al entrar en vista; sin eso el craft no pasa de 16/20.
+
+---
+
+# VEREDICTO revisor-visual — landing (Ronda 8)
+Fecha: 2026-10-13 00:00
+Screenshot: docs/revisiones/landing-375.png (página completa 1112x7787, ilegible en detalle; primera pantalla verificada en docs/revisiones/landing-hero-375.png)
+Usabilidad: 34/40
+Craft: 16/20
+Copy (si vende): 18/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:4 h5:4 h6:4 h7:3 h8:3 h9:3 h10:4
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:4
+Detalle copy: idea:4 especificidad:3 emoción:4 oferta:4 acción:3 (sin testimonios ni prueba verificable: FICHA-AVATAR declara que aún no existen)
+Verificación de los cambios de la Ronda 7:
+- CONFIRMADO en page.tsx (líneas 194 y 208): CTA "Empezar con el plan anual" / "Empezar con el plan mensual". Cierra el defecto 1 de la R7 (botones idénticos) en lo que toca al texto; el badge "3 DÍAS GRATIS" sigue en AMBAS cards en la captura.
+- CONFIRMADO: la primera viñeta se acortó (<=12 palabras) y la nota "Pago seguro con Hotmart · 15 días de garantía desde el primer cobro · uso justo cada día" queda pegada a los planes (cierra parcialmente el defecto 4 de R7: la garantía ya está junto al botón, pero sin su nombre propio "Garantía de 15 Días").
+- CONFIRMADO: píldoras del hero a 44px; la calculadora ya muestra resultado precargado (94%) en la captura.
+- Decisiones de la dueña respetadas y no puntuadas como defecto: caja dorada "Tu primera lectura de tarot gratis" y "Elige la lectura que más te vibre".
+Verificado en código: CtaButton whileTap 0.97, nunca disabled; useReducedMotion en reveal, carrusel, FAQ y calculadora; aria-live en el resultado de sinergia; carrusel con flechas disabled solo en extremos. No hay undo/limpiar en la calculadora ni celebración de hito; la landing no cuenta números propios.
+Top defectos:
+1. [Oferta, listas de features Anual vs Mensual (page.tsx 196-216)] Aún 5 viñetas por plan, 4 de ellas casi idénticas redactadas dos veces con variaciones mínimas ("Chat con LUMA, tu tarotista y coach, cuando quieras" / "Chat con LUMA cuando lo necesites"): ~10 líneas de lectura duplicada y la diferencia real entre planes (solo precio y "3 meses gratis") no se ve → fix: Mensual con 1 línea "Todo lo del anual, mes a mes · cancelas cuando quieras" y dejar las 5 viñetas solo en Anual.
+2. [Oferta, nota de compra y Garantía] La nota "15 días de garantía desde el primer cobro" aparece sin el nombre propio "Garantía de 15 Días" que la sección siguiente sí usa, y la misma condición se vuelve a redactar en la sección Garantía, el FAQ #5 y el PS (4 redacciones distintas) → fix: usar en la nota exactamente "Garantía de 15 Días" y reducir el PS a una frase.
+3. [Oferta, badge "3 DÍAS GRATIS" en ambas cards + "1ª lectura gratis" en nota previa y hero] "Gratis" con dos significados (primera lectura vs prueba del plan) en la misma zona de decisión → fix: badge solo en Anual, o renombrar uno como "3 días de prueba" y reservar "gratis" para la primera lectura.
+4. [Hero, etiqueta "Elige la lectura que más te vibre:" encima de 4 píldoras de acento] Dos líneas de 13px consecutivas de peso parecido y píldoras con borde/fill dorado que compiten con el CTA héroe; "te vibre" es coloquial y no dice qué sucede al tocar → fix: etiqueta tertiary 12px "O empieza por lo que necesitas hoy" y píldoras con borde 30% sin fill.
+5. [Craft general; prueba social] Ninguna sección llega a nivel showcase: no hay conteo animado ni celebración propios de la landing y no existe ninguna prueba verificable (testimonio, cifra de usuarios o demo con resultado real) → fix: añadir una cifra o demostración verificable de producto (resultado de ejemplo real, no inventado) y animar el 94% al entrar en vista.

@@ -47,3 +47,28 @@ Notas de verificación (código):
 Detalle usabilidad: h1:3 h2:3 h3:3 h4:2 h5:3 h6:3 h7:3 h8:3 h9:3 h10:2
 Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3
 Detalle copy: idea:3 especificidad:2 emoción:3 oferta:2 acción:3
+
+# VEREDICTO revisor-visual — tarot-ritual (Ronda 3)
+Fecha: 2026-10-13 22:00
+Screenshot: docs/revisiones/tarot-ritual-1-pregunta-375.png · docs/revisiones/tarot-ritual-2-elegir-375.png · docs/revisiones/tarot-ritual-3-reveladas-375.png · docs/revisiones/tarot-ritual-4-lectura-375.png
+Usabilidad: 29/40
+Craft: 14/20
+Copy (si vende): 14/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Top defectos:
+1. Lectura final (tarot-ritual-4-lectura-375.png) -> el PNG llamado "página completa" en realidad muestra solo el viewport superior (barra de scroll con pulgar a ~1/3): el gancho al plan, que es lo que se pretendía verificar, NO aparece en la captura; solo se verifica en código (page.tsx L641-L655). Además la lectura son ~3 párrafos de 13px centrados (~20 líneas) antes de cualquier CTA: el texto largo centrado se lee mal y el gancho queda enterrado bajo el scroll sin CTA fijo -> capturar la página completa (fullPage) y alinear a la izquierda el cuerpo a 14-15px con párrafos separados; mover o repetir un CTA "Quiero mis 3 días gratis" pegado al fondo (sticky sobre la barra) una vez termina la lectura.
+2. Gancho (page.tsx L641-L669) -> "Quiero mis 3 días gratis" y "Guardar en mi diario" son ambos AppLinkButton compact con el mismo relleno dorado y 12px: dos acciones primarias iguales compiten (falla ancla de CTA héroe y heurística 8); el CTA además queda a 12px / min 48px compacto, no el botón héroe del resto del ritual -> "Guardar en mi diario" como botón secundario outline o enlace; CTA del plan con AppButton normal (14px, ancho completo, 48px) y mayor peso que el resto.
+3. Microcopy de precio (L651-L653, 11.5px secondary) -> la oferta clave (precio mensual/anual, cancelación, garantía 15 días) va en 11.5px en una sola frase densa: es lo que desactiva la objeción de precio de la ficha y es lo más pequeño de la tarjeta; "$9,99" sin "US$" ambiguo entre monedas LATAM, y no aclara que la garantía cuenta desde el primer cobro (FICHA-MERCADO) -> subir a 13px, separar en dos líneas ("Después US$9,99/mes o US$89,99/año · cancelas cuando quieras" / "Garantía de 15 días desde tu primer cobro") y nombrar la garantía.
+4. Resultado, etiquetas de carta (MiniCartaTirada L81, 10px) -> los nombres bajo las cartas bajan a 10px (11px en el paso anterior) con "(invertida)" colgando en la 3ª línea y las cartas de 80x124 (más chicas que las 100x156 reveladas): se pierde la escala de la revelación y las etiquetas son difíciles de leer en Android gama media -> unificar con el paso 3 (11-13px, mismas dimensiones o mayores) y poner "(invertida)" siempre en 2ª línea.
+5. Pasos 1-3, lo que queda -> (a) bloque de 3 chips en pirámide 2+1 con anchos desiguales sin alinear al ancho de la caja; textarea de 4 líneas sigue medio vacía (h-28 para una pregunta de una línea); (b) el paso 3 mantiene ~130px de aire entre el eco/frase y "Ver mi lectura"; (c) sigue sin celebración/destello en la revelación -> chips en una fila con scroll controlado o 3 de ancho completo apilados; textarea h-20; destello breve al terminar el último giro (apagado en reduced-motion).
+
+Notas de verificación (código y fichas):
+- Corregido y verificado: barra inferior con iconos de línea (captura 1-4, activo en dorado), chips de ejemplo tocables (L397-L408), eco a 13px, garantía 15 días coincide con FICHA-MERCADO (L33-L35) y precio US$9,99/mes con la ficha; reduced-motion respetado (L207, L375, L438, L476).
+- Paleta vino/oro, Cormorant Garamond + Hanken Grotesk y radios coinciden con FICHA-ARTE; no es clon de los ejemplos vetados.
+- Restos de emoji como íconos fuera del ritual: 🕯️ y ✨ en la lista de temas (L689, L702, L718, L733) siguen vigentes; no puntuados en estas capturas pero incumplen la regla de emojis.
+- No verificable: estados "leyendo" y "error" (sin captura); la lectura completa ya no llega cortada según el reporte, pero la captura no la demuestra entera.
+
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:3 h5:3 h6:3 h7:3 h8:2 h9:3 h10:3
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:2
+Detalle copy: idea:3 especificidad:3 emoción:3 oferta:3 acción:2 (umbral ≥16/20: no se alcanza; acción ≤2 se corrige aunque el total pase; garantía nombrada con plazo: presente pero sin nombre ni "desde el primer cobro")

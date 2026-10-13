@@ -52,3 +52,24 @@ Top defectos:
 3. [Mitad inferior, y≈590-812] ~220px de vacío muerto bajo el pie legal: el contenido está anclado arriba pero no hay nada que lo equilibre ni profundidad en esa zona (fondo casi plano) → fix: subir el bloque a un centrado óptico (pt ~ 20% del alto) o anclar CTA + legal al fondo (mt-auto) con el pulgar, y dejar el medallón/titular en el tercio superior; sumar un bloom ámbar tenue detrás del CTA para profundidad.
 4. [Párrafo y copy] Describe a LUMA ("relaciones, tarot e inteligencia emocional para adultos") en vez de al dolor de la avatar: no hay promesa de no-juicio (objeción 6 de FICHA-AVATAR, destino = onboarding) ni ancla emocional ("en 1 minuto entiendes qué pasa"); es copy de ficha técnica → fix: "Aquí cuentas lo que te pasa sin que nadie te juzgue. Confirma tu edad y en 1 minuto tienes tu primera lectura, gratis y sin tarjeta." (trazable a objeción 6 + ancla emocional).
 5. [Enlaces "Términos" y "Privacidad", y≈576] Texto de 12px en tono terciario con área táctil de ~16px de alto, muy por debajo de los 44px; y el movimiento de la pantalla es un solo fade de entrada (sin stagger medallón → titular → párrafo → casilla) → fix: dar `inline-block py-3` / `-my-3` a los enlaces para ≥44px de zona táctil, y aplicar stagger 60-80ms a los 4 bloques con spring de la ficha.
+
+# VEREDICTO revisor-visual — onboarding (Ronda 8)
+Fecha: 2026-10-13 00:00
+Screenshot: docs/revisiones/onboarding-375.png
+Usabilidad: 33/40
+Craft: 13/20
+Copy (si vende): 14/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:3 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:3 h10:3
+Detalle craft: jerarquia:3 profundidad:2 identidad:3 movimiento:2 encaje:3
+Detalle copy: idea:2 especificidad:2 emocion:3 oferta:3 accion:4 (puerta de edad, no vende; puntuado a pedido)
+Gate de carga cognitiva: 0 fallas.
+Mejoras confirmadas (screenshot + código): CTA a color pleno, siempre habilitado, h-14, whileTap 0.97, anclado abajo con mt-auto; pista role="status" con espacio reservado (h-5, sin salto de layout); línea "Aquí nadie te juzga" presente; enlaces con py-2 inline-block (área ~36px, aún <44px).
+Desvío de evidencia: el archivo docs/revisiones/onboarding-375.png mide 1128x732 (columna de ~440px centrada con márgenes laterales), NO 375x812. No demuestra el render a 375px que exige el gate; la zona del pulgar y el vacío vertical se juzgaron sobre otra proporción. Tokens, tipografía (Cormorant + Hanken) y radios coinciden con FICHA-ARTE.
+Top defectos:
+1. [Captura completa] La evidencia no es 375px (1128x732, layout de escritorio) → fix: re-capturar con viewport 375x812 vía Playwright y sobrescribir docs/revisiones/onboarding-375.png antes de volver a pedir veredicto; sin eso el gate de cierre no se puede dar por cumplido.
+2. [Franja superior y≈0-100] La costura del header (bg-[var(--bg)]/95 + backdrop-blur-sm) sigue visible como banda más oscura sobre el degradé, defecto arrastrado desde la Ronda 6 y sin corregir; además "LUMA" en texto y el icono dorado del medallón duplican la marca → fix: en OnboardingHeader (components/onboarding/ui.tsx) quitar bg/95 y backdrop-blur (transparente) y eliminar el wordmark o el medallón.
+3. [Fondo, zona entre casilla y CTA y bajo el legal] Fondo prácticamente plano vino-casi-negro en la mitad inferior; sin bloom ni hairline degradé: profundidad de 2 niveles y cero hairline degradé en la vista → fix: bloom radial ámbar al ~8% detrás del CTA y un hairline degradé de 1px oro→transparente sobre el borde superior de la tarjeta de la casilla.
+4. [Movimiento — PasoEdad.tsx] Un único fade/slide para toda la pantalla: sin stagger medallón → titular → párrafo → casilla, y marcar la casilla no tiene microanimación (el check aparece sin spring) → fix: variants con delayChildren 0.07 en los 4 bloques y scale spring 0.12 bounce en la caja al marcarse.
+5. [Casilla "Confirmo que soy mayor de 18 años" y enlaces legales] Al tocar el CTA sin marcar, solo aparece un texto de 13px bajo la casilla: el recuadro no se resalta (sin borde acento ni sacudida) y la pista no está asociada con aria-describedby; los enlaces Términos/Privacidad miden ~36px de alto (<44) en 12px terciario → fix: al activar `pista`, cambiar el borde del recuadro a var(--accent) 100% con shake de 150ms y añadir aria-describedby; subir los enlaces a py-3 (≥44px) y 13px.
