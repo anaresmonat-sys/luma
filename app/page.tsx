@@ -12,6 +12,7 @@ import { Problema } from '@/components/landing/Problema';
 import { Agitacion } from '@/components/landing/Agitacion';
 import { Solucion } from '@/components/landing/Solucion';
 import { AppPorDentro } from '@/components/landing/AppPorDentro';
+import { PrimerResultadoGratis } from '@/components/landing/PrimerResultadoGratis';
 import { SinergiaCirculo } from '@/components/landing/SinergiaCirculo';
 import { Oferta } from '@/components/landing/Oferta';
 import { Garantia } from '@/components/landing/Garantia';
@@ -124,6 +125,7 @@ export default function LandingLuma() {
         tituloMarked="Desliza y mira [acento]cómo se siente[/acento]"
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
+        ctaSlot={<PrimerResultadoGratis />}
         frames={[
           {
             src: '/carrusel/inicio.webp',

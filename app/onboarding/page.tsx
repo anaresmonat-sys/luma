@@ -30,12 +30,18 @@ export default function OnboardingLuma() {
   // estado inicial: localStorage es client-only y leerlo de forma síncrona en
   // el primer render rompe la hidratación (mismo patrón ya usado en /paywall).
   const [pidiendoEdad, setPidiendoEdad] = useState(false);
+  // Desde la página de ventas: /onboarding?ayuda=tarot|analizar ya trae respondida la
+  // pregunta "¿qué te ayudaría?" y no se vuelve a preguntar.
+  const [ayudaPrefijada, setAyudaPrefijada] = useState<string | null>(null);
   useEffect(() => {
     registrarEventoUnaVez('onboarding_iniciado');
     if (!edadConfirmada()) setPidiendoEdad(true);
+    const pedida = new URLSearchParams(window.location.search).get('ayuda');
+    if (pedida && Object.prototype.hasOwnProperty.call(RUTA_POR_AYUDA, pedida)) setAyudaPrefijada(pedida);
   }, []);
 
-  const pasos = construirPasos(respuestas);
+  const pasosCompletos = construirPasos(respuestas);
+  const pasos = ayudaPrefijada ? pasosCompletos.filter((p) => (p as { id?: string }).id !== 'ayuda') : pasosCompletos;
   const progreso = PISO_PROGRESO + (indice / pasos.length) * (100 - PISO_PROGRESO);
 
   function irAtras() {
@@ -48,7 +54,13 @@ export default function OnboardingLuma() {
   }
 
   function avanzar(nuevas?: Partial<Respuestas>) {
-    const respuestasFinal = nuevas ? { ...respuestas, ...nuevas } : respuestas;
+    let respuestasFinal = nuevas ? { ...respuestas, ...nuevas } : respuestas;
+    if (ayudaPrefijada) {
+      const opcion = pasosCompletos
+        .flatMap((p) => (p.tipo === 'chip' ? p.opciones : []))
+        .find((o) => o.id === ayudaPrefijada);
+      respuestasFinal = { ...respuestasFinal, ayuda: ayudaPrefijada, ayudaLabel: opcion?.label };
+    }
     if (nuevas) setRespuestas(respuestasFinal);
     if (indice + 1 >= pasos.length) {
       // Última pregunta ("ayuda") respondida: guarda y salta directo a la función real.

@@ -22,10 +22,7 @@ export function PasoEdad({ onContinuar }: { onContinuar: () => void }) {
       className="flex flex-1 flex-col justify-center gap-6"
     >
       <div>
-        <span className="text-[28px] leading-none" aria-hidden="true">
-          🕯️
-        </span>
-        <h1 className="mt-3 text-[22px] font-semibold leading-tight text-[var(--text-primary)] [font-family:var(--font-display)]">
+        <h1 className="text-[22px] font-semibold leading-tight text-[var(--text-primary)] [font-family:var(--font-display)]">
           Antes de empezar
         </h1>
         <p className="mt-2 text-[14px] leading-relaxed text-[var(--text-secondary)]">
