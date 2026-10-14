@@ -188,6 +188,8 @@ export default function DescifrarPage() {
         <motion.div variants={item} className="mb-2">
           {estado !== 'resultado' && <AvisoPrueba disponible={disponible} conPlan={conPlan} />}
         </motion.div>
+        {!noConversacion && (
+        <>
         <motion.div variants={item} className="grid grid-cols-2 gap-2">
           {MODOS.map((m) => (
             <motion.button
@@ -368,8 +370,16 @@ export default function DescifrarPage() {
           )}
         </AnimatePresence>
 
+        </>
+        )}
+
         {noConversacion && estado !== 'resultado' && (
-          <div role="status" className="mt-4 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[var(--surface-2)] p-4">
+          <div role="status" className="mt-6 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[var(--surface-2)] p-4">
+            {modo === 'texto' && texto.trim() && (
+              <div className="mb-3 rounded-[var(--radius-button)] border-l-2 border-[color-mix(in_oklab,var(--accent)_55%,transparent)] bg-[color-mix(in_oklab,var(--accent)_7%,transparent)] px-3 py-2">
+                <p className="line-clamp-5 whitespace-pre-line text-[13px] leading-snug text-[var(--text-secondary)]">{texto.trim()}</p>
+              </div>
+            )}
             <p className="text-[13.5px] leading-relaxed text-[var(--text-primary)]">{noConversacion}</p>
             <div className="mt-3 flex flex-col gap-2">
               <AppLinkButton href="/app/tarot">Hacer una tirada de tarot</AppLinkButton>
@@ -379,6 +389,17 @@ export default function DescifrarPage() {
               >
                 Hablar con LUMA
               </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  setNoConversacion('');
+                  setTexto('');
+                  setEstado('reposo');
+                }}
+                className="min-h-11 text-[13px] font-semibold text-[var(--text-secondary)] underline underline-offset-2"
+              >
+                Analizar otra conversación
+              </button>
             </div>
           </div>
         )}
