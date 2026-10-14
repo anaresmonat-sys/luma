@@ -9,8 +9,9 @@
 // el texto es muy corto para decir algo real, se explica por qué en vez de
 // apagar el botón.
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Link from 'next/link';
+import { ClipboardPaste } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton, AppLinkButton } from '@/components/app/AppButton';
@@ -36,7 +37,7 @@ interface ItemAnalisis {
 const MIN_CARACTERES = 15;
 
 const MODOS: { id: Modo; emoji: string; label: string }[] = [
-  { id: 'texto', emoji: '📋', label: 'Pega texto' },
+  { id: 'texto', emoji: '📋', label: 'Texto' },
   { id: 'captura', emoji: '📸', label: 'Captura' },
 ];
 
@@ -52,6 +53,8 @@ const item = {
 export default function DescifrarPage() {
   const [modo, setModo] = useState<Modo>('texto');
   const [texto, setTexto] = useState('');
+  const cajaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [avisoPegar, setAvisoPegar] = useState('');
   const [estado, setEstado] = useState<Estado>('reposo');
   const [analisis, setAnalisis] = useState<ItemAnalisis[]>([]);
   const [mensajeError, setMensajeError] = useState('Necesito un poco más de contexto — pega al menos un par de mensajes.');
@@ -86,6 +89,26 @@ export default function DescifrarPage() {
     } catch {
       setMensajeError('No pude leer esa imagen. Prueba con otra captura.');
       setEstado('error');
+    }
+  }
+
+  // Botón "Pegar": lee el portapapeles (HTTPS + toque del usuario). Si el teléfono lo bloquea, se guía al
+  // pegado nativo (mantener pulsado en la caja), que siempre funciona.
+  async function pegar() {
+    if (!disponible) return;
+    setAvisoPegar('');
+    try {
+      const copiado = (await navigator.clipboard.readText()).trim();
+      if (!copiado) {
+        setAvisoPegar('Todavía no has copiado nada. Copia la conversación y vuelve a tocar Pegar.');
+        return;
+      }
+      setTexto((previo) => (previo.trim() ? previo.trimEnd() + '\n' : '') + copiado);
+      if (estado !== 'cargando') setEstado('reposo');
+      cajaRef.current?.focus();
+    } catch {
+      setAvisoPegar('Tu teléfono no deja pegar con el botón. Mantén pulsada la caja y elige "Pegar".');
+      cajaRef.current?.focus();
     }
   }
 
@@ -195,6 +218,7 @@ export default function DescifrarPage() {
                 }`}
               >
                 <textarea
+                  ref={cajaRef}
                   value={texto}
                   onChange={(e) => {
                     setTexto(e.target.value);
@@ -208,9 +232,25 @@ export default function DescifrarPage() {
                   rows={4}
                   className="min-h-24 w-full flex-1 resize-none bg-transparent text-[13px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
                 />
-                <p className="mt-2 text-[11px] text-[var(--text-tertiary)]">
-                  Escribe, o toca el micrófono de tu teclado para hablar.
-                </p>
+                <div className="mt-2 flex items-center justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={() => void pegar()}
+                    disabled={!disponible}
+                    className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-[color-mix(in_oklab,var(--accent)_50%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 text-[14px] font-semibold text-[var(--accent-lite)] [touch-action:manipulation] disabled:opacity-50"
+                  >
+                    <ClipboardPaste size={16} strokeWidth={1.9} aria-hidden="true" />
+                    Pegar
+                  </button>
+                  <p className="text-right text-[11px] leading-snug text-[var(--text-tertiary)]">
+                    O escribe, o toca el micrófono de tu teclado.
+                  </p>
+                </div>
+                {avisoPegar && (
+                  <p role="status" className="mt-1 text-[12px] font-semibold leading-snug text-[var(--accent-lite)]">
+                    {avisoPegar}
+                  </p>
+                )}
               </div>
 
               <AnimatePresence>
