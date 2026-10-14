@@ -1005,3 +1005,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 CHECKPOINT — 2026-10-14: enlace de acceso por correo RESUELTO. Código publicado (439c28d, callback token_hash) + plantillas "Confirm sign up" y "Magic link or OTP" cambiadas en Supabase por la dueña; probado: entra directo desde el correo. Pendiente: prueba de compra real por Hotmart; usuario de prueba y entrega de código para la auditoría externa (solo con su OK); última ronda visual.
 
 🔄 2026-10-14: Descifrar — acepta cualquier conversación entre personas (pareja, amistad, familia, trabajo) y, si lo pegado no es un chat, responde con calidez + botones Tarot/Coach SIN gastar la lectura gratis (campo no_conversacion en /api/descifrar). Probado con 2 casos reales; sin publicar (espera "publica"); falta captura 375px del aviso.
+
+🔄 2026-10-14: tope de lecturas gratis por conexión bajado de 10 a 5 al día (lib/prueba-servidor.ts). Pendiente de publicar.

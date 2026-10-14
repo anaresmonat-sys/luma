@@ -21,7 +21,7 @@ import { identificadorDePeticion } from '@/lib/rate-limit';
 
 const COOKIE = 'luma_anon';
 const MAX_RESULTADOS_GRATIS = 1;
-const MAX_POR_CONEXION_DIA = 10;
+const MAX_POR_CONEXION_DIA = 5;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const ESTADOS_CON_ACCESO = ['active', 'trialing', 'trial'];
 
