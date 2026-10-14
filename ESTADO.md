@@ -1009,3 +1009,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-14: tope de lecturas gratis por conexión bajado de 10 a 5 al día (lib/prueba-servidor.ts). Pendiente de publicar.
 
 🔄 2026-10-14: Diario — al llegar desde "Guardar en mi diario" de una tirada, la entrada se guarda sola y LUMA muestra su reflexión (un toque, no dos); si no hay lectura disponible se deja la caja con el botón. Verificado: se dispara y llama al servidor; el camino feliz completo NO se vio en pantalla (mi conexión de pruebas ya agotó el tope de 5/día). Sin publicar.
+
+🔄 2026-10-14: Tarot — (1) la IA ya no inventa la vida de la persona (regla "NO INVENTES SU VIDA" en app/api/tarot/route.ts; preguntas vagas → posibilidades + pregunta final); (2) las cajitas de pregunta del ritual EMPIEZAN la frase y dejan completarla (cursor al final). Probado con 5 lecturas reales antes/después y captura 375 (docs/revisiones/tarot-cajitas-375.png). Sin publicar.
