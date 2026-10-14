@@ -1015,3 +1015,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-14: Tarot ritual — 3 cajitas fijas y generales: "¿Qué necesito ver hoy que no estoy viendo?", "¿Qué está frenando mi vida amorosa?", "¿Qué necesito cambiar con mi dinero?" (reemplazan las que empezaban la frase). Sin publicar junto con el cambio anti-invención.
 
 🔄 2026-10-14: Tarot ritual — la dueña descartó las cajitas nuevas; se mantienen las 3 ORIGINALES ("¿Debería escribirle?", "¿Cómo va mi dinero?", "¿Qué decisión me conviene?"). Se conserva solo el arreglo de la IA (no inventa la vida de la persona). Sin publicar.
+
+🔄 2026-10-14: Tarot ritual — cajitas FINALES (aprobadas por la dueña): "¿Qué necesito ver hoy que no estoy viendo?", "¿Qué está frenando mi vida amorosa?", "¿Qué paso me acerca a lo que quiero?". Va junto con el arreglo anti-invención. Sin publicar.

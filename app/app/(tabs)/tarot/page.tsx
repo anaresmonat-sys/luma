@@ -422,7 +422,7 @@ export default function TarotPage() {
                   />
                 </div>
                 <div className="mt-3 flex flex-wrap justify-center gap-2">
-                  {['¿Debería escribirle?', '¿Cómo va mi dinero?', '¿Qué decisión me conviene?'].map((ej) => (
+                  {['¿Qué necesito ver hoy que no estoy viendo?', '¿Qué está frenando mi vida amorosa?', '¿Qué paso me acerca a lo que quiero?'].map((ej) => (
                     <button
                       key={ej}
                       type="button"
