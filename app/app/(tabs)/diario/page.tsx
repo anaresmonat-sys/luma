@@ -49,6 +49,7 @@ export default function DiarioPage() {
   const [mensajeTope, setMensajeTope] = useState<string | null>(null);
   const { disponible, conPlan, refrescar } = usePruebaDisponible();
   const inicializado = useRef(false);
+  const guardadoAutomatico = useRef(false);
 
   useEffect(() => {
     // Guarda contra el doble disparo del efecto al montar (React vuelve a
@@ -143,6 +144,16 @@ export default function DiarioPage() {
     window.setTimeout(() => setGuardado(false), 2200);
   }
 
+  // Si la persona llega desde una tirada de tarot ("Guardar en mi diario"), la entrada se guarda sola
+  // y LUMA da su reflexión: un solo toque, no dos. Solo si ya sabemos que hay lectura disponible;
+  // si no, se deja la caja con el texto y el botón de siempre (no se la manda al paywall sin pedirlo).
+  useEffect(() => {
+    if (guardadoAutomatico.current || !trajoLectura || !texto.trim() || conPlan === null || !disponible) return;
+    guardadoAutomatico.current = true;
+    void guardar();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trajoLectura, texto, conPlan, disponible]);
+
   function tocarProximamente(mensaje: string) {
     setAviso(mensaje);
     window.setTimeout(() => setAviso(null), 2200);
@@ -205,7 +216,11 @@ export default function DiarioPage() {
             variants={item}
             className="mt-3 rounded-full bg-[color-mix(in_oklab,var(--accent)_14%,transparent)] px-3 py-2 text-center text-[11px] font-semibold text-[var(--accent-lite)]"
           >
-            Trajimos tu lectura de tarot — edítala y guarda cuando quieras
+            {patron || guardado
+              ? 'Tu lectura de tarot quedó guardada en tu diario'
+              : guardando
+                ? 'Guardando tu lectura de tarot…'
+                : 'Trajimos tu lectura de tarot — edítala y guarda cuando quieras'}
           </motion.p>
         )}
 

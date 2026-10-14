@@ -1007,3 +1007,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-14: Descifrar — acepta cualquier conversación entre personas (pareja, amistad, familia, trabajo) y, si lo pegado no es un chat, responde con calidez + botones Tarot/Coach SIN gastar la lectura gratis (campo no_conversacion en /api/descifrar). Probado con 2 casos reales; sin publicar (espera "publica"); falta captura 375px del aviso.
 
 🔄 2026-10-14: tope de lecturas gratis por conexión bajado de 10 a 5 al día (lib/prueba-servidor.ts). Pendiente de publicar.
+
+🔄 2026-10-14: Diario — al llegar desde "Guardar en mi diario" de una tirada, la entrada se guarda sola y LUMA muestra su reflexión (un toque, no dos); si no hay lectura disponible se deja la caja con el botón. Verificado: se dispara y llama al servidor; el camino feliz completo NO se vio en pantalla (mi conexión de pruebas ya agotó el tope de 5/día). Sin publicar.
