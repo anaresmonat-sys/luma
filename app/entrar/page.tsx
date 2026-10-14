@@ -18,7 +18,8 @@ type Estado = 'reposo' | 'enviando' | 'enviado' | 'error';
 const REENVIAR_SEGUNDOS = 60;
 const MENSAJE_EMAIL_INVALIDO = 'Escribe un correo válido para continuar.';
 const MENSAJE_ENVIO_FALLIDO = 'No pudimos enviarte el enlace. Inténtalo de nuevo en un momento.';
-const MENSAJE_ENLACE_EXPIRADO = 'Ese enlace ya no es válido. Pide uno nuevo.';
+const MENSAJE_ENLACE_EXPIRADO =
+  'Ese enlace ya no es válido (caduca o solo sirve una vez). Pide uno nuevo y ábrelo en el mismo navegador.';
 const MENSAJE_SIN_ACEPTAR = 'Marca la casilla para continuar.';
 
 export default function EntrarLuma() {
