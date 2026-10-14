@@ -8,7 +8,7 @@ export default function Page() {
       <p>
         Al usar LUMA aceptas estos términos. Los escribimos en lenguaje simple para que sepas exactamente qué esperar
         — si algo no te queda claro, escríbenos a{' '}
-        <a href="mailto:anares.monat@gmail.com">anares.monat@gmail.com</a>.
+        <a href="mailto:soporte@tuluma.app">soporte@tuluma.app</a>.
       </p>
 
       <h2>Qué es LUMA</h2>

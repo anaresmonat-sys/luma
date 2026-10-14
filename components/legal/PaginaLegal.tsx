@@ -29,7 +29,7 @@ export function PaginaLegal({
         {children}
       </div>
       <p className="mt-10 text-[13px] text-[var(--text-tertiary)]">
-        Contacto: <a href="mailto:anares.monat@gmail.com" className="underline underline-offset-2">anares.monat@gmail.com</a>
+        Contacto: <a href="mailto:soporte@tuluma.app" className="underline underline-offset-2">soporte@tuluma.app</a>
       </p>
     </main>
   );

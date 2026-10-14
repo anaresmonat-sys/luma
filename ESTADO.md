@@ -1017,3 +1017,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-14: Tarot ritual — la dueña descartó las cajitas nuevas; se mantienen las 3 ORIGINALES ("¿Debería escribirle?", "¿Cómo va mi dinero?", "¿Qué decisión me conviene?"). Se conserva solo el arreglo de la IA (no inventa la vida de la persona). Sin publicar.
 
 🔄 2026-10-14: Tarot ritual — cajitas FINALES (aprobadas por la dueña): "¿Qué necesito ver hoy que no estoy viendo?", "¿Qué está frenando mi vida amorosa?", "¿Qué paso me acerca a lo que quiero?". Va junto con el arreglo anti-invención. Sin publicar.
+
+🔄 2026-10-14: correo de contacto de las páginas legales y de cancelar cambiado del Gmail personal a soporte@tuluma.app (Términos, Privacidad, Reembolsos, Cookies, Aviso IA, Cómo cancelar). hola@luma.app NO existe en la web (error de Gemini). Sin publicar.

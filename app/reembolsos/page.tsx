@@ -29,7 +29,7 @@ export default function Page() {
       </ul>
       <p>
         Si tienes problemas para encontrar tu compra, escríbenos a{' '}
-        <a href="mailto:anares.monat@gmail.com">anares.monat@gmail.com</a> y te ayudamos.
+        <a href="mailto:soporte@tuluma.app">soporte@tuluma.app</a> y te ayudamos.
       </p>
 
       <h2>Si compras desde Brasil</h2>

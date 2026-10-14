@@ -14,7 +14,7 @@ export default function Page() {
       <p>
         LUMA la opera <strong>Margarita Añares Chatlak</strong>, persona física, con residencia en España. Para
         cualquier tema de privacidad, escribe a{' '}
-        <a href="mailto:anares.monat@gmail.com">anares.monat@gmail.com</a>.
+        <a href="mailto:soporte@tuluma.app">soporte@tuluma.app</a>.
       </p>
 
       <h2>Qué datos recopilamos</h2>
@@ -104,13 +104,13 @@ export default function Page() {
         <strong>Más → Zona de riesgo → "Eliminar mi cuenta y todos mis datos"</strong>, dentro de la app. Es
         inmediato, no se puede deshacer, y también limpia lo que LUMA haya guardado en tu dispositivo. Conservamos
         únicamente registros técnicos anónimos (sin tu nombre ni tu correo) de uso, errores y costo de la IA. Si prefieres pedirlo por correo, escribe a{' '}
-        <a href="mailto:anares.monat@gmail.com">anares.monat@gmail.com</a>.
+        <a href="mailto:soporte@tuluma.app">soporte@tuluma.app</a>.
       </p>
 
       <h2>Tus derechos</h2>
       <p>
         Puedes pedirnos acceder a tus datos, corregirlos, eliminarlos, oponerte a su uso, limitarlo o pedir una copia
-        portable, escribiendo a <a href="mailto:anares.monat@gmail.com">anares.monat@gmail.com</a>. Te
+        portable, escribiendo a <a href="mailto:soporte@tuluma.app">soporte@tuluma.app</a>. Te
         respondemos en un plazo razonable.
       </p>
 

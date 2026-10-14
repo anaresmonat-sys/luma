@@ -59,8 +59,8 @@ export default function CancelarPage() {
 
       <p className="mt-4 text-[12px] leading-relaxed text-[var(--text-tertiary)]">
         ¿No encuentras tu compra o algo no funciona? Escríbenos a{' '}
-        <a href="mailto:anares.monat@gmail.com" className="underline underline-offset-2">
-          anares.monat@gmail.com
+        <a href="mailto:soporte@tuluma.app" className="underline underline-offset-2">
+          soporte@tuluma.app
         </a>{' '}
         y te ayudamos directamente.
       </p>
