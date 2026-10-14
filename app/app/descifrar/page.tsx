@@ -57,6 +57,7 @@ export default function DescifrarPage() {
   const [avisoPegar, setAvisoPegar] = useState('');
   const [estado, setEstado] = useState<Estado>('reposo');
   const [analisis, setAnalisis] = useState<ItemAnalisis[]>([]);
+  const [noConversacion, setNoConversacion] = useState('');
   const [mensajeError, setMensajeError] = useState('Necesito un poco más de contexto — pega al menos un par de mensajes.');
 
   const { disponible, conPlan, refrescar } = usePruebaDisponible();
@@ -127,6 +128,7 @@ export default function DescifrarPage() {
       setEstado('error');
       return;
     }
+    setNoConversacion('');
     setEstado('cargando');
     try {
       const res = await fetch('/api/descifrar', {
@@ -147,7 +149,13 @@ export default function DescifrarPage() {
         }
       }
       if (!res.ok) throw new Error('respuesta no OK');
-      const datos: { analisis?: ItemAnalisis[] } = await res.json();
+      const datos: { analisis?: ItemAnalisis[]; noConversacion?: string } = await res.json();
+      if (datos.noConversacion) {
+        // No era una conversación: se muestra el aviso amable y no se gasta la lectura gratis.
+        setNoConversacion(datos.noConversacion);
+        setEstado('reposo');
+        return;
+      }
       if (!datos.analisis) throw new Error('sin análisis');
       consumirPruebaGratis();
       refrescar();
@@ -359,6 +367,21 @@ export default function DescifrarPage() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {noConversacion && estado !== 'resultado' && (
+          <div role="status" className="mt-4 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[var(--surface-2)] p-4">
+            <p className="text-[13.5px] leading-relaxed text-[var(--text-primary)]">{noConversacion}</p>
+            <div className="mt-3 flex flex-col gap-2">
+              <AppLinkButton href="/app/tarot">Hacer una tirada de tarot</AppLinkButton>
+              <Link
+                href="/app/coach"
+                className="flex h-[46px] w-full items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[13px] font-semibold text-[var(--accent-lite)]"
+              >
+                Hablar con LUMA
+              </Link>
+            </div>
+          </div>
+        )}
 
         <AnimatePresence>
           {estado === 'resultado' && (

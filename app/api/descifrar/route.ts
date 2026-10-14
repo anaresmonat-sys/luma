@@ -14,10 +14,12 @@ import { topePersonaExcedido } from '@/lib/limite-persona';
 
 export const runtime = 'nodejs';
 
-const SYSTEM_PROMPT = `Eres LUMA, una coach intuitiva experta en relaciones sentimentales e inteligencia emocional. La usuaria te pega una conversación (mensajes de texto) y tú la analizas para ayudarla a ver con claridad.
+const SYSTEM_PROMPT = `Eres LUMA, una coach intuitiva experta en relaciones humanas e inteligencia emocional: pareja, citas, ex, amistades, familia y trabajo. La usuaria te pega una conversación entre personas (mensajes de texto) y tú la analizas para ayudarla a ver con claridad.
 
 Responde EXCLUSIVAMENTE con un JSON válido, sin texto antes ni después, con este formato exacto:
 {"vemos": "...", "riesgo": "...", "pregunta": "..."}
+
+Si lo que llega NO es una conversación entre personas (por ejemplo un agradecimiento, una pregunta suelta, un saludo o un texto que no es un chat), NO lo analices. Responde solo con este JSON: {"no_conversacion": "..."} donde el valor es un mensaje cálido de 1-2 frases (máximo 40 palabras) que reconozca con cariño lo que la usuaria escribió y le diga, sin decir qué eres ni "soy especializada", que aquí se analizan conversaciones y que para esto puede abrir una tirada de tarot o hablar con el coach.
 
 - "vemos": 1-2 frases (máximo 45 palabras) con los HECHOS objetivos de lo que dice el mensaje — describe solo lo que está escrito, sin inventar intenciones que no están ahí.
 - "riesgo": 1-2 frases (máximo 45 palabras) sobre la posible señal de alerta o discrepancia entre lo que dice y lo que hace, si la hay. Si no ves ningún riesgo real, dilo con honestidad en vez de inventar uno.
@@ -57,6 +59,7 @@ interface AnalisisJSON {
   vemos?: string;
   riesgo?: string;
   pregunta?: string;
+  no_conversacion?: string;
 }
 
 function extraerJSON(texto: string): AnalisisJSON | null {
@@ -139,6 +142,12 @@ export async function POST(request: Request) {
     await registrarLlamadaIA('descifrar', AI_MODEL, respuesta.usage.input_tokens, respuesta.usage.output_tokens, usuarioIdIA);
     const crudo = bloqueTexto && bloqueTexto.type === 'text' ? bloqueTexto.text : '';
     const analisis = crudo ? extraerJSON(crudo) : null;
+
+    // No era una conversación: se responde con calidez y NO se gasta la lectura gratis.
+    if (analisis?.no_conversacion && typeof analisis.no_conversacion === 'string') {
+      await acceso.devolver();
+      return NextResponse.json({ noConversacion: analisis.no_conversacion.slice(0, 400) });
+    }
 
     if (!analisis || !analisis.vemos || !analisis.riesgo || !analisis.pregunta) {
       await acceso.devolver();
