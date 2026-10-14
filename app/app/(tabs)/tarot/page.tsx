@@ -174,7 +174,6 @@ export default function TarotPage() {
   const [preguntaUsada, setPreguntaUsada] = useState('');
   const [tirada, setTirada] = useState<TiradaGuardada | null>(null);
   const [delDia, setDelDia] = useState<TiradaGuardada | null>(null);
-  const preguntaRef = useRef<HTMLTextAreaElement | null>(null);
   const ultimoIntento = useRef<{ tema: TiradaTarot; pregunta: string; forzada?: CartaExtraida[] } | null>(null);
   // Ritual "Elige tus cartas" (llega desde la página de ventas con ?ritual=1): 6 reversos,
   // la persona elige 3 y esas son las cartas que se leen (tirada de 3, como Autoconocimiento).
@@ -415,34 +414,19 @@ export default function TarotPage() {
                 <div className="mt-3 w-full rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] p-3">
                   <textarea
                     id="ritual-pregunta"
-                    ref={preguntaRef}
                     value={pregunta}
                     onChange={(e) => setPregunta(e.target.value.slice(0, MAX_PREGUNTA))}
-                    placeholder="Escribe aquí tu pregunta, toca una de abajo, o déjalo en blanco y que hablen las cartas…"
+                    placeholder="Escribe aquí tu pregunta, o déjalo en blanco y que hablen las cartas…"
                     rows={4}
                     className="h-28 w-full resize-none bg-transparent text-[14px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
                   />
                 </div>
                 <div className="mt-3 flex flex-wrap justify-center gap-2">
-                  {/* Preguntas generales, abiertas y sobre ella misma (no sobre lo que piensa otra persona):
-                      sirven sin contexto y las cartas las leen bien. Se pueden editar tras tocarlas. */}
-                  {[
-                    '¿Qué necesito ver hoy que no estoy viendo?',
-                    '¿Qué está frenando mi vida amorosa?',
-                    '¿Qué necesito cambiar con mi dinero?',
-                  ].map((ej) => (
+                  {['¿Debería escribirle?', '¿Cómo va mi dinero?', '¿Qué decisión me conviene?'].map((ej) => (
                     <button
                       key={ej}
                       type="button"
-                      onClick={() => {
-                        setPregunta(ej);
-                        window.setTimeout(() => {
-                          const caja = preguntaRef.current;
-                          if (!caja) return;
-                          caja.focus();
-                          caja.setSelectionRange(ej.length, ej.length);
-                        }, 0);
-                      }}
+                      onClick={() => setPregunta(ej)}
                       className="min-h-11 rounded-full border border-[color-mix(in_oklab,var(--accent)_40%,transparent)] px-3.5 text-[13px] font-semibold text-[var(--accent-lite)] [touch-action:manipulation]"
                     >
                       {ej}

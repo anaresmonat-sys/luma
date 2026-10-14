@@ -1013,3 +1013,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-14: Tarot — (1) la IA ya no inventa la vida de la persona (regla "NO INVENTES SU VIDA" en app/api/tarot/route.ts; preguntas vagas → posibilidades + pregunta final); (2) las cajitas de pregunta del ritual EMPIEZAN la frase y dejan completarla (cursor al final). Probado con 5 lecturas reales antes/después y captura 375 (docs/revisiones/tarot-cajitas-375.png). Sin publicar.
 
 🔄 2026-10-14: Tarot ritual — 3 cajitas fijas y generales: "¿Qué necesito ver hoy que no estoy viendo?", "¿Qué está frenando mi vida amorosa?", "¿Qué necesito cambiar con mi dinero?" (reemplazan las que empezaban la frase). Sin publicar junto con el cambio anti-invención.
+
+🔄 2026-10-14: Tarot ritual — la dueña descartó las cajitas nuevas; se mantienen las 3 ORIGINALES ("¿Debería escribirle?", "¿Cómo va mi dinero?", "¿Qué decisión me conviene?"). Se conserva solo el arreglo de la IA (no inventa la vida de la persona). Sin publicar.
