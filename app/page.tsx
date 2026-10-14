@@ -181,7 +181,6 @@ export default function LandingLuma() {
         kicker="Tu plan"
         tituloMarked="Menos que [acento]una consulta con tarotista o coach[/acento]"
         trialDias={3}
-        notaPrevia="Si tu primera lectura te convence, eliges plan con 3 días de prueba."
         notaCompra="Pago seguro con Hotmart · 15 días de garantía desde el primer cobro · uso justo cada día"
         anual={{
           nombre: 'Anual',
@@ -221,7 +220,7 @@ export default function LandingLuma() {
           disponible es 15 días, no 7 (el 7 era una cifra provisional). */}
       <Garantia
         nombre="Garantía de 15 Días"
-        condicionMarked="Pruebas [b]3 días gratis[/b] y, si LUMA no es para ti, no pagas nada. Y si pagas y cambias de idea, tienes [b]15 días[/b] para el reembolso completo."
+        condicionMarked="Pruebas [b]3 días sin pagar[/b] y, si LUMA no es para ti, no pagas nada. Y si pagas y cambias de idea, tienes [b]15 días[/b] para el reembolso completo."
         pisoLegal="Respaldada por la garantía de Hotmart"
       />
 
@@ -251,7 +250,7 @@ export default function LandingLuma() {
           {
             pregunta: '¿Y si no me convence?',
             respuestaMarked:
-              'Tu primera lectura es gratis y sin tarjeta. Si te convence, tienes 3 días de prueba y 15 días de garantía tras el primer cobro. Cancelas cuando quieras.',
+              'Tienes 3 días de prueba y 15 días de garantía desde el primer cobro. Cancelas cuando quieras, sin trámites.',
           },
         ]}
       />

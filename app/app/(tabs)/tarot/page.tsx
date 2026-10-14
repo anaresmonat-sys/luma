@@ -664,7 +664,7 @@ export default function TarotPage() {
               Tu pregunta: {preguntaUsada}
             </p>
           )}
-          <p className="max-w-[300px] whitespace-pre-line text-center text-[13px] leading-relaxed text-[var(--text-secondary)]">{tirada.texto}</p>
+          <p className="w-full max-w-[340px] whitespace-pre-line text-left text-[14.5px] leading-relaxed text-[var(--text-primary)]">{tirada.texto}</p>
           {desdeRitual && (
             <div className="w-full rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] p-3 text-center">
               <p className="text-[14px] font-semibold leading-snug text-[var(--text-primary)]">
@@ -676,7 +676,7 @@ export default function TarotPage() {
                 </AppLinkButton>
               </div>
               <p className="mt-2 text-[12.5px] leading-snug text-[var(--text-secondary)]">
-                Después, $9,99 al mes o $89,99 al año. Cancelas cuando quieras y tienes 15 días de garantía.
+                Después, $9,99 al mes o $89,99 al año. Cancelas cuando quieras y tienes 15 días de garantía desde tu primer cobro.
               </p>
             </div>
           )}

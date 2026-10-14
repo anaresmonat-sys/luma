@@ -73,3 +73,23 @@ Top defectos:
 3. [Fondo, zona entre casilla y CTA y bajo el legal] Fondo prácticamente plano vino-casi-negro en la mitad inferior; sin bloom ni hairline degradé: profundidad de 2 niveles y cero hairline degradé en la vista → fix: bloom radial ámbar al ~8% detrás del CTA y un hairline degradé de 1px oro→transparente sobre el borde superior de la tarjeta de la casilla.
 4. [Movimiento — PasoEdad.tsx] Un único fade/slide para toda la pantalla: sin stagger medallón → titular → párrafo → casilla, y marcar la casilla no tiene microanimación (el check aparece sin spring) → fix: variants con delayChildren 0.07 en los 4 bloques y scale spring 0.12 bounce en la caja al marcarse.
 5. [Casilla "Confirmo que soy mayor de 18 años" y enlaces legales] Al tocar el CTA sin marcar, solo aparece un texto de 13px bajo la casilla: el recuadro no se resalta (sin borde acento ni sacudida) y la pista no está asociada con aria-describedby; los enlaces Términos/Privacidad miden ~36px de alto (<44) en 12px terciario → fix: al activar `pista`, cambiar el borde del recuadro a var(--accent) 100% con shake de 150ms y añadir aria-describedby; subir los enlaces a py-3 (≥44px) y 13px.
+
+# VEREDICTO revisor-visual — onboarding (Ronda 9)
+Fecha: 2026-10-14 00:00
+Screenshot: docs/revisiones/onboarding-375.png
+Usabilidad: 33/40
+Craft: 13/20
+Copy (si vende): 15/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:3 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:3 h10:3
+Detalle craft: jerarquia:3 profundidad:2 identidad:3 movimiento:2 encaje:3
+Detalle copy: idea:3 especificidad:2 emocion:3 oferta:3 accion:4 (puerta de edad, no vende; puntuado a pedido)
+Gate de carga cognitiva: 0 fallas.
+Verificado en screenshot 375x812 real (primera ronda con evidencia válida) y código: cabecera limpia (solo flecha atrás, sin costura ni wordmark duplicado); titular 28px Cormorant con acento dorado; CTA pleno h-14 anclado abajo, whileTap 0.97; casilla role="checkbox"; pista role="status" con altura reservada; enlaces legales con 44px de área; paleta, tipografía y radios coinciden con FICHA-ARTE; sin clon de ejemplos vetados.
+Top defectos:
+1. [Fondo, banda y≈440-640 entre la casilla y el CTA, y bajo el legal] ~200px de vacío con fondo casi plano vino: solo 2 niveles de profundidad y cero hairline degradé en toda la vista → fix: bloom radial ámbar ~8% detrás del CTA (en el contenedor mt-auto) y hairline degradé 1px oro→transparente en el borde superior de la tarjeta de la casilla.
+2. [PasoEdad.tsx, motion.div raíz] Un único fade+slide de 8px para toda la pantalla: sin stagger medallón → titular → párrafo → casilla, y la casilla no tiene microanimación al marcarse (el check aparece de golpe) → fix: variants con staggerChildren 0.07 en los 4 bloques y spring (bounce 0.12) en la caja y el Check al marcar.
+3. [Casilla + pista "Marca la casilla para continuar."] Al tocar el CTA sin marcar, el recuadro de la casilla no cambia (sin borde acento ni sacudida 150ms), y la pista de 13px queda lejos del CTA (y≈455 vs CTA y≈670) → fix: con `pista` activo, borde de la tarjeta a var(--accent) 100% + shake corto, y aria-describedby de la casilla hacia el role="status".
+4. [Acción del CTA, onContinuar → window.location.href] Tras el tap válido hay navegación completa sin ningún estado intermedio (sin spinner inline ni bloqueo de doble tap) → si la siguiente ruta tarda, la pantalla parece colgada → fix: estado `enviando` que deshabilita el botón y cambia su etiqueta a "Entrando…" con indicador inline antes de redirigir.
+5. [Copy del párrafo, y≈250-310] Sigue empezando por la ficha técnica de LUMA ("habla de relaciones, tarot e inteligencia emocional para adultos") y el no-juicio queda relegado a una línea de 14px tenue; sin escena del dolor de la avatar → fix: invertir el orden: primero "Aquí nadie te juzga: cuenta lo que te pasa en un espacio privado." y después "Confirma tu edad y tu primera lectura es gratis, sin tarjeta."; llevar el no-juicio a peso/color del párrafo principal.

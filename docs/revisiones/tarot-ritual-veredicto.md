@@ -72,3 +72,27 @@ Notas de verificación (código y fichas):
 Detalle usabilidad: h1:3 h2:3 h3:3 h4:3 h5:3 h6:3 h7:3 h8:2 h9:3 h10:3
 Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:2
 Detalle copy: idea:3 especificidad:3 emoción:3 oferta:3 acción:2 (umbral ≥16/20: no se alcanza; acción ≤2 se corrige aunque el total pase; garantía nombrada con plazo: presente pero sin nombre ni "desde el primer cobro")
+
+# VEREDICTO revisor-visual — tarot-ritual (Ronda 4)
+Fecha: 2026-10-14 12:00
+Screenshot: docs/revisiones/tarot-ritual-1-pregunta-375.png · docs/revisiones/tarot-ritual-2-elegir-375.png · docs/revisiones/tarot-ritual-3-reveladas-375.png · docs/revisiones/tarot-ritual-4-lectura-375.png · docs/revisiones/tarot-ritual-5-gancho-375.png
+Usabilidad: 31/40
+Craft: 14/20
+Copy (si vende): 15/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Top defectos:
+1. Lectura (capturas 4 y 5), cuerpo de 3 párrafos -> ~20 líneas de 13-14px CENTRADAS con líneas en blanco enormes entre párrafos: el texto largo centrado se lee mal, y es la parte que el usuario vino a consumir; el gancho queda tras un scroll largo y en la captura 4 el botón dorado asoma cortado bajo la barra. -> Alinear el cuerpo a la izquierda, 15px/1.6, párrafos con 16px de separación; dejar la caja del plan visible sin cortes al terminar.
+2. Gancho (captura 5), microcopy de precio -> sigue "$9,99 al mes o $89,99 al año" sin "US$" (ambiguo entre monedas LATAM) y la garantía es solo "15 días de garantía": sin nombre ni "desde tu primer cobro", todo en una frase de 12,5px que cuesta leer; el sub-check de garantía nombrada no pasa limpio. -> Dos líneas: "Después US$9,99/mes o US$89,99/año · cancelas cuando quieras" y "Garantía LUMA de 15 días desde tu primer cobro".
+3. Paso 1 (captura 1) -> textarea de ~145px para una pregunta de una línea sigue medio vacía, ~110px de aire muerto entre chips y CTA y chips en pirámide 2+1 de anchos desiguales; el encabezado dorado repite la idea de "respiración" sin ayudar a decidir. -> textarea de 3 líneas (h-20), chips apilados a ancho de la caja o en una fila alineada, bloque pregunta+chips pegado sobre el CTA.
+4. Pasos 2 y 3 (capturas 2 y 3) -> composición flotante con ~130px vacíos arriba y abajo; las 6 cartas (76x118) y las 3 reveladas siguen siendo chicas para el momento emocional, con etiquetas de 11,5px y sin celebración visible al revelar (solo resplandor estático); el gancho del pago no aparece hasta la lectura. -> Cartas reveladas ≥112x175, nombres a 13px, destello breve al terminar el último giro (apagado en reduced-motion), bloque centrado con aire simétrico.
+5. Gancho, jerarquía/copy (captura 5) -> el titular "Tu tirada de hoy es solo el principio. Mañana, LUMA te espera con tu carta del día" es genérico (no usa la pregunta del usuario ni lo que salió en SUS cartas) y las 3 piezas (caja, "Guardar en mi diario", aviso IA) tienen peso casi igual salvo el botón dorado. -> Titular específico y atado a la lectura ("Tu 4 de Oros aún tiene más que decirte: mañana, tu carta del día") y bajar "Guardar en mi diario" a enlace de texto.
+
+Notas de verificación (código y fichas):
+- Corregido y visible en capturas: "Quiero mis 3 días gratis" ya es el primario y es 1ª persona; "Guardar en mi diario" ahora es secundario con borde; precio y garantía visibles dentro de la caja; iconos de línea en la barra inferior; chips de ejemplo; flecha "volver" retrocede; reduced-motion respetado (useReducedMotion en page.tsx).
+- Paleta vino/oro, Cormorant + sans humanista y radios coinciden con FICHA-ARTE; no es clon de los ejemplos vetados.
+- No verificable: estados "leyendo" y "error" sin captura; heurística 1 puntuada sin ellos.
+
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:3 h5:3 h6:3 h7:3 h8:3 h9:3 h10:4 -> ajustada a 31 (h2:3 h5:3 h6:3 h9:2 h10:3 h8:3 h4:3 h1:2 h3:3 h7:3 al ponderar vacíos muertos y lectura centrada: ver defectos)
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:2 encaje:3
+Detalle copy: idea:3 especificidad:3 emoción:3 oferta:3 acción:3 (total 15; falta 1 punto: garantía sin nombre ni inicio de plazo, titular del gancho genérico)

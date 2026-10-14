@@ -34,12 +34,12 @@ export function PasoEdad({ onContinuar }: { onContinuar: () => void }) {
         <h1 className="mt-5 text-balance text-[28px] font-bold leading-[1.1] text-[var(--text-primary)] [font-family:var(--font-display)]">
           Una cosa antes de tu <span className="text-[var(--accent)]">primera lectura</span>
         </h1>
-        <p className="mt-3 max-w-[340px] text-[15px] leading-relaxed text-[var(--text-secondary)]">
-          LUMA habla de relaciones, tarot e inteligencia emocional para adultos. Confirma tu edad y empiezas: tu primera
-          lectura es gratis, sin tarjeta.
+        <p className="mt-3 max-w-[340px] text-[16px] font-semibold leading-snug text-[var(--text-primary)]">
+          Aquí nadie te juzga: es un espacio privado.
         </p>
         <p className="mt-2 max-w-[340px] text-[14px] leading-relaxed text-[var(--text-secondary)]">
-          Aquí nadie te juzga: es un espacio privado.
+          LUMA habla de relaciones, tarot e inteligencia emocional para adultos. Confirma tu edad y empiezas: tu primera
+          lectura es gratis, sin tarjeta.
         </p>
       </div>
 
@@ -72,7 +72,12 @@ export function PasoEdad({ onContinuar }: { onContinuar: () => void }) {
         </div>
       </div>
 
-      <div className="mt-auto">
+      <div className="relative mt-auto">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-[-20px] -top-32 -z-10 h-64"
+          style={{ background: 'radial-gradient(260px 170px at 50% 70%, color-mix(in oklab, var(--accent) 14%, transparent), transparent 72%)' }}
+        />
         <motion.button
           type="button"
           whileTap={{ scale: 0.97 }}

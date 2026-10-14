@@ -193,3 +193,29 @@ Top defectos:
 3. [Oferta, badge "3 DÍAS GRATIS" en ambas cards + "1ª lectura gratis" en nota previa y hero] "Gratis" con dos significados (primera lectura vs prueba del plan) en la misma zona de decisión → fix: badge solo en Anual, o renombrar uno como "3 días de prueba" y reservar "gratis" para la primera lectura.
 4. [Hero, etiqueta "Elige la lectura que más te vibre:" encima de 4 píldoras de acento] Dos líneas de 13px consecutivas de peso parecido y píldoras con borde/fill dorado que compiten con el CTA héroe; "te vibre" es coloquial y no dice qué sucede al tocar → fix: etiqueta tertiary 12px "O empieza por lo que necesitas hoy" y píldoras con borde 30% sin fill.
 5. [Craft general; prueba social] Ninguna sección llega a nivel showcase: no hay conteo animado ni celebración propios de la landing y no existe ninguna prueba verificable (testimonio, cifra de usuarios o demo con resultado real) → fix: añadir una cifra o demostración verificable de producto (resultado de ejemplo real, no inventado) y animar el 94% al entrar en vista.
+
+---
+
+# VEREDICTO revisor-visual — landing (Ronda 9)
+Fecha: 2026-10-14 00:00
+Screenshot: docs/revisiones/landing-1-hero-375.png · landing-2-carrusel-375.png · landing-3-planes-375.png · landing-4-plan-mensual-375.png · landing-5-garantia-375.png · landing-6-cierre-375.png (6 tramos a 375x812; Problema, Agitación, Solución, Sinergia, Casos y FAQ puntuados desde page.tsx/código, sin captura propia)
+Usabilidad: 35/40
+Craft: 16/20
+Copy (si vende): 18/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:4 h5:4 h6:4 h7:3 h8:3 h9:4 h10:4
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:4 (paleta vino/oro y Cormorant coinciden con FICHA-ARTE; sin clon vetado)
+Detalle copy: idea:4 especificidad:3 emoción:4 oferta:4 acción:3 (sin testimonios ni cifra verificable: FICHA-AVATAR declara que aún no existen)
+Verificación de los cambios de la Ronda 8:
+- CONFIRMADO en landing-3/4: badge "3 DÍAS DE PRUEBA" en ambas cards; ya no choca con "gratis" de la primera lectura en la zona de planes.
+- CONFIRMADO en landing-4: viñetas del Mensual ya no duplican las del Anual ("Todo lo del plan anual, pagando mes a mes").
+- CONFIRMADO en landing-6: PS recortado a una frase. Persiste la nota de compra (Hotmart · 15 días de garantía) fuera de los tramos capturados: la captura 4 corta antes de los CTA de Mensual y de la nota.
+- Decisiones de la dueña respetadas, no puntuadas: caja dorada del carrusel y "Elige la lectura que más te vibre".
+Verificado en código: CtaButton whileTap 0.97, nunca disabled; useReducedMotion en carrusel, FAQ, ui y calculadora; aria-live en la calculadora de sinergia; sin undo/limpiar ni celebración de hito; la landing no cuenta números propios.
+Top defectos:
+1. [Garantía, page.tsx línea 224: "Pruebas 3 días gratis y, si LUMA no es para ti, no pagas nada"] Renombraste la insignia a "3 DÍAS DE PRUEBA" para no mezclar con la primera lectura gratis, pero la sección Garantía sigue diciendo "3 días gratis": el mismo doble significado de "gratis" reaparece justo antes del FAQ → fix: cambiar a "Pruebas [b]3 días[/b] sin pagar y, si LUMA no es para ti, no pagas nada".
+2. [Hero, línea "Tu primera lectura es gratis · sin tarjeta · sin registro" y etiqueta "Elige la lectura…" (landing-1)] Dos líneas de 13px y pesos parecidos a 12px de separación, píldoras con borde y fill dorado al 8% que compiten con el CTA; la carta de demo sigue cortada al borde inferior → fix: separar la etiqueta del microcopy con 24px de aire y bajar las píldoras a borde 30% sin fill.
+3. [Mensaje "primera lectura es gratis · sin tarjeta · sin registro" repetido en hero, nota del carrusel (landing-2), FAQ #5 y PS (landing-6)] Cuatro repeticiones literales; en el carrusel el texto está en gris terciario de bajo contraste (~13px) y pasa por ruido → fix: dejarlo íntegro en hero y cierre; en el carrusel reducirlo a "Sin tarjeta · sin registro".
+4. [Carrusel (landing-2/3), flechas y puntos] Los 6 puntos miden ~8px visuales con flechas "<" ">" en gris tenue casi invisible (la izquierda deshabilitada a ~30%): el control es difícil de ver y el área táctil dependiente de padding no se nota → fix: flechas en text-secondary con fondo de chip 44px y punto activo con alto contraste.
+5. [Pie (landing-6), fila de enlaces legales] "Aviso sobre la IA" cae sola en una segunda línea con un punto separador huérfano al inicio, y el isotipo es un cuadrado beige liso sin la marca del logo del header → fix: nowrap en grupos de 2 columnas o lista en rejilla sin separadores, y usar /luma-icon.png en el pie.

@@ -66,6 +66,7 @@ export default function PaywallLuma() {
   // Llegó porque ya gastó su lectura gratis: se le dice claro, en vez de caer sin explicación.
   const [lecturaUsada, setLecturaUsada] = useState(false);
   const [abriendoPago, setAbriendoPago] = useState(false);
+  const [errorPago, setErrorPago] = useState(false);
 
   // Lectura en efecto (no lazy initializer): localStorage es client-only —
   // leerlo de forma síncrona en el render inicial rompe la hidratación
@@ -170,6 +171,8 @@ export default function PaywallLuma() {
             style={{
               background:
                 'radial-gradient(480px 320px at 50% 0%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 70%)',
+              maskImage: 'linear-gradient(to bottom, black 35%, transparent)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 35%, transparent)',
             }}
           />
           <PlanCards
@@ -250,16 +253,27 @@ export default function PaywallLuma() {
             disabled={abriendoPago}
             onClick={() => {
               if (abriendoPago) return;
+              setErrorPago(false);
               setAbriendoPago(true);
               window.setTimeout(() => setAbriendoPago(false), 8000);
               registrarEvento('plan_elegido', { plan: seleccionado });
-              window.location.href = checkoutHotmart(seleccionado);
+              try {
+                window.location.href = checkoutHotmart(seleccionado);
+              } catch {
+                setAbriendoPago(false);
+                setErrorPago(true);
+              }
             }}
             whileTap={abriendoPago ? undefined : { scale: 0.97 }}
             className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] transition-opacity [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] disabled:opacity-70"
           >
             {abriendoPago ? 'Abriendo el pago seguro…' : `Empezar mis ${TRIAL_DIAS} días gratis`}
           </motion.button>
+          {errorPago && (
+            <p role="alert" className="mt-2 text-center text-[13px] font-semibold leading-snug text-[var(--an-risk)]">
+              No pudimos abrir el pago. Vuelve a intentarlo o escríbenos a soporte@tuluma.app.
+            </p>
+          )}
           <p className="mt-2 text-center text-[12px] leading-snug text-[var(--text-tertiary)]">
             Después, {seleccionado === 'anual' ? '$89,99 al año' : '$9,99 al mes'}. Cancelas cuando quieras y tienes 15 días de garantía desde el primer cobro.
           </p>
