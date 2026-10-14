@@ -115,7 +115,6 @@ export default function HistorialDiarioPage() {
 
         {!cargando && !error && entradas.length === 0 && (
           <div className="flex flex-1 flex-col items-center justify-center gap-1.5 px-4 text-center">
-            <span aria-hidden="true" className="text-[28px]">🕊️</span>
             <p className="text-[13.5px] font-semibold text-[var(--text-primary)]">
               {esHoy ? 'Todavía no escribiste hoy' : 'Sin registro este día'}
             </p>

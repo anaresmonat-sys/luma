@@ -17,7 +17,7 @@ export function AvisoPrueba({
   if (disponible) {
     return (
       <p className={`text-center text-[11px] font-semibold text-[var(--accent-lite)] ${className}`}>
-        🎁 Tu primera lectura es gratis
+        Tu primera lectura es gratis
       </p>
     );
   }

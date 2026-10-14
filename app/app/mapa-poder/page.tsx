@@ -18,6 +18,7 @@
 // que antes, solo en localStorage — el login no es obligatorio todavía.
 
 import { useEffect, useState } from 'react';
+import { Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
@@ -163,7 +164,7 @@ export default function MapaPoderPage() {
             />
           </div>
           <AppButton onClick={calcular} disabled={!fecha || !nombre.trim() || estado === 'cargando'} busy={estado === 'cargando'}>
-            {estado === 'cargando' ? 'Calculando…' : 'Descubrir mi Arcano ✨'}
+            {estado === 'cargando' ? 'Calculando…' : 'Descubrir mi Arcano'}
           </AppButton>
           {estado === 'error' && (
             <p className="text-center text-[11px] font-semibold text-[var(--an-risk)]">
@@ -201,9 +202,7 @@ export default function MapaPoderPage() {
               href="/app/circulo"
               className="mt-1 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3"
             >
-              <span className="text-[17px] leading-none" aria-hidden="true">
-                💫
-              </span>
+              <Sparkles size={18} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-[var(--accent-lite)]" />
               <span className="flex-1">
                 <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Descubre tu círculo</span>
                 <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">

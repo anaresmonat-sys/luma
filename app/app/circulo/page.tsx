@@ -214,7 +214,7 @@ export default function CirculoPage() {
               disabled={!fecha || !nombre.trim() || estado === 'cargando' || restante <= 0}
               busy={estado === 'cargando'}
             >
-              {estado === 'cargando' ? 'Calculando…' : 'Descubrir su Arcano ✨'}
+              {estado === 'cargando' ? 'Calculando…' : 'Descubrir su Arcano'}
             </AppButton>
             {estado === 'error' && (
               <p className="text-center text-[11px] font-semibold text-[var(--an-risk)]">
@@ -228,7 +228,7 @@ export default function CirculoPage() {
       <div className="mt-5 flex flex-1 flex-col gap-3">
         {personas.length === 0 && !mostrarForm && (
           <p className="my-auto px-4 text-center text-[13px] leading-relaxed text-[var(--text-tertiary)]">
-            💡 Todavía no agregaste a nadie — empieza con tu mejor amiga o esa persona que te trae de
+            Todavía no agregaste a nadie — empieza con tu mejor amiga o esa persona que te trae de
             cabeza.
           </p>
         )}

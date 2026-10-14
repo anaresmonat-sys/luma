@@ -8,6 +8,7 @@
 // dinero, salud, trabajo, apoyo). Se responde una sola vez.
 
 import { useState } from 'react';
+import { MessageCircle, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { LumaAvatar } from '@/components/app/LumaAvatar';
 import { guardarContextoCoach, type ContextoCoach } from '@/lib/almacenamiento-contexto-coach';
@@ -81,7 +82,7 @@ export function ContextoCoachPaso({
             transition={{ duration: 0.25 }}
             className="flex w-full max-w-xs flex-col items-center"
           >
-            <span aria-hidden="true" className="text-3xl">💬</span>
+            <MessageCircle size={32} strokeWidth={1.5} aria-hidden="true" className="text-[var(--accent-lite)]" />
             <h1 className="mt-4 text-xl font-bold text-[var(--text-primary)] [font-family:var(--font-display)]">
               Antes de empezar, ¿cómo te llamas?
             </h1>
@@ -126,7 +127,7 @@ export function ContextoCoachPaso({
           >
             <LumaAvatar size={56} />
             <p className="mt-4 text-lg font-semibold text-[var(--text-primary)] [font-family:var(--font-display)]">
-              Un placer conocerte, {nombreFinal} 💛
+              Un placer conocerte, {nombreFinal}
             </p>
             <p className="mt-2 text-sm leading-snug text-[var(--text-secondary)]">
               Ahora sí, déjame conocerte un poco más antes de empezar.
@@ -142,7 +143,7 @@ export function ContextoCoachPaso({
             transition={{ duration: 0.25 }}
             className="flex w-full max-w-xs flex-col items-center"
           >
-            <span aria-hidden="true" className="text-3xl">✨</span>
+            <Sparkles size={32} strokeWidth={1.5} aria-hidden="true" className="text-[var(--accent-lite)]" />
             <h1 className="mt-4 text-xl font-bold text-[var(--text-primary)] [font-family:var(--font-display)]">
               {nombreFinal ? `${nombreFinal}, cuéntame un poco de ti` : 'Conozcámonos un poco'}
             </h1>

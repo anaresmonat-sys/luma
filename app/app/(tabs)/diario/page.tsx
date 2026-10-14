@@ -12,7 +12,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
-import { CalendarDays } from 'lucide-react';
+import { CalendarDays, Sparkles } from 'lucide-react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { LumaAvatar } from '@/components/app/LumaAvatar';
 import { AppButton } from '@/components/app/AppButton';
@@ -285,9 +285,7 @@ export default function DiarioPage() {
 
         <motion.div variants={item} className="mt-3">
           <Link href="/app/mapa-poder" className="flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3 [@media(max-height:840px)]:py-2">
-            <span className="text-[17px] leading-none" aria-hidden="true">
-              🔮
-            </span>
+            <Sparkles size={18} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-[var(--accent-lite)]" />
             <span className="flex-1">
               <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Conócete a ti misma</span>
               <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)] [@media(max-height:840px)]:hidden">
@@ -314,7 +312,7 @@ export default function DiarioPage() {
           </motion.div>
         ) : (
           <motion.p variants={item} className="mt-8 text-center text-[11px] leading-relaxed text-[var(--text-tertiary)] [@media(max-height:840px)]:hidden">
-            💡 Escribir aunque sean 2 líneas ayuda a que LUMA vea tus patrones con el tiempo.
+            Escribir aunque sean 2 líneas ayuda a que LUMA vea tus patrones con el tiempo.
           </motion.p>
         )}
       </motion.div>

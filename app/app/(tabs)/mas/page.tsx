@@ -21,22 +21,22 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
-import { User } from 'lucide-react';
+import { Bell, Cookie, CreditCard, FileText, LifeBuoy, Lock, Sparkles, Undo2, User } from 'lucide-react';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { pruebaGratisDisponible } from '@/lib/prueba-gratis';
 
 const ENLACES = [
-  { emoji: '↩️', label: 'Cómo cancelar', href: '/app/cancelar' },
-  { emoji: '📄', label: 'Términos', href: '/terminos' },
-  { emoji: '🔒', label: 'Privacidad', href: '/privacidad' },
-  { emoji: '💳', label: 'Reembolsos', href: '/reembolsos' },
-  { emoji: '🍪', label: 'Cookies', href: '/cookies' },
-  { emoji: '✨', label: 'Aviso sobre la IA', href: '/aviso-ia' },
+  { Icono: Undo2, label: 'Cómo cancelar', href: '/app/cancelar' },
+  { Icono: FileText, label: 'Términos', href: '/terminos' },
+  { Icono: Lock, label: 'Privacidad', href: '/privacidad' },
+  { Icono: CreditCard, label: 'Reembolsos', href: '/reembolsos' },
+  { Icono: Cookie, label: 'Cookies', href: '/cookies' },
+  { Icono: Sparkles, label: 'Aviso sobre la IA', href: '/aviso-ia' },
 ];
 
 const PROXIMAMENTE = [
-  { emoji: '🔔', label: 'Notificaciones' },
-  { emoji: '💬', label: 'Ayuda y soporte' },
+  { Icono: Bell, label: 'Notificaciones' },
+  { Icono: LifeBuoy, label: 'Ayuda y soporte' },
 ];
 
 export default function MasPage() {
@@ -179,8 +179,8 @@ export default function MasPage() {
               i > 0 ? 'border-t border-[color-mix(in_oklab,var(--text-tertiary)_18%,transparent)]' : ''
             }`}
           >
-            <span className="text-[16px]" aria-hidden="true">
-              {o.emoji}
+            <span className="text-[var(--accent-lite)]" aria-hidden="true">
+              <o.Icono size={18} strokeWidth={1.75} />
             </span>
             {o.label}
           </button>
@@ -191,8 +191,8 @@ export default function MasPage() {
             href={o.href}
             className="flex items-center gap-3 border-t border-[color-mix(in_oklab,var(--text-tertiary)_18%,transparent)] py-3 text-[13px] font-medium text-[var(--text-primary)] [@media(max-height:840px)]:py-2 [@media(max-height:720px)]:py-1.5"
           >
-            <span className="text-[16px]" aria-hidden="true">
-              {o.emoji}
+            <span className="text-[var(--accent-lite)]" aria-hidden="true">
+              <o.Icono size={18} strokeWidth={1.75} />
             </span>
             {o.label}
             <span className="ml-auto text-[var(--text-tertiary)]" aria-hidden="true">

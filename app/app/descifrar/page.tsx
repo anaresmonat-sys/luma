@@ -11,7 +11,7 @@
 
 import { useRef, useState } from 'react';
 import Link from 'next/link';
-import { ClipboardPaste } from 'lucide-react';
+import { Camera, CircleHelp, ClipboardList, ClipboardPaste, Eye, TriangleAlert } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton, AppLinkButton } from '@/components/app/AppButton';
@@ -36,9 +36,9 @@ interface ItemAnalisis {
 
 const MIN_CARACTERES = 15;
 
-const MODOS: { id: Modo; emoji: string; label: string }[] = [
-  { id: 'texto', emoji: '📋', label: 'Texto' },
-  { id: 'captura', emoji: '📸', label: 'Captura' },
+const MODOS: { id: Modo; Icono: typeof Camera; label: string }[] = [
+  { id: 'texto', Icono: ClipboardList, label: 'Texto' },
+  { id: 'captura', Icono: Camera, label: 'Captura' },
 ];
 
 const contenedor = {
@@ -194,9 +194,7 @@ export default function DescifrarPage() {
                   : 'border-[color-mix(in_oklab,var(--accent)_28%,transparent)] text-[var(--text-secondary)]'
               }`}
             >
-              <span className="text-[17px] leading-none" aria-hidden="true">
-                {m.emoji}
-              </span>
+              <m.Icono size={20} strokeWidth={1.75} aria-hidden="true" />
               {m.label}
             </motion.button>
           ))}
@@ -313,9 +311,7 @@ export default function DescifrarPage() {
                     className="max-h-64 w-auto rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)]"
                   />
                 ) : (
-                  <span className="text-[32px]" aria-hidden="true">
-                    📸
-                  </span>
+                  <Camera size={32} strokeWidth={1.5} aria-hidden="true" className="text-[var(--accent-lite)]" />
                 )}
                 <label
                   className={`flex h-11 cursor-pointer items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] px-4 text-[13px] font-semibold text-[var(--accent-lite)] ${
@@ -389,7 +385,13 @@ export default function DescifrarPage() {
                       boxShadow: `0 0 16px -4px color-mix(in oklab, ${a.color} 55%, transparent)`,
                     }}
                   >
-                    {a.emoji}
+                    {a.id === 'riesgo' ? (
+                      <TriangleAlert size={16} strokeWidth={2} />
+                    ) : a.id === 'pregunta' ? (
+                      <CircleHelp size={16} strokeWidth={2} />
+                    ) : (
+                      <Eye size={16} strokeWidth={2} />
+                    )}
                   </span>
                   <div>
                     <h3 className="text-[12.5px] font-bold text-[var(--text-primary)]">{a.titulo}</h3>

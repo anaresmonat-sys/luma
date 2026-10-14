@@ -233,7 +233,7 @@ export default function CompatibilidadPage() {
 
       <div className={estado === 'resultado' ? 'mt-4' : 'mt-auto pt-4'}>
         <AppButton onClick={calcular} disabled={!signo1 || !signo2 || estado === 'cargando'} busy={estado === 'cargando'}>
-          {estado === 'cargando' ? 'Calculando…' : 'Calcular Sinergia de Amor ✨'}
+          {estado === 'cargando' ? 'Calculando…' : 'Calcular Sinergia de Amor'}
         </AppButton>
         {estado === 'error' && (
           <p className="mt-2 text-center text-[11px] font-semibold text-[var(--an-risk)]">

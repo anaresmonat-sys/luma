@@ -9,7 +9,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
-import { User } from 'lucide-react';
+import { Flame, MessageCircle, Search, Sparkles, User } from 'lucide-react';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { MoodPicker } from '@/components/app/MoodPicker';
 import { EMOCIONES_INICIO } from '@/lib/seed-datos';
@@ -122,7 +122,8 @@ export default function InicioPage() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">{saludo}</p>
             {racha >= 2 && (
               <span className="flex items-center gap-1 text-[11px] font-semibold text-[var(--text-secondary)]">
-                🔥 {racha} días
+                <Flame size={13} strokeWidth={2} aria-hidden="true" className="text-[var(--accent-lite)]" />
+                {racha} días
               </span>
             )}
           </div>
@@ -162,7 +163,7 @@ export default function InicioPage() {
                   {termometro.estaSemana.negativos} de {termometro.estaSemana.total} días
                 </strong>
                 {termometro.estaSemana.negativos / termometro.estaSemana.total <
-                  termometro.haceUnMes.negativos / termometro.haceUnMes.total && ' — vas mejorando 🌙'}
+                  termometro.haceUnMes.negativos / termometro.haceUnMes.total && ' — vas mejorando'}
                 .
               </p>
             </div>
@@ -189,7 +190,8 @@ export default function InicioPage() {
             href="/app/tarot"
             className="mt-6 flex h-[48px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-gradient-to-b from-[var(--accent-lite)] to-[var(--accent)] text-[14px] font-bold text-[var(--on-accent)] shadow-[0_8px_16px_-10px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-transform duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(min-height:721px)_and_(max-height:840px)]:mt-3 [@media(min-height:721px)_and_(max-height:840px)]:h-11 [@media(min-height:621px)_and_(max-height:720px)]:mt-2 [@media(min-height:621px)_and_(max-height:720px)]:h-9 [@media(min-height:621px)_and_(max-height:720px)]:text-[12.5px] [@media(max-height:620px)]:mt-1 [@media(max-height:620px)]:h-8 [@media(max-height:620px)]:text-[12px]"
           >
-            <span aria-hidden="true">🔮</span>Abrir mi lectura de tarot hoy →
+            <Sparkles size={16} strokeWidth={2} aria-hidden="true" />
+            Abrir mi lectura de tarot hoy →
           </Link>
         </div>
 
@@ -198,13 +200,15 @@ export default function InicioPage() {
             href="/app/descifrar"
             className="flex min-h-[48px] w-full items-center justify-center gap-1.5 rounded-[var(--radius-button)] bg-gradient-to-b from-[var(--accent-lite)] to-[var(--accent)] px-3 py-2 text-center text-[12px] font-bold leading-snug text-[var(--on-accent)] shadow-[0_8px_16px_-10px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-transform duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(max-height:620px)]:min-h-9 [@media(max-height:620px)]:py-1 [@media(max-height:620px)]:text-[11px]"
           >
-            <span aria-hidden="true">🔎</span>Descifrar un chat
+            <Search size={15} strokeWidth={2} aria-hidden="true" />
+            Descifrar un chat
           </Link>
           <Link
             href="/app/coach"
             className="flex min-h-[48px] w-full items-center justify-center gap-1.5 rounded-[var(--radius-button)] bg-gradient-to-b from-[var(--accent-lite)] to-[var(--accent)] px-3 py-2 text-center text-[12px] font-bold leading-snug text-[var(--on-accent)] shadow-[0_8px_16px_-10px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-transform duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(max-height:620px)]:min-h-9 [@media(max-height:620px)]:py-1 [@media(max-height:620px)]:text-[11px]"
           >
-            <span aria-hidden="true">💬</span>Hablar con mi coach
+            <MessageCircle size={15} strokeWidth={2} aria-hidden="true" />
+            Hablar con mi coach
           </Link>
         </div>
       </motion.div>
