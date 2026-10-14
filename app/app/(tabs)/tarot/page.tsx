@@ -723,7 +723,7 @@ export default function TarotPage() {
       </h1>
       {/* Ritual antes de elegir — resaltado en dorado (pedido de la dueña, 2026-10-02). */}
       <p className="mt-2 text-[16px] italic leading-snug text-[var(--accent-lite)] [font-family:var(--font-display)] [@media(max-height:840px)]:text-[15px] [@media(max-height:720px)]:mt-1 [@media(max-height:720px)]:text-[14px]">
-        <span aria-hidden="true">🕯️ </span>Haz una respiración profunda, cierra los ojos y conecta con la pregunta.
+        Haz una respiración profunda, cierra los ojos y conecta con la pregunta.
       </p>
 
       <motion.div variants={contenedor} initial="hidden" animate="visible" className="mt-4 flex flex-col gap-3 [@media(max-height:720px)]:mt-3 [@media(max-height:720px)]:gap-2">
@@ -736,7 +736,6 @@ export default function TarotPage() {
             className="group flex h-14 w-full items-center justify-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_55%,transparent)] bg-[color-mix(in_oklab,var(--accent)_14%,transparent)] text-[15px] font-semibold text-[var(--accent-lite)] [font-family:var(--font-display)] [@media(max-height:720px)]:h-11"
           >
             <MiniReverso className="h-10 w-7 [@media(max-height:720px)]:h-8 [@media(max-height:720px)]:w-6" />
-            <span aria-hidden="true" className="text-[15px] leading-none">{cartaDia.emoji}</span>
             {cartaDia.nombre}
           </motion.button>
         )}
@@ -752,7 +751,6 @@ export default function TarotPage() {
             >
               <MiniReverso className="h-[52px] w-9 [@media(max-height:720px)]:h-10 [@media(max-height:720px)]:w-7 [@media(min-height:841px)]:h-14 [@media(min-height:841px)]:w-10" />
               <span className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5">
-                <span aria-hidden="true" className="shrink-0 text-[14px] leading-none">{t.emoji}</span>
                 <span className="text-center text-[13px] font-semibold leading-tight text-[var(--text-primary)] [font-family:var(--font-display)] max-[380px]:text-[12px]">{t.nombre}</span>
               </span>
             </motion.button>
@@ -766,9 +764,6 @@ export default function TarotPage() {
         href="/app/compatibilidad"
         className="mt-2 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3 [@media(max-height:720px)]:py-2"
       >
-        <span className="text-[17px] leading-none" aria-hidden="true">
-          ✨
-        </span>
         <span className="flex-1">
           <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Sinergia zodiacal</span>
           <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)] [@media(max-height:720px)]:hidden">
