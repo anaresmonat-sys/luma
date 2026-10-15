@@ -20,6 +20,7 @@ import { consumirPruebaGratis } from '@/lib/prueba-gratis';
 import { leerYLimpiarMensajePendiente } from '@/lib/almacenamiento-coach';
 import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
 import { leerContextoCoach, type ContextoCoach } from '@/lib/almacenamiento-contexto-coach';
+import { crearClienteNavegador } from '@/lib/supabase/client';
 import { ContextoCoachPaso } from '@/components/app/ContextoCoach';
 
 export default function CoachPage() {
@@ -33,6 +34,9 @@ export default function CoachPage() {
   const { disponible, conPlan, refrescar } = usePruebaDisponible();
   const [contexto, setContexto] = useState<ContextoCoach | null>(null);
   const [contextoListo, setContextoListo] = useState(false);
+  // Cómo pidió la persona que la llamen en la bienvenida (metadatos de su cuenta): si ya lo sabemos,
+  // el Coach NO vuelve a preguntar el nombre.
+  const [apodo, setApodo] = useState<string | undefined>(undefined);
 
   // El hilo arranca vacío: LUMA abre con un saludo (con el nombre del Mapa de Poder
   // o de las preguntas de contexto, si existe). Si llega un mensaje
@@ -41,13 +45,30 @@ export default function CoachPage() {
   // client-only y leerlo de forma síncrona en el primer render rompe la
   // hidratación (mismo problema ya resuelto en /paywall).
   useEffect(() => {
-    const mapaPoder = leerMapaPoder();
-    const contextoGuardado = leerContextoCoach();
-    setApertura(aperturaCoach(mapaPoder?.nombre ?? contextoGuardado?.nombre));
-    const pendiente = leerYLimpiarMensajePendiente();
-    if (pendiente) setTexto(pendiente);
-    setContexto(contextoGuardado);
-    setContextoListo(true);
+    let cancelado = false;
+    void (async () => {
+      let apodoCuenta: string | undefined;
+      try {
+        const {
+          data: { user },
+        } = await crearClienteNavegador().auth.getUser();
+        apodoCuenta = (user?.user_metadata as { apodo?: string } | undefined)?.apodo || undefined;
+      } catch {
+        // sin sesión o sin conexión: se sigue con lo guardado en este dispositivo.
+      }
+      if (cancelado) return;
+      const mapaPoder = leerMapaPoder();
+      const contextoGuardado = leerContextoCoach();
+      setApodo(apodoCuenta);
+      setApertura(aperturaCoach(apodoCuenta ?? mapaPoder?.nombre ?? contextoGuardado?.nombre));
+      const pendiente = leerYLimpiarMensajePendiente();
+      if (pendiente) setTexto(pendiente);
+      setContexto(contextoGuardado);
+      setContextoListo(true);
+    })();
+    return () => {
+      cancelado = true;
+    };
   }, []);
 
   // Cuando termina el paso de preguntas (incluido el nombre, si no lo teníamos
@@ -55,7 +76,7 @@ export default function CoachPage() {
   // ese nombre nuevo.
   function alTerminarContexto(nuevo: ContextoCoach) {
     setContexto(nuevo);
-    if (!leerMapaPoder()?.nombre && nuevo.nombre) {
+    if (!apodo && !leerMapaPoder()?.nombre && nuevo.nombre) {
       setApertura(aperturaCoach(nuevo.nombre));
     }
   }
@@ -162,7 +183,7 @@ export default function CoachPage() {
       </div>
 
       {contextoListo && !contexto ? (
-        <ContextoCoachPaso nombrePrellenado={leerMapaPoder()?.nombre} onListo={alTerminarContexto} />
+        <ContextoCoachPaso nombrePrellenado={apodo ?? leerMapaPoder()?.nombre} onListo={alTerminarContexto} />
       ) : (
         <>
       {hilo.length === 0 && <AvisoPrueba disponible={disponible} conPlan={conPlan} className="mb-2 shrink-0" />}

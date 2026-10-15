@@ -1041,3 +1041,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Más — (1) muestra el apodo elegido en la bienvenida (user_metadata.apodo) antes que profiles.nombre; (2) con plan activo dice "Plan activo" en vez de "Elige tu plan" (estaba invertido: con plan, gratisDisponible=false mostraba el enlace de planes). Reportado por la dueña con captura. Sin publicar.
 
 🔄 2026-10-15: Bienvenida — el círculo/anillo se cambió por la CARTA de LUMA flotando (balanceo 3D, destello, resplandor que respira) y las motas son más grandes y mucho más brillantes (14). Captura actualizada bienvenida-paso1-375. Sin publicar.
+
+🔄 2026-10-15: Coach — ya no vuelve a preguntar el nombre si la persona lo dio en la bienvenida (user_metadata.apodo); el saludo de LUMA usa ese apodo. Sin publicar.
