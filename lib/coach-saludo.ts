@@ -21,7 +21,6 @@ const GENERICA: ApeturaCoach = {
   saludo: 'Aquí estoy. ¿De qué quieres que hablemos hoy?',
   arranques: [
     'Quiero pensar en voz alta',
-    { texto: 'Quiero que leas un mensaje', href: '/app/descifrar' },
     'Quiero entender qué siento',
     'Quiero hablar de mi trabajo o mi dinero',
   ],

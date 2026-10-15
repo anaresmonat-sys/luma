@@ -1051,3 +1051,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Mapa de poder — se quitó el aviso "Hemos ampliado tu mapa" (solo la dueña tenía mapa). Un mapa antiguo se trata como sin calcular: muestra el formulario con su nombre y fecha y un toque genera el mapa completo. Sin tarjetas antiguas. Sin publicar.
 
 🔄 2026-10-15: Coach — botón "Necesito desahogarme" → "Quiero pensar en voz alta" (coherente con el cambio del 13-oct) y el saludo mide lo que necesita (antes ocupaba medio pantalla vacía). Captura coach-saludo-375. Sin publicar.
+
+🔄 2026-10-15: Coach — frases de arranque FINALES (3): "Quiero pensar en voz alta", "Quiero entender qué siento", "Quiero hablar de mi trabajo o mi dinero". Se quitó "Quiero que leas un mensaje" (ya lo hace Descifrar y se repetía; la dueña lo había pedido: quitar "No sé qué responderle" porque la coach lo hace al leer el mensaje — yo lo había cambiado por error por una puerta a Descifrar). Sin publicar.
