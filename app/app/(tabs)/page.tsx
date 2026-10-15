@@ -16,7 +16,6 @@ import { BienvenidaCompra } from '@/components/app/BienvenidaCompra';
 import { EMOCIONES_INICIO } from '@/lib/seed-datos';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { calcularRacha, calcularTermometro, type Checkin, type Termometro } from '@/lib/racha';
-import { cartaDelDia } from '@/lib/tarotDeck';
 
 const VENTANA_DIAS = 40;
 
@@ -175,10 +174,7 @@ export default function InicioPage() {
 
         <div className="flex flex-col items-center gap-2">
           <Link href="/app/tarot">
-            {(() => {
-              const hoy = cartaDelDia();
-              return <CartaGirando imagen={hoy.carta.image} invertida={hoy.invertida} />;
-            })()}
+            <CartaGirando />
           </Link>
           <Link
             href="/app/tarot"
