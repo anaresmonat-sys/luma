@@ -193,9 +193,11 @@ export default function CoachPage() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25 }}
-          // El saludo mide lo que necesita, como cualquier mensaje del chat. Antes crecía hasta ocupar todo el
-          // hueco libre (2026-10-02) y se veía como una caja enorme y vacía (la dueña, 2026-10-15).
-          className="max-w-[82%] self-start rounded-[15px_15px_15px_5px] border border-[color-mix(in_oklab,var(--accent)_24%,transparent)] bg-[var(--surface)] px-3 py-2.5 text-[14px] leading-snug text-[var(--text-primary)]"
+          className={`rounded-[15px_15px_15px_5px] border border-[color-mix(in_oklab,var(--accent)_24%,transparent)] bg-[var(--surface)] px-3 py-2.5 text-[14px] leading-snug text-[var(--text-primary)] ${
+            // Antes de la primera palabra, la caja del saludo crece y ocupa el hueco libre (pedido de la dueña,
+            // 2026-10-02 y de nuevo 2026-10-15): así las frases de arranque quedan abajo, junto a la caja de escribir.
+            hilo.length === 0 ? 'min-h-[88px] flex-1 self-stretch' : 'max-w-[82%] self-start'
+          }`}
         >
           {apertura.saludo}
         </motion.div>
