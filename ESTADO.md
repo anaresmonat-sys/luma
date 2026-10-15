@@ -1059,3 +1059,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Tarot — la compatibilidad de signos sube justo debajo de "Carta del día" como pieza destacada ("Para dos · Compatibilidad de signos", dos círculos entrelazados, borde dorado y resplandor); se quita el bloque "Más lecturas" del final. Captura tarot-compatibilidad-375. Sin publicar.
 
 🔄 2026-10-15: Tarot — la compatibilidad pasa a ser un cuadrito más de la cuadrícula (junto a Prosperidad, símbolo de dos círculos, borde dorado algo más marcado): ocho cuadritos en pares; se quita la tarjeta grande. Captura tarot-compatibilidad-375. Sin publicar.
+
+🔄 2026-10-15: Tarot — la compatibilidad vuelve al final bajo "Más lecturas" (no es una tirada; decisión de la dueña) con el título "Compatibilidad de signos", subtítulo "Descubre qué tan bien encajas con esa persona" e icono de dos aros entrelazados. Se quitó la tarjeta grande y el cuadrito de la cuadrícula. Captura tarot-compatibilidad-375. Sin publicar.
