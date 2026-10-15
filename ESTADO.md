@@ -1027,3 +1027,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: nueva página pública /gracias (post-compra: "Tu compra está confirmada", botón Entrar a LUMA, 3 pasos). Para configurarla como página de agradecimiento en Hotmart y como destino del botón del Área de Miembros. Captura docs/revisiones/gracias-375.png. Pantalla secundaria: sin revisor. Sin publicar.
 
 ✅ 2026-10-15: Hotmart → Herramientas → Configuraciones de la página de pago: guardado Email de Atención al Cliente = soporte@tuluma.app y nombre de factura. Falta verificar en la próxima compra de prueba qué correo ve la compradora; reenvío de Porkbun al Outlook pendiente.
+
+🔄 2026-10-15: enlace de acceso — si el enlace ya se usó pero la persona tiene sesión abierta, el callback la lleva a la app (no muestra error); mensaje de enlace vencido sin "ábrelo en el mismo navegador". Causa del caso reportado: abrió el correo de la compra (ya gastado a las 11:47). Pendiente: plantillas Supabase en español. Sin publicar.

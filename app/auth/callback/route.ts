@@ -38,5 +38,16 @@ export async function GET(request: Request) {
     }
   }
 
+  // El enlace ya no sirve (se usó antes, o se pidió uno más nuevo). Si la persona YA tiene la sesión
+  // abierta —caso típico: volvió a abrir el correo de la compra— se la lleva adentro en vez de
+  // mostrarle un error por algo que ya está resuelto.
+  try {
+    const supabase = await crearClienteServidor();
+    const { data } = await supabase.auth.getUser();
+    if (data.user) return NextResponse.redirect(`${origin}${next}`);
+  } catch {
+    // sin sesión o sin conexión con el servicio: se cae al aviso normal de abajo.
+  }
+
   return NextResponse.redirect(`${origin}/entrar?error=enlace`);
 }
