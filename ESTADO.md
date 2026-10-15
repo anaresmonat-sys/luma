@@ -1071,3 +1071,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Inicio — la carta del día pasa a ser un gesto simbólico: aparece boca abajo (reverso del mazo), se da la vuelta sola y queda descubierta, sin texto ni significado ni necesidad de tocarla (components/app/CartaGirando.tsx). Con "reducir movimiento" se ve ya descubierta. Imagen carta-giro-tres-momentos. Sin publicar.
 
 🔄 2026-10-15: Inicio — la carta pasa a ser LA CARTA DE LUMA (propia, siempre la misma: luna, estrellas, emblema y la palabra LUMA): boca abajo, se da la vuelta sola y queda descubierta, sin texto ni función. Ya no usa la carta del día (no cambia la Carta del día de Tarot). Capturas carta-luma-tres-momentos e inicio-carta-luma-375. Sin publicar.
+
+🔄 2026-10-15: Inicio — el botón "Abrir mi lectura de tarot hoy" baja y queda pegado a las dos cajitas de abajo; la carta de LUMA se centra en el espacio libre. Captura inicio-carta-luma-375. Sin publicar.

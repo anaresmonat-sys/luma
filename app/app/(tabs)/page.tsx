@@ -117,7 +117,7 @@ export default function InicioPage() {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="flex min-h-0 flex-1 flex-col justify-between gap-8 [@media(min-height:721px)_and_(max-height:840px)]:gap-4 [@media(min-height:621px)_and_(max-height:720px)]:gap-3 [@media(max-height:620px)]:gap-2"
+        className="flex min-h-0 flex-1 flex-col gap-8 [@media(min-height:721px)_and_(max-height:840px)]:gap-4 [@media(min-height:621px)_and_(max-height:720px)]:gap-3 [@media(max-height:620px)]:gap-2"
       >
         <div>
           <div className="flex items-center justify-between">
@@ -172,8 +172,8 @@ export default function InicioPage() {
           )}
         </div>
 
-        <div className="flex flex-col items-center gap-2">
-          <Link href="/app/tarot">
+        <div className="flex min-h-0 flex-1 flex-col items-center gap-2">
+          <Link href="/app/tarot" className="flex min-h-0 flex-1 items-center justify-center">
             <CartaGirando />
           </Link>
           <Link
