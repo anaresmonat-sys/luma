@@ -47,6 +47,13 @@ export default function MapaPoderPage() {
   }, []);
 
   useEffect(() => {
+    if (mapa && mapa.version !== 2) {
+      setNombre((previo) => previo || mapa.nombre);
+      setFecha((previo) => previo || mapa.fecha);
+    }
+  }, [mapa]);
+
+  useEffect(() => {
     let cancelado = false;
     void (async () => {
       const local = leerMapaPoder();
@@ -138,7 +145,10 @@ export default function MapaPoderPage() {
     }
   }
 
-  const mostrarFormulario = !mapa || editando;
+  // Un mapa de la versión anterior (4 tarjetas solo de amor) se trata como "sin calcular": se enseña el
+  // formulario ya con su nombre y fecha, y un toque genera el mapa completo.
+  const mapaVigente = mapa && mapa.version === 2 ? mapa : null;
+  const mostrarFormulario = !mapaVigente || editando;
 
   return (
     <div className="relative flex min-h-dvh flex-col px-5 pb-6 pt-3">
@@ -211,41 +221,13 @@ export default function MapaPoderPage() {
               </p>
             </div>
 
-            {mapa!.version !== 2 && (
-              <div className="rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] p-4">
-                <p className="text-[14px] font-semibold text-[var(--accent-lite)]">Hemos ampliado tu mapa</p>
-                <p className="mt-1 text-[12.5px] leading-relaxed text-[var(--text-secondary)]">
-                  Ahora mira a toda tu persona: tu esencia, tu propósito, tus talentos, lo que deseas y cómo te ven. Tu arcano
-                  también puede cambiar.
-                </p>
-                <div className="mt-3">
-                  <AppButton onClick={() => void calcular(mapa!.nombre, mapa!.fecha)} disabled={estado === 'cargando'} busy={estado === 'cargando'}>
-                    {estado === 'cargando' ? 'Actualizando…' : 'Actualizar mi mapa'}
-                  </AppButton>
-                </div>
-                {estado === 'error' && (
-                  <p className="mt-2 text-center text-[11px] font-semibold text-[var(--an-risk)]">
-                    No se pudo actualizar — inténtalo de nuevo.
-                  </p>
-                )}
-              </div>
-            )}
-
-            {(mapa!.version === 2
-              ? [
-                  { titulo: 'Tu esencia', texto: mapa!.arquetipo, extra: mapa!.puntoCiego },
-                  { titulo: 'Tu propósito', texto: mapa!.proposito ?? '' },
-                  { titulo: 'Tus talentos', texto: mapa!.superpoder },
-                  { titulo: 'Lo que de verdad deseas', texto: mapa!.deseos ?? '' },
-                  { titulo: 'Cómo te ven', texto: mapa!.imagen ?? '' },
-                ]
-              : [
-                  { titulo: 'Tu arquetipo emocional', texto: mapa!.arquetipo },
-                  { titulo: 'Tu superpoder en las relaciones', texto: mapa!.superpoder },
-                  { titulo: 'Tu punto ciego', texto: mapa!.puntoCiego },
-                  { titulo: 'Tu consejo de soberanía', texto: mapa!.consejo },
-                ]
-            ).map((b: { titulo: string; texto: string; extra?: string }) => (
+            {[
+              { titulo: 'Tu esencia', texto: mapa!.arquetipo, extra: mapa!.puntoCiego },
+              { titulo: 'Tu propósito', texto: mapa!.proposito ?? '' },
+              { titulo: 'Tus talentos', texto: mapa!.superpoder },
+              { titulo: 'Lo que de verdad deseas', texto: mapa!.deseos ?? '' },
+              { titulo: 'Cómo te ven', texto: mapa!.imagen ?? '' },
+            ].map((b: { titulo: string; texto: string; extra?: string }) => (
               <div
                 key={b.titulo}
                 className="rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] p-4"

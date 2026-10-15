@@ -1047,3 +1047,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Bienvenida — si la persona ya dio su nombre antes (contexto del Coach o Mapa de Poder, en este dispositivo), el campo llega escrito y solo lo confirma. Sin publicar.
 
 🔄 2026-10-15: MAPA DE PODER AMPLIADO (versión 2): 22 arcanos (antes solo salían 11), nuevo número de Personalidad (consonantes) y 5 tarjetas que miran a toda la persona (esencia + reto, propósito, talentos, lo que deseas, cómo te ven) en vez de 4 solo de amor. Mapas antiguos muestran "Hemos ampliado tu mapa" con botón Actualizar. Migración aplicada en Supabase: profiles + proposito, deseos, imagen, numero_personalidad, mapa_version (todas opcionales). Círculo usa el mismo arcano de nacimiento. Capturas mapa-poder-nuevo-375 y mapa-poder-aviso-ampliado-375. Sin publicar.
+
+🔄 2026-10-15: Mapa de poder — se quitó el aviso "Hemos ampliado tu mapa" (solo la dueña tenía mapa). Un mapa antiguo se trata como sin calcular: muestra el formulario con su nombre y fecha y un toque genera el mapa completo. Sin tarjetas antiguas. Sin publicar.
