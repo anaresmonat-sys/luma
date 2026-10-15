@@ -1079,3 +1079,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Avatar de LUMA — la dueña rechazó el retrato con cara; preparadas las opciones 1 (emblema en medallón) y 2 (emblema con luna) en components/app/LumaMedallon.tsx, pendiente de elegir. LumaAvatar sigue apuntando al retrato (sin publicar). Imagen luma-avatar-opciones-1-y-2. Sin publicar.
 
 🔄 2026-10-15: Avatar de LUMA FINAL: emblema con luna en medallón, 30% más grande (LumaAvatar → LumaMedallon luna). Se eliminó el retrato con cara y sus tokens. Capturas luma-avatar-coach-375. Sin publicar.
+
+⏭️ SIGUIENTE (pedido de la dueña, 2026-10-15): TODO LO DE LOS CORREOS — ver memoria `pendiente_correos`: (A) plantillas Supabase en español + caducidad 24 h; (B) Reply-To de hola@ y reenvío de soporte@ a Outlook; (C) correo de la cuenta de Hotmart, módulo "Empieza aquí" y página /gracias; (D) Google / código de 6 dígitos y resto de correos del negocio. Antes: cancelar la prueba de Hotmart ANTES DEL 18-oct.
