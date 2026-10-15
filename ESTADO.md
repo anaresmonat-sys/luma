@@ -1067,3 +1067,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Diario — subtítulo fijo de la cajita del mapa: "Quién eres, qué te mueve y cómo te ven" (en vez de "Tu arcano: X"). Sin publicar.
 
 🔄 2026-10-15: Diario — subtítulo final de la cajita del mapa: "Tu arcano, tu propósito y cómo te ven". Publicado.
+
+🔄 2026-10-15: Inicio — la carta del día pasa a ser un gesto simbólico: aparece boca abajo (reverso del mazo), se da la vuelta sola y queda descubierta, sin texto ni significado ni necesidad de tocarla (components/app/CartaGirando.tsx). Con "reducir movimiento" se ve ya descubierta. Imagen carta-giro-tres-momentos. Sin publicar.

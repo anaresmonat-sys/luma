@@ -10,13 +10,13 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { Flame, MessageCircle, Search, Sparkles, User } from 'lucide-react';
-import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
+import { CartaGirando } from '@/components/app/CartaGirando';
 import { MoodPicker } from '@/components/app/MoodPicker';
 import { BienvenidaCompra } from '@/components/app/BienvenidaCompra';
 import { EMOCIONES_INICIO } from '@/lib/seed-datos';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { calcularRacha, calcularTermometro, type Checkin, type Termometro } from '@/lib/racha';
-import { cartaDelDia, citaDeCarta } from '@/lib/tarotDeck';
+import { cartaDelDia } from '@/lib/tarotDeck';
 
 const VENTANA_DIAS = 40;
 
@@ -177,16 +177,7 @@ export default function InicioPage() {
           <Link href="/app/tarot">
             {(() => {
               const hoy = cartaDelDia();
-              return (
-                <CartaSacerdotisa
-                  disparo="montaje"
-                  numero={hoy.carta.numero}
-                  nombre={hoy.carta.nombre}
-                  cita={citaDeCarta(hoy)}
-                  imagen={hoy.carta.image}
-                  invertida={hoy.invertida}
-                />
-              );
+              return <CartaGirando imagen={hoy.carta.image} invertida={hoy.invertida} />;
             })()}
           </Link>
           <Link
