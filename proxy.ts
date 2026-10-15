@@ -25,7 +25,19 @@ export async function proxy(request: NextRequest) {
     }
   );
 
-  await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Quien ya tiene la sesión abierta no debe volver a ver la pantalla de "escribe tu correo":
+  // /entrar la manda directo a su espacio (o a los planes si venía de ahí). Cuando la sesión no
+  // existe o caducó, /entrar se muestra con normalidad.
+  if (user && request.nextUrl.pathname === '/entrar') {
+    const destino = request.nextUrl.searchParams.get('desde') === 'paywall' ? '/paywall' : '/app';
+    const redireccion = NextResponse.redirect(new URL(destino, request.url));
+    for (const cookie of response.cookies.getAll()) redireccion.cookies.set(cookie);
+    return redireccion;
+  }
 
   return response;
 }
