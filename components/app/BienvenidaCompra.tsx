@@ -12,6 +12,8 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { crearClienteNavegador } from '@/lib/supabase/client';
+import { leerContextoCoach } from '@/lib/almacenamiento-contexto-coach';
+import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
 
 const CLAVE_LOCAL = 'luma_bienvenida_hecha';
 const MAX_NOMBRE = 30;
@@ -121,7 +123,18 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
         if (meta.bienvenida_hecha || hechaLocal) return;
         const res = await fetch('/api/mi-plan');
         const datos: { activo?: boolean } | null = res.ok ? await res.json() : null;
-        if (!cancelado && datos?.activo) setVisible(true);
+        if (!cancelado && datos?.activo) {
+          // Si la persona ya dijo su nombre antes (al Coach, en su lectura gratis, o en el Mapa de Poder),
+          // llega escrito: solo tiene que confirmarlo.
+          try {
+            const previo = leerContextoCoach()?.nombre ?? leerMapaPoder()?.nombre ?? '';
+            const primero = previo.trim().split(/s+/)[0] ?? '';
+            if (primero) setNombre(limpiarNombre(primero));
+          } catch {
+            // sin almacenamiento local: el campo queda vacío.
+          }
+          setVisible(true);
+        }
       } catch {
         // sin conexión o sin sesión: la bienvenida simplemente no aparece.
       }

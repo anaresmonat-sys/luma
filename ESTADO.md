@@ -1043,3 +1043,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Bienvenida — el círculo/anillo se cambió por la CARTA de LUMA flotando (balanceo 3D, destello, resplandor que respira) y las motas son más grandes y mucho más brillantes (14). Captura actualizada bienvenida-paso1-375. Sin publicar.
 
 🔄 2026-10-15: Coach — ya no vuelve a preguntar el nombre si la persona lo dio en la bienvenida (user_metadata.apodo); el saludo de LUMA usa ese apodo. Sin publicar.
+
+🔄 2026-10-15: Bienvenida — si la persona ya dio su nombre antes (contexto del Coach o Mapa de Poder, en este dispositivo), el campo llega escrito y solo lo confirma. Sin publicar.
