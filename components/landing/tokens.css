@@ -79,6 +79,23 @@
   --luma-avatar-skin: #e6bd9c;
   --luma-avatar-eyeline: #3a2028;
   --luma-avatar-mouth: #b06a5a;
+  /* retrato de LUMA (components/app/LumaRetrato.tsx): pigmentos del personaje, no color de UI */
+  --luma-retrato-fondo-1: #5a2a3c;
+  --luma-retrato-fondo-2: #2e1424;
+  --luma-retrato-fondo-3: #1a0b14;
+  --luma-retrato-piel-1: #f2d6bd;
+  --luma-retrato-piel-2: #dcae8c;
+  --luma-retrato-cuello: #d6a283;
+  --luma-retrato-velo: #2a1220;
+  --luma-retrato-manto: #241019;
+  --luma-retrato-oro: #e8c36f;
+  --luma-retrato-oro-borde: #b98a35;
+  --luma-retrato-oro-linea: #e0b05c;
+  --luma-retrato-ceja: #4a2a30;
+  --luma-retrato-ojo: #3a2028;
+  --luma-retrato-nariz: #b9856a;
+  --luma-retrato-labio: #b06a5a;
+  --luma-retrato-rubor: #d98c86;
 }
 
 /* Base mínima que el kit asume (no tematizar) */
