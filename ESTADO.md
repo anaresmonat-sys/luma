@@ -1055,3 +1055,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Coach — frases de arranque FINALES (3): "Quiero pensar en voz alta", "Quiero entender qué siento", "Quiero hablar de mi trabajo o mi dinero". Se quitó "Quiero que leas un mensaje" (ya lo hace Descifrar y se repetía; la dueña lo había pedido: quitar "No sé qué responderle" porque la coach lo hace al leer el mensaje — yo lo había cambiado por error por una puerta a Descifrar). Sin publicar.
 
 🔄 2026-10-15: Coach — se RECUPERA la caja de saludo grande con las 3 frases abajo, junto a la caja de escribir (la dueña lo recordaba y lo pidió; yo lo había revertido). Frases: pensar en voz alta / entender qué siento / trabajo o dinero. Sin publicar.
+
+🔄 2026-10-15: Tarot — la compatibilidad de signos sube justo debajo de "Carta del día" como pieza destacada ("Para dos · Compatibilidad de signos", dos círculos entrelazados, borde dorado y resplandor); se quita el bloque "Más lecturas" del final. Captura tarot-compatibilidad-375. Sin publicar.

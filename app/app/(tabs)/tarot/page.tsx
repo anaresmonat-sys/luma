@@ -739,6 +739,34 @@ export default function TarotPage() {
             {cartaDia.nombre}
           </motion.button>
         )}
+        <motion.div variants={item}>
+          <Link
+            href="/app/compatibilidad"
+            className="relative flex items-center gap-4 overflow-hidden rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent-lite)_55%,transparent)] bg-gradient-to-br from-[color-mix(in_oklab,var(--bloom-vino)_70%,var(--bg))] to-[var(--bg)] px-4 py-4 shadow-[0_0_28px_-10px_color-mix(in_oklab,var(--accent-lite)_55%,transparent)] [@media(max-height:720px)]:py-3"
+          >
+            <span
+              aria-hidden="true"
+              className="flex size-14 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_oklab,var(--accent)_14%,transparent)] [@media(max-height:720px)]:size-12"
+            >
+              <svg width="34" height="24" viewBox="0 0 34 24" fill="none" stroke="var(--accent-lite)" strokeWidth="1.5">
+                <circle cx="12" cy="12" r="9" />
+                <circle cx="22" cy="12" r="9" />
+              </svg>
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-xs font-semibold uppercase tracking-widest text-[var(--accent)]">Para dos</span>
+              <span className="mt-0.5 block text-base font-semibold text-[var(--accent-lite)] [font-family:var(--font-display)]">
+                Compatibilidad de signos
+              </span>
+              <span className="mt-0.5 block text-[13px] leading-snug text-[var(--text-secondary)] [@media(max-height:720px)]:hidden">
+                Descubre qué tan bien encajas con esa persona
+              </span>
+            </span>
+            <span aria-hidden="true" className="text-lg text-[var(--accent-lite)]">
+              →
+            </span>
+          </Link>
+        </motion.div>
         <div className="grid grid-cols-2 gap-3 [@media(max-height:720px)]:gap-2">
           {temas.map((t) => (
             <motion.button
@@ -757,23 +785,6 @@ export default function TarotPage() {
           ))}
         </div>
       </motion.div>
-
-      <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)] [@media(max-height:840px)]:mt-4 [@media(max-height:720px)]:mt-3">Más lecturas</p>
-
-      <Link
-        href="/app/compatibilidad"
-        className="mt-2 flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3 [@media(max-height:720px)]:py-2"
-      >
-        <span className="flex-1">
-          <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Sinergia zodiacal</span>
-          <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)] [@media(max-height:720px)]:hidden">
-            Compara tu signo con el de alguien especial
-          </span>
-        </span>
-        <span aria-hidden="true" className="text-[var(--accent-lite)]">
-          →
-        </span>
-      </Link>
     </div>
   );
 }
