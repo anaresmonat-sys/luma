@@ -1057,3 +1057,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Coach — se RECUPERA la caja de saludo grande con las 3 frases abajo, junto a la caja de escribir (la dueña lo recordaba y lo pidió; yo lo había revertido). Frases: pensar en voz alta / entender qué siento / trabajo o dinero. Sin publicar.
 
 🔄 2026-10-15: Tarot — la compatibilidad de signos sube justo debajo de "Carta del día" como pieza destacada ("Para dos · Compatibilidad de signos", dos círculos entrelazados, borde dorado y resplandor); se quita el bloque "Más lecturas" del final. Captura tarot-compatibilidad-375. Sin publicar.
+
+🔄 2026-10-15: Tarot — la compatibilidad pasa a ser un cuadrito más de la cuadrícula (junto a Prosperidad, símbolo de dos círculos, borde dorado algo más marcado): ocho cuadritos en pares; se quita la tarjeta grande. Captura tarot-compatibilidad-375. Sin publicar.

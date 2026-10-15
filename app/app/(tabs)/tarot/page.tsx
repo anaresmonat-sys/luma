@@ -739,34 +739,6 @@ export default function TarotPage() {
             {cartaDia.nombre}
           </motion.button>
         )}
-        <motion.div variants={item}>
-          <Link
-            href="/app/compatibilidad"
-            className="relative flex items-center gap-4 overflow-hidden rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent-lite)_55%,transparent)] bg-gradient-to-br from-[color-mix(in_oklab,var(--bloom-vino)_70%,var(--bg))] to-[var(--bg)] px-4 py-4 shadow-[0_0_28px_-10px_color-mix(in_oklab,var(--accent-lite)_55%,transparent)] [@media(max-height:720px)]:py-3"
-          >
-            <span
-              aria-hidden="true"
-              className="flex size-14 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_oklab,var(--accent)_14%,transparent)] [@media(max-height:720px)]:size-12"
-            >
-              <svg width="34" height="24" viewBox="0 0 34 24" fill="none" stroke="var(--accent-lite)" strokeWidth="1.5">
-                <circle cx="12" cy="12" r="9" />
-                <circle cx="22" cy="12" r="9" />
-              </svg>
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="block text-xs font-semibold uppercase tracking-widest text-[var(--accent)]">Para dos</span>
-              <span className="mt-0.5 block text-base font-semibold text-[var(--accent-lite)] [font-family:var(--font-display)]">
-                Compatibilidad de signos
-              </span>
-              <span className="mt-0.5 block text-[13px] leading-snug text-[var(--text-secondary)] [@media(max-height:720px)]:hidden">
-                Descubre qué tan bien encajas con esa persona
-              </span>
-            </span>
-            <span aria-hidden="true" className="text-lg text-[var(--accent-lite)]">
-              →
-            </span>
-          </Link>
-        </motion.div>
         <div className="grid grid-cols-2 gap-3 [@media(max-height:720px)]:gap-2">
           {temas.map((t) => (
             <motion.button
@@ -783,6 +755,25 @@ export default function TarotPage() {
               </span>
             </motion.button>
           ))}
+          {/* Octavo cuadrito: cierra la cuadrícula en pares y saca la compatibilidad del fondo de la pantalla. */}
+          <motion.div variants={item} whileTap={{ scale: 0.97 }}>
+            <Link
+              href="/app/compatibilidad"
+              className="group flex h-[72px] items-center gap-2 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent-lite)_50%,transparent)] bg-[var(--surface)] px-2.5 [@media(max-height:720px)]:h-14 [@media(min-height:841px)]:h-20"
+            >
+              <span aria-hidden="true" className="flex h-[52px] w-9 shrink-0 items-center justify-center [@media(max-height:720px)]:h-10 [@media(max-height:720px)]:w-7 [@media(min-height:841px)]:h-14 [@media(min-height:841px)]:w-10">
+                <svg width="34" height="22" viewBox="0 0 34 24" fill="none" stroke="var(--accent-lite)" strokeWidth="1.6">
+                  <circle cx="12" cy="12" r="9" />
+                  <circle cx="22" cy="12" r="9" />
+                </svg>
+              </span>
+              <span className="flex min-w-0 flex-1 items-center justify-center">
+                <span className="text-center text-[13px] font-semibold leading-tight text-[var(--text-primary)] [font-family:var(--font-display)] max-[380px]:text-[12px]">
+                  Compatibilidad de signos
+                </span>
+              </span>
+            </Link>
+          </motion.div>
         </div>
       </motion.div>
     </div>
