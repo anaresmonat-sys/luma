@@ -1061,3 +1061,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Tarot — la compatibilidad pasa a ser un cuadrito más de la cuadrícula (junto a Prosperidad, símbolo de dos círculos, borde dorado algo más marcado): ocho cuadritos en pares; se quita la tarjeta grande. Captura tarot-compatibilidad-375. Sin publicar.
 
 🔄 2026-10-15: Tarot — la compatibilidad vuelve al final bajo "Más lecturas" (no es una tirada; decisión de la dueña) con el título "Compatibilidad de signos", subtítulo "Descubre qué tan bien encajas con esa persona" e icono de dos aros entrelazados. Se quitó la tarjeta grande y el cuadrito de la cuadrícula. Captura tarot-compatibilidad-375. Sin publicar.
+
+🔄 2026-10-15: Diario — la cajita "Conócete a ti misma" pasa a "Tu mapa de poder" con subtítulo siempre visible ("Tu arcano: X" si ya calculó el mapa ampliado, o "Tu arcano, tu propósito y cómo te ven") e icono en círculo, mismo estilo que la compatibilidad. Captura diario-mapa-375. Sin publicar.

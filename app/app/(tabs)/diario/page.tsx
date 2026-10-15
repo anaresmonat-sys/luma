@@ -23,6 +23,7 @@ import { InvitacionPlan } from '@/components/app/InvitacionPlan';
 import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import { EMOCIONES_DIARIO } from '@/lib/seed-datos';
 import { leerYLimpiarEntradaPendiente } from '@/lib/almacenamiento-diario';
+import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
 import { consumirPruebaGratis } from '@/lib/prueba-gratis';
 
 const contenedor = {
@@ -47,6 +48,8 @@ export default function DiarioPage() {
   const [guardando, setGuardando] = useState(false);
   const [errorPatron, setErrorPatron] = useState(false);
   const [mensajeTope, setMensajeTope] = useState<string | null>(null);
+  // Arcano de la persona, si ya calculó su mapa (versión ampliada): se nombra en la cajita del mapa.
+  const [arcanoMapa, setArcanoMapa] = useState<string | null>(null);
   const { disponible, conPlan, refrescar } = usePruebaDisponible();
   const inicializado = useRef(false);
   const guardadoAutomatico = useRef(false);
@@ -63,6 +66,8 @@ export default function DiarioPage() {
       setTexto(pendiente);
       setTrajoLectura(true);
     }
+    const mapa = leerMapaPoder();
+    if (mapa && mapa.version === 2) setArcanoMapa(mapa.arcanoNombre);
     try {
       setRegistros(Number(window.localStorage.getItem('luma_diario_contador') ?? 0));
     } catch {
@@ -299,12 +304,17 @@ export default function DiarioPage() {
         </motion.button>
 
         <motion.div variants={item} className="mt-3">
-          <Link href="/app/mapa-poder" className="flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3 [@media(max-height:840px)]:py-2">
-            <Sparkles size={18} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-[var(--accent-lite)]" />
+          <Link
+            href="/app/mapa-poder"
+            className="flex items-center gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-4 py-3 [@media(max-height:840px)]:py-2"
+          >
+            <span aria-hidden="true" className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_oklab,var(--accent)_12%,transparent)]">
+              <Sparkles size={18} strokeWidth={1.75} className="text-[var(--accent-lite)]" />
+            </span>
             <span className="flex-1">
-              <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Conócete a ti misma</span>
-              <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)] [@media(max-height:840px)]:hidden">
-                Tu arcano de nacimiento, con tu fecha
+              <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Tu mapa de poder</span>
+              <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
+                {arcanoMapa ? `Tu arcano: ${arcanoMapa}` : 'Tu arcano, tu propósito y cómo te ven'}
               </span>
             </span>
             <span aria-hidden="true" className="text-[var(--accent-lite)]">
