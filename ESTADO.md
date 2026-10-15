@@ -1029,3 +1029,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 ✅ 2026-10-15: Hotmart → Herramientas → Configuraciones de la página de pago: guardado Email de Atención al Cliente = soporte@tuluma.app y nombre de factura. Falta verificar en la próxima compra de prueba qué correo ve la compradora; reenvío de Porkbun al Outlook pendiente.
 
 🔄 2026-10-15: enlace de acceso — si el enlace ya se usó pero la persona tiene sesión abierta, el callback la lleva a la app (no muestra error); mensaje de enlace vencido sin "ábrelo en el mismo navegador". Causa del caso reportado: abrió el correo de la compra (ya gastado a las 11:47). Pendiente: plantillas Supabase en español. Sin publicar.
+
+🔄 2026-10-15: Bienvenida de compra (components/app/BienvenidaCompra.tsx, en Inicio): para cuentas con acceso completo, una sola vez — "¿Cómo quieres que te llame?" + "¿Por dónde quieres empezar?" (4 opciones). Guarda apodo/bienvenida_hecha en user_metadata (sin tablas nuevas; profiles.nombre intacto). Saludo del Inicio usa el apodo. Capturas bienvenida-paso1/2-375. Verificada solo en vista previa (sin sesión de compradora real). Sin publicar.

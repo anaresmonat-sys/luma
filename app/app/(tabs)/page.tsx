@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Flame, MessageCircle, Search, Sparkles, User } from 'lucide-react';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
 import { MoodPicker } from '@/components/app/MoodPicker';
+import { BienvenidaCompra } from '@/components/app/BienvenidaCompra';
 import { EMOCIONES_INICIO } from '@/lib/seed-datos';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { calcularRacha, calcularTermometro, type Checkin, type Termometro } from '@/lib/racha';
@@ -21,6 +22,7 @@ const VENTANA_DIAS = 40;
 
 export default function InicioPage() {
   const [saludo, setSaludo] = useState('Hola');
+  const [apodo, setApodo] = useState('');
   const [animo, setAnimo] = useState<string | null>(null);
   const [guardado, setGuardado] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
@@ -84,6 +86,7 @@ export default function InicioPage() {
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col pb-4 pt-3">
+      <BienvenidaCompra onNombre={setApodo} />
       {/* bloom local: los del body (globals.css) se apagan cerca del header y esta
           pantalla es larga — sin esto, la franja entre el ánimo y la carta se lee
           como fill plano (defecto de profundidad, revisor ronda 2). */}
@@ -119,7 +122,7 @@ export default function InicioPage() {
       >
         <div>
           <div className="flex items-center justify-between">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">{saludo}</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">{apodo ? `${saludo}, ${apodo}` : saludo}</p>
             {racha >= 2 && (
               <span className="flex items-center gap-1 text-[11px] font-semibold text-[var(--text-secondary)]">
                 <Flame size={13} strokeWidth={2} aria-hidden="true" className="text-[var(--accent-lite)]" />
