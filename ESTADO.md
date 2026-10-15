@@ -1065,3 +1065,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Diario — la cajita "Conócete a ti misma" pasa a "Tu mapa de poder" con subtítulo siempre visible ("Tu arcano: X" si ya calculó el mapa ampliado, o "Tu arcano, tu propósito y cómo te ven") e icono en círculo, mismo estilo que la compatibilidad. Captura diario-mapa-375. Sin publicar.
 
 🔄 2026-10-15: Diario — subtítulo fijo de la cajita del mapa: "Quién eres, qué te mueve y cómo te ven" (en vez de "Tu arcano: X"). Sin publicar.
+
+🔄 2026-10-15: Diario — subtítulo final de la cajita del mapa: "Tu arcano, tu propósito y cómo te ven". Publicado.

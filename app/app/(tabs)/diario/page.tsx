@@ -309,7 +309,7 @@ export default function DiarioPage() {
             <span className="flex-1">
               <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Tu mapa de poder</span>
               <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
-                Quién eres, qué te mueve y cómo te ven
+                Tu arcano, tu propósito y cómo te ven
               </span>
             </span>
             <span aria-hidden="true" className="text-[var(--accent-lite)]">
