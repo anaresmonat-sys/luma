@@ -1025,3 +1025,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 ⏳ PENDIENTES (2026-10-15): (1) revisar la app con plan activo (compra de prueba HP3226222682); (2) cancelar la suscripción de prueba en Hotmart ANTES del 18-oct y verificar que pierde acceso; (3) cambiar correo de cuenta Hotmart a tuluma.soporte@outlook.com; (4) reenvío soporte@tuluma.app → ese Outlook; (5) plantillas Supabase en español con soporte@; (6) decidir Marketplace de Hotmart y precio por país/divisa; (7) publicar avisos de impuestos (commit 9b3cf83).
 
 🔄 2026-10-15: nueva página pública /gracias (post-compra: "Tu compra está confirmada", botón Entrar a LUMA, 3 pasos). Para configurarla como página de agradecimiento en Hotmart y como destino del botón del Área de Miembros. Captura docs/revisiones/gracias-375.png. Pantalla secundaria: sin revisor. Sin publicar.
+
+✅ 2026-10-15: Hotmart → Herramientas → Configuraciones de la página de pago: guardado Email de Atención al Cliente = soporte@tuluma.app y nombre de factura. Falta verificar en la próxima compra de prueba qué correo ve la compradora; reenvío de Porkbun al Outlook pendiente.
