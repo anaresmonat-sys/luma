@@ -13,7 +13,7 @@ export async function leerPerfilSupabase(userId: string): Promise<MapaPoder | nu
   const { data } = await supabase
     .from('profiles')
     .select(
-      'nombre, fecha_nacimiento, numero_vida, arcano_id, arcano_nombre, signo_id, signo_nombre, numero_expresion, numero_alma, arquetipo, superpoder, punto_ciego, consejo'
+      'nombre, fecha_nacimiento, numero_vida, arcano_id, arcano_nombre, signo_id, signo_nombre, numero_expresion, numero_alma, arquetipo, superpoder, punto_ciego, consejo, proposito, deseos, imagen, numero_personalidad, mapa_version'
     )
     .eq('id', userId)
     .maybeSingle();
@@ -34,6 +34,11 @@ export async function leerPerfilSupabase(userId: string): Promise<MapaPoder | nu
     superpoder: data.superpoder ?? '',
     puntoCiego: data.punto_ciego ?? '',
     consejo: data.consejo ?? '',
+    numeroPersonalidad: data.numero_personalidad ?? undefined,
+    proposito: data.proposito ?? undefined,
+    deseos: data.deseos ?? undefined,
+    imagen: data.imagen ?? undefined,
+    version: data.mapa_version ?? undefined,
   };
 }
 
@@ -55,6 +60,11 @@ export async function guardarPerfilSupabase(userId: string, mapa: MapaPoder): Pr
       superpoder: mapa.superpoder,
       punto_ciego: mapa.puntoCiego,
       consejo: mapa.consejo,
+      proposito: mapa.proposito ?? null,
+      deseos: mapa.deseos ?? null,
+      imagen: mapa.imagen ?? null,
+      numero_personalidad: mapa.numeroPersonalidad ?? null,
+      mapa_version: mapa.version ?? null,
     })
     .eq('id', userId);
 }

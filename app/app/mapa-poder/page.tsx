@@ -24,8 +24,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton } from '@/components/app/AppButton';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
-import { calcularNumeroVida, arcanoDeNumero } from '@/lib/numerologyUtils';
-import { calcularNumeroExpresion, calcularNumeroAlma } from '@/lib/numerologiaNombre';
+import { calcularNumeroVida, arcanoDeNacimiento } from '@/lib/numerologyUtils';
+import { calcularNumeroExpresion, calcularNumeroAlma, calcularNumeroPersonalidad } from '@/lib/numerologiaNombre';
 import { signoDeFecha } from '@/lib/zodiaco';
 import { imagenDeCarta } from '@/lib/tarotDeck';
 import { guardarMapaPoder, leerMapaPoder, type MapaPoder } from '@/lib/almacenamiento-numerologia';
@@ -74,26 +74,42 @@ export default function MapaPoderPage() {
     };
   }, []);
 
-  async function calcular() {
-    if (!fecha || !nombre.trim()) return;
+  async function calcular(nombreArg?: string, fechaArg?: string) {
+    const nombreUsado = (nombreArg ?? nombre).trim();
+    const fechaUsada = fechaArg ?? fecha;
+    if (!fechaUsada || !nombreUsado) return;
     setEstado('cargando');
     try {
-      const numero = calcularNumeroVida(fecha);
-      const arcano = arcanoDeNumero(numero);
-      const signo = signoDeFecha(fecha);
-      const numeroExpresion = calcularNumeroExpresion(nombre);
-      const numeroAlma = calcularNumeroAlma(nombre);
+      const numero = calcularNumeroVida(fechaUsada);
+      const arcano = arcanoDeNacimiento(fechaUsada);
+      const signo = signoDeFecha(fechaUsada);
+      const numeroExpresion = calcularNumeroExpresion(nombreUsado);
+      const numeroAlma = calcularNumeroAlma(nombreUsado);
+      const numeroPersonalidad = calcularNumeroPersonalidad(nombreUsado);
       const res = await fetch('/api/numerologia', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ numero, arcano: arcano.nombre }),
+        body: JSON.stringify({
+          numero,
+          arcano: arcano.nombre,
+          expresion: numeroExpresion,
+          alma: numeroAlma,
+          personalidad: numeroPersonalidad,
+        }),
       });
       if (!res.ok) throw new Error('respuesta no OK');
-      const datos: Partial<MapaPoder> = await res.json();
-      if (!datos.arquetipo) throw new Error('sin lectura');
+      const datos: {
+        esencia?: string;
+        reto?: string;
+        proposito?: string;
+        talentos?: string;
+        deseos?: string;
+        imagen?: string;
+      } = await res.json();
+      if (!datos.esencia) throw new Error('sin lectura');
       const nuevo: MapaPoder = {
-        nombre: nombre.trim(),
-        fecha,
+        nombre: nombreUsado,
+        fecha: fechaUsada,
         numero,
         arcanoId: arcano.id,
         arcanoNombre: arcano.nombre,
@@ -101,10 +117,16 @@ export default function MapaPoderPage() {
         signoNombre: signo.nombre,
         numeroExpresion,
         numeroAlma,
-        arquetipo: datos.arquetipo!,
-        superpoder: datos.superpoder!,
-        puntoCiego: datos.puntoCiego!,
-        consejo: datos.consejo!,
+        // Compatibilidad: el Coach y los mapas guardados antes leen estos nombres.
+        arquetipo: datos.esencia!,
+        superpoder: datos.talentos!,
+        puntoCiego: datos.reto!,
+        consejo: '',
+        numeroPersonalidad,
+        proposito: datos.proposito!,
+        deseos: datos.deseos!,
+        imagen: datos.imagen!,
+        version: 2,
       };
       guardarMapaPoder(nuevo);
       if (userId) void guardarPerfilSupabase(userId, nuevo);
@@ -134,8 +156,8 @@ export default function MapaPoderPage() {
       {mostrarFormulario ? (
         <div className="mt-4 flex flex-col gap-4">
           <p className="text-[13px] leading-relaxed text-[var(--text-secondary)]">
-            Con tu nombre y tu fecha de nacimiento calculamos tu Número de Camino de Vida, tu Arcano
-            Mayor y tu Número del Alma — la base de tu autoconocimiento en LUMA.
+            Con tu nombre y tu fecha de nacimiento calculamos tu Arcano de nacimiento, tu Camino de Vida y
+            los números de tu nombre — la base de tu autoconocimiento en LUMA.
           </p>
           <div>
             <label htmlFor="nombre-completo" className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">
@@ -163,7 +185,7 @@ export default function MapaPoderPage() {
               className="mt-2 h-14 w-full rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-4 text-[15px] text-[var(--text-primary)] outline-none focus-visible:border-[var(--accent)]"
             />
           </div>
-          <AppButton onClick={calcular} disabled={!fecha || !nombre.trim() || estado === 'cargando'} busy={estado === 'cargando'}>
+          <AppButton onClick={() => void calcular()} disabled={!fecha || !nombre.trim() || estado === 'cargando'} busy={estado === 'cargando'}>
             {estado === 'cargando' ? 'Calculando…' : 'Descubrir mi Arcano'}
           </AppButton>
           {estado === 'error' && (
@@ -177,26 +199,71 @@ export default function MapaPoderPage() {
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-4 flex flex-col gap-4">
             <div className="flex flex-col items-center gap-3">
               <CartaSacerdotisa disparo="montaje" numero={String(mapa!.numero)} nombre={mapa!.arcanoNombre} cita="Tu arcano de nacimiento" imagen={imagenDeCarta(mapa!.arcanoId)} />
-              <p className="text-center text-[13px] font-semibold text-[var(--text-secondary)]">
+              <p className="text-center text-[13px] font-semibold leading-relaxed text-[var(--text-secondary)]">
                 {mapa!.signoNombre} · Camino de Vida <span className="text-[var(--accent-lite)]">{mapa!.numero}</span> ·
-                Número del Alma <span className="text-[var(--accent-lite)]">{mapa!.numeroAlma}</span>
+                Alma <span className="text-[var(--accent-lite)]">{mapa!.numeroAlma}</span>
+                {mapa!.version === 2 && mapa!.numeroPersonalidad ? (
+                  <>
+                    {' '}
+                    · Personalidad <span className="text-[var(--accent-lite)]">{mapa!.numeroPersonalidad}</span>
+                  </>
+                ) : null}
               </p>
             </div>
 
-            {[
-              { titulo: 'Tu arquetipo emocional', texto: mapa!.arquetipo },
-              { titulo: 'Tu superpoder en las relaciones', texto: mapa!.superpoder },
-              { titulo: 'Tu punto ciego', texto: mapa!.puntoCiego },
-              { titulo: 'Tu consejo de soberanía', texto: mapa!.consejo },
-            ].map((b) => (
+            {mapa!.version !== 2 && (
+              <div className="rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] p-4">
+                <p className="text-[14px] font-semibold text-[var(--accent-lite)]">Hemos ampliado tu mapa</p>
+                <p className="mt-1 text-[12.5px] leading-relaxed text-[var(--text-secondary)]">
+                  Ahora mira a toda tu persona: tu esencia, tu propósito, tus talentos, lo que deseas y cómo te ven. Tu arcano
+                  también puede cambiar.
+                </p>
+                <div className="mt-3">
+                  <AppButton onClick={() => void calcular(mapa!.nombre, mapa!.fecha)} disabled={estado === 'cargando'} busy={estado === 'cargando'}>
+                    {estado === 'cargando' ? 'Actualizando…' : 'Actualizar mi mapa'}
+                  </AppButton>
+                </div>
+                {estado === 'error' && (
+                  <p className="mt-2 text-center text-[11px] font-semibold text-[var(--an-risk)]">
+                    No se pudo actualizar — inténtalo de nuevo.
+                  </p>
+                )}
+              </div>
+            )}
+
+            {(mapa!.version === 2
+              ? [
+                  { titulo: 'Tu esencia', texto: mapa!.arquetipo, extra: mapa!.puntoCiego },
+                  { titulo: 'Tu propósito', texto: mapa!.proposito ?? '' },
+                  { titulo: 'Tus talentos', texto: mapa!.superpoder },
+                  { titulo: 'Lo que de verdad deseas', texto: mapa!.deseos ?? '' },
+                  { titulo: 'Cómo te ven', texto: mapa!.imagen ?? '' },
+                ]
+              : [
+                  { titulo: 'Tu arquetipo emocional', texto: mapa!.arquetipo },
+                  { titulo: 'Tu superpoder en las relaciones', texto: mapa!.superpoder },
+                  { titulo: 'Tu punto ciego', texto: mapa!.puntoCiego },
+                  { titulo: 'Tu consejo de soberanía', texto: mapa!.consejo },
+                ]
+            ).map((b: { titulo: string; texto: string; extra?: string }) => (
               <div
                 key={b.titulo}
                 className="rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] p-4"
               >
                 <h3 className="text-[12px] font-bold uppercase tracking-[0.06em] text-[var(--accent)]">{b.titulo}</h3>
                 <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--text-primary)]">{b.texto}</p>
+                {b.extra && (
+                  <p className="mt-3 border-t border-[color-mix(in_oklab,var(--accent)_20%,transparent)] pt-3 text-[12.5px] leading-relaxed text-[var(--text-secondary)]">
+                    <span className="font-bold text-[var(--accent-lite)]">Tu reto: </span>
+                    {b.extra}
+                  </p>
+                )}
               </div>
             ))}
+
+            <p className="text-center text-[11.5px] leading-snug text-[var(--text-tertiary)]">
+              Es simbolismo para reflexionar sobre ti, no una predicción.
+            </p>
 
             <Link
               href="/app/circulo"

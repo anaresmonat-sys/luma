@@ -23,7 +23,7 @@ import { planActivo } from '@/lib/prueba-gratis';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton } from '@/components/app/AppButton';
 import { CartaSacerdotisa } from '@/components/app/HeroDemoLuma';
-import { calcularNumeroVida, arcanoDeNumero } from '@/lib/numerologyUtils';
+import { calcularNumeroVida, arcanoDeNacimiento } from '@/lib/numerologyUtils';
 import { calcularNumeroExpresion, calcularNumeroAlma } from '@/lib/numerologiaNombre';
 import { signoDeFecha } from '@/lib/zodiaco';
 import { imagenDeCarta } from '@/lib/tarotDeck';
@@ -89,7 +89,7 @@ export default function CirculoPage() {
     setEstado('cargando');
     try {
       const numero = calcularNumeroVida(fecha);
-      const arcano = arcanoDeNumero(numero);
+      const arcano = arcanoDeNacimiento(fecha);
       const signo = signoDeFecha(fecha);
       const numeroExpresion = calcularNumeroExpresion(nombre);
       const numeroAlma = calcularNumeroAlma(nombre);

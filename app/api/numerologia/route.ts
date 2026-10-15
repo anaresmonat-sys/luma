@@ -29,9 +29,29 @@ Responde EXCLUSIVAMENTE con un JSON válido, sin texto antes ni después, con es
 
 Tono cálido, certero, empático y protector — como una amiga sabia que la conoce de verdad. Nunca prediga el futuro de forma absoluta ni justifique maltrato o el cruce de límites de dignidad.`;
 
+// Mapa ampliado (2026-10-15): lee a la persona ENTERA — no solo cómo ama. Cada dato del mapa alimenta
+// una faceta distinta. El reto va aparte y la pantalla lo muestra dentro de la tarjeta de la esencia.
+const SYSTEM_PROMPT_AMPLIADO = `Eres LUMA, una coach intuitiva experta en autoconocimiento, inteligencia emocional y simbolismo del tarot y la numerología. Te doy cinco datos de una persona: su Arcano de nacimiento, su Número de Camino de Vida (de la fecha), su Número de Expresión (todas las letras de su nombre), su Número del Alma (las vocales) y su Número de Personalidad (las consonantes).
+
+Responde EXCLUSIVAMENTE con un JSON válido, sin texto antes ni después, con este formato exacto:
+{"esencia": "...", "reto": "...", "proposito": "...", "talentos": "...", "deseos": "...", "imagen": "..."}
+
+Cada campo mira UNA faceta distinta de la persona, sin repetir ideas entre campos:
+- "esencia": QUIÉN ES de fondo, según el Arcano de nacimiento: su carácter y su fuerza central (máximo 45 palabras).
+- "reto": el patrón o la sombra de ese mismo arcano que le cuesta (1 frase, máximo 25 palabras). Honesto y cálido, sin dramatizar.
+- "proposito": su misión o rumbo de vida, según el Camino de Vida (máximo 40 palabras).
+- "talentos": sus habilidades naturales según el Número de Expresión, y cómo se notan en su trabajo, su dinero y sus decisiones (máximo 40 palabras).
+- "deseos": lo que de verdad la mueve por dentro según el Número del Alma — en el amor y en la vida (máximo 40 palabras).
+- "imagen": cómo la ven los demás según el Número de Personalidad, y qué suele malinterpretarse de ella (máximo 40 palabras).
+
+NO reduzcas la lectura al amor: el amor aparece solo donde corresponde (sobre todo en "deseos"). Háblale en segunda persona, en femenino. Tono cálido, certero y cercano, como una amiga sabia que la conoce — nunca de horóscopo genérico ni con frases que sirvan para cualquiera. Habla de tendencias ("tiendes a", "es probable que"), nunca de certezas ni de predicciones. Nunca justifiques maltrato ni el cruce de límites de dignidad. Escribe TODO en español neutro, sin palabras en otros idiomas.`;
+
 interface CuerpoEntrada {
   numero?: unknown;
   arcano?: unknown;
+  expresion?: unknown;
+  alma?: unknown;
+  personalidad?: unknown;
 }
 
 interface ResultadoJSON {
@@ -39,6 +59,40 @@ interface ResultadoJSON {
   superpoder?: string;
   puntoCiego?: string;
   consejo?: string;
+  esencia?: string;
+  reto?: string;
+  proposito?: string;
+  talentos?: string;
+  deseos?: string;
+  imagen?: string;
+}
+
+// Palabras clave en español de cada número: anclan la lectura (y evitan que el modelo meta términos en otro idioma).
+const CLAVES_NUMERO: Record<number, string> = {
+  1: 'independencia, iniciativa, liderazgo',
+  2: 'sensibilidad, cooperación, diplomacia',
+  3: 'expresión, creatividad, alegría',
+  4: 'orden, constancia, estabilidad, trabajo',
+  5: 'libertad, cambio, curiosidad',
+  6: 'cuidado, responsabilidad, armonía',
+  7: 'análisis, introspección, búsqueda de verdad',
+  8: 'ambición, firmeza, manejo del poder y del dinero',
+  9: 'compasión, generosidad, cierre de ciclos',
+  11: 'intuición elevada, inspiración, sensibilidad',
+  22: 'visión práctica, construcción a gran escala',
+};
+
+function claves(n: number): string {
+  return CLAVES_NUMERO[n] ? ` (${CLAVES_NUMERO[n]})` : '';
+}
+
+// Quita guiones blandos y caracteres invisibles que a veces se cuelan en la salida del modelo.
+function limpiar(v: string): string {
+  return v.replace(/[\u00AD\u200B-\u200D\uFEFF]/g, '').trim();
+}
+
+function numeroValido(v: unknown): number | null {
+  return typeof v === 'number' && Number.isInteger(v) && v > 0 && v <= 99 ? v : null;
 }
 
 function extraerJSON(texto: string): ResultadoJSON | null {
@@ -83,6 +137,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Faltan el número o el arcano' }, { status: 400 });
   }
 
+  const expresion = numeroValido(cuerpo.expresion);
+  const alma = numeroValido(cuerpo.alma);
+  const personalidad = numeroValido(cuerpo.personalidad);
+  const ampliado = expresion !== null && alma !== null && personalidad !== null;
+
   try {
     const client = clienteAnthropic();
     const respuesta = await client.messages.create({
@@ -90,10 +149,15 @@ export async function POST(request: Request) {
       // Sin "pensar" antes de responder: el modelo gastaba todo max_tokens en un bloque de razonamiento y
       // devolvía el texto cortado o vacío (visto en Tarot 3 cartas y en Descifrar, 2026-10-13).
       thinking: { type: 'disabled' },
-      max_tokens: 700,
-      system: SYSTEM_PROMPT,
+      max_tokens: ampliado ? 900 : 700,
+      system: ampliado ? SYSTEM_PROMPT_AMPLIADO : SYSTEM_PROMPT,
       messages: [
-        { role: 'user', content: `Número de Camino de Vida: ${numero}. Arcano: ${arcano}.` },
+        {
+          role: 'user',
+          content: ampliado
+            ? `Arcano de nacimiento: ${arcano}. Número de Camino de Vida: ${numero}${claves(numero)}. Número de Expresión: ${expresion}${claves(expresion!)}. Número del Alma: ${alma}${claves(alma!)}. Número de Personalidad: ${personalidad}${claves(personalidad!)}.`
+            : `Número de Camino de Vida: ${numero}. Arcano: ${arcano}.`,
+        },
       ],
     });
 
@@ -101,6 +165,28 @@ export async function POST(request: Request) {
     await registrarLlamadaIA('numerologia', AI_MODEL, respuesta.usage.input_tokens, respuesta.usage.output_tokens, usuarioIdIA);
     const crudo = bloqueTexto && bloqueTexto.type === 'text' ? bloqueTexto.text : '';
     const resultado = crudo ? extraerJSON(crudo) : null;
+
+    if (ampliado) {
+      if (
+        !resultado ||
+        !resultado.esencia ||
+        !resultado.reto ||
+        !resultado.proposito ||
+        !resultado.talentos ||
+        !resultado.deseos ||
+        !resultado.imagen
+      ) {
+        return NextResponse.json({ error: 'Sin respuesta' }, { status: 502 });
+      }
+      return NextResponse.json({
+        esencia: limpiar(resultado.esencia),
+        reto: limpiar(resultado.reto),
+        proposito: limpiar(resultado.proposito),
+        talentos: limpiar(resultado.talentos),
+        deseos: limpiar(resultado.deseos),
+        imagen: limpiar(resultado.imagen),
+      });
+    }
 
     if (!resultado || !resultado.arquetipo || !resultado.superpoder || !resultado.puntoCiego || !resultado.consejo) {
       return NextResponse.json({ error: 'Sin respuesta' }, { status: 502 });

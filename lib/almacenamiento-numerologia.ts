@@ -21,6 +21,13 @@ export interface MapaPoder {
   superpoder: string;
   puntoCiego: string;
   consejo: string;
+  // Mapa ampliado (versión 2, 2026-10-15). Los campos de arriba se siguen llenando por compatibilidad:
+  // arquetipo = esencia, superpoder = talentos, puntoCiego = reto (lo usa el Coach).
+  numeroPersonalidad?: number;
+  proposito?: string;
+  deseos?: string;
+  imagen?: string;
+  version?: number;
 }
 
 export function guardarMapaPoder(mapa: MapaPoder): void {

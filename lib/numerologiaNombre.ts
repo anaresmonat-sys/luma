@@ -48,3 +48,11 @@ export function calcularNumeroAlma(nombreCompleto: string): number {
     .reduce((acc, l) => acc + TABLA_PITAGORICA[l], 0);
   return reducir(suma || 0);
 }
+
+/** Número de Personalidad: solo las consonantes — la imagen que muestra hacia afuera. */
+export function calcularNumeroPersonalidad(nombreCompleto: string): number {
+  const suma = letrasValidas(nombreCompleto)
+    .filter((l) => !VOCALES.has(l))
+    .reduce((acc, l) => acc + TABLA_PITAGORICA[l], 0);
+  return reducir(suma || 0);
+}
