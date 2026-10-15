@@ -275,7 +275,7 @@ export default function PaywallLuma() {
             </p>
           )}
           <p className="mt-2 text-center text-[12px] leading-snug text-[var(--text-tertiary)]">
-            Después, {seleccionado === 'anual' ? '$89,99 al año' : '$9,99 al mes'}. Cancelas cuando quieras y tienes 15 días de garantía desde el primer cobro.
+            Después, {seleccionado === 'anual' ? '$89,99 al año' : '$9,99 al mes'}, más impuestos según tu país. Cancelas cuando quieras y tienes 15 días de garantía desde el primer cobro.
           </p>
         </div>
       </div>

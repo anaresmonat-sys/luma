@@ -1019,3 +1019,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-14: Tarot ritual — cajitas FINALES (aprobadas por la dueña): "¿Qué necesito ver hoy que no estoy viendo?", "¿Qué está frenando mi vida amorosa?", "¿Qué paso me acerca a lo que quiero?". Va junto con el arreglo anti-invención. Sin publicar.
 
 🔄 2026-10-14: correo de contacto de las páginas legales y de cancelar cambiado del Gmail personal a soporte@tuluma.app (Términos, Privacidad, Reembolsos, Cookies, Aviso IA, Cómo cancelar). hola@luma.app NO existe en la web (error de Gemini). Sin publicar.
+
+🔄 2026-10-15: precios — aviso de impuestos: landing (nota bajo planes), pantalla de planes y gancho del ritual ("más impuestos según tu país"). Motivo: checkout de Hotmart en España muestra 12,10 € (10 € + IVA 2,10 €) frente a $9,99 en la landing. PENDIENTE: precio por país (necesita tabla real de Hotmart) y decidir divisa. Sin publicar.

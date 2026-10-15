@@ -676,7 +676,7 @@ export default function TarotPage() {
                 </AppLinkButton>
               </div>
               <p className="mt-2 text-[12.5px] leading-snug text-[var(--text-secondary)]">
-                Después, $9,99 al mes o $89,99 al año. Cancelas cuando quieras y tienes 15 días de garantía desde tu primer cobro.
+                Después, $9,99 al mes o $89,99 al año, más impuestos. Cancelas cuando quieras y tienes 15 días de garantía desde tu primer cobro.
               </p>
             </div>
           )}
