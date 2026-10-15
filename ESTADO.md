@@ -1075,3 +1075,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Inicio — el botón "Abrir mi lectura de tarot hoy" baja y queda pegado a las dos cajitas de abajo; la carta de LUMA se centra en el espacio libre. Captura inicio-carta-luma-375. Sin publicar.
 
 🔄 2026-10-15: Avatar de LUMA — nuevo retrato ilustrado en SVG (components/app/LumaRetrato.tsx; tokens --luma-retrato-* en components/landing/tokens.css): velo oscuro, ojos cerrados, luna dorada en la frente, pendientes y estrellas, aro dorado. LumaAvatar ahora lo usa (Coach, Diario, presentación del Coach). Propuesta pendiente de aprobación. Capturas luma-retrato-propuesta y luma-retrato-coach-375. Sin publicar.
+
+🔄 2026-10-15: Avatar de LUMA — la dueña rechazó el retrato con cara; preparadas las opciones 1 (emblema en medallón) y 2 (emblema con luna) en components/app/LumaMedallon.tsx, pendiente de elegir. LumaAvatar sigue apuntando al retrato (sin publicar). Imagen luma-avatar-opciones-1-y-2. Sin publicar.
