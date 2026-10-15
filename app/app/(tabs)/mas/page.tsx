@@ -47,6 +47,7 @@ export default function MasPage() {
   const [nombre, setNombre] = useState<string | null>(null);
   const [cerrando, setCerrando] = useState(false);
   const [gratisDisponible, setGratisDisponible] = useState(true);
+  const [conPlan, setConPlan] = useState(false);
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false);
   const [borrando, setBorrando] = useState(false);
   const [errorBorrado, setErrorBorrado] = useState<string | null>(null);
@@ -59,7 +60,10 @@ export default function MasPage() {
     fetch('/api/mi-plan')
       .then((r) => (r.ok ? r.json() : null))
       .then((datos: { activo?: boolean } | null) => {
-        if (datos?.activo) setGratisDisponible(false);
+        if (datos?.activo) {
+          setGratisDisponible(false);
+          setConPlan(true);
+        }
       })
       .catch(() => {});
     let cancelado = false;
@@ -77,8 +81,15 @@ export default function MasPage() {
       // Poder (o si un admin lo agregó a mano) — si no, se sigue viendo el
       // correo, nunca un hueco vacío.
       if (user) {
-        const { data: perfil } = await supabase.from('profiles').select('nombre').eq('id', user.id).maybeSingle();
-        if (!cancelado && perfil?.nombre) setNombre(perfil.nombre);
+        // Lo que la persona eligió en la bienvenida ("¿Cómo quieres que te llame?") manda sobre el nombre
+        // completo del Mapa de Poder: es como ella pidió que LUMA la llame.
+        const apodo = (user.user_metadata as { apodo?: string } | null)?.apodo;
+        if (apodo) {
+          if (!cancelado) setNombre(apodo);
+        } else {
+          const { data: perfil } = await supabase.from('profiles').select('nombre').eq('id', user.id).maybeSingle();
+          if (!cancelado && perfil?.nombre) setNombre(perfil.nombre);
+        }
       }
     })();
     return () => {
@@ -138,7 +149,14 @@ export default function MasPage() {
         </span>
         <div className="flex-1">
           <p className="text-[15px] font-semibold text-[var(--text-primary)]">{nombre ?? correo ?? 'Tu cuenta'}</p>
-          {gratisDisponible ? (
+          {conPlan ? (
+            <p className="mt-0.5 inline-flex items-center gap-1 text-[11px] font-bold text-[var(--accent-lite)]">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--accent-lite)" aria-hidden="true">
+                <path d="M3 8l4 3 5-6 5 6 4-3v9H3z" />
+              </svg>
+              Plan activo
+            </p>
+          ) : gratisDisponible ? (
             <p className="mt-0.5 text-[11px] font-semibold text-[var(--text-secondary)]">Sin plan activo todavía</p>
           ) : (
             <Link
