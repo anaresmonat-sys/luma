@@ -18,69 +18,78 @@ const MAX_NOMBRE = 30;
 const DURACION_SALUDO_MS = 2400;
 
 // Motas de luz doradas: posiciones fijas (sin azar) para que el servidor y el navegador coincidan.
+// "g" = tamaño (px) del punto; el brillo (resplandor) crece con él.
 const MOTAS = [
-  { x: 12, y: 18, t: 7, d: 0 },
-  { x: 82, y: 12, t: 9, d: 1.2 },
-  { x: 30, y: 34, t: 8, d: 2.1 },
-  { x: 68, y: 40, t: 10, d: 0.6 },
-  { x: 90, y: 58, t: 7, d: 1.8 },
-  { x: 8, y: 66, t: 9, d: 2.6 },
-  { x: 48, y: 78, t: 8, d: 0.9 },
-  { x: 76, y: 84, t: 10, d: 1.5 },
-  { x: 22, y: 90, t: 7, d: 2.3 },
+  { x: 10, y: 14, t: 6, d: 0, g: 6 },
+  { x: 84, y: 10, t: 8, d: 1.2, g: 5 },
+  { x: 26, y: 30, t: 7, d: 2.1, g: 4 },
+  { x: 72, y: 26, t: 9, d: 0.6, g: 7 },
+  { x: 92, y: 48, t: 6, d: 1.8, g: 5 },
+  { x: 6, y: 54, t: 8, d: 2.6, g: 6 },
+  { x: 18, y: 72, t: 7, d: 0.9, g: 4 },
+  { x: 50, y: 82, t: 9, d: 1.5, g: 6 },
+  { x: 80, y: 74, t: 6, d: 2.3, g: 7 },
+  { x: 36, y: 92, t: 8, d: 0.3, g: 5 },
+  { x: 62, y: 6, t: 7, d: 1.9, g: 4 },
+  { x: 94, y: 88, t: 9, d: 0.8, g: 5 },
+  { x: 4, y: 90, t: 6, d: 2.8, g: 4 },
+  { x: 56, y: 58, t: 10, d: 1.1, g: 4 },
 ] as const;
-
-const MARCAS = Array.from({ length: 24 }, (_, i) => i);
 
 function limpiarNombre(valor: string): string {
   return valor.replace(/[\u0000-\u001f\u007f<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, MAX_NOMBRE);
 }
 
-function Emblema({ latido }: { latido: boolean }) {
+/** La carta de LUMA flotando: reverso del mazo (ciruela, doble marco dorado, emblema) con balanceo 3D,
+ *  un destello que la cruza y un resplandor que respira debajo. */
+function CartaFlotante({ vivo }: { vivo: boolean }) {
   return (
-    <div className="relative flex size-56 items-center justify-center" aria-hidden="true">
+    <div className="relative flex h-[272px] w-full items-center justify-center" aria-hidden="true" style={{ perspective: '900px' }}>
       <motion.div
-        className="absolute inset-0 rounded-full"
+        className="absolute size-[260px] rounded-full"
         style={{
           background:
-            'radial-gradient(closest-side, color-mix(in oklab, var(--accent-lite) 38%, transparent), transparent 72%)',
+            'radial-gradient(closest-side, color-mix(in oklab, var(--accent-lite) 46%, transparent), transparent 72%)',
         }}
-        animate={latido ? { scale: [1, 1.16, 1], opacity: [0.75, 1, 0.75] } : undefined}
+        animate={vivo ? { scale: [1, 1.18, 1], opacity: [0.7, 1, 0.7] } : undefined}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.svg
-        viewBox="0 0 216 216"
-        className="absolute inset-0 size-full"
-        animate={latido ? { rotate: 360 } : undefined}
-        transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
+      <motion.div
+        className="absolute bottom-1 h-4 w-28 rounded-full blur-md"
+        style={{ background: 'color-mix(in oklab, var(--accent-lite) 55%, transparent)' }}
+        animate={vivo ? { scaleX: [1, 0.75, 1], opacity: [0.55, 0.25, 0.55] } : undefined}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        className="relative flex h-[232px] w-[148px] items-center justify-center overflow-hidden rounded-2xl"
+        style={{
+          transformStyle: 'preserve-3d',
+          background: 'linear-gradient(160deg, color-mix(in oklab, var(--bloom-vino) 80%, var(--bg)), var(--bg) 78%)',
+          boxShadow:
+            '0 24px 36px -16px rgb(10 5 8 / 0.85), 0 0 40px -6px color-mix(in oklab, var(--accent-lite) 55%, transparent), inset 0 1px 0 rgb(255 255 255 / 0.28), inset 0 0 0 1.5px color-mix(in oklab, var(--accent-lite) 90%, transparent)',
+        }}
+        animate={vivo ? { y: [0, -14, 0], rotateZ: [-3, 3, -3], rotateY: [-12, 12, -12] } : undefined}
+        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <circle cx="108" cy="108" r="104" fill="none" stroke="var(--accent-lite)" strokeOpacity="0.45" strokeWidth="1" />
-        <circle
-          cx="108"
-          cy="108"
-          r="88"
-          fill="none"
-          stroke="var(--accent-lite)"
-          strokeOpacity="0.28"
-          strokeWidth="1"
-          strokeDasharray="2 7"
+        <span
+          className="absolute inset-2 rounded-xl"
+          style={{ border: '1px solid color-mix(in oklab, var(--accent-lite) 50%, transparent)' }}
         />
-        {MARCAS.map((i) => (
-          <line
-            key={i}
-            x1="108"
-            y1="4"
-            x2="108"
-            y2={i % 6 === 0 ? 16 : 10}
-            stroke="var(--accent-lite)"
-            strokeOpacity={i % 6 === 0 ? 0.85 : 0.4}
-            strokeWidth={i % 6 === 0 ? 1.5 : 1}
-            transform={`rotate(${i * 15} 108 108)`}
+        <span
+          className="absolute inset-4 rounded-lg"
+          style={{ border: '1px solid color-mix(in oklab, var(--accent-lite) 24%, transparent)' }}
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/luma-icon.png" alt="" className="relative h-24 w-auto brightness-125 drop-shadow-[0_0_18px_rgba(224,176,92,0.7)]" />
+        {vivo && (
+          <motion.span
+            className="absolute inset-y-0 -left-1/2 w-1/2"
+            style={{ background: 'linear-gradient(105deg, transparent 20%, rgb(255 255 255 / 0.32) 50%, transparent 80%)' }}
+            animate={{ x: ['0%', '420%'] }}
+            transition={{ duration: 3.4, repeat: Infinity, repeatDelay: 2.2, ease: 'easeInOut' }}
           />
-        ))}
-      </motion.svg>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/luma-icon.png" alt="" className="relative h-24 w-auto drop-shadow-[0_0_24px_rgba(224,176,92,0.55)]" />
+        )}
+      </motion.div>
     </div>
   );
 }
@@ -190,9 +199,15 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
               MOTAS.map((m, i) => (
                 <motion.span
                   key={i}
-                  className="absolute size-1 rounded-full bg-[var(--accent-lite)]"
-                  style={{ left: `${m.x}%`, top: `${m.y}%`, boxShadow: '0 0 8px 1px var(--accent-lite)' }}
-                  animate={{ y: [0, -18, 0], opacity: [0.15, 0.85, 0.15] }}
+                  className="absolute rounded-full bg-[var(--accent-lite)]"
+                  style={{
+                    left: `${m.x}%`,
+                    top: `${m.y}%`,
+                    width: m.g,
+                    height: m.g,
+                    boxShadow: `0 0 ${m.g * 3}px ${m.g / 2}px var(--accent-lite)`,
+                  }}
+                  animate={{ y: [0, -22, 0], x: [0, 6, 0], opacity: [0.35, 1, 0.35] }}
                   transition={{ duration: m.t, delay: m.d, repeat: Infinity, ease: 'easeInOut' }}
                 />
               ))}
@@ -212,7 +227,7 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <Emblema latido={mov} />
+                    <CartaFlotante vivo={mov} />
                   </motion.div>
 
                   <motion.p
@@ -300,7 +315,7 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
                     animate={mov ? { scale: [0.9, 1.12] } : undefined}
                     transition={{ duration: 2.2, ease: 'easeOut' }}
                   >
-                    <Emblema latido={mov} />
+                    <CartaFlotante vivo={mov} />
                   </motion.div>
                   <h1 className="mt-8 text-[32px] font-semibold leading-tight text-[var(--text-primary)] [font-family:var(--font-display)]">
                     {nombreFinal ? (
