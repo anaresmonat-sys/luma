@@ -23,7 +23,6 @@ import { InvitacionPlan } from '@/components/app/InvitacionPlan';
 import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import { EMOCIONES_DIARIO } from '@/lib/seed-datos';
 import { leerYLimpiarEntradaPendiente } from '@/lib/almacenamiento-diario';
-import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
 import { consumirPruebaGratis } from '@/lib/prueba-gratis';
 
 const contenedor = {
@@ -48,8 +47,6 @@ export default function DiarioPage() {
   const [guardando, setGuardando] = useState(false);
   const [errorPatron, setErrorPatron] = useState(false);
   const [mensajeTope, setMensajeTope] = useState<string | null>(null);
-  // Arcano de la persona, si ya calculó su mapa (versión ampliada): se nombra en la cajita del mapa.
-  const [arcanoMapa, setArcanoMapa] = useState<string | null>(null);
   const { disponible, conPlan, refrescar } = usePruebaDisponible();
   const inicializado = useRef(false);
   const guardadoAutomatico = useRef(false);
@@ -66,8 +63,6 @@ export default function DiarioPage() {
       setTexto(pendiente);
       setTrajoLectura(true);
     }
-    const mapa = leerMapaPoder();
-    if (mapa && mapa.version === 2) setArcanoMapa(mapa.arcanoNombre);
     try {
       setRegistros(Number(window.localStorage.getItem('luma_diario_contador') ?? 0));
     } catch {
@@ -314,7 +309,7 @@ export default function DiarioPage() {
             <span className="flex-1">
               <span className="block text-[13px] font-semibold text-[var(--accent-lite)]">Tu mapa de poder</span>
               <span className="mt-0.5 block text-[11px] leading-snug text-[var(--text-secondary)]">
-                {arcanoMapa ? `Tu arcano: ${arcanoMapa}` : 'Tu arcano, tu propósito y cómo te ven'}
+                Quién eres, qué te mueve y cómo te ven
               </span>
             </span>
             <span aria-hidden="true" className="text-[var(--accent-lite)]">
