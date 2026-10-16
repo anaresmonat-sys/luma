@@ -12,7 +12,7 @@
 // montar, se le pregunta también a /api/mi-plan; si la cuenta tiene plan, el
 // aviso NUNCA se muestra, sin importar lo que diga el navegador.
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { pruebaGratisDisponible } from '@/lib/prueba-gratis';
 import { modoPersonaNueva } from '@/lib/modo-revision';
 
@@ -21,7 +21,11 @@ export function usePruebaDisponible() {
   // null = todavía no sabemos si hay plan: en ese caso no se pinta ningún aviso (evita que
   // alguien con plan vea un instante "Tu primer resultado es gratis", que sería falso).
   const [conPlan, setConPlan] = useState<boolean | null>(null);
-  const refrescar = useCallback(() => setDisponible(pruebaGratisDisponible()), []);
+  // Si la cuenta tiene plan, "refrescar" (se llama tras cada respuesta de la IA) NO debe volver a cerrar la
+  // puerta: antes, al gastar la marca local de la primera lectura gratis, la caja de escribir pasaba a
+  // "Elige tu plan para seguir…" aunque la persona ya pagara (defecto real, 2026-10-16).
+  const conPlanRef = useRef(false);
+  const refrescar = useCallback(() => setDisponible(conPlanRef.current || pruebaGratisDisponible()), []);
   useEffect(() => {
     refrescar();
     let cancelado = false;
@@ -31,6 +35,7 @@ export function usePruebaDisponible() {
         if (cancelado) return;
         // Modo revisión de la dueña: se ve como una persona nueva aunque tenga acceso completo.
         const activo = Boolean(datos?.activo) && !modoPersonaNueva();
+        conPlanRef.current = activo;
         if (activo) setDisponible(true);
         setConPlan(activo);
       })

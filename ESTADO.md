@@ -1081,3 +1081,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 🔄 2026-10-15: Avatar de LUMA FINAL: emblema con luna en medallón, 30% más grande (LumaAvatar → LumaMedallon luna). Se eliminó el retrato con cara y sus tokens. Capturas luma-avatar-coach-375. Sin publicar.
 
 ⏭️ SIGUIENTE (pedido de la dueña, 2026-10-15): TODO LO DE LOS CORREOS — ver memoria `pendiente_correos`: (A) plantillas Supabase en español + caducidad 24 h; (B) Reply-To de hola@ y reenvío de soporte@ a Outlook; (C) correo de la cuenta de Hotmart, módulo "Empieza aquí" y página /gracias; (D) Google / código de 6 dígitos y resto de correos del negocio. Antes: cancelar la prueba de Hotmart ANTES DEL 18-oct.
+
+🔄 2026-10-16: BUG de pago corregido — con plan activo, tras la primera respuesta de la IA la caja de escribir pasaba a "Elige tu plan para seguir…" (refrescar() miraba solo la marca local de lectura gratis, no el plan). lib/use-prueba-gratis.ts ahora recuerda si hay plan (conPlanRef). Probado simulando plan activo: tras la respuesta del Coach la caja sigue abierta. Afecta a Coach, Descifrar, Tarot y Diario. Sin publicar.
