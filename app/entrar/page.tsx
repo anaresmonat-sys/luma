@@ -4,7 +4,7 @@
 // docs/sistema/50-DISENO-ONBOARDING-PAYWALL.md §E. Magic link por email como
 // método primario (26-AUTH-MODERNO, decisión Hotmart-first) — sin contraseñas.
 // Conectado a Supabase Auth real (Sesión 6): signInWithOtp + app/auth/callback
-// intercambia el código por una sesión real. Login con Google llega después.
+// intercambia el código por una sesión real. También se puede entrar con Google (OAuth).
 
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
@@ -28,7 +28,7 @@ export default function EntrarLuma() {
   const [estado, setEstado] = useState<Estado>('reposo');
   const [mensajeError, setMensajeError] = useState(MENSAJE_EMAIL_INVALIDO);
   const [segundosRestantes, setSegundosRestantes] = useState(0);
-  const [avisoGoogle, setAvisoGoogle] = useState(false);
+  const [enviandoGoogle, setEnviandoGoogle] = useState(false);
   // Aceptación de Términos/Privacidad: nace SIEMPRE sin marcar y jamás se
   // guarda en localStorage — un consentimiento premarcado en un dispositivo
   // compartido atribuiría la decisión de una persona a otra (47-LEGAL §2.5).
@@ -77,6 +77,28 @@ export default function EntrarLuma() {
     }
     setEstado('enviado');
     setSegundosRestantes(REENVIAR_SEGUNDOS);
+  }
+
+  // "Continuar con Google": la persona sale a Google, elige su cuenta y vuelve por /auth/callback ya con la
+  // sesión abierta. Pide la misma aceptación de Términos y Privacidad que el enlace por correo.
+  async function entrarConGoogle() {
+    if (!acepta) {
+      setMensajeError(MENSAJE_SIN_ACEPTAR);
+      setEstado('error');
+      return;
+    }
+    setEnviandoGoogle(true);
+    const supabase = crearClienteNavegador();
+    const next = vieneDePaywall ? '/paywall' : '/app';
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: `${window.location.origin}/auth/callback?next=${next}` },
+    });
+    if (error) {
+      setEnviandoGoogle(false);
+      setMensajeError(MENSAJE_ENVIO_FALLIDO);
+      setEstado('error');
+    }
   }
 
   const salidaHref = vieneDePaywall ? '/paywall' : '/';
@@ -239,17 +261,12 @@ export default function EntrarLuma() {
 
           <button
             type="button"
-            onClick={() => setAvisoGoogle(true)}
-            className="flex h-[52px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--text-tertiary)_28%,transparent)] text-[15px] font-medium text-[var(--text-secondary)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            onClick={() => void entrarConGoogle()}
+            disabled={enviandoGoogle}
+            className="flex h-[52px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--text-tertiary)_40%,transparent)] text-[15px] font-medium text-[var(--text-primary)] transition-opacity disabled:opacity-70 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
-            Continuar con Google
-            <span className="text-[12px] text-[var(--text-tertiary)]">(disponible pronto)</span>
+            {enviandoGoogle ? 'Abriendo Google…' : 'Continuar con Google'}
           </button>
-          {avisoGoogle && (
-            <p className="text-center text-[13px] text-[var(--text-tertiary)]">
-              La entrada con Google se activa en una etapa posterior — usa tu correo por ahora.
-            </p>
-          )}
 
           <p className="mt-1 text-center text-[13px] text-[var(--text-tertiary)]">
             Sin contraseñas: te llegará un enlace de un solo uso
