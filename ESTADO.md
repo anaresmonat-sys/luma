@@ -1087,3 +1087,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 ✅ 2026-10-16: CORREOS A — plantillas de acceso en español (Magic link + Confirm sign up) guardadas en Supabase y probadas (asunto, diseño, firma de tuluma.app OK; entra directo a la app); caducidad del enlace 24 h (aviso naranja de Supabase aceptado). Usuario de prueba +prueba1 borrado. Siguiente: B (Reply-To / hola@ y reenvío de soporte@).
 
 ✅ 2026-10-16: CORREOS B — reenvíos de Porkbun: hola@tuluma.app y soporte@tuluma.app → tuluma.soporte@outlook.com (hola probado; soporte se prueba mandando un correo). Aviso: el traductor del navegador rompe los paneles. Siguiente: C (Hotmart: módulo "Empieza aquí", página de agradecimiento /gracias, correo de la cuenta) y cancelar la prueba ANTES DEL 18-oct.
+
+✅ 2026-10-16: CORREOS B verificado — soporte@ y hola@ llegan a tuluma.soporte@outlook.com (prueba hecha por la dueña). Siguiente: cancelar la prueba de Hotmart (ANTES DEL 18-oct) y luego C (club "Empieza aquí", /gracias como agradecimiento, correo de la cuenta).
