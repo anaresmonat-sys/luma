@@ -1089,3 +1089,5 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 ✅ 2026-10-16: CORREOS B — reenvíos de Porkbun: hola@tuluma.app y soporte@tuluma.app → tuluma.soporte@outlook.com (hola probado; soporte se prueba mandando un correo). Aviso: el traductor del navegador rompe los paneles. Siguiente: C (Hotmart: módulo "Empieza aquí", página de agradecimiento /gracias, correo de la cuenta) y cancelar la prueba ANTES DEL 18-oct.
 
 ✅ 2026-10-16: CORREOS B verificado — soporte@ y hola@ llegan a tuluma.soporte@outlook.com (prueba hecha por la dueña). Siguiente: cancelar la prueba de Hotmart (ANTES DEL 18-oct) y luego C (club "Empieza aquí", /gracias como agradecimiento, correo de la cuenta).
+
+⏰ RECORDATORIO (acordado 2026-10-16): CANCELAR la suscripción de prueba de Hotmart MAÑANA 2026-10-17 (HP3226222682, tradingmargarita@gmail.com). Decirlo lo primero al empezar la sesión. Límite duro: 18-oct. Después comprobar en `subscriptions` que la app registra la cancelación.
