@@ -22,6 +22,11 @@ const MENSAJE_ENLACE_EXPIRADO =
   'Ese enlace ya no es válido: caduca pronto y solo sirve una vez. Escribe tu correo y te enviamos uno nuevo.';
 const MENSAJE_SIN_ACEPTAR = 'Marca la casilla para continuar.';
 
+// "Continuar con Google" está configurado y probado, pero se oculta en el lanzamiento: la pantalla de Google muestra la
+// dirección técnica de Supabase ("…supabase.co") y a una clienta nueva le parece sospechosa. Se reactiva (true) cuando
+// entre por el botón oficial de Google dentro de tuluma.app, o con un dominio propio de Supabase (decisión 2026-10-17).
+const MOSTRAR_GOOGLE = false;
+
 export default function EntrarLuma() {
   const reduce = useReducedMotion();
   const [email, setEmail] = useState('');
@@ -259,14 +264,16 @@ export default function EntrarLuma() {
             </motion.button>
           </form>
 
-          <button
-            type="button"
-            onClick={() => void entrarConGoogle()}
-            disabled={enviandoGoogle}
-            className="flex h-[52px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--text-tertiary)_40%,transparent)] text-[15px] font-medium text-[var(--text-primary)] transition-opacity disabled:opacity-70 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-          >
-            {enviandoGoogle ? 'Abriendo Google…' : 'Continuar con Google'}
-          </button>
+          {MOSTRAR_GOOGLE && (
+            <button
+              type="button"
+              onClick={() => void entrarConGoogle()}
+              disabled={enviandoGoogle}
+              className="flex h-[52px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--text-tertiary)_40%,transparent)] text-[15px] font-medium text-[var(--text-primary)] transition-opacity disabled:opacity-70 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            >
+              {enviandoGoogle ? 'Abriendo Google…' : 'Continuar con Google'}
+            </button>
+            )}
 
           <p className="mt-1 text-center text-[13px] text-[var(--text-tertiary)]">
             Sin contraseñas: te llegará un enlace de un solo uso
