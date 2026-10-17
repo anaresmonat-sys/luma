@@ -5,11 +5,11 @@
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { KeyRound, Mail, MailQuestion } from 'lucide-react';
+import { Clock, KeyRound, Mail, MailQuestion } from 'lucide-react';
 import { AppLinkButton } from '@/components/app/AppButton';
 
 export const metadata: Metadata = {
-  title: 'Tu compra está confirmada — LUMA',
+  title: 'Tu compra — LUMA',
   robots: { index: false, follow: false },
 };
 
@@ -31,7 +31,26 @@ const PASOS = [
   },
 ] as const;
 
-export default function GraciasPage() {
+// Pasos mientras el pago aún no está confirmado (Hotmart "en espera de pago" / "en análisis de crédito"): la dirección
+// de esos dos estados es /gracias?estado=pendiente. No se promete acceso hasta que llegue el correo.
+const PASOS_PENDIENTE = [
+  {
+    Icono: Clock,
+    titulo: 'Espera la confirmación',
+    texto: 'Puede tardar desde unos minutos hasta un día, según cómo hayas pagado. No tienes que hacer nada más.',
+  },
+  {
+    Icono: Mail,
+    titulo: 'Te llegará un correo con tu botón de entrada',
+    texto: 'En cuanto se confirme el pago. Si no lo ves, mira en spam o promociones.',
+  },
+  PASOS[2],
+] as const;
+
+export default async function GraciasPage({ searchParams }: { searchParams: Promise<{ estado?: string | string[] }> }) {
+  const { estado } = await searchParams;
+  const pendiente = estado === 'pendiente';
+  const pasos = pendiente ? PASOS_PENDIENTE : PASOS;
   return (
     <main className="relative mx-auto flex min-h-dvh w-full max-w-[480px] flex-col px-6 pb-8 pt-12 [font-family:var(--font-body)]">
       <div
@@ -47,18 +66,30 @@ export default function GraciasPage() {
       <p className="text-center text-xs font-semibold tracking-widest text-[var(--accent-lite)]">LUMA</p>
 
       <h1 className="mt-6 text-center text-[32px] font-semibold leading-tight text-[var(--text-primary)] [font-family:var(--font-display)]">
-        Tu compra está <span className="text-[var(--accent-lite)]">confirmada</span>
+        {pendiente ? (
+          <>
+            Estamos <span className="text-[var(--accent-lite)]">confirmando</span> tu pago
+          </>
+        ) : (
+          <>
+            Tu compra está <span className="text-[var(--accent-lite)]">confirmada</span>
+          </>
+        )}
       </h1>
       <p className="mx-auto mt-3 max-w-xs text-center text-base leading-relaxed text-[var(--text-secondary)]">
-        LUMA no vive en el área de cursos de Hotmart: vive en tu propio espacio en la web. Entra desde aquí.
+        {pendiente
+          ? 'En cuanto se confirme, te enviamos un correo con tu acceso a LUMA. LUMA no vive en el área de cursos de Hotmart: vive en tu propio espacio en la web.'
+          : 'LUMA no vive en el área de cursos de Hotmart: vive en tu propio espacio en la web. Entra desde aquí.'}
       </p>
 
-      <div className="mt-7">
-        <AppLinkButton href="/entrar">Entrar a LUMA</AppLinkButton>
-      </div>
+      {!pendiente && (
+        <div className="mt-7">
+          <AppLinkButton href="/entrar">Entrar a LUMA</AppLinkButton>
+        </div>
+      )}
 
       <ol className="mt-8 flex flex-col gap-3">
-        {PASOS.map(({ Icono, titulo, texto }) => (
+        {pasos.map(({ Icono, titulo, texto }) => (
           <li
             key={titulo}
             className="flex items-start gap-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface-2)] p-3.5"
