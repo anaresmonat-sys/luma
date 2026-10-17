@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { motion, useReducedMotion } from 'motion/react';
 import { Check } from 'lucide-react';
 
-export function PasoEdad({ onContinuar }: { onContinuar: () => void }) {
+export function PasoEdad({ onContinuar, conSesion = false }: { onContinuar: () => void; conSesion?: boolean }) {
   const reduce = useReducedMotion();
   const [marcado, setMarcado] = useState(false);
   const [pista, setPista] = useState(false);
@@ -32,14 +32,23 @@ export function PasoEdad({ onContinuar }: { onContinuar: () => void }) {
           <img src="/luma-icon.png" alt="" className="h-9 w-auto brightness-125" />
         </span>
         <h1 className="mt-5 text-balance text-[28px] font-bold leading-[1.1] text-[var(--text-primary)] [font-family:var(--font-display)]">
-          Una cosa antes de tu <span className="text-[var(--accent)]">primera lectura</span>
+          {conSesion ? (
+            <>
+              Una cosa antes de <span className="text-[var(--accent)]">entrar</span>
+            </>
+          ) : (
+            <>
+              Una cosa antes de tu <span className="text-[var(--accent)]">primera lectura</span>
+            </>
+          )}
         </h1>
         <p className="mt-3 max-w-[340px] text-[16px] font-semibold leading-snug text-[var(--text-primary)]">
           Aquí nadie te juzga: es un espacio privado.
         </p>
         <p className="mt-2 max-w-[340px] text-[14px] leading-relaxed text-[var(--text-secondary)]">
-          LUMA habla de relaciones, tarot e inteligencia emocional para adultos. Confirma tu edad y empiezas: tu primera
-          lectura es gratis, sin tarjeta.
+          {conSesion
+            ? 'LUMA habla de relaciones, tarot e inteligencia emocional para adultos. Confirma tu edad y entras: solo te lo pedimos una vez.'
+            : 'LUMA habla de relaciones, tarot e inteligencia emocional para adultos. Confirma tu edad y empiezas: tu primera lectura es gratis, sin tarjeta.'}
         </p>
       </div>
 
@@ -90,7 +99,7 @@ export function PasoEdad({ onContinuar }: { onContinuar: () => void }) {
           }}
           className="flex h-14 w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-bold text-[var(--on-accent)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)]"
         >
-          Empezar mi lectura gratis
+          {conSesion ? 'Entrar a LUMA' : 'Empezar mi lectura gratis'}
         </motion.button>
         <p className="mt-3 text-center text-[12px] leading-snug text-[var(--text-tertiary)]">
           Al continuar aceptas los{' '}
