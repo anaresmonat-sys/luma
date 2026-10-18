@@ -1113,3 +1113,10 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 - Decisiones: Google oculto (MOSTRAR_GOOGLE=false), /gracias configurada, prueba de tradingmargarita cancelada.
 - Próximo paso: cambiar el correo de la cuenta de Hotmart a tuluma.soporte@outlook.com (al final), luego precio/divisa por país y verificar la próxima compra.
 - (2026-10-17) Correo de cuenta de Hotmart: DESCARTADO. El campo Email está bloqueado en Información personal (solo cambia por Central de Ayuda, y Hotmart ya dijo que no). Se deja el Gmail; se cambia Nombre social a LUMA y Usuario a algo de marca. Lección del club corregida (soporte@tuluma.app).
+
+🔄 2026-10-18 — RONDA VISUAL 10 (en curso, sin publicar): aplicados los defectos abiertos de la Ronda 9.
+- Paywall: halo con máscara sin borde duro, carta compacta (scale 0.6, h-36) sin solapar el titular, garantía nombrada UNA vez en la barra fija ("Garantía LUMA: 15 días, te devolvemos tu dinero"), letra pequeña simplificada. (try/catch del checkout ya existía.)
+- Puerta de edad (PasoEdad): entrada escalonada, hairline degradé en la casilla, sacudida + borde acento si falta marcar, aria-describedby, spring al marcar, botón con estado "Entrando…"; copy empieza por el no-juicio.
+- Landing: 24px de aire en el hero y píldoras sin relleno, nota del carrusel "Sin tarjeta · sin registro", flechas del carrusel como chips 44px, pie en rejilla 2 columnas con emblema real.
+- Evidencia: docs/revisiones/*-r10-*.png. Veredictos de los 3 revisores se escriben como sección "Ronda 10" en cada *-veredicto.md. Pendiente: leer notas, corregir lo que pidan y publicar con el OK de la dueña.
+- Aviso de precios: "Se cobra en tu moneda local" (publicado en edb568a).

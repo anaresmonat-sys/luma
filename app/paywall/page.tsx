@@ -113,7 +113,7 @@ export default function PaywallLuma() {
           transition={{ duration: reduce ? 0.2 : 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="flex justify-center"
         >
-          <div className="scale-[0.7] [transform-origin:top]">
+          <div className="h-36 scale-[0.6] [transform-origin:top]">
             <CartaSacerdotisa animar={false} />
           </div>
         </motion.div>
@@ -123,7 +123,7 @@ export default function PaywallLuma() {
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className="-mt-4"
+          className="mt-2"
         >
           {lecturaUsada && (
             <p className="mb-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_40%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2 text-[13px] font-semibold leading-snug text-[var(--text-primary)]">
@@ -170,9 +170,9 @@ export default function PaywallLuma() {
             className="pointer-events-none absolute inset-x-0 -top-10 -z-10 h-[420px]"
             style={{
               background:
-                'radial-gradient(480px 320px at 50% 0%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 70%)',
-              maskImage: 'linear-gradient(to bottom, black 35%, transparent)',
-              WebkitMaskImage: 'linear-gradient(to bottom, black 35%, transparent)',
+                'radial-gradient(480px 320px at 50% 40%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 70%)',
+              maskImage: 'linear-gradient(to bottom, transparent, black 30%, black 55%, transparent)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 30%, black 55%, transparent)',
             }}
           />
           <PlanCards
@@ -236,10 +236,6 @@ export default function PaywallLuma() {
               <Lock size={14} aria-hidden="true" />
               Pago seguro con Hotmart
             </span>
-            <span className="flex items-center gap-1.5 whitespace-nowrap">
-              <ShieldCheck size={14} aria-hidden="true" />
-              Garantía de 15 días
-            </span>
           </p>
         </motion.div>
       </div>
@@ -274,8 +270,12 @@ export default function PaywallLuma() {
               No pudimos abrir el pago. Vuelve a intentarlo o escríbenos a soporte@tuluma.app.
             </p>
           )}
-          <p className="mt-2 text-center text-[12px] leading-snug text-[var(--text-tertiary)]">
-            Después, {seleccionado === 'anual' ? '$89,99 al año' : '$9,99 al mes'}, más impuestos. Se cobra en tu moneda local y el importe final lo ves en la página de pago. Cancelas cuando quieras y tienes 15 días de garantía desde el primer cobro.
+          <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[13px] font-semibold leading-snug text-[var(--text-secondary)]">
+            <ShieldCheck size={16} aria-hidden="true" className="shrink-0 text-[var(--accent-lite)]" />
+            Garantía LUMA: 15 días, te devolvemos tu dinero
+          </p>
+          <p className="mt-1 text-center text-[12px] leading-snug text-[var(--text-tertiary)]">
+            Después, {seleccionado === 'anual' ? '$89,99 al año' : '$9,99 al mes'}, más impuestos, en tu moneda local. Cancelas cuando quieras.
           </p>
         </div>
       </div>

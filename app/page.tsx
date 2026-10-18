@@ -47,7 +47,7 @@ export default function LandingLuma() {
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
         socialProof={
-          <span className="flex flex-col items-center gap-3">
+          <span className="flex flex-col items-center gap-6">
             <span>Tu primera lectura es gratis · sin tarjeta · sin registro</span>
             <span className="flex flex-col items-center gap-2">
               <span className="font-semibold text-[var(--text-primary)]">Elige la lectura que más te vibre:</span>
@@ -61,7 +61,7 @@ export default function LandingLuma() {
                   <a
                     key={id}
                     href={`/onboarding?ayuda=${id}`}
-                    className="inline-flex min-h-11 items-center rounded-full border border-[color-mix(in_oklab,var(--accent)_50%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] px-3 text-[13px] font-semibold text-[var(--accent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                    className="inline-flex min-h-11 items-center rounded-full border border-[color-mix(in_oklab,var(--accent)_30%,transparent)] px-3 text-[13px] font-semibold text-[var(--accent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
                   >
                     {texto}
                   </a>
@@ -147,7 +147,7 @@ export default function LandingLuma() {
         tituloMarked="Desliza y mira [acento]cómo se siente[/acento]"
         ctaLabel="Tu primera lectura de tarot gratis"
         ctaHref="/onboarding?ayuda=tarot"
-        ctaNota="Tu primera lectura es gratis · sin tarjeta · sin registro"
+        ctaNota="Sin tarjeta · sin registro"
         frames={[
           {
             src: '/carrusel/inicio.webp',
@@ -269,6 +269,7 @@ export default function LandingLuma() {
       {/* 10 · FOOTER LEGAL — las páginas enlazadas existen como borrador (contenido pendiente, archivo 47) */}
       <FooterLegal
         appName="LUMA"
+        logo={<img src="/luma-icon.png" alt="" aria-hidden="true" className="h-5 w-auto" />}
         soporteEmail="soporte@tuluma.app"
         enlaces={[
           { label: 'Privacidad', href: '/privacidad' },

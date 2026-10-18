@@ -170,7 +170,7 @@ export function AppPorDentro({
               onClick={() => irA(activo - 1)}
               disabled={activo === 0}
               aria-label="Pantalla anterior"
-              className="flex size-11 items-center justify-center text-[var(--text-secondary)] transition-opacity [touch-action:manipulation] disabled:opacity-30"
+              className="flex size-11 items-center justify-center rounded-full bg-[color-mix(in_oklab,var(--accent)_14%,transparent)] text-[var(--accent-lite)] transition-opacity [touch-action:manipulation] disabled:opacity-40"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M15 18l-6-6 6-6" />
@@ -190,7 +190,7 @@ export function AppPorDentro({
                     className={`h-2 rounded-full transition-[width,background-color] duration-300 ${
                       activo === i
                         ? 'w-6 bg-[var(--accent)]'
-                        : 'w-2 bg-[color-mix(in_oklab,var(--text-tertiary)_35%,transparent)]'
+                        : 'w-2 bg-[color-mix(in_oklab,var(--text-tertiary)_60%,transparent)]'
                     }`}
                   />
                 </button>
@@ -201,7 +201,7 @@ export function AppPorDentro({
               onClick={() => irA(activo + 1)}
               disabled={activo === frames.length - 1}
               aria-label="Pantalla siguiente"
-              className="flex size-11 items-center justify-center text-[var(--text-secondary)] transition-opacity [touch-action:manipulation] disabled:opacity-30"
+              className="flex size-11 items-center justify-center rounded-full bg-[color-mix(in_oklab,var(--accent)_14%,transparent)] text-[var(--accent-lite)] transition-opacity [touch-action:manipulation] disabled:opacity-40"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M9 18l6-6-6-6" />
