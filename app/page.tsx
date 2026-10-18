@@ -139,7 +139,7 @@ export default function LandingLuma() {
       {/* 4B · SINERGIA + EL CÍRCULO — gancho sutil de curiosidad (idea del usuario, 2026-09-25).
           Va DESPUÉS de explicar el mecanismo y ANTES del recorrido por la app, para que la oferta
           quede seguida del recorrido y no de un desvío (hallazgo del revisor independiente). */}
-      <SinergiaCirculo ctaLabel={CTA_LABEL} ctaHref={CTA_HREF} />
+      <SinergiaCirculo />
 
       {/* 5 · LA APP POR DENTRO — carrusel manual (19 §5), screenshots REALES a 375px
           tomados de la app interna ya construida y revisada (Sesión 5) */}

@@ -49,7 +49,7 @@ const PERSONAS_EJEMPLO = [
   },
 ];
 
-export function SinergiaCirculo({ ctaLabel, ctaHref }: { ctaLabel: string; ctaHref: string }) {
+export function SinergiaCirculo() {
   const { contenedor, item } = useReveal();
   const reduce = useReducedMotion();
   // Ejemplo precargado: quien llega puede tocar "Calcular" al instante, sin elegir nada.
@@ -204,7 +204,7 @@ export function SinergiaCirculo({ ctaLabel, ctaHref }: { ctaLabel: string; ctaHr
                     Tu análisis completo —química, fricciones y consejo para cuidar tus límites— te espera dentro de
                     LUMA.
                   </p>
-                  <CtaButton href={ctaHref} fullMobile>
+                  <CtaButton href={`/onboarding?ayuda=compatibilidad&tu=${signoA}&su=${signoB}`} fullMobile>
                     Ver mi análisis completo
                   </CtaButton>
                 </div>

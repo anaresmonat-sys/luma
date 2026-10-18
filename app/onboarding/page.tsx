@@ -17,7 +17,18 @@ import { registrarEvento, registrarEventoUnaVez } from '@/lib/registrar-evento';
 function entrarALaFuncion(ayuda: OpcionAyuda) {
   guardarRespuestas({ ayuda, ayudaLabel: OPCIONES_AYUDA[ayuda].label });
   registrarEvento('onboarding_completado');
-  window.location.href = OPCIONES_AYUDA[ayuda].ruta;
+  window.location.href = OPCIONES_AYUDA[ayuda].ruta + signosElegidos(ayuda);
+}
+
+// La calculadora de signos de la página de ventas manda los dos signos que la persona eligió
+// (?tu=leo&su=sagitario) para que la sinergia llegue ya preparada. Solo letras minúsculas.
+function signosElegidos(ayuda: OpcionAyuda): string {
+  if (ayuda !== 'compatibilidad') return '';
+  const q = new URLSearchParams(window.location.search);
+  const tu = q.get('tu') ?? '';
+  const su = q.get('su') ?? '';
+  const valido = (v: string) => /^[a-z]{3,12}$/.test(v);
+  return valido(tu) && valido(su) ? `?tu=${tu}&su=${su}` : '';
 }
 
 export default function OnboardingLuma() {

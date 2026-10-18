@@ -5,7 +5,7 @@
 // (/onboarding?ayuda=analizar|tarot|coach|diario). Hoy el recorrido es: confirmar la
 // edad → directo a la función real, donde está la primera lectura gratis.
 
-export type OpcionAyuda = 'analizar' | 'coach' | 'tarot' | 'diario';
+export type OpcionAyuda = 'analizar' | 'coach' | 'tarot' | 'diario' | 'compatibilidad';
 
 export interface Respuestas {
   ayuda?: string;
@@ -18,6 +18,8 @@ export const OPCIONES_AYUDA: Record<OpcionAyuda, { label: string; ruta: string }
   // El tarot arranca con el ritual de "Elige tu carta" (app/app/(tabs)/tarot/page.tsx).
   tarot: { label: 'Una guía de tarot para reflexionar', ruta: '/app/tarot?ritual=1' },
   diario: { label: 'Llevar un registro de cómo me siento', ruta: '/app/diario' },
+  // La calculadora de signos de la página de ventas («Ver mi análisis completo») llega aquí.
+  compatibilidad: { label: 'Ver la sinergia entre dos signos', ruta: '/app/compatibilidad' },
 };
 
 export const AYUDA_POR_DEFECTO: OpcionAyuda = 'analizar';
@@ -33,6 +35,7 @@ export function beneficiosPlan(r: Respuestas): { texto: string }[] {
     coach: 'Habla con LUMA, tu coach, cuando lo necesites',
     tarot: 'Tiradas de tarot con tus preguntas, no genéricas',
     diario: 'Tu diario emocional para ver tus patrones con el tiempo',
+    compatibilidad: 'Sinergia entre signos: química, fricciones y consejo para cuidar tus límites',
   };
   const principal = (r.ayuda && porAyuda[r.ayuda]) || porAyuda.analizar;
   const secundaria = r.ayuda === 'tarot' ? porAyuda.analizar : porAyuda.tarot;

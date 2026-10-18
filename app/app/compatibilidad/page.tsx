@@ -155,6 +155,16 @@ export default function CompatibilidadPage() {
   // Si ya hizo su Mapa de Poder, "Tú" viene con su signo puesto y solo falta el de la otra persona.
   // Se lee en efecto (no en el estado inicial) porque localStorage solo existe en el navegador.
   useEffect(() => {
+    // Si viene de la calculadora de la página de ventas (?tu=…&su=…), los dos signos llegan puestos.
+    const q = new URLSearchParams(window.location.search);
+    const tu = q.get('tu');
+    const su = q.get('su');
+    const existe = (id: string | null) => !!id && SIGNOS_ZODIACO.some((s) => s.id === id);
+    if (existe(tu) && existe(su)) {
+      setSigno1(tu);
+      setSigno2(su);
+      return;
+    }
     const mapa = leerMapaPoder();
     if (mapa && SIGNOS_ZODIACO.some((s) => s.id === mapa.signoId)) {
       setSigno1(mapa.signoId);
