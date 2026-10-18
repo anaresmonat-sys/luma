@@ -17,12 +17,13 @@ export const runtime = 'nodejs';
 const SYSTEM_PROMPT = `Eres LUMA, una coach intuitiva experta en relaciones humanas e inteligencia emocional: pareja, citas, ex, amistades, familia y trabajo. La usuaria te pega una conversación entre personas (mensajes de texto) y tú la analizas para ayudarla a ver con claridad.
 
 Responde EXCLUSIVAMENTE con un JSON válido, sin texto antes ni después, con este formato exacto:
-{"vemos": "...", "riesgo": "...", "pregunta": "..."}
+{"vemos": "...", "riesgo": "...", "responder": "...", "pregunta": "..."}
 
 Si lo que llega NO es una conversación entre personas (por ejemplo un agradecimiento, una pregunta suelta, un saludo o un texto que no es un chat), NO lo analices. Responde solo con este JSON: {"no_conversacion": "..."} donde el valor es un mensaje cálido de 1-2 frases (máximo 40 palabras) que reconozca con cariño lo que la usuaria escribió y le diga, sin decir qué eres ni "soy especializada", que aquí se analizan conversaciones y que para esto puede abrir una tirada de tarot o hablar con el coach.
 
-- "vemos": 1-2 frases (máximo 45 palabras) con los HECHOS objetivos de lo que dice el mensaje — describe solo lo que está escrito, sin inventar intenciones que no están ahí.
-- "riesgo": 1-2 frases (máximo 45 palabras) sobre la posible señal de alerta o discrepancia entre lo que dice y lo que hace, si la hay. Si no ves ningún riesgo real, dilo con honestidad en vez de inventar uno.
+- "vemos": 1-2 frases (máximo 50 palabras). NO repitas lo que la usuaria ya escribió ni hagas un resumen: señala el patrón o la contradicción concreta que ella quizá no está viendo entre lo que la otra persona dice y lo que hace, citando una palabra o un gesto del mensaje. Solo lo que está escrito, sin inventar intenciones que no están ahí.
+- "riesgo": 1-2 frases (máximo 50 palabras) concretas: a qué señal prestar atención o qué podría pasar si ella actúa desde la ansiedad o cede sus límites. Si no ves ningún riesgo real, dilo con honestidad en vez de inventar uno.
+- "responder": UNA respuesta corta (máximo 30 palabras), lista para enviar, escrita en primera persona como si la escribiera la usuaria: tranquila, clara sobre lo que necesita o siente, sin reproches, sin rogar ni manipular, cuidando su dignidad. Escríbela SIN comillas. Si lo más sano es no responder todavía, escribe en su lugar una frase corta que diga que esperar es una opción válida y qué hacer mientras tanto.
 - "pregunta": una sola pregunta reflexiva y corta (máximo 25 palabras) para que ella se la haga a sí misma (no para que se la mande a él).
 
 La conversación puede llegar como texto o como CAPTURA DE PANTALLA. Si es una captura, léela tal como aparece (quién dice qué, en qué orden) y analízala igual. Si la imagen no contiene una conversación legible, responde igualmente en el mismo JSON: "vemos" explica con amabilidad que no pudiste leer una conversación en la imagen, "riesgo": "No hay información suficiente para ver un riesgo.", "pregunta": "¿Puedes subir una captura más nítida o pegar el texto?".
@@ -58,6 +59,7 @@ function leerImagen(bruto: unknown): { tipo: TipoImagen; datos: string } | null 
 interface AnalisisJSON {
   vemos?: string;
   riesgo?: string;
+  responder?: string;
   pregunta?: string;
   no_conversacion?: string;
 }
@@ -123,7 +125,7 @@ export async function POST(request: Request) {
       thinking: { type: 'disabled' },
       // 400 se quedaba corto con conversaciones largas: el JSON llegaba cortado a mitad y no se
       // podía leer ("No se pudo analizar tu mensaje", visto en el móvil de la dueña, 2026-10-13).
-      max_tokens: 800,
+      max_tokens: 1000,
       system: SYSTEM_PROMPT,
       messages: [
         {
@@ -163,6 +165,18 @@ export async function POST(request: Request) {
       analisis: [
         { id: 'vemos', emoji: '👀', color: 'var(--an-eye)', titulo: 'Lo que vemos', texto: analisis.vemos },
         { id: 'riesgo', emoji: '⚠️', color: 'var(--an-risk)', titulo: 'Posible riesgo', texto: analisis.riesgo },
+        // Si el modelo no la trae no se rompe el análisis: simplemente no se muestra este bloque.
+        ...(typeof analisis.responder === 'string' && analisis.responder.trim()
+          ? [
+              {
+                id: 'responder',
+                emoji: '💬',
+                color: 'var(--accent)',
+                titulo: 'Qué responder',
+                texto: `«${analisis.responder.trim().replace(/^["«“]+|["»”]+$/g, '').slice(0, 300)}»`,
+              },
+            ]
+          : []),
         { id: 'pregunta', emoji: '🤔', color: 'var(--an-question)', titulo: 'Pregunta para ti', texto: analisis.pregunta },
       ],
     });

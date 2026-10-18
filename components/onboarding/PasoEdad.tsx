@@ -11,9 +11,18 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { Check } from 'lucide-react';
+import { Check, Lock } from 'lucide-react';
 
-export function PasoEdad({ onContinuar, conSesion = false }: { onContinuar: () => void; conSesion?: boolean }) {
+export function PasoEdad({
+  onContinuar,
+  conSesion = false,
+  nota,
+}: {
+  onContinuar: () => void;
+  conSesion?: boolean;
+  /** Línea de confianza bajo el texto (p. ej. «tu conversación es privada»). Solo si es cierta para la función elegida. */
+  nota?: string;
+}) {
   const reduce = useReducedMotion();
   const [marcado, setMarcado] = useState(false);
   const [intentos, setIntentos] = useState(0);
@@ -78,6 +87,15 @@ export function PasoEdad({ onContinuar, conSesion = false }: { onContinuar: () =
             ? 'Cuenta lo que te pasa sin miedo. LUMA es para adultos: confirma tu edad y entras, solo te lo pedimos una vez.'
             : 'Cuenta lo que te pasa sin miedo. LUMA es para adultos: confirma tu edad y tu primera lectura es gratis, sin tarjeta.'}
         </motion.p>
+        {nota && (
+          <motion.p
+            {...entrada(2)}
+            className="mt-4 flex max-w-[340px] items-start gap-2 text-left text-[13px] leading-snug text-[var(--text-secondary)]"
+          >
+            <Lock size={14} strokeWidth={2} aria-hidden="true" className="mt-0.5 shrink-0 text-[var(--accent-lite)]" />
+            {nota}
+          </motion.p>
+        )}
       </div>
 
       {/* Zona del pulgar: casilla + aviso + botón + legal, juntos y al fondo */}

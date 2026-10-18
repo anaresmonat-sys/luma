@@ -11,7 +11,7 @@
 
 import { useRef, useState } from 'react';
 import Link from 'next/link';
-import { Camera, CircleHelp, ClipboardList, ClipboardPaste, Eye, TriangleAlert } from 'lucide-react';
+import { Camera, CircleHelp, ClipboardList, ClipboardPaste, Eye, MessageCircle, TriangleAlert } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton, AppLinkButton } from '@/components/app/AppButton';
@@ -431,6 +431,8 @@ export default function DescifrarPage() {
                   >
                     {a.id === 'riesgo' ? (
                       <TriangleAlert size={16} strokeWidth={2} />
+                    ) : a.id === 'responder' ? (
+                      <MessageCircle size={16} strokeWidth={2} />
                     ) : a.id === 'pregunta' ? (
                       <CircleHelp size={16} strokeWidth={2} />
                     ) : (
@@ -439,7 +441,15 @@ export default function DescifrarPage() {
                   </span>
                   <div>
                     <h3 className="text-[12.5px] font-bold text-[var(--text-primary)]">{a.titulo}</h3>
-                    <p className="mt-0.5 text-[11.5px] leading-snug text-[var(--text-secondary)]">{a.texto}</p>
+                    <p
+                      className={
+                        a.id === 'responder'
+                          ? 'mt-0.5 text-[13px] font-medium italic leading-snug text-[var(--text-primary)]'
+                          : 'mt-0.5 text-[11.5px] leading-snug text-[var(--text-secondary)]'
+                      }
+                    >
+                      {a.texto}
+                    </p>
                   </div>
                 </motion.div>
               ))}
@@ -449,12 +459,12 @@ export default function DescifrarPage() {
                   href="/app/coach"
                   onClick={() =>
                     guardarMensajePendiente(
-                      `¿Qué podría responderle a esto?\n\n"${texto.trim() || analisis.find((a) => a.id === 'vemos')?.texto || ''}"`
+                      `Quiero pulir mi respuesta antes de enviarla.\n\nLa conversación: "${texto.trim() || analisis.find((a) => a.id === 'vemos')?.texto || ''}"\n\nLo que me sugirió LUMA: ${analisis.find((a) => a.id === 'responder')?.texto || ''}`
                     )
                   }
                   className="flex h-[46px] w-full items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[13px] font-semibold text-[var(--accent-lite)]"
                 >
-                  ¿Qué podría responderle?
+                  Pulir mi respuesta con el coach
                 </Link>
               </motion.div>
               {!disponible && conPlan === false && (

@@ -54,6 +54,11 @@ export default function OnboardingLuma() {
   return (
     <PasoShell onBack={() => (window.location.href = '/')} direccion={1}>
       <PasoEdad
+        nota={
+          ayuda === 'analizar'
+            ? 'Tu conversación es privada: se usa solo para este análisis y no se guarda.'
+            : undefined
+        }
         onContinuar={() => {
           confirmarEdad();
           entrarALaFuncion(ayuda);
