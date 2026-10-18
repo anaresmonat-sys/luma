@@ -23,7 +23,7 @@ export default function Page() {
         directamente:
       </p>
       <ul>
-        <li>Entra a hotmart.com/es/sign-in con el correo con el que compraste.</li>
+        <li>Entra a consumer.hotmart.com con el correo con el que compraste.</li>
         <li>Ve a "Mis compras" y busca tu suscripción a LUMA.</li>
         <li>Solicita el reembolso — Hotmart lo procesa según su ventana de garantía.</li>
       </ul>

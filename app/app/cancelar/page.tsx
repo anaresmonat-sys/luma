@@ -12,7 +12,7 @@ import { ScreenHeader } from '@/components/app/ScreenHeader';
 const PASOS = [
   {
     titulo: 'Entra al portal de compras de Hotmart',
-    texto: 'Con el mismo correo con el que compraste tu plan, en hotmart.com/es/sign-in.',
+    texto: 'Con el mismo correo con el que compraste tu plan, en consumer.hotmart.com.',
   },
   {
     titulo: 'Busca tu suscripción a LUMA',
@@ -49,7 +49,7 @@ export default function CancelarPage() {
       </div>
 
       <a
-        href="https://hotmart.com/es/sign-in"
+        href="https://consumer.hotmart.com"
         target="_blank"
         rel="noreferrer"
         className="mt-6 flex h-12 w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[14px] font-semibold text-[var(--on-accent)]"

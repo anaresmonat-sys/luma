@@ -36,7 +36,6 @@ const ENLACES = [
 
 const PROXIMAMENTE = [
   { Icono: Bell, label: 'Notificaciones' },
-  { Icono: LifeBuoy, label: 'Ayuda y soporte' },
 ];
 
 export default function MasPage() {
@@ -203,6 +202,16 @@ export default function MasPage() {
             {o.label}
           </button>
         ))}
+        {/* Soporte real: abre el correo. Ya no es «próximamente» (el buzón soporte@tuluma.app existe). */}
+        <a
+          href="mailto:soporte@tuluma.app"
+          className="flex items-center gap-3 border-t border-[color-mix(in_oklab,var(--text-tertiary)_18%,transparent)] py-3 text-[13px] font-medium text-[var(--text-primary)] [@media(max-height:840px)]:py-2 [@media(max-height:720px)]:py-1.5"
+        >
+          <span className="text-[var(--accent-lite)]" aria-hidden="true">
+            <LifeBuoy size={18} strokeWidth={1.75} />
+          </span>
+          Ayuda y soporte
+        </a>
         {ENLACES.map((o) => (
           <Link
             key={o.label}
