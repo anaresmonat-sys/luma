@@ -76,12 +76,13 @@ gate_veredicto() {
     fi
 
     # 2) Veredicto LISTA + puntajes del gate doble (parseo con regex del formato canónico)
-    if ! grep -qE '^Veredicto:[[:space:]]*LISTA' "$VFILE"; then
+    # Manda la ÚLTIMA ronda del archivo (las rondas se añaden al final), no la primera ni cualquiera.
+    if ! grep -E '^Veredicto:' "$VFILE" | tail -1 | grep -qE '^Veredicto:[[:space:]]*LISTA'; then
       add_viol "veredicto:${SLUG}" "El veredicto ${VFILE} NO dice 'Veredicto: LISTA' (o dice NO LISTA). La pantalla '${SLUG}' no puede declararse construida/lista en ESTADO.md: corrige los defectos del veredicto y re-lanza el revisor-visual."
       continue
     fi
-    USAB=$(sed -nE 's|^Usabilidad:[[:space:]]*([0-9]+)/40.*|\1|p' "$VFILE" | head -1)
-    CRAFT=$(sed -nE 's|^Craft:[[:space:]]*([0-9]+)/20.*|\1|p' "$VFILE" | head -1)
+    USAB=$(sed -nE 's|^Usabilidad:[[:space:]]*([0-9]+)/40.*|\1|p' "$VFILE" | tail -1)
+    CRAFT=$(sed -nE 's|^Craft:[[:space:]]*([0-9]+)/20.*|\1|p' "$VFILE" | tail -1)
     if [ -z "$USAB" ] || [ -z "$CRAFT" ]; then
       add_viol "veredicto:${SLUG}" "El veredicto ${VFILE} no tiene puntajes legibles: se exigen las líneas canónicas 'Usabilidad: NN/40' y 'Craft: NN/20' (las escribe el revisor-visual). Sin puntajes parseables el gate es fail-closed."
       continue
