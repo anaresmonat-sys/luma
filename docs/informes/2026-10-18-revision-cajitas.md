@@ -26,3 +26,9 @@ Alcance: página de ventas, entrada, planes, puerta de edad e interior de la app
 
 ## No revisado a fondo
 Mapa de poder, Círculo, Historial del diario, «Cancelar» y las pantallas de administración: abren (200) pero no pulsé todos sus botones. Tampoco probé el resultado real de las lecturas de IA por el fallo anterior.
+
+## Segunda pasada (2026-10-18, tarde): Mapa de poder, Círculo, Historial y Cancelar
+- **Mapa de poder:** el botón «Descubrir mi Arcano» solo se activa con nombre y fecha; si la IA falla muestra «No se pudo calcular — inténtalo de nuevo» (probado con la IA caída en local).
+- **Círculo:** «+ Agregar a alguien» abre el formulario; el botón solo se activa con nombre y fecha; mismo mensaje de error. Solo se llega desde el resultado del Mapa de poder (por diseño).
+- **Historial del diario (ARREGLADO, sin publicar):** sin sesión mostraba «No se pudo cargar tu historial» + «Reintentar», que nunca podía funcionar (la API responde 401). Ahora dice «Entra con tu correo para ver tu historial» con botón «Entrar con mi correo».
+- **Cancelar:** instrucciones claras, botón «Ir al portal de Hotmart» (consumer.hotmart.com, pestaña nueva) y correo de soporte. No pude comprobar dentro del portal que exista la sección «Mis compras» (requiere cuenta de compradora).

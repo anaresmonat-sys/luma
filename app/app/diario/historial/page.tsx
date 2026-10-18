@@ -45,12 +45,20 @@ export default function HistorialDiarioPage() {
   const [diasConEntradas, setDiasConEntradas] = useState<Set<string>>(new Set());
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(false);
+  // 401 = todavía no entró con su correo: no es un fallo, hay que decírselo y ofrecerle entrar.
+  const [sinSesion, setSinSesion] = useState(false);
 
   const cargar = useCallback(async (f: Date) => {
     setCargando(true);
     setError(false);
+    setSinSesion(false);
     try {
       const res = await fetch(`/api/diario/historial?fecha=${claveDeFecha(f)}`);
+      if (res.status === 401) {
+        setSinSesion(true);
+        setCargando(false);
+        return;
+      }
       if (!res.ok) throw new Error('respuesta no OK');
       const datos: { entradas: EntradaHistorial[]; diasConEntradas: string[] } = await res.json();
       setEntradas(datos.entradas);
@@ -104,7 +112,22 @@ export default function HistorialDiarioPage() {
           </div>
         )}
 
-        {!cargando && error && (
+        {!cargando && sinSesion && (
+          <div className="flex flex-1 flex-col items-center justify-center gap-3 px-4 text-center">
+            <p className="text-[13.5px] font-semibold text-[var(--text-primary)]">Entra con tu correo para ver tu historial</p>
+            <p className="text-[13px] leading-snug text-[var(--text-secondary)]">
+              Tus entradas del diario se guardan en tu cuenta. Sin entrar, no hay un historial que mostrar.
+            </p>
+            <a
+              href="/entrar"
+              className="flex min-h-11 items-center rounded-[var(--radius-button)] bg-[var(--accent)] px-6 text-[14px] font-semibold text-[var(--on-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)]"
+            >
+              Entrar con mi correo
+            </a>
+          </div>
+        )}
+
+        {!cargando && !sinSesion && error && (
           <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center">
             <p className="text-[13px] font-semibold text-[var(--text-primary)]">No se pudo cargar tu historial</p>
             <button type="button" onClick={() => cargar(fecha)} className="text-[13px] font-semibold text-[var(--accent-lite)] underline-offset-4 hover:underline">
@@ -113,7 +136,7 @@ export default function HistorialDiarioPage() {
           </div>
         )}
 
-        {!cargando && !error && entradas.length === 0 && (
+        {!cargando && !sinSesion && !error && entradas.length === 0 && (
           <div className="flex flex-1 flex-col items-center justify-center gap-1.5 px-4 text-center">
             <p className="text-[13.5px] font-semibold text-[var(--text-primary)]">
               {esHoy ? 'Todavía no escribiste hoy' : 'Sin registro este día'}
