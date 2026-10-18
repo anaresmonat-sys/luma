@@ -269,7 +269,7 @@ export default function LandingLuma() {
       {/* 10 · FOOTER LEGAL — las páginas enlazadas existen como borrador (contenido pendiente, archivo 47) */}
       <FooterLegal
         appName="LUMA"
-        logo={<img src="/luma-icon.png" alt="" aria-hidden="true" className="h-5 w-auto" />}
+        logo={<img src="/luma-icon.png" alt="" aria-hidden="true" className="h-6 w-auto" />}
         soporteEmail="soporte@tuluma.app"
         enlaces={[
           { label: 'Privacidad', href: '/privacidad' },

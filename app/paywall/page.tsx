@@ -113,7 +113,7 @@ export default function PaywallLuma() {
           transition={{ duration: reduce ? 0.2 : 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="flex justify-center"
         >
-          <div className="h-36 scale-[0.6] [transform-origin:top]">
+          <div className="h-28 scale-[0.5] [transform-origin:top]">
             <CartaSacerdotisa animar={false} />
           </div>
         </motion.div>
@@ -227,7 +227,7 @@ export default function PaywallLuma() {
               href="/entrar?desde=paywall"
               className="flex min-h-11 items-center px-3 text-[14px] font-semibold text-[var(--text-secondary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
-              Restaurar compra
+              Ya pagué, entrar
             </a>
           </div>
 
@@ -251,7 +251,10 @@ export default function PaywallLuma() {
               if (abriendoPago) return;
               setErrorPago(false);
               setAbriendoPago(true);
-              window.setTimeout(() => setAbriendoPago(false), 8000);
+              window.setTimeout(() => {
+                setAbriendoPago(false);
+                setErrorPago(true);
+              }, 8000);
               registrarEvento('plan_elegido', { plan: seleccionado });
               try {
                 window.location.href = checkoutHotmart(seleccionado);
@@ -274,8 +277,8 @@ export default function PaywallLuma() {
             <ShieldCheck size={16} aria-hidden="true" className="shrink-0 text-[var(--accent-lite)]" />
             Garantía LUMA: 15 días, te devolvemos tu dinero
           </p>
-          <p className="mt-1 text-center text-[12px] leading-snug text-[var(--text-tertiary)]">
-            Después, {seleccionado === 'anual' ? '$89,99 al año' : '$9,99 al mes'}, más impuestos, en tu moneda local. Cancelas cuando quieras.
+          <p className="mt-1 text-center text-[13px] leading-snug text-[var(--text-secondary)]">
+            Después de la prueba se cobra tu plan, más impuestos y en tu moneda local. Cancelas cuando quieras.
           </p>
         </div>
       </div>

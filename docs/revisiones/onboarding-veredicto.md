@@ -93,3 +93,29 @@ Top defectos:
 3. [Casilla + pista "Marca la casilla para continuar."] Al tocar el CTA sin marcar, el recuadro de la casilla no cambia (sin borde acento ni sacudida 150ms), y la pista de 13px queda lejos del CTA (y≈455 vs CTA y≈670) → fix: con `pista` activo, borde de la tarjeta a var(--accent) 100% + shake corto, y aria-describedby de la casilla hacia el role="status".
 4. [Acción del CTA, onContinuar → window.location.href] Tras el tap válido hay navegación completa sin ningún estado intermedio (sin spinner inline ni bloqueo de doble tap) → si la siguiente ruta tarda, la pantalla parece colgada → fix: estado `enviando` que deshabilita el botón y cambia su etiqueta a "Entrando…" con indicador inline antes de redirigir.
 5. [Copy del párrafo, y≈250-310] Sigue empezando por la ficha técnica de LUMA ("habla de relaciones, tarot e inteligencia emocional para adultos") y el no-juicio queda relegado a una línea de 14px tenue; sin escena del dolor de la avatar → fix: invertir el orden: primero "Aquí nadie te juzga: cuenta lo que te pasa en un espacio privado." y después "Confirma tu edad y tu primera lectura es gratis, sin tarjeta."; llevar el no-juicio a peso/color del párrafo principal.
+
+# VEREDICTO revisor-visual — onboarding (Ronda 10)
+Fecha: 2026-10-18 00:00
+Screenshot: docs/revisiones/onboarding-r10-edad-375.png
+Usabilidad: 34/40
+Craft: 15/20
+Copy (si vende): 15/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:4 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:3 h10:3
+Detalle craft: jerarquia:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+Detalle copy: idea:3 especificidad:2 emocion:3 oferta:3 accion:4 (puerta de edad, no vende; puntuado a pedido)
+Gate de carga cognitiva: 0 fallas. Evidencia: 375x812 reales (estado inicial y estado de aviso); el estado "Entrando…" NO tiene captura (solo verificado en código).
+Defectos de la Ronda 9 verificados:
+- R9-1 (profundidad/hairline): PARCIAL. Bloom ámbar detrás del CTA presente y visible; hairline degradé en el código (top de la casilla) pero a 1px apenas se distingue en la captura; la banda y≈470-640 sigue vacía.
+- R9-2 (stagger + spring): CORREGIDO en código (entrada(0..3) con delay 0.07; spring en la caja al marcar, reduced-motion respetado). Nota: los dos párrafos comparten delay (índice 2), es un solo paso.
+- R9-3 (borde acento + sacudida + aria-describedby): CORREGIDO. Borde acento visible en la captura de aviso, aria-describedby="pista-edad" hacia role="status". Queda: la pista sigue a ~215px del CTA y la sacudida no se repite en un segundo toque.
+- R9-4 (estado enviando): CORREGIDO en código (disabled, spinner, "Entrando…/Preparando tu lectura…", whileTap off). Queda sin salida de recuperación ni anuncio accesible.
+- R9-5 (copy): CORREGIDO. El no-juicio abre en 16px/600 y "Cuenta lo que te pasa sin miedo" encabeza el párrafo; confirma objeción 6 de la ficha.
+Verificado contra FICHA-ARTE: Cormorant en titular, Hanken en cuerpo, oro #d8a441 solo en acción/titular/acento, fondo vino con blooms, radios de tarjeta/botón de tokens. Sin desvío; sin clon de los ejemplos vetados.
+Top defectos:
+1. [Banda y≈470-640, entre la pista y el CTA] ~170px de vacío con fondo casi plano; el bloom solo cubre la zona del botón → fix: anclar casilla + pista al bloque inferior sobre el CTA (zona del pulgar) o centrar ópticamente el bloque superior con más pt y sumar un 3er nivel (campo hundido #1f1219 o bloom vino arriba-derecha) para llenar la banda.
+2. [Pista "Marca la casilla para continuar." y≈446 vs CTA y≈670] El aviso aparece lejos del botón que lo provocó, sin animación de entrada (el texto salta), y la sacudida solo se dispara cuando `faltaCasilla` pasa de false a true: un segundo toque en el CTA no repite el feedback → fix: contador `intentos` como key/trigger de la sacudida, fade de 150ms con AnimatePresence en la pista, y acercar la pista al CTA (debajo de él o encima del botón).
+3. [Botón con estado "Entrando…"] `enviando` nunca vuelve a false: si onContinuar falla o la ruta no carga, el botón queda bloqueado al 80% sin mensaje ni reintento; el cambio de etiqueta no se anuncia (sin aria-live) y no hay captura de ese estado → fix: try/catch o timeout de 8s con setEnviando(false) + mensaje "No pudimos entrar. Inténtalo de nuevo", aria-live="polite" en el botón, y capturar el estado para el siguiente veredicto.
+4. [Hairline de la casilla y escala tipográfica] El hairline degradé (1px, accent-lite→transparente sobre borde de 35%) no se percibe a 375px, así que el sistema de conversión sigue sin su detalle firma visible; además la pantalla usa 28/16/15/14/13/12px (6 tamaños, tope 3 recomendado) → fix: hairline de 2px a opacidad plena sobre el borde, y consolidar 16/15/14 en dos tamaños (p. ej. 16 semibold + 14) y 13/12 en uno.
+5. [Casilla, gesto de marcado] Al marcar solo cambia la caja de 28px; la tarjeta completa no responde (sin whileTap ni cambio de fondo/borde a estado "confirmado"), y el estado marcado no tiene captura de evidencia → fix: whileTap 0.98 en la fila, borde de la tarjeta a acento pleno + fondo #33202b al marcar, y adjuntar captura del estado marcado.

@@ -190,7 +190,7 @@ Verificado en código: CtaButton whileTap 0.97, nunca disabled; useReducedMotion
 Top defectos:
 1. [Oferta, listas de features Anual vs Mensual (page.tsx 196-216)] Aún 5 viñetas por plan, 4 de ellas casi idénticas redactadas dos veces con variaciones mínimas ("Chat con LUMA, tu tarotista y coach, cuando quieras" / "Chat con LUMA cuando lo necesites"): ~10 líneas de lectura duplicada y la diferencia real entre planes (solo precio y "3 meses gratis") no se ve → fix: Mensual con 1 línea "Todo lo del anual, mes a mes · cancelas cuando quieras" y dejar las 5 viñetas solo en Anual.
 2. [Oferta, nota de compra y Garantía] La nota "15 días de garantía desde el primer cobro" aparece sin el nombre propio "Garantía de 15 Días" que la sección siguiente sí usa, y la misma condición se vuelve a redactar en la sección Garantía, el FAQ #5 y el PS (4 redacciones distintas) → fix: usar en la nota exactamente "Garantía de 15 Días" y reducir el PS a una frase.
-3. [Oferta, badge "3 DÍAS GRATIS" en ambas cards + "1ª lectura gratis" en nota previa y hero] "Gratis" con dos significados (primera lectura vs prueba del plan) en la misma zona de decisión → fix: badge solo en Anual, o renombrar uno como "3 días de prueba" y reservar "gratis" para la primera lectura.
+3. [Oferta, badge "3 DÍAS GRATIS" en ambas cards + "1ª lectura gratis" en nota previa y hero] "Gratis" con dos significados en la misma zona de decisión → fix: badge solo en Anual, o renombrar uno como "3 días de prueba" y reservar "gratis" para la primera lectura.
 4. [Hero, etiqueta "Elige la lectura que más te vibre:" encima de 4 píldoras de acento] Dos líneas de 13px consecutivas de peso parecido y píldoras con borde/fill dorado que compiten con el CTA héroe; "te vibre" es coloquial y no dice qué sucede al tocar → fix: etiqueta tertiary 12px "O empieza por lo que necesitas hoy" y píldoras con borde 30% sin fill.
 5. [Craft general; prueba social] Ninguna sección llega a nivel showcase: no hay conteo animado ni celebración propios de la landing y no existe ninguna prueba verificable (testimonio, cifra de usuarios o demo con resultado real) → fix: añadir una cifra o demostración verificable de producto (resultado de ejemplo real, no inventado) y animar el 94% al entrar en vista.
 
@@ -219,3 +219,31 @@ Top defectos:
 3. [Mensaje "primera lectura es gratis · sin tarjeta · sin registro" repetido en hero, nota del carrusel (landing-2), FAQ #5 y PS (landing-6)] Cuatro repeticiones literales; en el carrusel el texto está en gris terciario de bajo contraste (~13px) y pasa por ruido → fix: dejarlo íntegro en hero y cierre; en el carrusel reducirlo a "Sin tarjeta · sin registro".
 4. [Carrusel (landing-2/3), flechas y puntos] Los 6 puntos miden ~8px visuales con flechas "<" ">" en gris tenue casi invisible (la izquierda deshabilitada a ~30%): el control es difícil de ver y el área táctil dependiente de padding no se nota → fix: flechas en text-secondary con fondo de chip 44px y punto activo con alto contraste.
 5. [Pie (landing-6), fila de enlaces legales] "Aviso sobre la IA" cae sola en una segunda línea con un punto separador huérfano al inicio, y el isotipo es un cuadrado beige liso sin la marca del logo del header → fix: nowrap en grupos de 2 columnas o lista en rejilla sin separadores, y usar /luma-icon.png en el pie.
+
+---
+
+# VEREDICTO revisor-visual — landing (Ronda 10)
+Fecha: 2026-10-18 00:00
+Screenshot: docs/revisiones/landing-r10-1-hero-375.png · landing-2-carrusel-375.png · landing-3-planes-375.png · landing-4-plan-mensual-375.png · landing-5-garantia-375.png (estos cuatro son de la Ronda 9) · landing-r10-6-pie-375.png (Problema, Agitación, Solución, Sinergia, Garantía y FAQ puntuados desde page.tsx/código, sin captura propia)
+Usabilidad: 35/40
+Craft: 16/20
+Copy (si vende): 19/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:4 h5:4 h6:4 h7:3 h8:3 h9:4 h10:4
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:4 (vino/oro y Cormorant + Hanken coinciden con FICHA-ARTE; sin clon vetado)
+Detalle copy: idea:4 especificidad:3 emoción:4 oferta:4 acción:4 (trazabilidad a FICHA-AVATAR heredada de R6; sin testimonios ni cifra verificable porque la ficha declara que no existen)
+Verificación de los defectos de la Ronda 9:
+- D1 (Garantía "3 días gratis"): CONFIRMADO en page.tsx línea 223, ahora "Pruebas 3 días sin pagar…". No hay captura de la sección (landing-5 muestra Planes), solo código.
+- D2 (hero): CONFIRMADO en landing-r10-1-hero. 24px de aire (gap-6) entre microcopy y etiqueta, píldoras de 44px con borde 30% y sin relleno; el botón dorado domina sin duda. Resuelto.
+- D3 (nota del carrusel): CONFIRMADO en código (AppPorDentro ctaNota "Sin tarjeta · sin registro"), pero landing-2/3 son anteriores y todavía muestran "Tu primera lectura es gratis · sin tarjeta · sin registro" en gris tenue: no hay evidencia visual del cambio.
+- D4 (flechas y puntos del carrusel): CONFIRMADO solo en código (chips de 44px con acento 14%, puntos bg 60%, píldora activa w-6). Las capturas landing-2/3 siguen mostrando las flechas finas y grises de antes: la evidencia entregada contradice el cambio.
+- D5 (pie): CONFIRMADO en landing-r10-6. Rejilla de 2 columnas sin separadores, "Aviso sobre la IA" alineada a la izquierda sin punto huérfano, emblema real de LUMA (pero a ~16px, casi ilegible) junto al wordmark.
+Verificado en código: CtaButton con whileTap 0.97, nunca disabled; useReducedMotion en carrusel, reveal y calculadora; aria-live en la sinergia; enlaces del pie con py-3 (44px); flechas disabled solo en extremos. Sin undo/limpiar en la calculadora, sin celebración de hito y la landing no cuenta ni dibuja números propios.
+Gate de carga cognitiva: 1 falla de 8 (hero: CTA + 4 píldoras + "Entrar" en la primera vista, que no explican qué cambia). No es sobrecarga.
+Top defectos:
+1. [Evidencia, landing-2/3 (carrusel) y landing-5 (que no muestra la Garantía)] Las capturas del carrusel son de la Ronda 9 y contradicen lo que se declara arreglado (flechas finas grises, nota larga); la Garantía corregida no aparece en ninguna captura → fix: recapturar el carrusel (flechas y nota) y la sección Garantía desde el build actual como landing-r10-2 y landing-r10-5.
+2. [Zona final, nota de la Oferta (page.tsx línea 184) y CtaFinal] La nota de compra es un bloque de ~40 palabras ("Precios sin impuestos… Hotmart… 15 días de garantía desde el primer cobro") sin el nombre "Garantía de 15 Días"; y el recap de CtaFinal (landing-r10-6, "Descifra chats · Chat con LUMA · Tarot…") son 2 líneas de 12-13px en gris apagado repitiendo lo ya dicho en los planes, más el PS con la misma condición tercera vez → fix: partir la nota en dos líneas (impuestos / "Garantía de 15 Días · pago seguro con Hotmart") y eliminar el recap de CtaFinal (el PS ya cierra).
+3. [Planes (landing-3/4), badge "3 DÍAS DE PRUEBA" en AMBAS cards] El badge idéntico en Anual y Mensual no diferencia nada y añade un chip más junto al nombre del plan; la prueba ya está en el subtítulo "Tu plan" → fix: quitar el badge de Mensual (o de ambos) y dejar solo "LA MÁS ELEGIDA" para sostener una única señal por card.
+4. [Hero, etiqueta "Elige la lectura que más te vibre:" y píldoras] Sigue sin decir qué sucede al tocar y "te vibre" es coloquial (decisión de la dueña, no puntuada); las píldoras siguen siendo 4 destinos junto al CTA héroe, y la carta de la demo se corta en el borde inferior del primer viewport sin pista de scroll → fix: sin tocar el copy, empujar la carta 24px más arriba (reduciendo el gap del H1) para que se vea su mitad completa o añadir un degradado inferior que sugiera continuación.
+5. [Pie (landing-r10-6)] El emblema mide ~16px con trazo fino sobre fondo oscuro (casi ilegible), el email de soporte es texto de 13px con py-3 en un <a> inline (el padding vertical no agrega área táctil), y el aviso "© 2026" queda a solo 12px de la última fila de enlaces → fix: emblema a h-6, el <a> del correo como inline-block con py-3 (44px) y 24px de aire sobre la fila de copyright.

@@ -3,33 +3,51 @@
 // Paso real de confirmación de edad. Una sola vez por navegador, antes de entrar a
 // la función real (recorrido sin preguntas, 2026-10-13). Revisión visual ronda 6:
 // sin barra de progreso falsa (es un paso único), botón SIEMPRE tocable con una pista
-// clara si falta la casilla, contenido anclado arriba (sin 230px de vacío), y nombra
-// el destino ("tu primera lectura es gratis"). Ronda 10: entrada escalonada, la casilla
-// avisa (borde acento + sacudida corta) si falta marcarla y el botón muestra «Entrando…».
+// clara si falta la casilla, y nombra el destino ("tu primera lectura es gratis").
+// Ronda 10: entrada escalonada; la casilla, su aviso y el botón viven juntos en la zona
+// del pulgar; el aviso sacude la casilla en CADA toque sin marcar; «Entrando…» con salida
+// si la navegación falla.
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Check } from 'lucide-react';
 
 export function PasoEdad({ onContinuar, conSesion = false }: { onContinuar: () => void; conSesion?: boolean }) {
   const reduce = useReducedMotion();
   const [marcado, setMarcado] = useState(false);
-  const [pista, setPista] = useState(false);
+  const [intentos, setIntentos] = useState(0);
   const [enviando, setEnviando] = useState(false);
+  const [falloEnvio, setFalloEnvio] = useState(false);
 
-  // Entrada escalonada: medallón → titular → párrafo → casilla.
+  // Entrada escalonada: medallón → titular → párrafo → zona de la casilla.
   const entrada = (i: number) => ({
     initial: reduce ? { opacity: 0 } : { opacity: 0, y: 8 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: reduce ? 0.2 : 0.35, delay: reduce ? 0 : i * 0.07 },
   });
 
-  const faltaCasilla = pista && !marcado;
+  const faltaCasilla = intentos > 0 && !marcado;
+
+  // Si la navegación no ocurre en 8 s, se libera el botón y se dice qué pasó.
+  useEffect(() => {
+    if (!enviando) return;
+    const t = window.setTimeout(() => {
+      setEnviando(false);
+      setFalloEnvio(true);
+    }, 8000);
+    return () => window.clearTimeout(t);
+  }, [enviando]);
 
   return (
     <div className="flex flex-1 flex-col gap-6 pt-2">
-      <div className="flex flex-col items-center text-center">
+      <div className="relative flex flex-col items-center text-center">
+        {/* Tercer nivel de profundidad: bloom vino-ámbar detrás del medallón */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-[-20px] -top-8 -z-10 h-72"
+          style={{ background: 'radial-gradient(220px 170px at 50% 30%, color-mix(in oklab, var(--accent) 12%, transparent), transparent 72%)' }}
+        />
         <motion.span
           {...entrada(0)}
           aria-hidden="true"
@@ -62,7 +80,14 @@ export function PasoEdad({ onContinuar, conSesion = false }: { onContinuar: () =
         </motion.p>
       </div>
 
-      <motion.div {...entrada(3)}>
+      {/* Zona del pulgar: casilla + aviso + botón + legal, juntos y al fondo */}
+      <motion.div {...entrada(3)} className="relative mt-auto">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-[-20px] -top-24 -z-10 h-72"
+          style={{ background: 'radial-gradient(260px 190px at 50% 65%, color-mix(in oklab, var(--accent) 14%, transparent), transparent 72%)' }}
+        />
+
         <motion.button
           type="button"
           role="checkbox"
@@ -70,20 +95,21 @@ export function PasoEdad({ onContinuar, conSesion = false }: { onContinuar: () =
           aria-describedby="pista-edad"
           onClick={() => {
             setMarcado((m) => !m);
-            setPista(false);
+            setIntentos(0);
           }}
-          animate={faltaCasilla && !reduce ? { x: [0, -6, 6, -4, 4, 0] } : { x: 0 }}
-          transition={{ duration: 0.15 * 2 }}
+          whileTap={reduce ? undefined : { scale: 0.98 }}
+          animate={reduce ? undefined : { x: 0 }}
           className="relative flex w-full items-center gap-3 overflow-hidden rounded-[var(--radius-card)] border bg-[var(--surface)] p-4 text-left [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           style={{
-            borderColor: faltaCasilla ? 'var(--accent)' : 'color-mix(in oklab, var(--accent) 35%, transparent)',
+            borderColor:
+              faltaCasilla || marcado ? 'var(--accent)' : 'color-mix(in oklab, var(--accent) 35%, transparent)',
           }}
         >
-          {/* Hairline degradé oro → transparente en el borde superior */}
+          {/* Hairline degradé oro → transparente en el borde superior (2px, visible a 375px) */}
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px"
-            style={{ background: 'linear-gradient(90deg, var(--accent-lite), transparent 70%)' }}
+            className="pointer-events-none absolute inset-x-0 top-0 h-0.5"
+            style={{ background: 'linear-gradient(90deg, var(--accent-lite), transparent 75%)' }}
           />
           <motion.span
             aria-hidden="true"
@@ -100,27 +126,38 @@ export function PasoEdad({ onContinuar, conSesion = false }: { onContinuar: () =
           <span className="text-[15px] leading-snug text-[var(--text-primary)]">Confirmo que soy mayor de 18 años.</span>
         </motion.button>
 
-        <div id="pista-edad" className="mt-2 h-5 text-center text-[13px] font-semibold text-[var(--accent-lite)]" role="status">
-          {faltaCasilla ? 'Marca la casilla para continuar.' : ''}
+        <div id="pista-edad" className="mt-2 h-6 text-center text-[13px] font-semibold text-[var(--accent-lite)]" role="status">
+          <AnimatePresence mode="wait">
+            {faltaCasilla && (
+              <motion.span
+                key={intentos}
+                initial={reduce ? { opacity: 0 } : { opacity: 0, x: 0 }}
+                animate={reduce ? { opacity: 1 } : { opacity: 1, x: [0, -6, 6, -4, 4, 0] }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="inline-block"
+              >
+                Marca la casilla para continuar.
+              </motion.span>
+            )}
+            {falloEnvio && !faltaCasilla && (
+              <span className="inline-block text-[var(--an-risk)]">No pudimos entrar. Toca el botón para intentarlo de nuevo.</span>
+            )}
+          </AnimatePresence>
         </div>
-      </motion.div>
 
-      <div className="relative mt-auto">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-[-20px] -top-32 -z-10 h-64"
-          style={{ background: 'radial-gradient(260px 170px at 50% 70%, color-mix(in oklab, var(--accent) 14%, transparent), transparent 72%)' }}
-        />
         <motion.button
           type="button"
           disabled={enviando}
+          aria-live="polite"
           whileTap={enviando ? undefined : { scale: 0.97 }}
           onClick={() => {
             if (enviando) return;
             if (!marcado) {
-              setPista(true);
+              setIntentos((n) => n + 1);
               return;
             }
+            setFalloEnvio(false);
             setEnviando(true);
             onContinuar();
           }}
@@ -151,7 +188,7 @@ export function PasoEdad({ onContinuar, conSesion = false }: { onContinuar: () =
           </Link>
           .
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 }

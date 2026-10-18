@@ -54,9 +54,9 @@ export function FooterLegal({ appName, logo, enlaces, soporteEmail, anio }: Foot
         </div>
 
         {/* Fila 2: copyright + soporte */}
-        <p className="mt-3 text-[13px] text-[var(--text-tertiary)]">
+        <p className="mt-6 text-[13px] text-[var(--text-tertiary)]">
           © {year} {appName} ·{' '}
-          <a href={`mailto:${soporteEmail}`} className="py-3 underline-offset-4 hover:underline">
+          <a href={`mailto:${soporteEmail}`} className="inline-block py-3 underline-offset-4 hover:underline">
             {soporteEmail}
           </a>
         </p>
