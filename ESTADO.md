@@ -1105,3 +1105,11 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 ✅ 2026-10-17: Hotmart — página de agradecimiento EXTERNA guardada por la dueña (Herramientas → Configuraciones de pago → Posventa): aprobadas → /gracias; espera de pago y análisis de crédito → /gracias?estado=pendiente. Falta verificar con la próxima compra real. Siguiente: módulo "Empieza aquí" en el Área de Miembros; luego correo de la cuenta de Hotmart → Outlook; luego precio/divisa.
 
 🔄 2026-10-17: Hotmart Club — logos de marca para el Área de Miembros generados en docs/assets/ (luma-logo-club-oscuro.png dorado / luma-logo-club-claro.png ciruela, 540x144 PNG transparente = 3x de 180x48). Se suben en Área de Miembros → Apariencia → Editar tema → "Tu marca". Hoy el club muestra el texto "Margarita Añares" como marca.
+
+🔄 CHECKPOINT — CLUB DE HOTMART (2026-10-17)
+- Fase: configuración del club y lanzamiento. Logos de LUMA subidos y publicados en Tu marca (tema oscuro y claro, con texto alternativo).
+- Módulo "Empieza aquí" ya existe con la lección "Como acceder a LUMA" (publicada, enlace a tuluma.app/entrar OK). Falta solo la tilde: "Cómo acceder a LUMA".
+- Nombre del área ("Margarita Añares") no es editable en Hotmart: se deja así (decisión).
+- Decisiones: Google oculto (MOSTRAR_GOOGLE=false), /gracias configurada, prueba de tradingmargarita cancelada.
+- Próximo paso: cambiar el correo de la cuenta de Hotmart a tuluma.soporte@outlook.com (al final), luego precio/divisa por país y verificar la próxima compra.
+- (2026-10-17) Correo de cuenta de Hotmart: DESCARTADO. El campo Email está bloqueado en Información personal (solo cambia por Central de Ayuda, y Hotmart ya dijo que no). Se deja el Gmail; se cambia Nombre social a LUMA y Usuario a algo de marca. Lección del club corregida (soporte@tuluma.app).
