@@ -84,6 +84,7 @@ function Card({
       {plan.descomposicionDia && <p className="mt-0.5 text-[12px] text-[var(--text-secondary)]">{plan.descomposicionDia}</p>}
       {plan.totalAnual && <p className="mt-1 text-[12px] text-[var(--text-secondary)]">{plan.totalAnual}</p>}
       {plan.ahorro && <p className="mt-1 text-[13px] font-semibold text-[var(--accent)]">{plan.ahorro}</p>}
+      {!seleccionado && <p className="mt-1 text-[12px] text-[var(--text-secondary)]">Incluye {trialDias} días de prueba</p>}
     </motion.button>
   );
 }

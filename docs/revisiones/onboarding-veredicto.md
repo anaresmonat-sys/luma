@@ -119,3 +119,29 @@ Top defectos:
 3. [Botón con estado "Entrando…"] `enviando` nunca vuelve a false: si onContinuar falla o la ruta no carga, el botón queda bloqueado al 80% sin mensaje ni reintento; el cambio de etiqueta no se anuncia (sin aria-live) y no hay captura de ese estado → fix: try/catch o timeout de 8s con setEnviando(false) + mensaje "No pudimos entrar. Inténtalo de nuevo", aria-live="polite" en el botón, y capturar el estado para el siguiente veredicto.
 4. [Hairline de la casilla y escala tipográfica] El hairline degradé (1px, accent-lite→transparente sobre borde de 35%) no se percibe a 375px, así que el sistema de conversión sigue sin su detalle firma visible; además la pantalla usa 28/16/15/14/13/12px (6 tamaños, tope 3 recomendado) → fix: hairline de 2px a opacidad plena sobre el borde, y consolidar 16/15/14 en dos tamaños (p. ej. 16 semibold + 14) y 13/12 en uno.
 5. [Casilla, gesto de marcado] Al marcar solo cambia la caja de 28px; la tarjeta completa no responde (sin whileTap ni cambio de fondo/borde a estado "confirmado"), y el estado marcado no tiene captura de evidencia → fix: whileTap 0.98 en la fila, borde de la tarjeta a acento pleno + fondo #33202b al marcar, y adjuntar captura del estado marcado.
+
+# VEREDICTO revisor-visual — onboarding (Ronda 11, re-revisión)
+Fecha: 2026-10-18 12:00
+Screenshot: docs/revisiones/onboarding-r10-edad-375.png (+ onboarding-r10-edad-aviso-375.png, onboarding-r10-edad-marcado-375.png)
+Usabilidad: 35/40
+Craft: 15/20
+Copy (si vende): 15/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:4 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:3 h10:3
+Detalle craft: jerarquia:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+Detalle copy: idea:3 especificidad:2 emocion:3 oferta:3 accion:4 (puerta de edad, no vende; puntuado a pedido)
+Gate de carga cognitiva: 0 fallas. Evidencia: 3 capturas 375x812 (inicial, aviso, marcado). Sin captura de "Entrando…" ni del mensaje de fallo a 8 s.
+Defectos de la Ronda 10 verificados:
+- R10-1 (banda vacía): MEJORADO, no resuelto. Casilla + aviso + CTA + legal ya viven juntos al fondo con bloom; pero queda un hueco de ~210px (y≈345-545) entre el párrafo y la casilla; el bloom del medallón es casi imperceptible en la captura, así que el tercer nivel de profundidad se lee solo en la zona inferior.
+- R10-2 (aviso lejos / sin animación / sin repetir): CORREGIDO. Aviso a ~8px sobre el CTA, AnimatePresence con key={intentos} (sacudida en cada toque), borde acento pleno visible en la captura de aviso.
+- R10-3 (Entrando… sin salida): CORREGIDO en código (timeout 8 s, aria-live, mensaje con qué pasó + qué hacer). Introduce un defecto nuevo, ver TOP 1.
+- R10-4 (hairline 2px / 6 tamaños): PARCIAL. El hairline de 2px ya se ve en la captura (esquina superior izquierda de la casilla). Siguen 6 tamaños (28/16/15/14/13/12).
+- R10-5 (gesto de marcado): CORREGIDO. whileTap 0.98, borde acento pleno y check con spring; captura del estado marcado adjunta (ver defecto 4 sobre su contaminación).
+Verificado contra FICHA-ARTE: Cormorant en titular, Hanken en cuerpo, oro solo en acción/titular/acento, fondo vino con blooms, radios por tokens. Sin desvío; sin clon de ejemplos vetados.
+Top defectos:
+1. [Aviso de fallo, contenedor #pista-edad `h-6` sobre el botón] «No pudimos entrar. Toca el botón para intentarlo de nuevo.» (57 caracteres a 13px/600, ~370px) no cabe en ~327px: salta a 2 líneas dentro de un contenedor fijo de 24px y la segunda línea se monta sobre el borde superior del botón (el botón empieza justo donde acaba el contenedor) → fix: cambiar `h-6` por `min-h-6` (y `mt-2 mb-2`) o acortar a «No pudimos entrar. Toca el botón para reintentar.» (~46 caracteres, 1 línea) y capturar ese estado.
+2. [Zona y≈345-545, entre el párrafo y la casilla] ~210px de fondo casi plano; el medallón con bloom suave queda arriba y la casilla abajo sin nada que conecte → fix: bajar el bloque superior con `pt-8`/`pt-10` o dar al bloom del medallón 18-20% de acento, para que el tercer nivel se perciba y el espacio se reparta (centrado óptico).
+3. [Escala tipográfica de toda la pantalla] 28/16/15/14/13/12px = 6 tamaños (máx 3 recomendado; la jerarquía se difumina entre 16/15/14) → fix: unificar el cuerpo en 14-15 (casilla 15 → 14, subtítulo 16/600 se mantiene como segundo nivel) y 13/12 en uno (12 → 13).
+4. [Captura onboarding-r10-edad-marcado-375.png, esquina inferior izquierda] El overlay de desarrollo de Next «1 Issue» tapa el inicio de la línea legal: evidencia contaminada y señal de un problema de consola sin explicar → fix: recapturar sin el overlay (build de producción o `devIndicators: false`) y revisar qué es el «1 Issue».
+5. [Evidencia pendiente] No hay captura del estado «Preparando tu lectura…/Entrando…» ni del mensaje de fallo; el spinner y la liberación a 8 s solo están verificados en código → fix: capturar ambos estados (simular onContinuar sin navegación) y adjuntarlos.

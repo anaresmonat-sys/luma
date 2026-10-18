@@ -41,12 +41,12 @@ export function PasoEdad({ onContinuar, conSesion = false }: { onContinuar: () =
 
   return (
     <div className="flex flex-1 flex-col gap-6 pt-2">
-      <div className="relative flex flex-col items-center text-center">
+      <div className="relative flex flex-col items-center pt-8 text-center">
         {/* Tercer nivel de profundidad: bloom vino-ámbar detrás del medallón */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-[-20px] -top-8 -z-10 h-72"
-          style={{ background: 'radial-gradient(220px 170px at 50% 30%, color-mix(in oklab, var(--accent) 12%, transparent), transparent 72%)' }}
+          style={{ background: 'radial-gradient(220px 170px at 50% 30%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 72%)' }}
         />
         <motion.span
           {...entrada(0)}
@@ -126,7 +126,7 @@ export function PasoEdad({ onContinuar, conSesion = false }: { onContinuar: () =
           <span className="text-[15px] leading-snug text-[var(--text-primary)]">Confirmo que soy mayor de 18 años.</span>
         </motion.button>
 
-        <div id="pista-edad" className="mt-2 h-6 text-center text-[13px] font-semibold text-[var(--accent-lite)]" role="status">
+        <div id="pista-edad" className="mt-2 mb-2 min-h-6 text-center text-[13px] font-semibold text-[var(--accent-lite)]" role="status">
           <AnimatePresence mode="wait">
             {faltaCasilla && (
               <motion.span
@@ -141,7 +141,7 @@ export function PasoEdad({ onContinuar, conSesion = false }: { onContinuar: () =
               </motion.span>
             )}
             {falloEnvio && !faltaCasilla && (
-              <span className="inline-block text-[var(--an-risk)]">No pudimos entrar. Toca el botón para intentarlo de nuevo.</span>
+              <span className="inline-block text-[var(--an-risk)]">No pudimos entrar. Toca el botón para reintentar.</span>
             )}
           </AnimatePresence>
         </div>

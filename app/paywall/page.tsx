@@ -14,7 +14,7 @@
 // FICHA-ARTE (Ronda #4) exceptúa del emoji ('‹ volver, ✕ cerrar'). Coherente
 // con cómo la landing (ya LISTA, 8 rondas) resolvió el mismo tipo de ícono.
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { X, Lock, ShieldCheck } from 'lucide-react';
 import { CheckCustom, Hairline } from '@/components/landing/ui';
@@ -67,6 +67,13 @@ export default function PaywallLuma() {
   const [lecturaUsada, setLecturaUsada] = useState(false);
   const [abriendoPago, setAbriendoPago] = useState(false);
   const [errorPago, setErrorPago] = useState(false);
+  const temporizadorPago = useRef<number | null>(null);
+  const limpiarTemporizador = () => {
+    if (temporizadorPago.current !== null) {
+      window.clearTimeout(temporizadorPago.current);
+      temporizadorPago.current = null;
+    }
+  };
 
   // Lectura en efecto (no lazy initializer): localStorage es client-only —
   // leerlo de forma síncrona en el render inicial rompe la hidratación
@@ -74,9 +81,15 @@ export default function PaywallLuma() {
   // confirmó: React marcaba "Hydration failed" en dev. El costo aceptado es
   // un salto breve de beneficios genéricos → personalizados tras montar.
   useEffect(() => {
-    const reiniciar = () => setAbriendoPago(false);
+    const reiniciar = () => {
+      limpiarTemporizador();
+      setAbriendoPago(false);
+    };
     window.addEventListener('pageshow', reiniciar);
-    return () => window.removeEventListener('pageshow', reiniciar);
+    return () => {
+      window.removeEventListener('pageshow', reiniciar);
+      limpiarTemporizador();
+    };
   }, []);
 
   useEffect(() => {
@@ -251,7 +264,8 @@ export default function PaywallLuma() {
               if (abriendoPago) return;
               setErrorPago(false);
               setAbriendoPago(true);
-              window.setTimeout(() => {
+              limpiarTemporizador();
+              temporizadorPago.current = window.setTimeout(() => {
                 setAbriendoPago(false);
                 setErrorPago(true);
               }, 8000);
@@ -270,7 +284,7 @@ export default function PaywallLuma() {
           </motion.button>
           {errorPago && (
             <p role="alert" className="mt-2 text-center text-[13px] font-semibold leading-snug text-[var(--an-risk)]">
-              No pudimos abrir el pago. Vuelve a intentarlo o escríbenos a soporte@tuluma.app.
+              El pago tarda más de lo normal. Toca de nuevo el botón o escríbenos a soporte@tuluma.app.
             </p>
           )}
           <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[13px] font-semibold leading-snug text-[var(--text-secondary)]">

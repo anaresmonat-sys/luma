@@ -247,3 +247,31 @@ Top defectos:
 3. [Planes (landing-3/4), badge "3 DÍAS DE PRUEBA" en AMBAS cards] El badge idéntico en Anual y Mensual no diferencia nada y añade un chip más junto al nombre del plan; la prueba ya está en el subtítulo "Tu plan" → fix: quitar el badge de Mensual (o de ambos) y dejar solo "LA MÁS ELEGIDA" para sostener una única señal por card.
 4. [Hero, etiqueta "Elige la lectura que más te vibre:" y píldoras] Sigue sin decir qué sucede al tocar y "te vibre" es coloquial (decisión de la dueña, no puntuada); las píldoras siguen siendo 4 destinos junto al CTA héroe, y la carta de la demo se corta en el borde inferior del primer viewport sin pista de scroll → fix: sin tocar el copy, empujar la carta 24px más arriba (reduciendo el gap del H1) para que se vea su mitad completa o añadir un degradado inferior que sugiera continuación.
 5. [Pie (landing-r10-6)] El emblema mide ~16px con trazo fino sobre fondo oscuro (casi ilegible), el email de soporte es texto de 13px con py-3 en un <a> inline (el padding vertical no agrega área táctil), y el aviso "© 2026" queda a solo 12px de la última fila de enlaces → fix: emblema a h-6, el <a> del correo como inline-block con py-3 (44px) y 24px de aire sobre la fila de copyright.
+
+---
+
+# VEREDICTO revisor-visual — landing (Ronda 11)
+Fecha: 2026-10-18 00:00
+Screenshot: docs/revisiones/landing-r10-1-hero-375.png · landing-r10-2-carrusel-375.png · landing-r10-3-planes-375.png · landing-r10-4-plan-mensual-375.png · landing-r10-5-garantia-375.png · landing-r10-6-pie-375.png (6 tramos nuevos a 375px; Problema, Agitación, Solución, Sinergia, Casos y FAQ desde código)
+Usabilidad: 36/40
+Craft: 16/20
+Copy (si vende): 19/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: LISTA
+Detalle usabilidad: h1:3 h2:4 h3:3 h4:4 h5:4 h6:4 h7:3 h8:3 h9:4 h10:4
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:4 (vino/oro, Cormorant + Hanken coinciden con FICHA-ARTE; sin clon vetado)
+Detalle copy: idea:4 especificidad:3 emoción:4 oferta:4 acción:4 (sin testimonios ni cifra verificable: la ficha declara que aún no existen)
+Verificación de los defectos de la Ronda 10:
+- D1 (evidencia): CERRADO. landing-r10-5 muestra "Garantía de 15 Días · Pruebas 3 días sin pagar y, si LUMA no es para ti, no pagas nada… 15 días para el reembolso completo"; la ambigüedad de "gratis" desaparece (h2 3→4). landing-r10-2 muestra flechas en chip de 44px con acento. Matiz: la nota "Sin tarjeta · sin registro" del carrusel (AppPorDentro.tsx línea 216, text-secondary 13px) queda fuera del encuadre de la captura; se verifica solo en código.
+- D2 (nota de compra / recap): NO TOCADO. La nota sigue siendo un bloque de ~40 palabras sin el nombre "Garantía de 15 Días" (page.tsx línea 184; visible en landing-r10-4) y el recap de CtaFinal sigue. Recap aceptado por la dueña; la nota queda como defecto menor, no bloqueante porque la sección Garantía con nombre llega justo después.
+- D3 (badge en ambas cards): aceptado por la dueña, no puntuado.
+- D4 (hero): píldoras y etiqueta aceptadas; la carta de demo sigue cortada al borde inferior del primer viewport (menor, a modo de pista de scroll).
+- D5 (pie): CERRADO. Emblema a h-6 legible junto al wordmark, correo como inline-block con py-3 (FooterLegal.tsx línea 59), mt-6 sobre el copyright (línea 57).
+Verificado en código: CtaButton whileTap 0.97, nunca disabled; useReducedMotion en carrusel, reveal y calculadora; aria-live en la sinergia; flechas disabled solo en extremos. Sin undo/limpiar en la calculadora, sin celebración de hito y la landing no cuenta ni dibuja números propios (por eso movimiento e identidad se quedan en 3).
+Gate de cargas cognitivas: 1 falla de 8 (hero con CTA + 4 píldoras + "Entrar"). No es sobrecarga.
+Top defectos (todos menores, ninguno bloquea):
+1. [Oferta, nota de compra bajo los planes (landing-r10-4)] ~40 palabras en 13px (impuestos + moneda + Hotmart + garantía) sin el nombre "Garantía de 15 Días" → fix: partir en dos líneas: "Precios sin impuestos; el importe final lo ves antes de pagar" / "Garantía de 15 Días · Pago seguro con Hotmart".
+2. [Carrusel (landing-r10-2), barra fija sobre la demo] La barra "Ver plan y precios" tapa la base del teléfono con la nota del CTA fuera de encuadre → fix: recapturar con la barra oculta o desplazada para evidenciar la nota "Sin tarjeta · sin registro".
+3. [Hero, carta de demo al pie del primer viewport] Se corta a la mitad sin pista de continuación → fix: degradado inferior de 48px o reducir 16-24px de aire sobre el H1.
+4. [Craft general] Sin números propios animados ni celebración de hito: jerarquía, profundidad, identidad y movimiento en 3 → fix: conteo animado del 94% de sinergia al entrar en vista y la carta de tarot con resplandor como separador firma entre secciones.
+5. [Prueba social] No existe testimonio ni cifra verificable (la ficha lo declara) → fix: cuando haya primeros usuarios reales, una cifra verificable o un resultado de ejemplo marcado como tal.
