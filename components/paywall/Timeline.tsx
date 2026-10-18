@@ -12,8 +12,9 @@ export function TimelineTrial({ diasPrueba, precioTexto }: { diasPrueba: number;
   const reduce = useReducedMotion();
   const nodos = [
     { estado: 'hecho' as const, titulo: 'Hoy — acceso completo', detalle: 'Todo LUMA, desde hoy' },
-    { estado: 'hecho' as const, titulo: `Día ${diasPrueba - 1} — te avisamos`, detalle: 'Aviso antes de cualquier cobro' },
-    { estado: 'pendiente' as const, titulo: `Día ${diasPrueba} — 1er cobro: ${precioTexto}`, detalle: 'Cancela antes sin costo' },
+    // Honesto: no se promete ningún aviso por correo mientras no exista (2026-10-18). Solo lo que es cierto: no se cobra nada durante la prueba y se puede cancelar.
+    { estado: 'hecho' as const, titulo: `Hasta el día ${diasPrueba} — sin cobro`, detalle: 'Cancela cuando quieras, sin costo' },
+    { estado: 'pendiente' as const, titulo: `Día ${diasPrueba} — 1er cobro: ${precioTexto}`, detalle: 'Si no cancelas antes' },
   ];
 
   return (
