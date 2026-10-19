@@ -28,6 +28,9 @@ const MAPA = {
   version: 2,
 };
 
+// Escenas largas: se capturan con una pantalla algo mayor para que se vea TODO (cabecera y botones de abajo).
+const VISTA_AMPLIA = { descifrar: { width: 432, height: 936 } };
+
 const ESCENAS = {
   async inicio({ page }) {
     await page.goto(BASE + '/app', { waitUntil: 'networkidle' });
@@ -66,14 +69,7 @@ const ESCENAS = {
     await page.waitForTimeout(500);
     await page.getByRole('button', { name: 'Analizar', exact: true }).click();
     await page.waitForTimeout(1500);
-    // Baja hasta el final del área desplazable para que los dos botones de abajo se vean ENTEROS (nunca cortados).
-    await page.evaluate(() => {
-      const h = [...document.querySelectorAll('p')].find((x) => /Lo que hemos detectado/.test(x.textContent || ''));
-      let el = h;
-      while (el && el !== document.body && !(el.scrollHeight > el.clientHeight + 5 && /(auto|scroll)/.test(getComputedStyle(el).overflowY))) el = el.parentElement;
-      if (el && el !== document.body) el.scrollTop = el.scrollHeight;
-      else window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' });
-    });
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
     await page.waitForTimeout(500);
   },
 
@@ -195,7 +191,7 @@ const ESCENAS = {
 (async () => {
   for (const nombre of Object.keys(ESCENAS)) {
     if (solo && solo !== nombre) continue;
-    const { browser, ctx, page } = await abrir();
+    const { browser, ctx, page } = await abrir(null, VISTA_AMPLIA[nombre]);
     await ctx.route('**/api/mi-plan', (rt) => rt.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ activo: true }) }));
     try {
       // Hora fija de tarde para el saludo

@@ -3,11 +3,13 @@ const { chromium } = require('playwright');
 
 const BASE = process.env.BASE || 'http://localhost:3000';
 
-async function abrir(extraInit) {
+async function abrir(extraInit, vp) {
+  // vp = { width, height }: algunas escenas largas se capturan con una pantalla algo mayor (misma proporción 9:19.5)
+  // para que quepan enteras; la imagen final siempre sale a 750x1624.
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
   const ctx = await browser.newContext({
-    viewport: { width: 375, height: 812 },
-    deviceScaleFactor: 2,
+    viewport: vp || { width: 375, height: 812 },
+    deviceScaleFactor: vp ? 750 / vp.width : 2,
     isMobile: true,
     hasTouch: true,
     reducedMotion: 'reduce',

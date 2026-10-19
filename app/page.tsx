@@ -154,7 +154,7 @@ export default function LandingLuma() {
             label: 'Tu día, en un vistazo',
           },
           {
-            src: '/carrusel/descifrar.webp?v=4',
+            src: '/carrusel/descifrar.webp?v=5',
             label: 'Hechos, riesgo y qué responder',
           },
           {
