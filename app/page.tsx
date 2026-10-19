@@ -150,27 +150,27 @@ export default function LandingLuma() {
         ctaNota="Sin tarjeta · sin registro"
         frames={[
           {
-            src: '/carrusel/inicio.webp',
+            src: '/carrusel/inicio.webp?v=3',
             label: 'Tu día, en un vistazo',
           },
           {
-            src: '/carrusel/descifrar.webp',
+            src: '/carrusel/descifrar.webp?v=3',
             label: 'Hechos, riesgo y qué responder',
           },
           {
-            src: '/carrusel/coach.webp?v=2',
+            src: '/carrusel/coach.webp?v=3',
             label: 'Tu coach, siempre disponible',
           },
           {
-            src: '/carrusel/tarot.webp?v=2',
+            src: '/carrusel/tarot.webp?v=3',
             label: 'Una tirada leída para ti',
           },
           {
-            src: '/carrusel/mapa-poder.webp',
+            src: '/carrusel/mapa-poder.webp?v=3',
             label: 'Tu arcano de nacimiento, leído',
           },
           {
-            src: '/carrusel/diario.webp?v=2',
+            src: '/carrusel/diario.webp?v=3',
             label: 'Tus patrones, al fin visibles',
           },
         ]}

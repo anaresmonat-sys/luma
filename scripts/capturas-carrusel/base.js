@@ -1,0 +1,26 @@
+// Ayudantes para las capturas del carrusel (tamaño 375x812 @2x = 750x1624, igual que las actuales).
+const { chromium } = require('playwright');
+
+const BASE = process.env.BASE || 'http://localhost:3000';
+
+async function abrir(extraInit) {
+  const browser = await chromium.launch({ channel: 'chrome', headless: true });
+  const ctx = await browser.newContext({
+    viewport: { width: 375, height: 812 },
+    deviceScaleFactor: 2,
+    isMobile: true,
+    hasTouch: true,
+    reducedMotion: 'reduce',
+    locale: 'es-ES',
+  });
+  await ctx.addInitScript(() => {
+    try {
+      localStorage.setItem('luma_edad_confirmada', '1');
+    } catch (e) {}
+  });
+  if (extraInit) await ctx.addInitScript(extraInit);
+  const page = await ctx.newPage();
+  return { browser, ctx, page };
+}
+
+module.exports = { abrir, BASE };

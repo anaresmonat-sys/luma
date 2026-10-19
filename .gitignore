@@ -38,3 +38,6 @@ yarn-error.log*
 /z*.png
 /*-vp.png
 /*-full.png
+
+# Salida de las capturas del carrusel (se regenera)
+scripts/capturas-carrusel/salida/
