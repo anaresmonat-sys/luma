@@ -4,11 +4,14 @@ export const metadata = { title: 'Reembolsos — LUMA' };
 
 export default function Page() {
   return (
-    <PaginaLegal titulo="Reembolsos" actualizado="23 de septiembre de 2026">
+    <PaginaLegal titulo="Reembolsos" actualizado="19 de octubre de 2026">
       <h2>Prueba gratis de 3 días</h2>
       <p>
         Al empezar, tienes 3 días completos para probar LUMA sin que se te cobre nada. Si cancelas antes de que
-        termine ese período, no pagas absolutamente nada.
+        termine ese período, no pagas absolutamente nada. Para cancelar, escríbenos a{' '}
+        <a href="mailto:soporte@tuluma.app">soporte@tuluma.app</a> o usa <a href="/app/cancelar">Más → Cómo cancelar</a>.
+      </p>
+      <p>
       </p>
 
       <h2>Garantía de 15 días</h2>
@@ -19,17 +22,15 @@ export default function Page() {
 
       <h2>Cómo pedir tu reembolso</h2>
       <p>
-        Todos los pagos de LUMA se procesan a través de <strong>Hotmart</strong>, que gestiona los reembolsos
-        directamente:
+        Todos los pagos de LUMA se procesan a través de <strong>Hotmart</strong>. Para pedir tu reembolso:
       </p>
       <ul>
-        <li>Entra a consumer.hotmart.com con el correo con el que compraste.</li>
-        <li>Ve a "Mis compras" y busca tu suscripción a LUMA.</li>
-        <li>Solicita el reembolso — Hotmart lo procesa según su ventana de garantía.</li>
+        <li>Escríbenos a <a href="mailto:soporte@tuluma.app">soporte@tuluma.app</a> desde el correo con el que compraste.</li>
+        <li>Dinos que quieres el reembolso — no hace falta explicar el motivo.</li>
+        <li>Lo gestionamos nosotras con Hotmart y te confirmamos por correo. Hotmart devuelve el dinero al mismo medio de pago.</li>
       </ul>
       <p>
-        Si tienes problemas para encontrar tu compra, escríbenos a{' '}
-        <a href="mailto:soporte@tuluma.app">soporte@tuluma.app</a> y te ayudamos.
+        También puedes ver tus compras y recibos en consumer.hotmart.com con el mismo correo de la compra.
       </p>
 
       <h2>Si compras desde Brasil</h2>
