@@ -69,7 +69,13 @@ function Precio({ plan }: { plan: PlanOferta }) {
     <div>
       <p className="flex items-baseline gap-1">
         <span className="text-[36px] font-bold leading-none tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]">
-          {plan.precioMes}
+          {plan.precioMes.replace(/\*$/, '')}
+          {/* Asterisco en dorado: remite a la nota de impuestos y moneda de debajo de los planes */}
+          {plan.precioMes.endsWith('*') && (
+            <span aria-hidden="true" className="-ml-0.5 text-[32px] font-semibold leading-none text-[var(--accent)]">
+              *
+            </span>
+          )}
         </span>
         <span className="text-[14px] text-[var(--text-secondary)]">{plan.sufijo ?? '/mes'}</span>
       </p>

@@ -189,13 +189,13 @@ export default function LandingLuma() {
         kicker="Tu plan"
         tituloMarked="Menos que [acento]una consulta con tarotista o coach[/acento]"
         trialDias={3}
-        notaCompra="Precios sin impuestos: el importe final, con los impuestos y la moneda de tu país, lo ves en la página de pago antes de confirmar · Pago seguro con Hotmart · 15 días de garantía desde el primer cobro"
+        notaCompra="* Precios sin impuestos: el importe final, con los impuestos y la moneda de tu país, lo ves en la página de pago antes de confirmar · Pago seguro con Hotmart · 15 días de garantía desde el primer cobro"
         anual={{
           nombre: 'Anual',
           badge: 'LA MÁS ELEGIDA',
-          precioMes: '$7,50',
+          precioMes: '$7,50*',
           sufijo: '/mes aprox.',
-          totalAnual: 'Se cobra $89,99/año',
+          totalAnual: 'Se cobra $89,99/año*',
           ahorro: '3 meses gratis',
           descomposicionDia: 'menos de $0,25 al día',
           ctaLabel: 'Empezar con el plan anual',
@@ -210,7 +210,7 @@ export default function LandingLuma() {
         }}
         mensual={{
           nombre: 'Mensual',
-          precioMes: '$9,99',
+          precioMes: '$9,99*',
           sufijo: '/mes',
           ctaLabel: 'Empezar con el plan mensual',
           ctaHref: CTA_HREF,
