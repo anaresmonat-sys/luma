@@ -170,7 +170,7 @@ export default function LandingLuma() {
             label: 'Una tirada leída para ti',
           },
           {
-            src: '/carrusel/compatibilidad.webp?v=3',
+            src: '/carrusel/compatibilidad.webp?v=4',
             label: 'Tu sinergia con él, en un vistazo',
           },
           {
