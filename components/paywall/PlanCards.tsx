@@ -77,7 +77,12 @@ function Card({
       </div>
       <p className="mt-3 flex items-baseline gap-1">
         <span className="text-[24px] font-bold leading-none tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]">
-          {plan.precioMes}
+          {plan.precioMes.replace(/\*$/, '')}
+          {plan.precioMes.endsWith('*') && (
+            <span aria-hidden="true" className="-ml-0.5 text-[26px] font-semibold leading-none text-[var(--accent)]">
+              *
+            </span>
+          )}
         </span>
         <span className="text-[13px] text-[var(--text-secondary)]">{plan.sufijo ?? '/mes'}</span>
       </p>
