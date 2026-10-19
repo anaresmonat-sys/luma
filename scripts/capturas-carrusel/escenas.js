@@ -104,6 +104,11 @@ const ESCENAS = {
     await page.waitForTimeout(2500);
   },
 
+  async 'tarot-temas'({ page }) {
+    await page.goto(BASE + '/app/tarot', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(1800);
+  },
+
   async tarot({ page }) {
     // Cartas fijas (semilla 9): Sota de Copas, As de Oros (invertida) y 10 de Oros.
     await page.addInitScript(() => {

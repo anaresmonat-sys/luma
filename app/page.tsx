@@ -162,6 +162,10 @@ export default function LandingLuma() {
             label: 'Tu coach, siempre disponible',
           },
           {
+            src: '/carrusel/tarot-temas.webp?v=3',
+            label: 'Eliges tu tirada',
+          },
+          {
             src: '/carrusel/tarot.webp?v=3',
             label: 'Una tirada leída para ti',
           },
