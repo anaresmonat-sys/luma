@@ -1,0 +1,31 @@
+<!-- Plantilla del correo de acceso de LUMA (Supabase → Authentication → Emails).
+     Se pega IGUAL en las dos plantillas: «Magic link or OTP» y «Confirm sign up».
+     Asunto: Tu acceso a LUMA ya está listo
+     El enlace usa token_hash para que entre desde cualquier navegador (no depende del navegador donde se pidió).
+     Versión 2026-10-19: añade «No necesitas contraseña» (el correo de Hotmart habla de definir una contraseña y confunde). -->
+<div style="margin:0;padding:24px 12px;background:#f4eee9;font-family:Arial,Helvetica,sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:480px;margin:0 auto;">
+    <tr>
+      <td style="text-align:center;padding:8px 0 16px;">
+        <span style="font-family:Georgia,'Times New Roman',serif;font-size:22px;letter-spacing:6px;color:#7a5a1e;">LUMA</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="background:#ffffff;border-radius:16px;padding:28px 24px;text-align:center;">
+        <h1 style="margin:0 0 10px;font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:1.2;color:#2a1018;">Ya estás dentro</h1>
+        <p style="margin:0 0 22px;font-size:16px;line-height:1.5;color:#4a3a40;">Toca el botón para entrar a LUMA.</p>
+        <a href="{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=email&next=/app"
+           style="display:inline-block;background:#d8a441;color:#2a1018;font-weight:bold;font-size:17px;text-decoration:none;padding:15px 30px;border-radius:12px;">
+          Entrar a LUMA
+        </a>
+        <p style="margin:22px 0 0;font-size:15px;line-height:1.5;color:#2a1018;"><strong>No necesitas contraseña.</strong> Entra siempre con este botón. Si Hotmart te habló de definir una contraseña, no hace falta para LUMA.</p>
+        <p style="margin:14px 0 0;font-size:13px;line-height:1.5;color:#7a6a70;">Este enlace es de un solo uso. Si caduca, pide otro en la pantalla de entrada.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:center;padding:16px 8px 0;font-size:13px;line-height:1.5;color:#7a6a70;">
+        ¿Dudas? Escríbenos a <a href="mailto:soporte@tuluma.app" style="color:#7a5a1e;">soporte@tuluma.app</a>
+      </td>
+    </tr>
+  </table>
+</div>
