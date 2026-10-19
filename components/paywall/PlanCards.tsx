@@ -79,7 +79,7 @@ function Card({
         <span className="text-[24px] font-bold leading-none tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]">
           {plan.precioMes.replace(/\*$/, '')}
           {plan.precioMes.endsWith('*') && (
-            <span aria-hidden="true" className="-ml-px text-[16px] font-semibold leading-none text-[var(--accent)]">
+            <span aria-hidden="true" className="-ml-px text-[12px] font-medium leading-none text-[var(--text-secondary)]">
               *
             </span>
           )}
