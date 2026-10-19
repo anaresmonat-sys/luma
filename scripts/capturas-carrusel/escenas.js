@@ -104,6 +104,22 @@ const ESCENAS = {
     await page.waitForTimeout(2500);
   },
 
+  // Sinergia Leo + Sagitario: texto REAL devuelto por la IA (guardado en compat-leo-sagitario.json).
+  async compatibilidad({ page }) {
+    const cuerpo = fs.readFileSync('scripts/capturas-carrusel/compat-leo-sagitario.json', 'utf8');
+    await page.route('**/api/compatibilidad', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: cuerpo }));
+    await page.goto(BASE + '/app/compatibilidad?tu=leo&su=sagitario', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(1200);
+    await page.evaluate(() => [...document.querySelectorAll('button')].find((b) => /Calcular/.test(b.textContent)).click());
+    await page.waitForTimeout(2500);
+    // El resultado queda arriba: porcentaje, química y fricción a la vista.
+    await page.evaluate(() => {
+      const el = [...document.querySelectorAll('p,span,div')].find((x) => /DE SINERGIA/i.test((x.textContent || '').trim()) && x.children.length === 0);
+      if (el) { const r = el.getBoundingClientRect(); window.scrollTo({ top: window.scrollY + r.top - 170, behavior: 'instant' }); }
+    });
+    await page.waitForTimeout(500);
+  },
+
   async 'tarot-temas'({ page }) {
     await page.goto(BASE + '/app/tarot', { waitUntil: 'networkidle' });
     await page.waitForTimeout(1800);

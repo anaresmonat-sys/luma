@@ -170,6 +170,10 @@ export default function LandingLuma() {
             label: 'Una tirada leída para ti',
           },
           {
+            src: '/carrusel/compatibilidad.webp?v=3',
+            label: 'Tu sinergia con él, en un vistazo',
+          },
+          {
             src: '/carrusel/mapa-poder.webp?v=3',
             label: 'Tu arcano de nacimiento, leído',
           },

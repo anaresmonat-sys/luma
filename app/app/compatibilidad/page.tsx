@@ -20,6 +20,7 @@ import { Lock } from 'lucide-react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { AppButton } from '@/components/app/AppButton';
 import { SIGNOS_ZODIACO } from '@/lib/zodiaco';
+import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
 
 interface Resultado {
@@ -145,6 +146,8 @@ function ListaSignos({
 }
 
 export default function CompatibilidadPage() {
+  // Quien tiene plan activo ve el reporte completo; el resto ve el % y la química y una invitación a los planes.
+  const { conPlan } = usePruebaDisponible();
   const [signo1, setSigno1] = useState<string | null>(null);
   const [signo2, setSigno2] = useState<string | null>(null);
   const [activo, setActivo] = useState<Rol>('tu');
@@ -276,7 +279,7 @@ export default function CompatibilidadPage() {
             </div>
 
             <div className="relative rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] p-4">
-              <div className="pointer-events-none select-none blur-[6px]">
+              <div className={conPlan === true ? '' : 'pointer-events-none select-none blur-[6px]'} aria-hidden={conPlan === true ? undefined : true}>
                 <h3 className="text-[12px] font-bold uppercase tracking-[0.06em] text-[var(--accent)]">
                   Puntos de fricción
                 </h3>
@@ -290,6 +293,7 @@ export default function CompatibilidadPage() {
                 </h3>
                 <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--text-primary)]">{resultado.consejo}</p>
               </div>
+              {conPlan !== true && (
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-[var(--radius-card)] bg-[color-mix(in_oklab,var(--bg)_55%,transparent)] p-4 text-center">
                 <Lock size={18} className="text-[var(--accent-lite)]" aria-hidden="true" />
                 <p className="text-[12.5px] font-semibold text-[var(--text-primary)]">
@@ -302,6 +306,7 @@ export default function CompatibilidadPage() {
                   Ver planes
                 </a>
               </div>
+              )}
             </div>
           </motion.div>
         )}
