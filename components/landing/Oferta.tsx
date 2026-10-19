@@ -72,7 +72,7 @@ function Precio({ plan }: { plan: PlanOferta }) {
           {plan.precioMes.replace(/\*$/, '')}
           {/* Asterisco en dorado: remite a la nota de impuestos y moneda de debajo de los planes */}
           {plan.precioMes.endsWith('*') && (
-            <span aria-hidden="true" className="-ml-0.5 text-[32px] font-semibold leading-none text-[var(--accent)]">
+            <span aria-hidden="true" className="-ml-px text-[20px] font-semibold leading-none text-[var(--accent)]">
               *
             </span>
           )}
