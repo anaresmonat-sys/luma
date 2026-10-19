@@ -66,10 +66,13 @@ const ESCENAS = {
     await page.waitForTimeout(500);
     await page.getByRole('button', { name: 'Analizar', exact: true }).click();
     await page.waitForTimeout(1500);
+    // Baja hasta el final del área desplazable para que los dos botones de abajo se vean ENTEROS (nunca cortados).
     await page.evaluate(() => {
       const h = [...document.querySelectorAll('p')].find((x) => /Lo que hemos detectado/.test(x.textContent || ''));
-      if (h) h.scrollIntoView({ block: 'start', behavior: 'instant' });
-      window.scrollBy(0, -170);
+      let el = h;
+      while (el && el !== document.body && !(el.scrollHeight > el.clientHeight + 5 && /(auto|scroll)/.test(getComputedStyle(el).overflowY))) el = el.parentElement;
+      if (el && el !== document.body) el.scrollTop = el.scrollHeight;
+      else window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' });
     });
     await page.waitForTimeout(500);
   },
