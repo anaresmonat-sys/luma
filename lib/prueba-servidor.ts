@@ -18,12 +18,12 @@ import { cookies } from 'next/headers';
 import { createHmac, randomUUID } from 'crypto';
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
 import { identificadorDePeticion } from '@/lib/rate-limit';
+import { ESTADOS_A_CONSULTAR, algunaSuscripcionDaAcceso, type FilaSuscripcion } from '@/lib/acceso-plan';
 
 const COOKIE = 'luma_anon';
 const MAX_RESULTADOS_GRATIS = 1;
 const MAX_POR_CONEXION_DIA = 5;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const ESTADOS_CON_ACCESO = ['active', 'trialing', 'trial'];
 
 export interface AccesoGratis {
   permitido: boolean;
@@ -49,14 +49,11 @@ export async function controlarAccesoGratis(request: Request, usuarioId: string 
         admin.from('profiles').select('role').eq('id', usuarioId).maybeSingle(),
         admin
           .from('subscriptions')
-          .select('estado, current_period_end')
+          .select('estado, current_period_end, updated_at')
           .eq('user_id', usuarioId)
-          .in('estado', ESTADOS_CON_ACCESO),
+          .in('estado', [...ESTADOS_A_CONSULTAR]),
       ]);
-      const ahora = Date.now();
-      const conPlan = (suscripciones.data ?? []).some(
-        (s: { current_period_end: string | null }) => !s.current_period_end || new Date(s.current_period_end).getTime() > ahora
-      );
+      const conPlan = algunaSuscripcionDaAcceso(suscripciones.data as FilaSuscripcion[] | null);
       if (perfil.data?.role === 'admin' || conPlan) return SIN_CONTROL;
     }
 

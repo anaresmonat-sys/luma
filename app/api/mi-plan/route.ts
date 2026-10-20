@@ -8,10 +8,9 @@
 import { NextResponse } from 'next/server';
 import { crearClienteServidor } from '@/lib/supabase/server';
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
+import { ESTADOS_A_CONSULTAR, algunaSuscripcionDaAcceso, type FilaSuscripcion } from '@/lib/acceso-plan';
 
 export const runtime = 'nodejs';
-
-const ESTADOS_CON_ACCESO = ['active', 'trialing', 'trial'];
 
 export async function GET() {
   const supabase = await crearClienteServidor();
@@ -27,12 +26,9 @@ export async function GET() {
     const admin = clienteAdminSupabase();
     const [{ data: perfil }, { data: suscripciones }] = await Promise.all([
       admin.from('profiles').select('role').eq('id', user.id).maybeSingle(),
-      admin.from('subscriptions').select('estado, current_period_end').eq('user_id', user.id).in('estado', ESTADOS_CON_ACCESO),
+      admin.from('subscriptions').select('estado, current_period_end, updated_at').eq('user_id', user.id).in('estado', [...ESTADOS_A_CONSULTAR]),
     ]);
-    const ahora = Date.now();
-    const conPlan = (suscripciones ?? []).some(
-      (s: { current_period_end: string | null }) => !s.current_period_end || new Date(s.current_period_end).getTime() > ahora
-    );
+    const conPlan = algunaSuscripcionDaAcceso(suscripciones as FilaSuscripcion[] | null);
     const esAdmin = perfil?.role === 'admin';
     return NextResponse.json({ activo: esAdmin || conPlan, admin: esAdmin });
   } catch {
