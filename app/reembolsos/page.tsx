@@ -16,8 +16,9 @@ export default function Page() {
 
       <h2>Garantía de 15 días</h2>
       <p>
-        Si después de tu primer cobro sientes que LUMA no es para ti, tienes <strong>15 días desde ese cobro</strong>{' '}
-        para pedir el reembolso completo — sin preguntas incómodas.
+        Si sientes que LUMA no es para ti, tienes <strong>15 días desde que empiezas tu prueba</strong> para pedir el
+        reembolso completo — sin preguntas incómodas. Como la prueba dura 3 días, después de tu primer cobro te quedan
+        12 días. Si te pasas por poco, escríbenos igualmente: miramos cada caso.
       </p>
 
       <h2>Cómo pedir tu reembolso</h2>

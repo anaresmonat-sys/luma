@@ -189,7 +189,7 @@ export default function LandingLuma() {
         kicker="Tu plan"
         tituloMarked="Menos que [acento]una consulta con tarotista o coach[/acento]"
         trialDias={3}
-        notaCompra="* Precios sin impuestos: el importe final, con los impuestos y la moneda de tu país, lo ves en la página de pago antes de confirmar · Pago seguro con Hotmart · 15 días de garantía desde el primer cobro"
+        notaCompra="* Precios sin impuestos: el importe final, con los impuestos y la moneda de tu país, lo ves en la página de pago antes de confirmar · Pago seguro con Hotmart · 15 días de garantía desde que empiezas tu prueba"
         anual={{
           nombre: 'Anual',
           badge: 'LA MÁS ELEGIDA',
@@ -228,7 +228,7 @@ export default function LandingLuma() {
           disponible es 15 días, no 7 (el 7 era una cifra provisional). */}
       <Garantia
         nombre="Garantía de 15 Días"
-        condicionMarked="Pruebas [b]3 días sin pagar[/b] y, si LUMA no es para ti, no pagas nada. Y si pagas y cambias de idea, tienes [b]15 días[/b] para el reembolso completo."
+        condicionMarked="Pruebas [b]3 días sin pagar[/b] y, si LUMA no es para ti, no pagas nada. Y si pagas y cambias de idea, tienes [b]15 días[/b], contados desde que empiezas tu prueba, para el reembolso completo."
         pisoLegal="Respaldada por la garantía de Hotmart"
       />
 
@@ -258,7 +258,7 @@ export default function LandingLuma() {
           {
             pregunta: '¿Y si no me convence?',
             respuestaMarked:
-              'Tienes 3 días de prueba y 15 días de garantía desde el primer cobro. Cancelas cuando quieras, sin trámites.',
+              'Tienes 3 días de prueba y 15 días de garantía desde que empiezas. Cancelas cuando quieras, sin trámites.',
           },
         ]}
       />
@@ -270,7 +270,7 @@ export default function LandingLuma() {
         ctaLabel={CTA_LABEL}
         ctaHref={CTA_HREF}
         recap="Descifra chats · Chat con LUMA · Tarot para tu caso · Diario de patrones · sin cobros por mensaje"
-        psMarked="PS — Tu primera lectura es gratis y sin tarjeta. Después, 3 días de prueba y 15 días de garantía desde el primer cobro."
+        psMarked="PS — Tu primera lectura es gratis y sin tarjeta. Después, 3 días de prueba y 15 días de garantía desde que empiezas."
       />
       </main>
 

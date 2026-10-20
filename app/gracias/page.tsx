@@ -109,7 +109,7 @@ export default async function GraciasPage({ searchParams }: { searchParams: Prom
       </ol>
 
       <p className="mt-auto pt-8 text-center text-[12.5px] leading-snug text-[var(--text-tertiary)]">
-        Tienes 15 días de garantía desde tu primer cobro. Cancelas cuando quieras.{' '}
+        Tienes 15 días de garantía desde que empiezas tu prueba. Cancelas cuando quieras.{' '}
         <Link href="/reembolsos" className="underline underline-offset-2">
           Ver cómo
         </Link>
