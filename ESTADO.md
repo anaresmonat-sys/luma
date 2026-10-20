@@ -1160,3 +1160,16 @@ sabemos / qué observamos / posible riesgo / pregunta para ti / qué podrías re
 - 🔄 2026-10-20 — POLÍTICA DE REEMBOLSO DECIDIDA POR LA DUEÑA: NO se asume ningún reembolso fuera de plazo; la garantía de 15 días corre desde que se suscribe (día 0) y así se avisa en todos los textos. /reembolsos: quitada la frase «si te pasas por poco, escríbenos» y sustituida por «Pasado ese plazo, ya no es posible el reembolso». Cierra la duda (c) de si el reembolso fuera de plazo lo asume la productora: no se hará. Sin publicar.
 
 - 🔄 2026-10-20 — RONDAS 12-14 (sin publicar): LANDING 36/40·16/20·19/20 LISTA (justo en el umbral; nota de compra partida en 2 líneas y nombra la garantía). PANTALLA DE PLANES: 32→33/40, 15/20 (NO LISTA, a 3 pts): resuelto — tarjetas del mismo alto al elegir (149/103 px medidos), Mensual y su precio visibles en la primera vista (termina en y=673, barra en y=698), aviso de hidratación con «reducir movimiento» (era el «1 Issue»), línea del calendario sin cabo suelto, menos aire muerto. Pendiente (no tocado): conteo/celebración de números y marca de carta pequeña (72px). PUERTA DE EDAD: 35/40·15/20 tres rondas seguidas (a 1 pt): 3 tamaños de letra, candado en línea, botón pleno con spinner, fundido de etiqueta, pausa de 220 ms. Último ajuste sin re-puntuar. PRIVACIDAD VERIFICADA 2026-10-20: /api/descifrar no guarda ni registra el texto/imagen (solo tokens y errores técnicos); comentario en route.ts lo protege. Textos: «la usamos solo para este análisis y no la guardamos».
+
+## 🔄 EXAMEN PRE-LANZAMIENTO — 2026-10-20 — VEREDICTO: NO APTO (56/100)
+Certificado: VENTA 16/20 · FUNNEL 14/20 · PRODUCTO 13/20 · CONFIANZA 7/15 · VELOCIDAD 0/10 (no medido) · RETENCIÓN 6/15.
+Hecho en el examen: next 16.4.2 (0 vulnerabilidades), `lib/acceso-plan.ts` + 22 pruebas (commit 1252fd5), CSP real verificada en build de producción
+(0 violaciones en 7 páginas), robots/sitemap/OG/canonical, `/api/version`, índices FK (migración aplicada y guardada en `supabase/migrations/`),
+6 artefactos en `docs/release/` + `MANUAL-DEL-DUEÑO.md`. Commit 6aeb193. SIN PUBLICAR (esperar "publica" de la dueña).
+Evidencia: RLS 19 tablas + IDOR probado; producción 200 + cabeceras; revisor landing 36/40·16/20, planes 33/40·15/20, puerta de edad 35/40·16/20.
+Bloqueantes abiertos: (1) pagos sin certificar (trial anual, pago rechazado, reembolso/contracargo reales, sin allowlist de oferta/importe) ·
+(2) legales en BORRADOR y consentimiento de edad solo en localStorage · (3) Supabase FREE sin backups y migraciones anteriores fuera del repo ·
+(4) Vercel no verificable (variables, plan comercial, PRUEBA_SERVIDOR) · (5) velocidad (Lighthouse) sin medir · (6) sin aviso pre-cobro/dunning propio ·
+(7) sin CI/E2E/alertas (Sentry) · (8) rate limit en memoria · (9) textos legales 12–13 px · (10) planes por debajo del gate doble 36/16 (aceptado con criterio propio).
+Acciones de la dueña: confirmar en Vercel (variables, plan no-Hobby, PRUEBA_SERVIDOR), recarga automática en Anthropic, revisión profesional de legales,
+Supabase Pro antes de escalar, pruebas reales de pago rechazado/reembolso en Hotmart.
