@@ -259,3 +259,31 @@ Top defectos:
 4. [Aviso de fallo, #pista-edad] Dice qué hacer pero no por qué y no tiene captura en esta ronda → fix: «No pudimos entrar. Revisa tu conexión y toca el botón para reintentar.» (comprobar que sigue en 1-2 líneas con min-h-6) y capturar el estado.
 5. [route.ts líneas 190-191, catch del POST] El console.error y registrarError reciben error.message sin filtro; si el SDK algún día incluye un fragmento del cuerpo, la promesa «no la guardamos» queda rota → fix: registrar un mensaje fijo más el status/tipo del error, nunca el message crudo.
 Veredicto honesto: 35/40 y 16/20. Craft pasa; usabilidad sigue a 1 punto del umbral (36) por tercera ronda. Los fixes 1 y 2 de esta ronda eran el camino al 36 (la flecha atrás durante el envío y la redundancia) y solo se resolvió la mitad del primero de forma invisible para el usuario y la redundancia de la casilla. No se sube ningún criterio sin evidencia en captura o código.
+
+# VEREDICTO revisor-visual — onboarding (Ronda 16, re-revisión)
+Fecha: 2026-10-20 23:59
+Screenshot: docs/revisiones/onboarding-r16-1-inicial-375.png (+ onboarding-r16-2-enviando-375.png, onboarding-r16-3-fallo-375.png)
+Usabilidad: 35/40
+Craft: 16/20
+Copy (si vende): 16/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:4 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:4 h10:3
+Detalle craft: jerarquia:3 profundidad:3 identidad:3 movimiento:4 encaje:3
+Detalle copy: idea:3 especificidad:3 emocion:3 oferta:3 accion:4 (puerta de edad, no vende; puntuado a pedido)
+Gate de carga cognitiva: 0 fallas. Evidencia: 3 capturas 375x812 limpias (inicial, enviando, fallo); no hay captura del aviso «Marca la casilla» ni del estado marcado aislado en esta ronda.
+Defectos de la Ronda 15 verificados:
+- R15-1 (flecha atrás viva durante el envío): CORREGIDO. Código: page.tsx guarda `enviando` vía onEnviando y lo pasa a PasoShell -> OnboardingHeader `disabled` + `disabled:opacity-35`; captura 2: la flecha aparece atenuada igual que el resto; captura 3: vuelve a pleno brillo tras el fallo. Matiz: la flecha queda apagada hasta 8 s si la navegación se cuelga, sin ningún otro modo de salir.
+- R15-2 (privacidad dicha dos veces): CORREGIDO. Con nota el subtítulo es «Aquí nadie te juzga.» y la privacidad vive solo en la línea del candado (capturas 1-3). Siguen 3 bloques de texto antes de la acción (subtítulo, párrafo, candado), aunque ya no repiten idea.
+- R15-3 (aviso de fallo sin causa): CORREGIDO en contenido y evidencia: «No pudimos entrar. Revisa tu conexión y toca el botón.» con captura. Defecto nuevo: ya no cabe en 1 línea (queda «botón.» huérfano en la 2.ª) y el contenedor min-h-6 crece, así que la casilla salta ~18 px hacia arriba al aparecer el aviso (casilla y≈1135 en captura 1/2 vs y≈1098 en captura 3, a 2x).
+- R15-4 (route.ts registraba error.message crudo): CORREGIDO. El catch registra «Fallo del proveedor de IA (<nombre> <status>)» y console.error con nombre y status; ya no se escribe el texto del proveedor. Comentario de privacidad sobre el handler POST. Pendiente: la nota con fecha en ESTADO.md sigue sin verificarse por mí.
+Verificado contra FICHA-ARTE: Cormorant en titular, Hanken en cuerpo, oro #d8a441 en acción/titular/acento, fondo vino con blooms, hairline degradé de 2px en la casilla, radios por tokens. Sin desvío; sin clon de los ejemplos vetados. FICHA-AVATAR: no-juicio (objeción 6) y privacidad responden a las objeciones.
+CTA héroe vivo: contraste alto, whileTap 0.97, habilitado por defecto (disabled solo durante el envío), h-14 ancho completo. Cumple los 4.
+Movimiento: 4 por las baseline aplicables a una puerta de un paso; reduced-motion cubierto.
+Top defectos:
+1. [Aviso de fallo, bajo la casilla y≈1250-1310 a 2x] El texto salta a 2 líneas con «botón.» huérfano y empuja la casilla ~18 px hacia arriba al aparecer: salto de layout justo en el momento de error → fix: acortar a «No pudimos entrar. Revisa tu conexión.» (1 línea, la instrucción de reintento ya la da el botón activo) o reservar min-h de 2 líneas en #pista-edad desde el inicio.
+2. [Flecha atrás, superior izquierda, estado enviando] Apagada sin tope claro: si la navegación se cuelga, el usuario queda sin salida hasta que vence el temporizador de 8 s y con el contenido al 35% → fix: bajar el temporizador a ~4-5 s o rehabilitar la flecha a los 1,5 s de envío; mantener el 35% solo los primeros 220 ms.
+3. [Subtítulo + párrafo + candado, y≈590-840 a 2x] Con nota siguen 3 bloques de texto antes de la casilla (h8 no sube) → fix: fundir «Aquí nadie te juzga.» y la línea del candado en una sola pieza («Aquí nadie te juzga. Tu conversación es privada y no la guardamos.») y dejar el párrafo con la oferta.
+4. [Banda y≈850-1100 a 2x, entre candado y casilla] Sigue ~125 px de fondo tranquilo (decisión de diseño declarada: zona del pulgar al fondo). No cuenta como defecto nuevo pero mantiene encaje y profundidad en 3 → fix: bloom vino más visible a mitad de pantalla para que se lea como aire deliberado.
+5. [Causa del aviso, PasoEdad.tsx líneas 55-62] «Revisa tu conexión» se afirma tras un simple temporizador de 8 s; si la causa real es otra (ruta lenta, error de la función), el mensaje culpa a la usuaria sin saberlo → fix: comprobar `navigator.onLine` y solo entonces decir «conexión»; si hay red, «Algo no cargó. Toca el botón para reintentar.»
+Veredicto honesto: 35/40 y 16/20. Craft pasa. Usabilidad sigue en 35 por cuarta ronda: los cuatro defectos de la Ronda 15 están corregidos de verdad, pero ninguno cambia el criterio que lo contiene (h3 queda en 3 por la flecha apagada sin salida y h8 en 3 por los 3 bloques de texto), y el arreglo del aviso introdujo un salto de layout en el estado de error. No se sube ningún criterio sin evidencia; LISTA exige ≥36/40.

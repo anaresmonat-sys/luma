@@ -32,9 +32,19 @@ export function PasoEdad({
   const [enviando, setEnviando] = useState(false);
   const [falloEnvio, setFalloEnvio] = useState(false);
   const pausaSalida = useRef<number | null>(null);
+  const [saliendo, setSaliendo] = useState(false);
   useEffect(() => {
-    onEnviando?.(enviando);
-  }, [enviando, onEnviando]);
+    if (!enviando) {
+      setSaliendo(false);
+      return;
+    }
+    setSaliendo(true);
+    const t = window.setTimeout(() => setSaliendo(false), 1500);
+    return () => window.clearTimeout(t);
+  }, [enviando]);
+  useEffect(() => {
+    onEnviando?.(saliendo);
+  }, [saliendo, onEnviando]);
   useEffect(
     () => () => {
       if (pausaSalida.current !== null) window.clearTimeout(pausaSalida.current);
@@ -65,7 +75,7 @@ export function PasoEdad({
     <div className="flex flex-1 flex-col gap-6 pt-2">
       <motion.div
         className="relative flex flex-col items-center pt-12 text-center"
-        animate={{ opacity: enviando ? 0.35 : 1 }}
+        animate={{ opacity: saliendo ? 0.35 : 1 }}
         transition={{ duration: reduce ? 0 : 0.2 }}
       >
         {/* Tercer nivel de profundidad: bloom vino-ámbar detrás del medallón */}
@@ -176,7 +186,7 @@ export function PasoEdad({
               </motion.span>
             )}
             {falloEnvio && !faltaCasilla && (
-              <span className="inline-block text-[var(--an-risk)]">No pudimos entrar. Revisa tu conexión y toca el botón.</span>
+              <span className="inline-block text-[var(--an-risk)]">No pudimos entrar. Toca el botón de nuevo.</span>
             )}
           </AnimatePresence>
         </div>
