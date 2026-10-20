@@ -35,7 +35,6 @@ const PLAN_ANUAL: PlanPaywall = {
   badge: 'MÁS POPULAR',
   precioMes: '$7,50*',
   sufijo: '/mes aprox.',
-  descomposicionDia: 'menos de $0,25 al día',
   totalAnual: 'Se cobra $89,99/año*',
   ahorro: 'Ahorras 3 meses frente al plan mensual',
 };
@@ -54,9 +53,9 @@ const PRECIO_TEXTO: Record<'anual' | 'mensual', string> = {
 // Fallback honesto cuando no hay respuestas del onboarding (llegó directo a /paywall):
 // mismos 3 pilares del producto, sin fingir personalización que no existe.
 const BENEFICIOS_GENERICOS = [
-  { texto: 'Descifra conversaciones confusas: hechos, riesgo y qué responder' },
-  { texto: 'Tiradas de tarot con tus preguntas, no genéricas' },
-  { texto: 'Un espacio privado, sin juicio, para pensar en voz alta' },
+  { texto: 'Descifra chats: hechos, riesgo y qué responder' },
+  { texto: 'Tiradas de tarot para tu caso, no genéricas' },
+  { texto: 'Un espacio privado y sin juicio' },
 ];
 
 export default function PaywallLuma() {
@@ -128,19 +127,19 @@ export default function PaywallLuma() {
         {/* Dispositivo ownable de FICHA-ARTE — repite el motivo del funnel (Hero,
             Casos, PlanListo), en tamaño reducido y sin animación de entrada. */}
         <motion.div
-          initial={{ opacity: 0, y: reduce ? 0 : 10 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="flex justify-center"
         >
-          <div className="h-28 scale-[0.5] [transform-origin:top]">
+          <div className="h-[72px] scale-[0.34] [transform-origin:top]">
             <CartaSacerdotisa animar={false} />
           </div>
         </motion.div>
 
         {/* Headline: promesa concreta (entender qué pasa y qué responder) + la escena del avatar en el subtítulo; sin prometer un resultado emocional */}
         <motion.div
-          initial={{ opacity: 0, y: reduce ? 0 : 10 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
           className="mt-2"
@@ -162,7 +161,7 @@ export default function PaywallLuma() {
 
         {/* Beneficios: personalizados si hay datos del onboarding, genéricos si no */}
         <motion.ul
-          initial={{ opacity: 0, y: reduce ? 0 : 10 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
           className={`mt-5 flex flex-col gap-3 ${listo ? '' : 'invisible'}`}
@@ -177,7 +176,7 @@ export default function PaywallLuma() {
 
         {/* Plan cards tocables — anual pre-seleccionado */}
         <motion.div
-          initial={{ opacity: 0, y: reduce ? 0 : 10 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           className="relative mt-7"
@@ -211,7 +210,7 @@ export default function PaywallLuma() {
             Micro-encabezado propio para no leerse como el mismo componente que
             el value stack de arriba (2 bloques seguidos de marcador circular). */}
         <motion.div
-          initial={{ opacity: 0, y: reduce ? 0 : 10 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="mt-7"
@@ -229,7 +228,7 @@ export default function PaywallLuma() {
 
         {/* CTA único + reversibilidad + salida limpia */}
         <motion.div
-          initial={{ opacity: 0, y: reduce ? 0 : 10 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="mt-7"

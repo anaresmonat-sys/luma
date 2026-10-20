@@ -90,7 +90,7 @@ export function PasoEdad({
         {nota && (
           <motion.p
             {...entrada(2)}
-            className="mt-4 flex max-w-[340px] items-start gap-2 text-left text-[13px] leading-snug text-[var(--text-secondary)]"
+            className="mt-4 flex max-w-[340px] items-start justify-center gap-2 text-center text-[14px] leading-snug text-[var(--text-secondary)]"
           >
             <Lock size={14} strokeWidth={2} aria-hidden="true" className="mt-0.5 shrink-0 text-[var(--accent-lite)]" />
             {nota}
@@ -144,7 +144,7 @@ export function PasoEdad({
           <span className="text-[14px] leading-snug text-[var(--text-primary)]">Confirmo que soy mayor de 18 años.</span>
         </motion.button>
 
-        <div id="pista-edad" className="mt-2 mb-2 min-h-6 text-center text-[13px] font-semibold text-[var(--accent-lite)]" role="status">
+        <div id="pista-edad" className="mt-2 mb-2 min-h-6 text-center text-[14px] font-semibold text-[var(--accent-lite)]" role="status">
           <AnimatePresence mode="wait">
             {faltaCasilla && (
               <motion.span
@@ -179,13 +179,13 @@ export function PasoEdad({
             setEnviando(true);
             onContinuar();
           }}
-          className="flex h-14 w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-bold text-[var(--on-accent)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] disabled:opacity-80"
+          className="flex h-14 w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-bold text-[var(--on-accent)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] disabled:opacity-100"
         >
           {enviando ? (
             <>
               <span
                 aria-hidden="true"
-                className="size-4 animate-spin rounded-full border-2 border-[var(--on-accent)] border-t-transparent"
+                className="size-[18px] animate-spin rounded-full border-[3px] border-[var(--on-accent)] border-t-transparent"
               />
               {conSesion ? 'Entrando…' : 'Preparando tu lectura…'}
             </>
@@ -195,7 +195,7 @@ export function PasoEdad({
             'Empezar mi lectura gratis'
           )}
         </motion.button>
-        <p className="mt-3 text-center text-[13px] leading-snug text-[var(--text-tertiary)]">
+        <p className="mt-3 text-center text-[14px] leading-snug text-[var(--text-tertiary)]">
           Al continuar aceptas los{' '}
           <Link href="/terminos" className="inline-block py-3 underline underline-offset-2">
             Términos

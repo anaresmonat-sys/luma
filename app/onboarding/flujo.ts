@@ -31,9 +31,9 @@ export function esOpcionAyuda(valor: string | null): valor is OpcionAyuda {
 // Beneficios del paywall — el primero depende de lo que la persona quiso probar.
 export function beneficiosPlan(r: Respuestas): { texto: string }[] {
   const porAyuda: Record<string, string> = {
-    analizar: 'Descifra conversaciones confusas: hechos, riesgo y qué responder',
+    analizar: 'Descifra chats: hechos, riesgo y qué responder',
     coach: 'Habla con LUMA, tu coach, cuando lo necesites',
-    tarot: 'Tiradas de tarot con tus preguntas, no genéricas',
+    tarot: 'Tiradas de tarot para tu caso, no genéricas',
     diario: 'Tu diario emocional para ver tus patrones con el tiempo',
     compatibilidad: 'Sinergia entre signos: química, fricciones y consejo para cuidar tus límites',
   };
@@ -42,6 +42,6 @@ export function beneficiosPlan(r: Respuestas): { texto: string }[] {
   return [
     { texto: principal },
     { texto: secundaria },
-    { texto: 'Un espacio privado, sin juicio, para pensar en voz alta' },
+    { texto: 'Un espacio privado y sin juicio' },
   ];
 }

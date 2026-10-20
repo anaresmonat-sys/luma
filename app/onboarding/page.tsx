@@ -56,7 +56,7 @@ export default function OnboardingLuma() {
       <PasoEdad
         nota={
           ayuda === 'analizar'
-            ? 'Tu conversación es privada: se usa solo para este análisis y no se guarda.'
+            ? 'Tu conversación es privada: la usamos solo para este análisis y no la guardamos.'
             : undefined
         }
         onContinuar={() => {

@@ -209,7 +209,7 @@ export function Oferta({
           </motion.div>
         </div>
         {notaCompra && (
-          <motion.p variants={item} className="mx-auto mt-5 max-w-[460px] text-center text-[13px] leading-relaxed text-[var(--text-secondary)]">
+          <motion.p variants={item} className="mx-auto mt-5 max-w-[460px] whitespace-pre-line text-center text-[13px] leading-relaxed text-[var(--text-secondary)]">
             {notaCompra}
           </motion.p>
         )}

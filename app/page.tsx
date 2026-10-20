@@ -189,7 +189,8 @@ export default function LandingLuma() {
         kicker="Tu plan"
         tituloMarked="Menos que [acento]una consulta con tarotista o coach[/acento]"
         trialDias={3}
-        notaCompra="* Precios sin impuestos: el importe final, con los impuestos y la moneda de tu país, lo ves en la página de pago antes de confirmar · Pago seguro con Hotmart · 15 días de garantía desde que empiezas tu prueba"
+        notaCompra={`* Precios sin impuestos: el importe final, con los impuestos y la moneda de tu país, lo ves en la página de pago antes de confirmar.
+Garantía de 15 días desde que empiezas tu prueba · Pago seguro con Hotmart`}
         anual={{
           nombre: 'Anual',
           badge: 'LA MÁS ELEGIDA',

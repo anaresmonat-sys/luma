@@ -145,3 +145,31 @@ Top defectos:
 3. [Escala tipográfica de toda la pantalla] 28/16/15/14/13/12px = 6 tamaños (máx 3 recomendado; la jerarquía se difumina entre 16/15/14) → fix: unificar el cuerpo en 14-15 (casilla 15 → 14, subtítulo 16/600 se mantiene como segundo nivel) y 13/12 en uno (12 → 13).
 4. [Captura onboarding-r10-edad-marcado-375.png, esquina inferior izquierda] El overlay de desarrollo de Next «1 Issue» tapa el inicio de la línea legal: evidencia contaminada y señal de un problema de consola sin explicar → fix: recapturar sin el overlay (build de producción o `devIndicators: false`) y revisar qué es el «1 Issue».
 5. [Evidencia pendiente] No hay captura del estado «Preparando tu lectura…/Entrando…» ni del mensaje de fallo; el spinner y la liberación a 8 s solo están verificados en código → fix: capturar ambos estados (simular onContinuar sin navegación) y adjuntarlos.
+
+# VEREDICTO revisor-visual — onboarding (Ronda 12, re-revisión)
+Fecha: 2026-10-20 12:00
+Screenshot: docs/revisiones/onboarding-r12-1-inicial-375.png (+ onboarding-r12-2-marcado-375.png, onboarding-r12-3-enviando-375.png, onboarding-r12-4-fallo-375.png)
+Usabilidad: 35/40
+Craft: 15/20
+Copy (si vende): 16/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:4 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:4 h10:3
+Detalle craft: jerarquia:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+Detalle copy: idea:3 especificidad:3 emocion:3 oferta:3 accion:4 (puerta de edad, no vende; puntuado a pedido)
+Gate de carga cognitiva: 0 fallas. Evidencia: 4 capturas 375x812 reales (inicial, marcado, enviando, fallo), sin overlay de desarrollo.
+Defectos de la Ronda 11 verificados:
+- R11-1 (aviso de fallo en 2 líneas): CORREGIDO. «No pudimos entrar. Toca el botón para reintentar.» cabe en 1 línea, con min-h-6 y margen; el botón queda liberado en la captura 4.
+- R11-2 (hueco y bloom): MEJORADO, casi resuelto. El hueco bajó a ~140px (entre la línea del candado y la casilla) y el bloom al 18% ya se percibe tras el medallón; sigue habiendo una banda tranquila, ahora aceptable.
+- R11-3 (escala tipográfica): PARCIAL. Se pasó de 6 a 4 tamaños de texto (28/16/14/13), más el 16 del botón; sigue por encima del tope de 3.
+- R11-4 (overlay «1 Issue»): CORREGIDO en las 4 capturas (no aparece).
+- R11-5 (evidencia de enviando/fallo): CORREGIDO. Spinner + «Preparando tu lectura…» visible y mensaje de fallo capturados.
+Verificado contra FICHA-ARTE: Cormorant en titular, Hanken en cuerpo, oro #d8a441 en acción/titular/acento, fondo vino con blooms, radios por tokens. Sin desvío; sin clon de los ejemplos vetados. FICHA-AVATAR: el no-juicio abre la pantalla (objeción 6); la línea del candado responde a la objeción de privacidad.
+CTA héroe vivo: contraste alto, whileTap 0.97, nunca disabled por defecto (solo durante el envío), h-14 ancho completo. Cumple los 4.
+Top defectos:
+1. [Escala tipográfica, toda la pantalla] Siguen 4 tamaños de texto (28/16/14/13) más el 16 del botón; entre 14 y 13 (párrafo, casilla, candado, legal) casi no hay diferencia, y el candado (13) y el legal (13) quedan más cerca del cuerpo que de un label → fix: fusionar en 3 tamaños: 28 / 16 (subtítulo y botón) / 14 (párrafo, casilla, candado, legal), diferenciando el legal solo por color terciario.
+2. [Línea del candado, y≈400-425] Es el único bloque alineado a la izquierda (text-left, icono a la izquierda) dentro de una columna 100% centrada y de ancho distinto al párrafo: rompe el eje y el icono no está centrado ópticamente con el texto de 2 líneas → fix: centrar la línea (justify-center, text-center) o fundirla en el eje del párrafo con el candado inline sobre el texto.
+3. [Claim «no se guarda», candado] La promesa de privacidad se muestra con tono absoluto; si el flujo de Descifrar registra aunque sea metadatos o el texto en logs, es un claim falso (gate 61) → fix: verificar en el backend de /analizar que no se persiste ni se loguea el contenido, y anotar la evidencia en ESTADO.md; si no, suavizar a «no se guarda en tu cuenta».
+4. [Botón en estado enviando, captura 3] Se atenúa al 80% (dorado más ocre) y el spinner de 16px con borde oscuro sobre ocre queda de bajo contraste; no hay transición de ancho/etiqueta, solo salto → fix: mantener fondo pleno y usar el spinner a 18px con on-accent; opacidad completa y cambio de etiqueta con fade de 150ms.
+5. [Movimiento, toda la pantalla] Solo entrada escalonada y spring de la casilla; no hay transición entre el estado «marcado» y «enviando» más allá del salto del botón, ni salida suave hacia la siguiente pantalla (navegación completa por window.location) → fix: fade-out de 200ms del contenido antes de navegar, o al menos transición de la etiqueta del botón con AnimatePresence.
+Veredicto honesto: 35/40 queda a 1 punto del umbral de usabilidad (36) y 15/20 a 1 del umbral de craft (16); ambos fallan por detalles de afinación (escala tipográfica y encaje del candado), no por defectos de fondo.

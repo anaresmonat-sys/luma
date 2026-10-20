@@ -22,7 +22,7 @@ export function TimelineTrial({ diasPrueba, precioTexto }: { diasPrueba: number;
       <motion.div
         aria-hidden="true"
         className="absolute left-[11px] top-3 w-[2px] origin-top bg-[color-mix(in_oklab,var(--accent)_45%,transparent)]"
-        initial={{ height: reduce ? '85%' : 0 }}
+        initial={{ height: 0 }}
         animate={{ height: '85%' }}
         transition={{ duration: reduce ? 0 : 0.6, ease: [0.16, 1, 0.3, 1] }}
       />

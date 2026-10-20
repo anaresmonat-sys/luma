@@ -275,3 +275,37 @@ Top defectos (todos menores, ninguno bloquea):
 3. [Hero, carta de demo al pie del primer viewport] Se corta a la mitad sin pista de continuación → fix: degradado inferior de 48px o reducir 16-24px de aire sobre el H1.
 4. [Craft general] Sin números propios animados ni celebración de hito: jerarquía, profundidad, identidad y movimiento en 3 → fix: conteo animado del 94% de sinergia al entrar en vista y la carta de tarot con resplandor como separador firma entre secciones.
 5. [Prueba social] No existe testimonio ni cifra verificable (la ficha lo declara) → fix: cuando haya primeros usuarios reales, una cifra verificable o un resultado de ejemplo marcado como tal.
+
+---
+
+# VEREDICTO revisor-visual — landing (Ronda 12)
+Fecha: 2026-10-20 00:00
+Screenshot: docs/revisiones/landing-r12-1-hero-375.png · landing-r12-2-carrusel-375.png · landing-r12-3-planes-375.png · landing-r12-4-anual-375.png · landing-r12-5-garantia-375.png · landing-r12-6-pie-375.png (6 tramos a 375px; Problema, Agitación, Solución, Sinergia y FAQ desde código; 7 de las 8 pantallas del carrusel solo desde código/nombres de archivo, la captura muestra únicamente "Inicio")
+Usabilidad: 36/40
+Craft: 16/20
+Copy (si vende): 19/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: LISTA
+Detalle usabilidad: h1:3 h2:4 h3:3 h4:4 h5:4 h6:4 h7:3 h8:3 h9:4 h10:4
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:4 (vino #1a0d13/oro #d8a441 y Cormorant + Hanken coinciden con FICHA-ARTE Dirección A; sin clon vetado)
+Detalle copy: idea:4 especificidad:3 emoción:4 oferta:4 acción:4 (sin testimonios ni cifra verificable: la ficha lo declara; message-match no aplicable sin anuncio de origen; garantía nombrada "Garantía de 15 Días" con plazo junto a los planes en la sección siguiente)
+Verificación de los defectos de la Ronda 11:
+- D1 (nota de compra, ~40 palabras sin nombre): NO CERRADO. page.tsx línea 192 sigue siendo un bloque único, ahora con el asterisco de remisión añadido (más largo: ~50 palabras) y sin "Garantía de 15 Días". Los asteriscos en $7,50* / $89,99* / $9,99* son discretos (superíndice tenue, sin romper el encaje del precio, landing-r12-3/4) y remiten correctamente a "* Precios sin impuestos…". La nota queda fuera de todas las capturas (landing-r12-4 corta antes del CTA Anual): la remisión del asterisco no tiene destino visible en la evidencia, solo en código.
+- D2 (barra fija tapa la demo del carrusel): NO REPRODUCIDO en r12-2; la barra no aparece. Pero el badge rojo "1 Issue" (overlay de desarrollo de Next) tapa la flecha izquierda del carrusel en r12-2 y aparece en las 6 capturas: es del entorno dev, no del producto, y no se puntúa; sí obliga a recapturar sin overlay.
+- D3 (hero, carta cortada al pie del primer viewport): NO CERRADO y empeorado en evidencia: el marco dorado de la demo aparece VACÍO (sin carta) en r12-1; en código HeroDemoLuma entra con initial opacity 0 + whileInView, así que probablemente es la captura tomada antes de que dispare la animación, pero no hay prueba de que la carta se vea. Se puntúa como evidencia faltante, no como bug confirmado.
+- D4 (craft sin números animados ni celebración): NO CERRADO; sigue en 3 los cuatro ejes.
+- D5 (prueba social): sin cambio, la ficha lo declara.
+Verificación de los cambios de la Ronda 12:
+- Garantía "15 días desde que empiezas tu prueba": CONFIRMADO consistente en page.tsx (notaCompra línea 192, Garantia línea 231, FAQ #5 línea 261, PS línea 273) y en landing-r12-5 y landing-r12-6 ("15 días de garantía desde que empiezas"). Cero restos de "desde el primer cobro".
+- Carrusel de 8 pantallas: CONFIRMADO en page.tsx (inicio, descifrar "Hechos, riesgo y qué responder", coach, tarot-temas, tarot, compatibilidad, mapa-poder, diario) con captions en lenguaje del usuario. En la captura solo se ve la pantalla "Inicio" (incluye emojis de ánimo dentro del mockup de la app, permitidos por la ficha: multicolor de emoción) y 6 puntos visibles (de 8: el resto queda bajo el badge dev). Las otras 7 no se pudieron comprobar a nivel de píxel, y "?v=" de caché presente en todas.
+- Botón "Ver mi análisis completo": CONFIRMADO en SinergiaCirculo.tsx línea 207, href `/onboarding?ayuda=compatibilidad&tu=${signoA}&su=${signoB}`. Verificado el cableado en código; el destino (que /onboarding consuma ayuda=compatibilidad&tu&su) NO se verificó en esta ronda.
+- Decisiones de la dueña respetadas, no puntuadas: etiqueta "Elige la lectura que más te vibre", sus 4 píldoras y badge "3 DÍAS DE PRUEBA" en ambas tarjetas.
+Verificado en código: CtaButton whileTap 0.97, nunca disabled; useReducedMotion en carrusel, reveal, calculadora y HeroDemoLuma; aria-live en la sinergia; sin undo/limpiar en la calculadora ni celebración de hito; la landing no cuenta números propios.
+Gate de carga cognitiva: 1 falla de 8 (hero: CTA + 4 píldoras + "Entrar"). No es sobrecarga.
+Nota honesta del margen: 36/40 y 16/20 están exactamente en el umbral; cualquier regresión en lo no capturado (Problema, Agitación, Solución, Sinergia, FAQ, 7 pantallas del carrusel) la haría caer. LISTA se sostiene solo por los cierres de R11 y la coherencia de los cambios de R12.
+Top defectos:
+1. [Hero, marco de la demo al pie de landing-r12-1] El marco dorado aparece vacío (0 contenido visible) bajo las píldoras: un recuadro grande sin nada parece roto → fix: recapturar tras el disparo de la animación (scroll de 1px + espera de 800ms) y, si la carta debe verse sin scroll, quitar el initial opacity 0 cuando el marco ya está en el primer viewport.
+2. [Oferta, nota de compra (page.tsx línea 192)] Bloque único de ~50 palabras en 13px que ahora ancla los 4 asteriscos de precio pero sin partir ni nombrar "Garantía de 15 Días" → fix: dos líneas, "* Precios sin impuestos; el importe final lo ves en la página de pago" y "Garantía de 15 Días desde que empiezas tu prueba · Pago seguro con Hotmart".
+3. [Evidencia, las 6 capturas] El overlay dev "1 Issue" tapa la flecha izquierda del carrusel, parte del título de Mensual y de la pregunta 2 del FAQ y el copyright del pie → fix: recapturar con el overlay desactivado (build de producción) y añadir una captura de la nota de compra y de 2-3 pantallas más del carrusel (Descifrar con "Qué responder", Sinergia).
+4. [Carrusel, 8 pantallas con 8 puntos] Puntos de ~8px y 8 pasos para ver todo: el usuario que quiere ver "Descifrar" (la Big Idea) llega en el 2.º, pero el resto es opcional; sin contador textual "1 de 8" no se sabe cuánto falta → fix: sumar "1 / 8" junto a los puntos o reducir a 6 pantallas.
+5. [Craft general] Sin conteo animado propio ni celebración de hito ni dispositivo firma repetido; los cuatro ejes se quedan en 3 → fix: conteo animado del % de sinergia al entrar en vista y la carta de tarot con resplandor como separador entre secciones.

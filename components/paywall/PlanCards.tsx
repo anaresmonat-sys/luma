@@ -81,7 +81,7 @@ function Card({
           </span>
           <h3 className="text-[16px] font-semibold text-[var(--text-primary)]">{plan.nombre}</h3>
         </span>
-        {seleccionado && <TrialBadge dias={trialDias} />}
+        <TrialBadge dias={trialDias} />
       </div>
       <p className="mt-3 flex items-baseline gap-1">
         <span className="text-[24px] font-bold leading-none tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]">
@@ -97,7 +97,6 @@ function Card({
       {plan.descomposicionDia && <p className="mt-0.5 text-[12px] text-[var(--text-secondary)]">{plan.descomposicionDia}</p>}
       {plan.totalAnual && <p className="mt-1 text-[12px] text-[var(--text-secondary)]">{plan.totalAnual}</p>}
       {plan.ahorro && <p className="mt-1 text-[13px] font-semibold text-[var(--accent)]">{plan.ahorro}</p>}
-      {!seleccionado && <p className="mt-1 text-[12px] text-[var(--text-secondary)]">Incluye {trialDias} días de prueba</p>}
     </motion.button>
   );
 }
