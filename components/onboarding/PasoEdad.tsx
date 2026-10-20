@@ -50,7 +50,11 @@ export function PasoEdad({
 
   return (
     <div className="flex flex-1 flex-col gap-6 pt-2">
-      <div className="relative flex flex-col items-center pt-8 text-center">
+      <motion.div
+        className="relative flex flex-col items-center pt-12 text-center"
+        animate={{ opacity: enviando ? 0.35 : 1 }}
+        transition={{ duration: reduce ? 0 : 0.2 }}
+      >
         {/* Tercer nivel de profundidad: bloom vino-ámbar detrás del medallón */}
         <div
           aria-hidden="true"
@@ -90,13 +94,13 @@ export function PasoEdad({
         {nota && (
           <motion.p
             {...entrada(2)}
-            className="mt-4 flex max-w-[340px] items-start justify-center gap-2 text-center text-[14px] leading-snug text-[var(--text-secondary)]"
+            className="mt-4 max-w-[340px] text-balance text-center text-[14px] leading-snug text-[var(--text-secondary)]"
           >
-            <Lock size={14} strokeWidth={2} aria-hidden="true" className="mt-0.5 shrink-0 text-[var(--accent-lite)]" />
+            <Lock size={14} strokeWidth={2} aria-hidden="true" className="mr-1.5 inline align-[-2px] text-[var(--accent-lite)]" />
             {nota}
           </motion.p>
         )}
-      </div>
+      </motion.div>
 
       {/* Zona del pulgar: casilla + aviso + botón + legal, juntos y al fondo */}
       <motion.div {...entrada(3)} className="relative mt-auto">
@@ -177,23 +181,34 @@ export function PasoEdad({
             }
             setFalloEnvio(false);
             setEnviando(true);
-            onContinuar();
+            window.setTimeout(onContinuar, reduce ? 0 : 220);
           }}
           className="flex h-14 w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-bold text-[var(--on-accent)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] disabled:opacity-100"
         >
-          {enviando ? (
-            <>
-              <span
-                aria-hidden="true"
-                className="size-[18px] animate-spin rounded-full border-[3px] border-[var(--on-accent)] border-t-transparent"
-              />
-              {conSesion ? 'Entrando…' : 'Preparando tu lectura…'}
-            </>
-          ) : conSesion ? (
-            'Entrar a LUMA'
-          ) : (
-            'Empezar mi lectura gratis'
-          )}
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={enviando ? 'enviando' : 'reposo'}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="flex items-center justify-center gap-2"
+            >
+              {enviando ? (
+                <>
+                  <span
+                    aria-hidden="true"
+                    className="size-[18px] animate-spin rounded-full border-[3px] border-[var(--on-accent)] border-t-transparent"
+                  />
+                  {conSesion ? 'Entrando…' : 'Preparando tu lectura…'}
+                </>
+              ) : conSesion ? (
+                'Entrar a LUMA'
+              ) : (
+                'Empezar mi lectura gratis'
+              )}
+            </motion.span>
+          </AnimatePresence>
         </motion.button>
         <p className="mt-3 text-center text-[14px] leading-snug text-[var(--text-tertiary)]">
           Al continuar aceptas los{' '}

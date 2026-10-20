@@ -173,3 +173,31 @@ Top defectos:
 4. [Botón en estado enviando, captura 3] Se atenúa al 80% (dorado más ocre) y el spinner de 16px con borde oscuro sobre ocre queda de bajo contraste; no hay transición de ancho/etiqueta, solo salto → fix: mantener fondo pleno y usar el spinner a 18px con on-accent; opacidad completa y cambio de etiqueta con fade de 150ms.
 5. [Movimiento, toda la pantalla] Solo entrada escalonada y spring de la casilla; no hay transición entre el estado «marcado» y «enviando» más allá del salto del botón, ni salida suave hacia la siguiente pantalla (navegación completa por window.location) → fix: fade-out de 200ms del contenido antes de navegar, o al menos transición de la etiqueta del botón con AnimatePresence.
 Veredicto honesto: 35/40 queda a 1 punto del umbral de usabilidad (36) y 15/20 a 1 del umbral de craft (16); ambos fallan por detalles de afinación (escala tipográfica y encaje del candado), no por defectos de fondo.
+
+# VEREDICTO revisor-visual — onboarding (Ronda 13, re-revisión)
+Fecha: 2026-10-20 18:00
+Screenshot: docs/revisiones/onboarding-r13-1-inicial-375.png (+ onboarding-r13-2-marcado-375.png, onboarding-r13-3-enviando-375.png, onboarding-r13-4-fallo-375.png)
+Usabilidad: 35/40
+Craft: 15/20
+Copy (si vende): 16/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:4 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:4 h10:3
+Detalle craft: jerarquia:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+Detalle copy: idea:3 especificidad:3 emocion:3 oferta:3 accion:4 (puerta de edad, no vende; puntuado a pedido)
+Gate de carga cognitiva: 0 fallas. Evidencia: 4 capturas 375x812 reales y limpias.
+Defectos de la Ronda 12 verificados:
+- R12-1 (escala tipográfica): CORREGIDO. Código y captura: 28 / 16 (subtítulo y botón) / 14 (párrafo, candado, casilla, aviso, legal). 3 tamaños.
+- R12-2 (línea del candado): PARCIAL. Ya está centrada en texto, pero el bloque sigue siendo un flex con el icono colgando a la izquierda (x≈20-30 px) y la 2.ª línea centrada y sangrada; la línea ocupa ~330 px mientras el párrafo de arriba se lee en ~305 px, así que el eje sigue viéndose roto y el candado no se ve centrado con el texto.
+- R12-3 (claim «no se guarda»): CORREGIDO. /api/descifrar no escribe el texto ni la imagen en base de datos ni en logs: solo registrarLlamadaIA (tokens, modelo, usuario) y registrarError (mensajes de error/stop_reason). Texto reformulado a lo que la app garantiza. Vigilar: registrarError(error.message) en el catch no debe llegar a incluir el contenido de la conversación (hoy el mensaje del SDK no lo trae); anotar la evidencia en ESTADO.md.
+- R12-4 (botón enviando): CORREGIDO. Opacidad plena, spinner de 18px con borde 3px y contraste claro. Queda sin fade en el cambio de etiqueta (salto seco).
+- R12-5 (salto al navegar): NO CORREGIDO (decisión declarada). Navegación completa sin transición de salida.
+Verificado contra FICHA-ARTE: Cormorant en titular, Hanken en cuerpo, oro #d8a441 en acción/titular/acento, fondo vino con blooms y hairline en la casilla, radios por tokens. Sin desvío; sin clon de los ejemplos vetados. FICHA-AVATAR: no-juicio (objeción 6) y privacidad responden a las objeciones.
+CTA héroe vivo: contraste alto, whileTap 0.97, habilitado por defecto, h-14 ancho completo. Cumple los 4.
+Top defectos:
+1. [Línea del candado, y≈785-860 a 2x, bajo el párrafo] Icono pegado a la izquierda y 2.ª línea sangrada: el bloque no comparte eje con el párrafo y parece desalineado → fix: reemplazar el flex por un <p className="text-balance text-center"> con el <Lock className="mr-2 inline -mt-0.5 align-middle"/> dentro del texto, o apilar el candado centrado encima de la frase.
+2. [Salida hacia la función, window.location.href en page.tsx] Corte seco de la pantalla al navegar: tras el spinner la pantalla salta en blanco; es lo único que separa la puerta de un 4 en movimiento y en h1/h7 → fix: envolver el contenido en AnimatePresence con fade-out de 200 ms y llamar a window.location después (setTimeout 200 ms, respetando reduced-motion).
+3. [Botón, cambio «Empezar mi lectura gratis» → «Preparando tu lectura…»] El texto cambia de golpe, sin cross-fade → fix: <AnimatePresence mode="wait" initial={false}> con motion.span de 150 ms por etiqueta.
+4. [Bloque central y≈860-1130 a 2x, entre candado y casilla] Banda tranquila de ~135 px aún sin contenido; aceptable pero la pantalla se siente dividida en dos mitades → fix: bajar el bloque superior unos 16 px (pt-12) o subir la zona del pulgar con padding inferior mayor, para repartir el aire.
+5. [Evidencia de privacidad] El claim «no la guardamos» depende de que no cambie la ruta de logs → fix: dejar anotado en ESTADO.md (Decisiones técnicas) la verificación de /api/descifrar con fecha, y un comentario en route.ts que prohíba loguear texto/imagen.
+Veredicto honesto: 35/40 y 15/20: a un punto de ambos umbrales por segunda ronda consecutiva. Lo que falta es afinación (candado y movimiento de salida), no estructura; con los fixes 1-3 la pantalla queda en el umbral.

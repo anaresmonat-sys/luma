@@ -231,9 +231,9 @@ export default function PaywallLuma() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-7"
+          className="mt-4"
         >
-          <div className="mt-4 flex items-center justify-center gap-2">
+          <div className="mt-2 flex items-center justify-center gap-2">
             <a
               href="/"
               className="flex min-h-11 items-center px-3 text-[13px] font-medium text-[var(--text-tertiary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
@@ -253,7 +253,7 @@ export default function PaywallLuma() {
             </a>
           </div>
 
-          <p className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[12px] text-[var(--text-tertiary)]">
+          <p className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[13px] text-[var(--text-secondary)]">
             <span className="flex items-center gap-1.5 whitespace-nowrap">
               <Lock size={14} aria-hidden="true" />
               Pago seguro con Hotmart

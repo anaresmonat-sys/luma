@@ -19,15 +19,18 @@ export function TimelineTrial({ diasPrueba, precioTexto }: { diasPrueba: number;
 
   return (
     <div className="relative flex flex-col gap-5 py-1">
-      <motion.div
-        aria-hidden="true"
-        className="absolute left-[11px] top-3 w-[2px] origin-top bg-[color-mix(in_oklab,var(--accent)_45%,transparent)]"
-        initial={{ height: 0 }}
-        animate={{ height: '85%' }}
-        transition={{ duration: reduce ? 0 : 0.6, ease: [0.16, 1, 0.3, 1] }}
-      />
       {nodos.map((n, i) => (
         <div key={i} className="relative flex items-start gap-3 pl-0">
+          {/* Tramo de línea del círculo al siguiente: termina EXACTAMENTE en el último punto (sin cabo suelto) */}
+          {i < nodos.length - 1 && (
+            <motion.span
+              aria-hidden="true"
+              className="absolute left-[11px] top-[24px] -bottom-[22px] w-[2px] origin-top bg-[color-mix(in_oklab,var(--accent)_45%,transparent)]"
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              transition={{ duration: reduce ? 0 : 0.5, delay: reduce ? 0 : i * 0.25, ease: [0.16, 1, 0.3, 1] }}
+            />
+          )}
           <span
             aria-hidden="true"
             className={`z-10 mt-0.5 flex size-[22px] shrink-0 items-center justify-center rounded-full ${
