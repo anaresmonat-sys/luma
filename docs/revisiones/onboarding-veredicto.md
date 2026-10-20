@@ -201,3 +201,32 @@ Top defectos:
 4. [Bloque central y≈860-1130 a 2x, entre candado y casilla] Banda tranquila de ~135 px aún sin contenido; aceptable pero la pantalla se siente dividida en dos mitades → fix: bajar el bloque superior unos 16 px (pt-12) o subir la zona del pulgar con padding inferior mayor, para repartir el aire.
 5. [Evidencia de privacidad] El claim «no la guardamos» depende de que no cambie la ruta de logs → fix: dejar anotado en ESTADO.md (Decisiones técnicas) la verificación de /api/descifrar con fecha, y un comentario en route.ts que prohíba loguear texto/imagen.
 Veredicto honesto: 35/40 y 15/20: a un punto de ambos umbrales por segunda ronda consecutiva. Lo que falta es afinación (candado y movimiento de salida), no estructura; con los fixes 1-3 la pantalla queda en el umbral.
+
+# VEREDICTO revisor-visual — onboarding (Ronda 14, re-revisión)
+Fecha: 2026-10-20 21:00
+Screenshot: docs/revisiones/onboarding-r14-1-inicial-375.png (+ onboarding-r14-2-enviando-375.png, onboarding-r14-3-fallo-375.png)
+Usabilidad: 35/40
+Craft: 16/20
+Copy (si vende): 16/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:4 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:4 h10:3
+Detalle craft: jerarquia:3 profundidad:3 identidad:3 movimiento:4 encaje:3
+Detalle copy: idea:3 especificidad:3 emocion:3 oferta:3 accion:4 (puerta de edad, no vende; puntuado a pedido)
+Gate de carga cognitiva: 0 fallas. Evidencia: 3 capturas 375x812 limpias (inicial, enviando, fallo); no hay captura nueva del estado «marcado» (se ve marcado dentro de enviando y fallo).
+Defectos de la Ronda 13 verificados:
+- R13-1 (candado colgando): CORREGIDO. Captura y código: icono inline (align -2px) dentro de un <p text-balance text-center>; la frase se lee como un solo bloque centrado en 2 líneas, mismo eje que el párrafo.
+- R13-2 (corte seco): CORREGIDO. Captura 2 muestra el bloque superior al 35% (medallón, titular, párrafos y candado) mientras el botón queda a pleno; código: animate opacity 0.35 en 200 ms y navegación a 220 ms (0 con reduced-motion).
+- R13-3 (etiqueta sin fundido): CORREGIDO. AnimatePresence mode="wait" initial={false} con fundido de 150 ms; spinner 18px con contraste correcto en captura 2.
+- R13-4 (banda tranquila): MEJORADO, no resuelto. Con pt-12 el hueco entre la línea del candado y la casilla sigue en ~120 px (y≈445-565); se reparte mejor pero sigue siendo la zona más vacía de la pantalla.
+- R13-5 (evidencia de privacidad): CORREGIDO. Comentario en route.ts que prohíbe escribir texto/imagen en base de datos, logs o mensajes de error y manda cambiar el texto de la puerta si se añade guardado; verificado que solo se registran tokens y errores técnicos (stop_reason, mensaje del SDK). Pendiente leve: el comentario vive pegado a MAX_CARACTERES, no a la función POST, y hay un console.error(error.message) que depende de que el SDK nunca incluya el contenido. La nota con fecha en ESTADO.md no se halló con las búsquedas de «descifrar/privacidad» sobre la verdad de 2026-10-20; confirmar que existe.
+Verificado contra FICHA-ARTE: Cormorant en titular, Hanken en cuerpo, oro #d8a441 en acción/titular/acento, fondo vino con blooms, hairline degradé de 2px en la casilla, radios por tokens. Sin desvío; sin clon de los ejemplos vetados. FICHA-AVATAR: no-juicio (objeción 6) y privacidad responden a las objeciones.
+CTA héroe vivo: contraste alto, whileTap 0.97, habilitado por defecto (disabled solo durante el envío), h-14 ancho completo. Cumple los 4.
+Movimiento (verificado en código): baseline aplicables a una puerta de un paso (stagger de entrada, tap <150 ms, spring de casilla, fundido de etiqueta, salida con fade, aviso con AnimatePresence) presentes; reduced-motion cubierto (duración 0 / sin y / sin shake). Conteo, anillos, tabs, modales y celebración no aplican. Sube a 4.
+Top defectos:
+1. [Usabilidad h3, botón atrás durante el envío] La flecha atrás sigue 100% viva (y a pleno brillo) mientras el contenido se atenúa y a los 220 ms se dispara la navegación; el setTimeout(onContinuar) no se limpia, así que volver atrás en esa ventana o tras un fallo puede disparar la navegación fantasma → fix: guardar el id del timeout en un ref, limpiarlo en un cleanup del useEffect/unmount y atenuar o desactivar la flecha mientras enviando=true.
+2. [Banda y≈445-565 entre el candado y la casilla] Sigue ~120 px de fondo tranquilo sin ningún elemento; la pantalla aún se lee en dos mitades → fix: en vez de más pt, subir 24-32 px la zona del pulgar (pb mayor en el contenedor mt-auto) o añadir un bloom vino más visible a mitad de pantalla para que el vacío se perciba como aire deliberado.
+3. [Texto redundante, párrafo + casilla] «LUMA es para adultos: confirma tu edad» se repite casi literal en la casilla «Confirmo que soy mayor de 18 años»; con el subtítulo, el párrafo y el candado hay 3 bloques de texto antes de la acción → fix: recortar el párrafo a «Cuenta lo que te pasa sin miedo. Tu primera lectura es gratis, sin tarjeta.» y dejar la edad solo en la casilla.
+4. [Aviso de fallo, captura 3] «No pudimos entrar. Toca el botón para reintentar.» dice qué hacer pero no por qué (conexión o servidor) ni ofrece otra salida; el bloque superior vuelve a 100% sin ninguna pista visual de que algo cambió → fix: añadir causa probable («revisa tu conexión») y mantener un acento visual (borde de la casilla en rojo suave) que ancle el aviso.
+5. [Comentario de privacidad en route.ts, líneas 34-39] Está colgado sobre `const MAX_CARACTERES`, no sobre el handler POST ni sobre las llamadas de log, y el console.error del catch imprime error.message sin filtro → fix: mover el comentario encima del bloque try/catch del POST y filtrar a un mensaje fijo si el error incluye un fragmento del cuerpo.
+Veredicto honesto: craft pasa el umbral (16/20) gracias al movimiento; usabilidad queda en 35/40, a 1 punto de 36, porque h3/h7/h8/h10 no suben con estos cambios (atrás sin control durante el envío, sin atajos, texto redundante, ayuda contextual estándar). No se reparte un 4 que la captura y el código no justifican. Con los fixes 1 y 3 la pantalla pasa a 36-37.

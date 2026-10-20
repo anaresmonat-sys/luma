@@ -8,7 +8,7 @@
 // del pulgar; el aviso sacude la casilla en CADA toque sin marcar; «Entrando…» con salida
 // si la navegación falla.
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Check, Lock } from 'lucide-react';
@@ -28,6 +28,13 @@ export function PasoEdad({
   const [intentos, setIntentos] = useState(0);
   const [enviando, setEnviando] = useState(false);
   const [falloEnvio, setFalloEnvio] = useState(false);
+  const pausaSalida = useRef<number | null>(null);
+  useEffect(
+    () => () => {
+      if (pausaSalida.current !== null) window.clearTimeout(pausaSalida.current);
+    },
+    []
+  );
 
   // Entrada escalonada: medallón → titular → párrafo → zona de la casilla.
   const entrada = (i: number) => ({
@@ -88,8 +95,8 @@ export function PasoEdad({
         </motion.p>
         <motion.p {...entrada(2)} className="mt-2 max-w-[340px] text-[14px] leading-relaxed text-[var(--text-secondary)]">
           {conSesion
-            ? 'Cuenta lo que te pasa sin miedo. LUMA es para adultos: confirma tu edad y entras, solo te lo pedimos una vez.'
-            : 'Cuenta lo que te pasa sin miedo. LUMA es para adultos: confirma tu edad y tu primera lectura es gratis, sin tarjeta.'}
+            ? 'Cuenta lo que te pasa sin miedo. Solo te pedimos esto una vez.'
+            : 'Cuenta lo que te pasa sin miedo. Tu primera lectura es gratis, sin tarjeta.'}
         </motion.p>
         {nota && (
           <motion.p
@@ -181,7 +188,7 @@ export function PasoEdad({
             }
             setFalloEnvio(false);
             setEnviando(true);
-            window.setTimeout(onContinuar, reduce ? 0 : 220);
+            pausaSalida.current = window.setTimeout(onContinuar, reduce ? 0 : 220);
           }}
           className="flex h-14 w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-bold text-[var(--on-accent)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] disabled:opacity-100"
         >
