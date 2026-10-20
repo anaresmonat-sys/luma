@@ -22,6 +22,17 @@ export const metadata: Metadata = {
   title: "LUMA — Claridad para el corazón",
   description:
     "Pega la conversación y entiende qué está pasando de verdad. Tarot, inteligencia emocional y una coach con IA para tu vida amorosa. Prueba 3 días gratis.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "LUMA",
+    locale: "es_ES",
+    url: "/",
+    title: "LUMA — Claridad para el corazón",
+    description: "Pega la conversación y entiende qué está pasando de verdad. Prueba 3 días gratis.",
+    images: [{ url: "/luma-lockup.png" }],
+  },
+  twitter: { card: "summary_large_image", title: "LUMA — Claridad para el corazón" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

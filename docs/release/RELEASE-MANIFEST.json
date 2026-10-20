@@ -1,0 +1,12 @@
+{
+  "app": "LUMA",
+  "git_sha": "1252fd5fa43e4aaaa524b441b10c5fd057061d8d",
+  "git_sha_nota": "commit local base del examen; los cambios del examen (CSP, robots, sitemap, OG, /api/version) están sin confirmar ni publicar",
+  "deployment_id": "NO VERIFICADO (el conector de Vercel no ve el proyecto)",
+  "production_url": "https://www.tuluma.app",
+  "ultimo_publicado_en_produccion": "f7f2d4a",
+  "migraciones_nuevas": ["20261020_indices_fk_error_log_y_payment_transactions"],
+  "migraciones_en_repo": "solo la nueva; las 13 anteriores existen en Supabase pero NO están en el repo",
+  "built_at": "2026-10-20",
+  "evidence": ["docs/release/*.md", "tests/ (22 pruebas)", "docs/revisiones/"]
+}
