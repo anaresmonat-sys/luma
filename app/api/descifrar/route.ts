@@ -187,8 +187,11 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     await acceso.devolver();
-    console.error('Error en /api/descifrar:', error instanceof Error ? error.message : error);
-    await registrarError(error instanceof Error ? error.message : String(error), '/api/descifrar');
+    // Mensaje fijo + tipo/estado del error: nunca el texto crudo, que podría citar parte de la conversación.
+    const estadoError = (error as { status?: number } | null)?.status;
+    const tipoError = error instanceof Error ? error.name : 'desconocido';
+    console.error('Error en /api/descifrar:', tipoError, estadoError ?? '');
+    await registrarError(`Fallo del proveedor de IA (${tipoError}${estadoError ? ' ' + estadoError : ''})`, '/api/descifrar');
     return NextResponse.json({ error: 'No se pudo generar el análisis' }, { status: 502 });
   }
 }

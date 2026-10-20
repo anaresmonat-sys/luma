@@ -14,10 +14,13 @@ import { Check, ChevronLeft } from 'lucide-react';
 export function OnboardingHeader({
   progreso,
   onBack,
+  atrasDeshabilitado = false,
 }: {
   /** 0-100, YA con el piso de 5-8% aplicado por quien orquesta el flujo. Sin valor = sin barra (paso único). */
   progreso?: number;
   onBack: () => void;
+  /** Apaga la flecha mientras se está enviando (la acción ya está en marcha). */
+  atrasDeshabilitado?: boolean;
 }) {
   return (
     <div className="sticky top-0 z-20">
@@ -25,8 +28,9 @@ export function OnboardingHeader({
         <button
           type="button"
           aria-label="Atrás"
+          disabled={atrasDeshabilitado}
           onClick={onBack}
-          className="flex size-11 shrink-0 items-center justify-center rounded-[var(--radius-button)] text-[var(--text-secondary)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+          className="flex size-11 shrink-0 items-center justify-center rounded-[var(--radius-button)] text-[var(--text-secondary)] transition-opacity disabled:opacity-35 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
         >
           <ChevronLeft size={22} strokeWidth={2} aria-hidden="true" />
         </button>
@@ -149,11 +153,13 @@ export function EscapeHatchInput({
 export function PasoShell({
   progreso,
   onBack,
+  atrasDeshabilitado,
   direccion,
   children,
 }: {
   progreso?: number;
   onBack: () => void;
+  atrasDeshabilitado?: boolean;
   /** 1 = avanzando (entra desde la derecha) · -1 = retrocediendo. */
   direccion: 1 | -1;
   children: ReactNode;
@@ -161,7 +167,7 @@ export function PasoShell({
   const reduce = useReducedMotion();
   return (
     <div className="flex min-h-dvh flex-col [font-family:var(--font-body)]">
-      <OnboardingHeader progreso={progreso} onBack={onBack} />
+      <OnboardingHeader progreso={progreso} onBack={onBack} atrasDeshabilitado={atrasDeshabilitado} />
       <motion.div
         key={direccion + '-frame'}
         initial={reduce ? { opacity: 0 } : { opacity: 0, x: direccion === 1 ? 40 : -40 }}

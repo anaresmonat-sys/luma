@@ -17,8 +17,11 @@ export function PasoEdad({
   onContinuar,
   conSesion = false,
   nota,
+  onEnviando,
 }: {
   onContinuar: () => void;
+  /** Avisa a quien contiene la pantalla de que ya se está enviando (para apagar la flecha «Atrás»). */
+  onEnviando?: (enviando: boolean) => void;
   conSesion?: boolean;
   /** Línea de confianza bajo el texto (p. ej. «tu conversación es privada»). Solo si es cierta para la función elegida. */
   nota?: string;
@@ -29,6 +32,9 @@ export function PasoEdad({
   const [enviando, setEnviando] = useState(false);
   const [falloEnvio, setFalloEnvio] = useState(false);
   const pausaSalida = useRef<number | null>(null);
+  useEffect(() => {
+    onEnviando?.(enviando);
+  }, [enviando, onEnviando]);
   useEffect(
     () => () => {
       if (pausaSalida.current !== null) window.clearTimeout(pausaSalida.current);
@@ -91,7 +97,7 @@ export function PasoEdad({
           )}
         </motion.h1>
         <motion.p {...entrada(2)} className="mt-3 max-w-[340px] text-[16px] font-semibold leading-snug text-[var(--text-primary)]">
-          Aquí nadie te juzga: es un espacio privado.
+          {nota ? 'Aquí nadie te juzga.' : 'Aquí nadie te juzga: es un espacio privado.'}
         </motion.p>
         <motion.p {...entrada(2)} className="mt-2 max-w-[340px] text-[14px] leading-relaxed text-[var(--text-secondary)]">
           {conSesion
@@ -170,7 +176,7 @@ export function PasoEdad({
               </motion.span>
             )}
             {falloEnvio && !faltaCasilla && (
-              <span className="inline-block text-[var(--an-risk)]">No pudimos entrar. Toca el botón para reintentar.</span>
+              <span className="inline-block text-[var(--an-risk)]">No pudimos entrar. Revisa tu conexión y toca el botón.</span>
             )}
           </AnimatePresence>
         </div>

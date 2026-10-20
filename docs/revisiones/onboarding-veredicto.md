@@ -230,3 +230,32 @@ Top defectos:
 4. [Aviso de fallo, captura 3] «No pudimos entrar. Toca el botón para reintentar.» dice qué hacer pero no por qué (conexión o servidor) ni ofrece otra salida; el bloque superior vuelve a 100% sin ninguna pista visual de que algo cambió → fix: añadir causa probable («revisa tu conexión») y mantener un acento visual (borde de la casilla en rojo suave) que ancle el aviso.
 5. [Comentario de privacidad en route.ts, líneas 34-39] Está colgado sobre `const MAX_CARACTERES`, no sobre el handler POST ni sobre las llamadas de log, y el console.error del catch imprime error.message sin filtro → fix: mover el comentario encima del bloque try/catch del POST y filtrar a un mensaje fijo si el error incluye un fragmento del cuerpo.
 Veredicto honesto: craft pasa el umbral (16/20) gracias al movimiento; usabilidad queda en 35/40, a 1 punto de 36, porque h3/h7/h8/h10 no suben con estos cambios (atrás sin control durante el envío, sin atajos, texto redundante, ayuda contextual estándar). No se reparte un 4 que la captura y el código no justifican. Con los fixes 1 y 3 la pantalla pasa a 36-37.
+
+# VEREDICTO revisor-visual — onboarding (Ronda 15, re-revisión)
+Fecha: 2026-10-20 23:00
+Screenshot: docs/revisiones/onboarding-r15-1-inicial-375.png (+ onboarding-r15-2-enviando-375.png)
+Usabilidad: 35/40
+Craft: 16/20
+Copy (si vende): 16/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:4 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:4 h10:3
+Detalle craft: jerarquia:3 profundidad:3 identidad:3 movimiento:4 encaje:3
+Detalle copy: idea:3 especificidad:3 emocion:3 oferta:3 accion:4 (puerta de edad, no vende; puntuado a pedido)
+Gate de carga cognitiva: 0 fallas. Evidencia: 2 capturas 375x812 limpias (inicial, enviando); no hay captura del aviso de fallo ni del estado sin marcar tras tocar el botón en esta ronda.
+Defectos de la Ronda 14 verificados:
+- R14-1 (navegación fantasma / atrás): PARCIAL. El temporizador se guarda en pausaSalida y se limpia al desmontar (código verificado), pero es un arreglo casi cosmético: la navegación real es window.location.href (recarga completa), así que el cleanup de React no corre antes de ella. Lo que pedía el defecto, atenuar o desactivar la flecha atrás mientras enviando=true, NO se hizo: en la captura 2 la flecha sigue a pleno brillo mientras todo lo demás se atenúa, y onBack sigue siendo window.location.href='/' sin condición. h3 se queda en 3.
+- R14-2 (banda y≈445-565): NO CORREGIDO (decisión declarada). El hueco entre el candado y la casilla sigue en ~270 px a 2x (y≈850-1130), la zona más vacía de la pantalla.
+- R14-3 (texto redundante): CORREGIDO en la edad: el párrafo ya no repite la casilla («Cuenta lo que te pasa sin miedo. Tu primera lectura es gratis, sin tarjeta.», trazable a objeción 6 y a la oferta de la ficha). Pero aparece una redundancia nueva que sigue pesando: el subtítulo «es un espacio privado» y la línea del candado «Tu conversación es privada» dicen lo mismo, y siguen siendo 3 bloques de texto antes de la acción. h8 se queda en 3.
+- R14-4 (aviso de fallo sin causa ni ancla): NO CORREGIDO y sin captura en esta ronda; el texto en código sigue siendo «No pudimos entrar. Toca el botón para reintentar.» sin causa probable. h9 se mantiene en 4 por herencia, con reserva.
+- R14-5 (comentario de privacidad): CORREGIDO a medias. El comentario ya está encima de export async function POST (route.ts líneas 81-86) y nombra la promesa de la puerta. Sigue sin filtrarse el console.error(error.message) del catch (línea 190) ni registrarError(error.message) (línea 191); hoy el mensaje del SDK no trae el contenido, pero la garantía depende de eso.
+Verificado contra FICHA-ARTE: Cormorant en titular, Hanken en cuerpo, oro #d8a441 en acción/titular/acento, fondo vino con blooms, hairline degradé en la casilla, radios por tokens. Sin desvío; sin clon de los ejemplos vetados. FICHA-AVATAR: no-juicio (objeción 6) y privacidad responden a las objeciones.
+CTA héroe vivo: contraste alto, whileTap 0.97, habilitado por defecto (disabled solo durante el envío), h-14 ancho completo, etiqueta con fundido. Cumple los 4.
+Movimiento: sin cambios respecto a la Ronda 14 (4 por las baseline aplicables a una puerta de un paso, reduced-motion cubierto).
+Top defectos:
+1. [Flecha atrás, esquina superior izquierda, durante el envío] Sigue viva y a pleno brillo mientras el resto se atenúa al 35%; tocarla en esos 220 ms cancela la lectura que el botón acaba de prometer → fix: pasar enviando a PasoShell (o atenuar vía prop) y deshabilitar onBack con opacity .35 mientras dure el envío.
+2. [Subtítulo y línea del candado, y≈590-840 a 2x] «es un espacio privado» y «Tu conversación es privada» repiten la idea de privacidad en dos bloques seguidos → fix: cuando hay nota, cambiar el subtítulo a «Aquí nadie te juzga.» y dejar la privacidad solo en la línea del candado.
+3. [Banda y≈850-1130 a 2x entre el candado y la casilla] ~135 px CSS de fondo sin contenido; la pantalla se lee en dos mitades → fix: bajar el bloque superior (pt-16) o subir la zona del pulgar con pb-6; si es decisión de diseño, un bloom vino a mitad de pantalla para que se perciba como aire deliberado.
+4. [Aviso de fallo, #pista-edad] Dice qué hacer pero no por qué y no tiene captura en esta ronda → fix: «No pudimos entrar. Revisa tu conexión y toca el botón para reintentar.» (comprobar que sigue en 1-2 líneas con min-h-6) y capturar el estado.
+5. [route.ts líneas 190-191, catch del POST] El console.error y registrarError reciben error.message sin filtro; si el SDK algún día incluye un fragmento del cuerpo, la promesa «no la guardamos» queda rota → fix: registrar un mensaje fijo más el status/tipo del error, nunca el message crudo.
+Veredicto honesto: 35/40 y 16/20. Craft pasa; usabilidad sigue a 1 punto del umbral (36) por tercera ronda. Los fixes 1 y 2 de esta ronda eran el camino al 36 (la flecha atrás durante el envío y la redundancia) y solo se resolvió la mitad del primero de forma invisible para el usuario y la redundancia de la casilla. No se sube ningún criterio sin evidencia en captura o código.

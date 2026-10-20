@@ -36,6 +36,7 @@ export default function OnboardingLuma() {
   // y leerlo de forma síncrona en el primer render rompe la hidratación.
   const [ayuda, setAyuda] = useState<OpcionAyuda | null>(null);
   const [pidiendoEdad, setPidiendoEdad] = useState(false);
+  const [enviando, setEnviando] = useState(false);
 
   useEffect(() => {
     registrarEventoUnaVez('onboarding_iniciado');
@@ -52,8 +53,9 @@ export default function OnboardingLuma() {
   }
 
   return (
-    <PasoShell onBack={() => (window.location.href = '/')} direccion={1}>
+    <PasoShell onBack={() => (window.location.href = '/')} atrasDeshabilitado={enviando} direccion={1}>
       <PasoEdad
+        onEnviando={setEnviando}
         nota={
           ayuda === 'analizar'
             ? 'Tu conversación es privada: la usamos solo para este análisis y no la guardamos.'
