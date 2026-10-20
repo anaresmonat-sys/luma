@@ -14,7 +14,7 @@
 // FICHA-ARTE (Ronda #4) exceptúa del emoji ('‹ volver, ✕ cerrar'). Coherente
 // con cómo la landing (ya LISTA, 8 rondas) resolvió el mismo tipo de ícono.
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { X, Lock, ShieldCheck } from 'lucide-react';
 import { CheckCustom, Hairline } from '@/components/landing/ui';
@@ -92,9 +92,16 @@ export default function PaywallLuma() {
     };
   }, []);
 
-  useEffect(() => {
+  // Se lee ANTES de pintar (layout effect): el HTML del servidor sale invisible en esa zona y la persona nunca ve
+  // beneficios genéricos que cambian de texto (defecto de parpadeo señalado por el revisor, rondas 7-11).
+  const [listo, setListo] = useState(false);
+  useLayoutEffect(() => {
     setRespuestas(leerRespuestas());
     setLecturaUsada(new URLSearchParams(window.location.search).get('motivo') === 'lectura-usada');
+    setListo(true);
+  }, []);
+
+  useEffect(() => {
     registrarEventoUnaVez('paywall_visto');
   }, []);
 
@@ -158,7 +165,7 @@ export default function PaywallLuma() {
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-5 flex flex-col gap-3"
+          className={`mt-5 flex flex-col gap-3 ${listo ? '' : 'invisible'}`}
         >
           {beneficios.map((b, i) => (
             <li key={i} className="flex items-start gap-3 text-[14px] leading-snug text-[var(--text-primary)]">
@@ -195,6 +202,9 @@ export default function PaywallLuma() {
             trialDias={TRIAL_DIAS}
             onSeleccionar={setSeleccionado}
           />
+          <p className="mt-3 text-center text-[13px] leading-snug text-[var(--text-secondary)]">
+            * Después de la prueba se cobra tu plan, más impuestos y en tu moneda local. Cancelas cuando quieras.
+          </p>
         </motion.div>
 
         {/* Visual del valor: TIMELINE del trial (default C4) — responde por qué ahora / puedo cancelar.
@@ -289,10 +299,7 @@ export default function PaywallLuma() {
           )}
           <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[13px] font-semibold leading-snug text-[var(--text-secondary)]">
             <ShieldCheck size={16} aria-hidden="true" className="shrink-0 text-[var(--accent-lite)]" />
-            Garantía LUMA: 15 días, te devolvemos tu dinero
-          </p>
-          <p className="mt-1 text-center text-[13px] leading-snug text-[var(--text-secondary)]">
-            * Después de la prueba se cobra tu plan, más impuestos y en tu moneda local. Cancelas cuando quieras.
+            Garantía de 15 días desde que empiezas
           </p>
         </div>
       </div>

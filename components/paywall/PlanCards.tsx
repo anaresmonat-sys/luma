@@ -46,12 +46,20 @@ function Card({
       aria-checked={seleccionado}
       onClick={onClick}
       whileTap={{ scale: 0.98 }}
-      className={`relative w-full rounded-[var(--radius-card)] p-5 text-left transition-colors duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
+      className={`relative w-full rounded-[var(--radius-card)] border p-5 text-left transition-colors duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
         seleccionado
-          ? 'border-2 border-[var(--accent)] bg-[color-mix(in_oklab,var(--accent)_7%,transparent)] shadow-[0_12px_32px_color-mix(in_oklab,var(--accent)_18%,transparent)]'
-          : 'border border-[color-mix(in_oklab,var(--text-tertiary)_28%,transparent)] bg-[var(--surface)]'
+          ? 'border-transparent bg-[color-mix(in_oklab,var(--accent)_7%,transparent)] shadow-[0_12px_32px_color-mix(in_oklab,var(--accent)_18%,transparent)]'
+          : 'border-[color-mix(in_oklab,var(--text-tertiary)_28%,transparent)] bg-[var(--surface)]'
       }`}
     >
+      {seleccionado && (
+        <motion.span
+          layoutId="plan-seleccionado"
+          aria-hidden="true"
+          transition={{ type: 'spring', bounce: 0.12, duration: 0.4 }}
+          className="pointer-events-none absolute -inset-px rounded-[var(--radius-card)] border-2 border-[var(--accent)]"
+        />
+      )}
       {plan.badge && (
         <span className="absolute -top-[10px] left-1/2 -translate-x-1/2 rounded-full border border-[color-mix(in_oklab,var(--accent)_25%,transparent)] bg-[var(--accent)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.06em] text-[var(--bg)]">
           {plan.badge}

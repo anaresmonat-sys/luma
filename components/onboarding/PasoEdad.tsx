@@ -141,7 +141,7 @@ export function PasoEdad({
           >
             {marcado && <Check size={16} strokeWidth={3} color="var(--on-accent)" aria-hidden="true" />}
           </motion.span>
-          <span className="text-[15px] leading-snug text-[var(--text-primary)]">Confirmo que soy mayor de 18 años.</span>
+          <span className="text-[14px] leading-snug text-[var(--text-primary)]">Confirmo que soy mayor de 18 años.</span>
         </motion.button>
 
         <div id="pista-edad" className="mt-2 mb-2 min-h-6 text-center text-[13px] font-semibold text-[var(--accent-lite)]" role="status">
@@ -195,7 +195,7 @@ export function PasoEdad({
             'Empezar mi lectura gratis'
           )}
         </motion.button>
-        <p className="mt-3 text-center text-[12px] leading-snug text-[var(--text-tertiary)]">
+        <p className="mt-3 text-center text-[13px] leading-snug text-[var(--text-tertiary)]">
           Al continuar aceptas los{' '}
           <Link href="/terminos" className="inline-block py-3 underline underline-offset-2">
             Términos
