@@ -13,3 +13,8 @@ Con el neto, la regla «IA < 20 %» da un tope de ≈ 1,60 USD por usuaria de pa
 Reembolsos: las tarifas cobradas NO se devuelven al productor → cada reembolso del mensual cuesta ≈ 1,99 USD + el costo de IA usado. Solo se reembolsa el primer cobro, dentro de 15 días.
 
 NO certificado (faltan): p95 de uso por usuaria real (aún no hay usuarias de pago), impuestos, y la tarifa oficial publicada por Hotmart. La economía sigue siendo una ESTIMACIÓN hasta tener 30 días de uso real.
+
+## Simulación aprobada por la dueña (2026-10-22): 100 clientas activas, 60 mensual + 40 anual
+Ingreso neto: 60 × 8,00 + 40 × 80,08 ÷ 12 = ≈ 747 USD/mes; −5 % reembolsos y pagos fallidos ≈ 710. Costes fijos 46 USD/mes (Vercel Pro 20 + Supabase Pro 25 + dominio 1,3). IA: 40 / 80 / 160 USD/mes (suave / normal / intenso).
+Beneficio antes de impuestos personales: 623 / 583 / 503 USD al mes (7.480 / 7.000 / 6.040 al año); con la suscripción a Claude (20 USD/mes) 603 / 563 / 483. Variante: 50 anuales solas = 2.040–2.760 USD/año.
+Supuestos: precios base US$ 9,99 / 89,99, comisión Hotmart 9,9 % + 1 USD, ≈ 200 pruebas para 100 de pago (50 % de conversión). ESTIMACIÓN, no certificado.
