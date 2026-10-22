@@ -25,7 +25,7 @@ import { consumirPruebaGratis, pruebaGratisDisponible } from '@/lib/prueba-grati
 import { drawCards, cartaDelDia, citaDeCarta, POSICIONES_TIRADA, type CartaExtraida } from '@/lib/tarotDeck';
 
 const CLAVE_TIRADAS_GUARDADAS = 'luma_tiradas_guardadas';
-const MAX_PREGUNTA = 200;
+const MAX_PREGUNTA = 500;
 
 type Vista = 'lista' | 'ritual' | 'pregunta' | 'leyendo' | 'resultado' | 'error';
 
@@ -420,6 +420,11 @@ export default function TarotPage() {
                     rows={4}
                     className="h-28 w-full resize-none bg-transparent text-[14px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
                   />
+                  {pregunta.length >= MAX_PREGUNTA * 0.8 && (
+                    <p className="text-right text-[12px] text-[var(--text-tertiary)]" aria-live="polite">
+                      {pregunta.length}/{MAX_PREGUNTA}
+                    </p>
+                  )}
                 </div>
                 <div className="mt-3 flex flex-wrap justify-center gap-2">
                   {['¿Qué necesito ver hoy que no estoy viendo?', '¿Qué está frenando mi vida amorosa?', '¿Qué paso me acerca a lo que quiero?'].map((ej) => (
@@ -569,6 +574,11 @@ export default function TarotPage() {
               rows={4}
               className="min-h-24 w-full flex-1 resize-none bg-transparent text-[14px] leading-relaxed text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none"
             />
+                {pregunta.length >= MAX_PREGUNTA * 0.8 && (
+                  <p className="text-right text-[12px] text-[var(--text-tertiary)]" aria-live="polite">
+                    {pregunta.length}/{MAX_PREGUNTA}
+                  </p>
+                )}
           </div>
           <div className="mt-4">
             <AppButton onClick={() => void sacarCartas(tema, pregunta.trim())} disabled={!pregunta.trim()}>

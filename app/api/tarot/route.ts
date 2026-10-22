@@ -86,7 +86,7 @@ interface CuerpoEntrada {
   categoria?: unknown;
 }
 
-const MAX_CARACTERES_PREGUNTA = 300;
+const MAX_CARACTERES_PREGUNTA = 500;
 
 interface CartaValida {
   posicion: string;

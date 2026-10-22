@@ -25,11 +25,10 @@ export async function GET(request: Request) {
   const next = /^\/(?![/\\])/.test(nextCrudo) ? nextCrudo : '/app';
 
   if (tokenHash && tipo && (TIPOS_VALIDOS as readonly string[]).includes(tipo)) {
-    const supabase = await crearClienteServidor();
-    const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: tipo as EmailOtpType });
-    if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
-    }
+    // El enlace del correo NO se consume al abrirlo: los antivirus y los programas de correo abren los enlaces
+    // por su cuenta (y el enlace sirve una sola vez), así que la persona llegaba a un enlace ya gastado.
+    // Se muestra un botón y el acceso se completa con un POST (los escáneres no pulsan botones).
+    return paginaDeConfirmacion(tokenHash, tipo, next);
   } else if (code) {
     const supabase = await crearClienteServidor();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
@@ -50,4 +49,31 @@ export async function GET(request: Request) {
   }
 
   return NextResponse.redirect(`${origin}/entrar?error=enlace`);
+}
+
+const esc = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+function paginaDeConfirmacion(tokenHash: string, tipo: string, next: string) {
+  const html = `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Entrar a LUMA</title>
+<style>body{margin:0;min-height:100dvh;display:flex;align-items:center;justify-content:center;background:#1a0f14;color:#f3e7dc;font-family:system-ui,sans-serif;padding:24px;box-sizing:border-box}main{max-width:360px;width:100%;text-align:center}h1{font-size:26px;margin:0 0 12px}p{font-size:16px;line-height:1.5;color:#cdbcb0;margin:0 0 24px}button{width:100%;height:52px;border:0;border-radius:16px;background:#d9a441;color:#2a1608;font-size:16px;font-weight:700}</style></head>
+<body><main><h1>Ya casi estás dentro</h1><p>Toca el botón para entrar a LUMA.</p>
+<form method="post" action="/auth/callback"><input type="hidden" name="token_hash" value="${esc(tokenHash)}"><input type="hidden" name="type" value="${esc(tipo)}"><input type="hidden" name="next" value="${esc(next)}"><button type="submit">Entrar a LUMA</button></form></main></body></html>`;
+  return new NextResponse(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
+}
+
+// Segundo paso: la persona toca el botón y aquí se gasta el enlace de verdad.
+export async function POST(request: Request) {
+  const { origin } = new URL(request.url);
+  const form = await request.formData();
+  const tokenHash = String(form.get('token_hash') ?? '');
+  const tipo = String(form.get('type') ?? '');
+  const nextCrudo = String(form.get('next') ?? '/app');
+  const next = /^\/(?![/\\])/.test(nextCrudo) ? nextCrudo : '/app';
+
+  if (tokenHash && (TIPOS_VALIDOS as readonly string[]).includes(tipo)) {
+    const supabase = await crearClienteServidor();
+    const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: tipo as EmailOtpType });
+    if (!error) return NextResponse.redirect(`${origin}${next}`, 303);
+  }
+  return NextResponse.redirect(`${origin}/entrar?error=enlace`, 303);
 }

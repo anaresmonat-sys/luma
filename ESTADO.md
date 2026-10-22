@@ -1204,3 +1204,9 @@ Hecho y probado: cancelación automática en Hotmart con suscripción real (Pedr
 6. Antes de anunciar: legales con revisión profesional, Supabase Pro, pruebas de pago rechazado/reembolso/contracargo.
 7. Preguntar a Hotmart la hora exacta del primer cobro.
 Veredicto de examen vigente: NO APTO 56/100 (ver sección del examen).
+
+## Opiniones de Pedro (prueba real, 2026-10-22) — hecho en local, SIN PUBLICAR
+1. El enlace del correo de acceso le llevaba de nuevo a pedir el correo (5 intentos). Causa probable: el enlace sirve UNA vez y los programas de
+   correo/antivirus lo abren antes. Arreglo: `/auth/callback` ahora muestra un botón «Entrar a LUMA» (GET) y el acceso se completa con POST.
+2. En el tarot el cuadro de pregunta cortaba en 200 caracteres sin avisar → ahora 500 (cliente y servidor) y un contador visible desde el 80 %.
+Pendiente de revisar: límites parecidos en coach/descifrar/diario (no reportados). Probar el flujo con un enlace real tras publicar.
