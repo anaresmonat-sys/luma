@@ -627,14 +627,33 @@ export default function TarotPage() {
           <p className="max-w-[260px] text-[14px] leading-relaxed text-[var(--text-primary)]">
             {mensajeTope ?? 'No pudimos leer tus cartas ahora mismo. No se ha gastado tu lectura.'}
           </p>
-          <div className="w-full max-w-[260px]">
-            <AppButton
-              onClick={() => {
-                if (ultimoIntento.current) void sacarCartas(ultimoIntento.current.tema, ultimoIntento.current.pregunta, ultimoIntento.current.forzada);
-              }}
-            >
-              Intentar de nuevo
-            </AppButton>
+          <div className="flex w-full max-w-[260px] flex-col gap-3">
+            {mensajeTope ? (
+              <>
+                {/* Llegó a su límite de tiradas: reintentar no sirve, se le ofrece un camino útil. */}
+                <Link
+                  href="/app/descifrar"
+                  className="flex h-12 w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[14px] font-semibold text-[var(--on-accent)]"
+                >
+                  Descifrar una conversación
+                </Link>
+                <button
+                  type="button"
+                  onClick={volverALista}
+                  className="flex h-12 w-full items-center justify-center rounded-[var(--radius-button)] border border-[var(--border)] text-[14px] font-semibold text-[var(--text-primary)]"
+                >
+                  Volver al tarot
+                </button>
+              </>
+            ) : (
+              <AppButton
+                onClick={() => {
+                  if (ultimoIntento.current) void sacarCartas(ultimoIntento.current.tema, ultimoIntento.current.pregunta, ultimoIntento.current.forzada);
+                }}
+              >
+                Intentar de nuevo
+              </AppButton>
+            )}
           </div>
         </div>
       </div>
