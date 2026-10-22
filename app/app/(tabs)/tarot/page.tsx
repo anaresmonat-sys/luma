@@ -706,7 +706,7 @@ export default function TarotPage() {
                 </AppLinkButton>
               </div>
               <p className="mt-2 text-[12.5px] leading-snug text-[var(--text-secondary)]">
-                Después, $9,99 al mes o $89,99 al año, más impuestos. Se cobra en tu moneda local. Cancelas cuando quieras y tienes 15 días de garantía desde que empiezas tu prueba.
+                Después, US$9,99 al mes o US$89,99 al año, más impuestos. Se cobra en tu moneda local. Cancelas cuando quieras y tienes 15 días de garantía desde que empiezas tu prueba.
               </p>
             </div>
           )}

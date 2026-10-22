@@ -33,21 +33,21 @@ const PLAN_ANUAL: PlanPaywall = {
   id: 'anual',
   nombre: 'Anual',
   badge: 'MÁS POPULAR',
-  precioMes: '$7,50*',
+  precioMes: 'US$7,50*',
   sufijo: '/mes aprox.',
-  totalAnual: 'Se cobra $89,99/año*',
+  totalAnual: 'Se cobra US$89,99/año*',
   ahorro: 'Ahorras 3 meses frente al plan mensual',
 };
 
 const PLAN_MENSUAL: PlanPaywall = {
   id: 'mensual',
   nombre: 'Mensual',
-  precioMes: '$9,99*',
+  precioMes: 'US$9,99*',
 };
 
 const PRECIO_TEXTO: Record<'anual' | 'mensual', string> = {
-  anual: '$89,99/año*',
-  mensual: '$9,99/mes*',
+  anual: 'US$89,99/año*',
+  mensual: 'US$9,99/mes*',
 };
 
 // Fallback honesto cuando no hay respuestas del onboarding (llegó directo a /paywall):
@@ -202,7 +202,7 @@ export default function PaywallLuma() {
             onSeleccionar={setSeleccionado}
           />
           <p className="mt-3 text-center text-[13px] leading-snug text-[var(--text-secondary)]">
-            * Después de la prueba se cobra tu plan, más impuestos y en tu moneda local. Cancelas cuando quieras.
+            * Precios en dólares (US$). Después de la prueba se cobra tu plan, más impuestos y en tu moneda local. Cancelas cuando quieras.
           </p>
         </motion.div>
 

@@ -1225,3 +1225,8 @@ Botón «Pedir reembolso» en /app/cancelar → POST /api/pedir-reembolso: guard
 <72 h = aún sin cobro → «cancela»), cancela en Hotmart y lo deja en Admin → Ventas «Peticiones de reembolso» (✓ cuando Hotmart avisa del reembolso). El dinero SÍ lo mueve ella a mano en Hotmart.
 Tope mensual de IA por persona: 2,00 → 1,60 USD. Pendiente paso 2 (reembolso automático por API: falta el texto de Sales Refunds de developers.hotmart.com).
 Comprobar: moneda de Hotmart = EUR (payment_transactions) y amount_minor llega vacío en la compra de prueba; la landing/planes muestran $: revisar coherencia de moneda.
+
+## Precios reales en Hotmart por país (2026-10-22, capturas de la dueña) — SIN PUBLICAR
+España: 12,10 €/mes (10,00 + IVA 21 %) · 102,85 €/año (85,00 + IVA). México: 228,52 MXN/mes (IVA 16 % incl.) · 2.057,84 MXN/año. Colombia: 33.722 COP/mes · 303.754 COP/año (sin IVA visible).
+México y Colombia = USD 9,99 / 89,99 convertidos (mismo tipo de cambio en mensual y anual); solo España tiene precio propio en EUR. Hotmart convierte y suma impuestos por país.
+Decisión: en la web/planes/tarot los precios se escriben «US$» (en MX/CO «$» son pesos) y la nota dice «Precios en dólares (US$)… el importe final, con impuestos y en tu moneda, lo ves en la página de pago». Tope de IA se queda en 1,60 USD.
