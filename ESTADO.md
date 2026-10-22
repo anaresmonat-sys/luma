@@ -1249,3 +1249,7 @@ Hobby prohíbe uso comercial y puede PAUSAR el proyecto al pasar un límite; sin
 ## HOTMART_PRODUCT_ID creado en Vercel (2026-10-22) — SIN COMPROBAR [product-id]
 Creada `HOTMART_PRODUCT_ID` = 8610914 (confirmado en Hotmart → Productos → LUMA) y Redeploy hecho. Falta una compra real de prueba (plan anual) para comprobar que la app la acepta (webhook_log = applied, no «producto_ajeno»).
 Intento del anual el 22-oct: la banca online de la dueña no abrió y Hotmart no creó el pedido (no aparece en Ventas). Repetir con calma o con PayPal. Si la app ignora una compra real: borrar la variable y Redeploy.
+
+## IA en español neutro (2026-10-22) — PUBLICADO 6337813
+La IA respondía con voseo argentino al copiar el dialecto de quien escribía (verificado en producción antes del arreglo). `REGLA_DE_IDIOMA` (lib/anthropic.ts) se añade al final del prompt de sistema de las 6 funciones; Descifrar permite el dialecto de la conversación solo en el texto sugerido para enviar.
+Verificado en producción tras publicar: Tarot 100 % neutro; Descifrar neutro en la voz de LUMA (el único «querés» es una cita literal del chat pegado). Pruebas: tests/idioma-ia.test.ts.
