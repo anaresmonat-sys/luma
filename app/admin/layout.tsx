@@ -11,7 +11,7 @@ import { redirect } from 'next/navigation';
 import { crearClienteServidor } from '@/lib/supabase/server';
 import { NavAdmin } from '@/components/admin/NavAdmin';
 
-export const SECCIONES = [
+const SECCIONES = [
   { href: '/admin', label: 'Resumen', icono: '🏠' },
   { href: '/admin/usuarios', label: 'Usuarios', icono: '👥' },
   { href: '/admin/ia', label: 'Costo de IA', icono: '🤖' },

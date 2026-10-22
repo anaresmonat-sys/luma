@@ -6,12 +6,40 @@
 
 import { SinDatos, Seccion } from '@/components/admin/Tarjeta';
 import { Glosa } from '@/components/admin/Glosa';
+import { clienteAdminSupabase } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
 
-export default function AdminVentasPage() {
+export default async function AdminVentasPage() {
+  const { data: peticiones } = await clienteAdminSupabase()
+    .from('cancel_requests')
+    .select('id, email, requested_at, estado, detalle')
+    .order('requested_at', { ascending: false })
+    .limit(30);
+  const porAtender = (peticiones ?? []).filter((p) => p.estado !== 'cancelada');
+
   return (
     <div>
+      <Seccion titulo="Peticiones de cancelación">
+        {(peticiones ?? []).length === 0 ? (
+          <SinDatos>Nadie ha pedido cancelar todavía.</SinDatos>
+        ) : (
+          <div className="flex flex-col gap-2 text-sm">
+            <p className="font-semibold">
+              {porAtender.length === 0
+                ? 'Todo atendido: Hotmart canceló las peticiones solo.'
+                : `${porAtender.length} por cancelar a mano en Hotmart (la hora de la petición es la que cuenta para el reembolso):`}
+            </p>
+            {(peticiones ?? []).map((p) => (
+              <p key={p.id}>
+                {p.estado === 'cancelada' ? '✓' : '•'} {p.email} — pidió el{' '}
+                {new Date(p.requested_at as string).toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })} (hora de España) —{' '}
+                {p.estado === 'cancelada' ? 'cancelada en Hotmart' : `pendiente (${p.detalle ?? 'sin detalle'})`}
+              </p>
+            ))}
+          </div>
+        )}
+      </Seccion>
       <Seccion titulo="Ingresos y suscripciones">
         <SinDatos>
           Sin datos — el webhook

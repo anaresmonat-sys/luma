@@ -8,8 +8,8 @@ export default function Page() {
       <h2>Prueba gratis de 3 días</h2>
       <p>
         Al empezar, tienes 3 días completos para probar LUMA sin que se te cobre nada. Si cancelas antes de que
-        termine ese período, no pagas absolutamente nada. Para cancelar, escríbenos a{' '}
-        <a href="mailto:soporte@tuluma.app">soporte@tuluma.app</a> o usa <a href="/app/cancelar">Más → Cómo cancelar</a>.
+        termine ese período, no pagas absolutamente nada. Para cancelar, usa <a href="/app/cancelar">Más → Cancelar mi plan</a> o escríbenos a{' '}
+        <a href="mailto:soporte@tuluma.app">soporte@tuluma.app</a>. La hora de tu petición es la que cuenta: si pediste cancelar antes del cobro y aun así se cobra, te lo devolvemos.
       </p>
       <p>
       </p>

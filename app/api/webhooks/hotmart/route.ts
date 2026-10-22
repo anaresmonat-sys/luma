@@ -210,6 +210,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'no se pudo procesar' }, { status: 502 });
     }
 
+    // Guarda el código de suscriptora de Hotmart: con él se puede cancelar por API sin buscarla por correo.
+    const codigoSuscriptora: string | undefined =
+      payload.data?.subscription?.subscriber?.code ?? payload.data?.subscriber?.code;
+    if (codigoSuscriptora) {
+      await admin.from('subscriptions').update({ hotmart_subscriber_code: String(codigoSuscriptora) }).eq('user_id', userId);
+    }
+
     const resultadoTexto = resultado as 'applied' | 'duplicate' | 'illegal';
     await registrarLog(admin, { event_id: eventId, type: event, result: resultadoTexto });
 

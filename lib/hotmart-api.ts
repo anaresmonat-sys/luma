@@ -1,0 +1,80 @@
+// Cliente mínimo de la API de Hotmart para cancelar suscripciones — SOLO servidor.
+// Documentación oficial: developers.hotmart.com (Authentication · Get subscriptions · Cancel subscription).
+// Las credenciales (HOTMART_CLIENT_ID, HOTMART_CLIENT_SECRET, HOTMART_BASIC) se crean en Hotmart →
+// Herramientas → Credenciales de desarrollador y se pegan SOLO en las variables de entorno de Vercel.
+
+const URL_TOKEN = 'https://api-sec-vlc.hotmart.com/security/oauth/token';
+const URL_API = 'https://developers.hotmart.com/payments/api/v1/subscriptions';
+const ESPERA_MAX_MS = 8_000;
+
+export type ResultadoCancelacion =
+  | { ok: true; subscriberCode: string }
+  | { ok: false; motivo: 'sin_credenciales' | 'no_encontrada' | 'error_hotmart' };
+
+let tokenEnMemoria: { valor: string; caduca: number } | null = null;
+
+export function hayCredencialesHotmart(): boolean {
+  return Boolean(process.env.HOTMART_CLIENT_ID && process.env.HOTMART_CLIENT_SECRET && process.env.HOTMART_BASIC);
+}
+
+async function pedir(url: string, init: RequestInit): Promise<Response> {
+  return fetch(url, { ...init, signal: AbortSignal.timeout(ESPERA_MAX_MS), cache: 'no-store' });
+}
+
+async function obtenerToken(): Promise<string> {
+  if (tokenEnMemoria && tokenEnMemoria.caduca > Date.now() + 60_000) return tokenEnMemoria.valor;
+  const params = new URLSearchParams({
+    grant_type: 'client_credentials',
+    client_id: process.env.HOTMART_CLIENT_ID!,
+    client_secret: process.env.HOTMART_CLIENT_SECRET!,
+  });
+  const r = await pedir(`${URL_TOKEN}?${params}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Basic ${process.env.HOTMART_BASIC}` },
+  });
+  if (!r.ok) throw new Error(`token_${r.status}`);
+  const j = (await r.json()) as { access_token?: string; expires_in?: number };
+  if (!j.access_token) throw new Error('token_vacio');
+  tokenEnMemoria = { valor: j.access_token, caduca: Date.now() + (j.expires_in ?? 3600) * 1000 };
+  return j.access_token;
+}
+
+const ESTADOS_YA_CERRADOS = /^(INACTIVE|CANCELLED|EXPIRED)/i;
+
+/** Busca el código de suscriptora vigente de ese correo. */
+export async function buscarSubscriberCode(email: string, token: string): Promise<string | null> {
+  const r = await pedir(`${URL_API}?${new URLSearchParams({ subscriber_email: email })}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!r.ok) throw new Error(`buscar_${r.status}`);
+  const j = (await r.json()) as {
+    items?: Array<{ subscriber_code?: string; status?: string; subscriber?: { email?: string } }>;
+  };
+  const vigente = (j.items ?? []).find(
+    (s) =>
+      s.subscriber_code &&
+      !ESTADOS_YA_CERRADOS.test(s.status ?? '') &&
+      (!s.subscriber?.email || s.subscriber.email.toLowerCase() === email.toLowerCase()),
+  );
+  return vigente?.subscriber_code ?? null;
+}
+
+/** Cancela en Hotmart (corta el cobro). Si ya conocemos el código, no hace falta buscarlo. */
+export async function cancelarEnHotmart(email: string, codigoConocido?: string | null): Promise<ResultadoCancelacion> {
+  if (!hayCredencialesHotmart()) return { ok: false, motivo: 'sin_credenciales' };
+  try {
+    const token = await obtenerToken();
+    const codigo = codigoConocido || (await buscarSubscriberCode(email, token));
+    if (!codigo) return { ok: false, motivo: 'no_encontrada' };
+    const r = await pedir(`${URL_API}/${encodeURIComponent(codigo)}/cancel`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ send_mail: true }),
+    });
+    if (r.status === 401) tokenEnMemoria = null;
+    if (!r.ok) return { ok: false, motivo: 'error_hotmart' };
+    return { ok: true, subscriberCode: codigo };
+  } catch {
+    return { ok: false, motivo: 'error_hotmart' };
+  }
+}

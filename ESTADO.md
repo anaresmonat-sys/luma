@@ -1173,3 +1173,16 @@ Bloqueantes abiertos: (1) pagos sin certificar (trial anual, pago rechazado, ree
 (7) sin CI/E2E/alertas (Sentry) · (8) rate limit en memoria · (9) textos legales 12–13 px · (10) planes por debajo del gate doble 36/16 (aceptado con criterio propio).
 Acciones de la dueña: confirmar en Vercel (variables, plan no-Hobby, PRUEBA_SERVIDOR), recarga automática en Anthropic, revisión profesional de legales,
 Supabase Pro antes de escalar, pruebas reales de pago rechazado/reembolso en Hotmart.
+
+## 🔄 CANCELACIÓN AUTOMÁTICA (2026-10-22) — hecho en local, SIN PUBLICAR
+Motivo: cambio horario — quien pide cancelar/reembolso un día puede ser cobrada antes de que la dueña lo atienda.
+Hecho: botón «Cancelar mi plan» en /app/cancelar → POST `/api/cancelar-plan` (sesión + anti-CSRF + rate limit) que 1º guarda la HORA EXACTA
+en `cancel_requests` (migración aplicada, RLS) y 2º cancela en Hotmart por API (`lib/hotmart-api.ts`: token OAuth client_credentials →
+buscar por correo → POST /payments/api/v1/subscriptions/{code}/cancel). Si falla o no hay credenciales: estado 'manual' y aparece en
+Admin → Ventas «Peticiones de cancelación». El webhook guarda `subscriptions.hotmart_subscriber_code`. 26 pruebas pasan.
+Regla escrita en la app/términos/reembolsos: si la petición fue ANTES del cobro, se reembolsa aunque se haya adelantado.
+PENDIENTE (la dueña): crear credenciales en Hotmart (Herramientas → Credenciales de desarrollador) y pegar HOTMART_CLIENT_ID,
+HOTMART_CLIENT_SECRET y HOTMART_BASIC SOLO en Vercel; preguntar a soporte de Hotmart la hora exacta del cobro del día 3.
+[cancelacion-api] NO PROBADA contra Hotmart real (sin credenciales): hacer una compra de prueba y cancelar desde la app antes de anunciar.
+Nota técnica: en esta máquina Windows bloquea el binario nativo de Next (Control de aplicaciones) → `next build --webpack` / `next dev --webpack`;
+Vercel no se ve afectado. `SECCIONES` de app/admin/layout.tsx ya no se exporta (daba error de tipos en el build webpack).

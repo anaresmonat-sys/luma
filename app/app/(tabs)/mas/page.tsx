@@ -26,7 +26,7 @@ import { crearClienteNavegador } from '@/lib/supabase/client';
 import { pruebaGratisDisponible } from '@/lib/prueba-gratis';
 
 const ENLACES = [
-  { Icono: Undo2, label: 'Cómo cancelar', href: '/app/cancelar' },
+  { Icono: Undo2, label: 'Cancelar mi plan', href: '/app/cancelar' },
   { Icono: FileText, label: 'Términos', href: '/terminos' },
   { Icono: Lock, label: 'Privacidad', href: '/privacidad' },
   { Icono: CreditCard, label: 'Reembolsos', href: '/reembolsos' },
