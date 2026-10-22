@@ -1238,3 +1238,6 @@ Decisión: en la web/planes/tarot los precios se escriben «US$» (en MX/CO «$�
    Arreglos: hero con fade CSS puro (`.luma-fade-in`, sin JS) y `luma-icon.png` de 197 KB a 38 KB. Volver a medir tras publicar (docs/release/lighthouse/).
 4. Pruebas: 29 unitarias (`npm test`) + 16 de recorrido (`npm run test:e2e`, E2E_BASE_URL=… para probar la web publicada): landing, planes, entrar, botón del enlace, legales, rutas privadas 401, webhook cerrado, cabeceras, robots/sitemap/versión.
 Pendiente: repetir /pre-lanzamiento (la dueña dijo «no» por ahora), CI en GitHub (requiere permiso «workflow» del token), medir de nuevo la velocidad.
+
+## Soporte por correo: RESUELTO (2026-10-22)
+[soporte-correo] Regla en Outlook aplicada: los correos a soporte@tuluma.app ya no caen en «Correo no deseado» (confirmado por la dueña). Comprobados también los 3 cambios de Cancelar/planes en producción (a4ca984).
