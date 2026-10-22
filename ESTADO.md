@@ -1193,3 +1193,14 @@ Cancelar por API en prueba evita el cobro y dispara SUBSCRIPTION_CANCELLATION; i
 La garantía de 15 días aplica SOLO al primer cobro, no a renovaciones; reembolso por API (Sales Refunds) posible dentro de ese plazo.
 No confirmó el filtro subscriber_email ni el campo subscriber.code del webhook (por eso hay respaldo manual y se verificará con compra de prueba).
 Decisión: textos de la app dicen «antes del PRIMER cobro» (la promesa de devolución no se extiende a renovaciones).
+
+## 📌 PENDIENTES VIVOS (2026-10-22) — la dueña pidió recordarlos CADA DÍA
+Hecho y probado: cancelación automática en Hotmart con suscripción real (Pedro, 22-oct 10:56, Hotmart dice «Cancelada por el vendedor», acceso hasta 24-oct).
+1. 24-25 oct: Pedro (pgonzalezanares@gmail.com) debe pasar a «Bloqueado por pago» en el club y sin cobro en Hotmart → Ventas.
+2. [soporte-correo] Correo a soporte@tuluma.app no llegó a Outlook (Pedro, 22-oct 00:13): probar y arreglar reenvío en Porkbun.
+3. Prueba anual (compra + cancelación) sin hacer.
+4. Decisiones suyas: línea en planes «sigues con tu prueba hasta el día 3»; correo de aviso 24 h antes (clave Resend); mensaje cuando no hay plan activo; mostrar correo de la cuenta en Cancelar.
+5. Vercel: HOTMART_PRODUCT_ID, PRUEBA_SERVIDOR≠off, plan comercial; recarga automática Anthropic.
+6. Antes de anunciar: legales con revisión profesional, Supabase Pro, pruebas de pago rechazado/reembolso/contracargo.
+7. Preguntar a Hotmart la hora exacta del primer cobro.
+Veredicto de examen vigente: NO APTO 56/100 (ver sección del examen).
