@@ -1230,3 +1230,11 @@ Comprobar: moneda de Hotmart = EUR (payment_transactions) y amount_minor llega v
 España: 12,10 €/mes (10,00 + IVA 21 %) · 102,85 €/año (85,00 + IVA). México: 228,52 MXN/mes (IVA 16 % incl.) · 2.057,84 MXN/año. Colombia: 33.722 COP/mes · 303.754 COP/año (sin IVA visible).
 México y Colombia = USD 9,99 / 89,99 convertidos (mismo tipo de cambio en mensual y anual); solo España tiene precio propio en EUR. Hotmart convierte y suma impuestos por país.
 Decisión: en la web/planes/tarot los precios se escriben «US$» (en MX/CO «$» son pesos) y la nota dice «Precios en dólares (US$)… el importe final, con impuestos y en tu moneda, lo ves en la página de pago». Tope de IA se queda en 1,60 USD.
+
+## Bloque de lanzamiento 2026-10-22 (tarde) — SIN PUBLICAR
+1. Planes: la línea de tiempo dice «Cancela cuando quieras: sigues con tu prueba hasta el día 3».
+2. Cancelar: muestra «Cuenta: <correo>» y, si no hay plan activo (nunca compró / ya cancelado), lo dice claro sin crear petición (`sin_plan_activo`).
+3. Velocidad (Lighthouse móvil sobre tuluma.app ANTES de estos cambios): rendimiento 89 · accesibilidad 100 · buenas prácticas 100 · SEO 100; LCP 3,6 s (retraso de render 2,85 s: el hero esperaba al JavaScript).
+   Arreglos: hero con fade CSS puro (`.luma-fade-in`, sin JS) y `luma-icon.png` de 197 KB a 38 KB. Volver a medir tras publicar (docs/release/lighthouse/).
+4. Pruebas: 29 unitarias (`npm test`) + 16 de recorrido (`npm run test:e2e`, E2E_BASE_URL=… para probar la web publicada): landing, planes, entrar, botón del enlace, legales, rutas privadas 401, webhook cerrado, cabeceras, robots/sitemap/versión.
+Pendiente: repetir /pre-lanzamiento (la dueña dijo «no» por ahora), CI en GitHub (requiere permiso «workflow» del token), medir de nuevo la velocidad.

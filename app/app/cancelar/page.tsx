@@ -7,11 +7,14 @@
 // registrada y se cancela a mano ese mismo día; el correo a soporte sigue como plan B.
 // Regla: si la petición se hizo ANTES del cobro, se reembolsa el cobro aunque se haya adelantado.
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { crearClienteNavegador } from '@/lib/supabase/client';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
 import { PedirReembolso } from '@/components/app/PedirReembolso';
 
-type Resultado = { estado: 'cancelada' | 'manual' | 'pendiente'; solicitadaEn: string };
+type Resultado =
+  | { estado: 'cancelada' | 'manual' | 'pendiente'; solicitadaEn: string }
+  | { estado: 'sin_plan_activo'; motivo: string };
 
 const CORREO_CANCELAR =
   'mailto:soporte@tuluma.app?subject=' +
@@ -28,6 +31,15 @@ export default function CancelarPage() {
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [resultado, setResultado] = useState<Resultado | null>(null);
+  const [correo, setCorreo] = useState<string | null>(null);
+
+  // Se muestra con qué correo se va a cancelar: evita equivocarse cuando hay una sesión vieja de otra cuenta.
+  useEffect(() => {
+    crearClienteNavegador()
+      .auth.getUser()
+      .then(({ data }) => setCorreo(data.user?.email ?? null))
+      .catch(() => setCorreo(null));
+  }, []);
 
   async function cancelar() {
     if (enviando) return;
@@ -52,7 +64,18 @@ export default function CancelarPage() {
     <div className="flex min-h-min flex-1 flex-col px-5 pb-6 pt-3">
       <ScreenHeader titulo="Cancelar mi plan" volverHref="/app/mas" />
 
-      {resultado ? (
+      {resultado?.estado === 'sin_plan_activo' ? (
+        <div className="mt-6 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-5" role="status">
+          <p className="text-[16px] font-semibold text-[var(--text-primary)]">
+            {resultado.motivo === 'sin_compra' ? 'No encontramos ningún plan en esta cuenta' : 'Tu plan ya está cancelado'}
+          </p>
+          <p className="mt-2 text-[14px] leading-relaxed text-[var(--text-secondary)]">
+            {resultado.motivo === 'sin_compra'
+              ? 'No hay nada que cancelar con este correo. Si compraste con otro, entra con ese correo; y si necesitas ayuda, escribe a soporte@tuluma.app.'
+              : 'No se te cobrará más. Si todavía estás en tu prueba o en el período que pagaste, sigues usando LUMA hasta que termine.'}
+          </p>
+        </div>
+      ) : resultado ? (
         <div className="mt-6 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-5" role="status">
           <p className="text-[16px] font-semibold text-[var(--text-primary)]">
             {resultado.estado === 'cancelada' ? 'Tu plan está cancelado' : 'Recibimos tu petición'}
@@ -66,6 +89,11 @@ export default function CancelarPage() {
         </div>
       ) : (
         <>
+          {correo && (
+            <p className="mt-3 text-[14px] leading-relaxed text-[var(--text-tertiary)]">
+              Cuenta: <span className="font-semibold text-[var(--text-primary)]">{correo}</span>
+            </p>
+          )}
           <p className="mt-3 text-[14px] leading-relaxed text-[var(--text-secondary)]">
             Puedes cancelar cuando quieras, sin preguntas. Si estás en la prueba gratis, sigues usando LUMA hasta que
             se cumplan tus 3 días y no pagas nada. Y si ya pagaste, conservas el acceso hasta el final del período.

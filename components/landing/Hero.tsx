@@ -7,7 +7,6 @@
 // fondo YA incluido · carga inmediata (fade simple, nada que compita con el LCP).
 
 import type { ReactNode } from 'react';
-import { motion } from 'motion/react';
 import { Camera } from 'lucide-react';
 import { CtaButton } from './ui';
 import { MarkedCopy, truncarMarcado, warnCopy } from './MarkedCopy';
@@ -94,12 +93,8 @@ export function Hero({
       />
 
       <div className="mx-auto w-full max-w-[1140px] px-5">
-        {/* Carga inmediata: fade simple 300ms — el LCP manda (55 T4) */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="mx-auto flex max-w-[820px] flex-col items-center pt-10 text-center md:pt-16"
+        {/* Fade de 300ms hecho con CSS puro (luma-fade-in): arranca en el primer pintado sin esperar a que cargue el JavaScript — el LCP manda (55 T4) */}
+        <div className="luma-fade-in mx-auto flex max-w-[820px] flex-col items-center pt-10 text-center md:pt-16"
         >
           {/* H1: bold completo por defecto; el acento lo pone el [acento] del copy */}
           <h1 className="text-balance text-[40px] font-bold leading-[1.08] tracking-[-0.01em] text-[var(--text-primary)] [font-family:var(--font-display)] md:text-[60px]">
@@ -136,7 +131,7 @@ export function Hero({
               </div>
             )}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

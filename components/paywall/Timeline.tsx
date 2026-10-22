@@ -13,7 +13,7 @@ export function TimelineTrial({ diasPrueba, precioTexto }: { diasPrueba: number;
   const nodos = [
     { estado: 'hecho' as const, titulo: 'Hoy — acceso completo', detalle: 'Todo LUMA, desde hoy' },
     // Honesto: no se promete ningún aviso por correo mientras no exista (2026-10-18). Solo lo que es cierto: no se cobra nada durante la prueba y se puede cancelar.
-    { estado: 'hecho' as const, titulo: `Hasta el día ${diasPrueba} — sin cobro`, detalle: 'Cancela cuando quieras, sin costo' },
+    { estado: 'hecho' as const, titulo: `Hasta el día ${diasPrueba} — sin cobro`, detalle: `Cancela cuando quieras: sigues con tu prueba hasta el día ${diasPrueba}` },
     { estado: 'pendiente' as const, titulo: `Día ${diasPrueba} — 1er cobro: ${precioTexto}`, detalle: 'Si no cancelas antes' },
   ];
 

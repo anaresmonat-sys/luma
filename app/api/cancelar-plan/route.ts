@@ -44,6 +44,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ estado: previa.estado, solicitadaEn: previa.requested_at });
   }
 
+  // Sin plan que cancelar (nunca compró, o ya está cancelado/reembolsado): se dice con claridad y no se crea ninguna petición.
+  const { data: sub } = await admin
+    .from('subscriptions')
+    .select('estado, current_period_end, hotmart_subscriber_code')
+    .eq('user_id', user.id)
+    .maybeSingle();
+  if (!sub || ['cancelled', 'refunded', 'chargeback', 'expired'].includes(sub.estado as string)) {
+    return NextResponse.json({ estado: 'sin_plan_activo', motivo: sub?.estado ?? 'sin_compra' });
+  }
+
   const { data: creada, error: errorCrear } = await admin
     .from('cancel_requests')
     .insert({ user_id: user.id, email: user.email })
@@ -57,7 +67,6 @@ export async function POST(request: Request) {
     );
   }
 
-  const { data: sub } = await admin.from('subscriptions').select('hotmart_subscriber_code').eq('user_id', user.id).maybeSingle();
   const resultado = await cancelarEnHotmart(user.email, sub?.hotmart_subscriber_code as string | null | undefined);
 
   if (resultado.ok) {
