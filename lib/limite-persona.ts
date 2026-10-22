@@ -101,7 +101,7 @@ export async function topePersonaExcedido(usuarioId: string | null, feature: str
     const maxDia = (enPrueba ? USOS_POR_DIA_PRUEBA[feature] : undefined) ?? USOS_POR_DIA[feature] ?? Infinity;
     if (feature === 'tarot' && usosFuncion >= maxDia) {
       return enPrueba
-        ? 'Ya hiciste tu tirada de hoy 🌙 Vuelve mañana: al terminar tu prueba tendrás 3 tiradas al día. Mientras tanto, ¿te descifro esa conversación que tienes pendiente?'
+        ? 'Ya hiciste tu tirada de hoy 🌙 Vuelve mañana: con tu plan, al terminar la prueba gratis, tendrás 3 tiradas al día. Mientras tanto, ¿te descifro esa conversación que tienes pendiente?'
         : 'Ya hiciste tus 3 tiradas de hoy 🌙 Las cartas necesitan descansar: vuelve mañana, o descifra ahora esa conversación que tienes pendiente.';
     }
     if (usosFuncion >= maxDia) {
