@@ -637,13 +637,12 @@ export default function TarotPage() {
                 >
                   Descifrar una conversación
                 </Link>
-                <button
-                  type="button"
-                  onClick={volverALista}
+                <Link
+                  href="/app/coach"
                   className="flex h-12 w-full items-center justify-center rounded-[var(--radius-button)] border border-[var(--border)] text-[14px] font-semibold text-[var(--text-primary)]"
                 >
-                  Volver al tarot
-                </button>
+                  Hablar con tu coach
+                </Link>
               </>
             ) : (
               <AppButton
