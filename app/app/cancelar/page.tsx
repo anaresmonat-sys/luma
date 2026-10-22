@@ -60,7 +60,7 @@ export default function CancelarPage() {
             Quedó registrada el {horaLocal(resultado.solicitadaEn)}.{' '}
             {resultado.estado === 'cancelada'
               ? 'No se te cobrará de nuevo y sigues teniendo acceso hasta el final de lo que ya pagaste.'
-              : 'La cancelamos hoy mismo. Si por la diferencia horaria se te cobrara antes, te devolvemos el cobro completo.'}
+              : 'La cancelamos hoy mismo. Si por la diferencia horaria se te cobrara el primer pago antes, te lo devolvemos completo.'}
           </p>
         </div>
       ) : (
@@ -73,7 +73,7 @@ export default function CancelarPage() {
           <div className="mt-5 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-4">
             <p className="text-[14px] font-semibold text-[var(--text-primary)]">La hora de tu petición es la que cuenta</p>
             <p className="mt-1 text-[14px] leading-relaxed text-[var(--text-secondary)]">
-              Guardamos el momento exacto en que lo pides. Si pediste cancelar antes del cobro y aun así se cobra, te lo
+              Guardamos el momento exacto en que lo pides. Si pediste cancelar antes del primer cobro y aun así se cobra, te lo
               devolvemos entero.
             </p>
           </div>

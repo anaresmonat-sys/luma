@@ -1186,3 +1186,10 @@ HOTMART_CLIENT_SECRET y HOTMART_BASIC SOLO en Vercel; preguntar a soporte de Hot
 [cancelacion-api] NO PROBADA contra Hotmart real (sin credenciales): hacer una compra de prueba y cancelar desde la app antes de anunciar.
 Nota técnica: en esta máquina Windows bloquea el binario nativo de Next (Control de aplicaciones) → `next build --webpack` / `next dev --webpack`;
 Vercel no se ve afectado. `SECCIONES` de app/admin/layout.tsx ya no se exporta (daba error de tipos en el build webpack).
+
+## Respuesta de la IA de Hotmart (2026-10-22)
+Primer cobro = al terminar los 3 días (mismo día/hora de la compra; Hotmart NO da hora exacta ni zona horaria ni margen mínimo → pedir la baja con margen).
+Cancelar por API en prueba evita el cobro y dispara SUBSCRIPTION_CANCELLATION; igual en mensual y anual.
+La garantía de 15 días aplica SOLO al primer cobro, no a renovaciones; reembolso por API (Sales Refunds) posible dentro de ese plazo.
+No confirmó el filtro subscriber_email ni el campo subscriber.code del webhook (por eso hay respaldo manual y se verificará con compra de prueba).
+Decisión: textos de la app dicen «antes del PRIMER cobro» (la promesa de devolución no se extiende a renovaciones).
