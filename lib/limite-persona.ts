@@ -16,11 +16,15 @@ const TOPE_PRUEBA_USD = 0.4;
 const DIAS_PRUEBA = 4;
 
 const USOS_POR_DIA: Record<string, number> = {
-  tarot: 10,
+  tarot: 3,
   coach: 30,
   descifrar: 8,
   diario: 10,
 };
+
+// Durante la prueba gratis el tarot es 1 tirada al día (decisión de la dueña, 2026-10-22): crea el hábito diario y
+// el límite se cuenta como motivo para quedarse («al terminar la prueba, 3 al día»). Las demás funciones no cambian.
+const USOS_POR_DIA_PRUEBA: Record<string, number> = { tarot: 1 };
 
 const NOMBRE_FUNCION: Record<string, string> = {
   tarot: 'lecturas de tarot',
@@ -29,7 +33,9 @@ const NOMBRE_FUNCION: Record<string, string> = {
   diario: 'reflexiones del diario',
 };
 
-const ESTADOS_PRUEBA = ['trialing', 'trial'];
+// Hotmart aprueba la compra de la prueba como «active» (no como «trialing»), así que la prueba NO se reconoce por el
+// estado sino por la fecha: una suscripción creada hace menos de DIAS_PRUEBA días está en su prueba gratis.
+const ESTADOS_CON_PLAN = ['active', 'trialing', 'trial', 'cancelled'];
 const HORA_MS = 60 * 60 * 1000;
 
 /** Devuelve el mensaje amable para mostrar si la persona llegó a su tope; null si puede seguir. */
@@ -43,7 +49,7 @@ export async function topePersonaExcedido(usuarioId: string | null, feature: str
 
     const [perfil, suscripciones, llamadas] = await Promise.all([
       admin.from('profiles').select('role').eq('id', usuarioId).maybeSingle(),
-      admin.from('subscriptions').select('estado').eq('user_id', usuarioId).in('estado', ESTADOS_PRUEBA),
+      admin.from('subscriptions').select('estado, created_at').eq('user_id', usuarioId).in('estado', ESTADOS_CON_PLAN),
       admin
         .from('ai_calls')
         .select('feature, cost_usd, created_at')
@@ -69,11 +75,20 @@ export async function topePersonaExcedido(usuarioId: string | null, feature: str
       if (t >= desdePrueba) costoPrueba += costo;
     }
 
-    const enPrueba = (suscripciones.data ?? []).length > 0;
+    const enPrueba = (suscripciones.data ?? []).some((f) => {
+      const creada = f.created_at ? new Date(f.created_at as string).getTime() : 0;
+      return ahora - creada < DIAS_PRUEBA * 24 * HORA_MS;
+    });
     if (enPrueba && costoPrueba >= TOPE_PRUEBA_USD) {
       return 'Ya probaste mucho de LUMA en estos días de prueba. Mañana sigues, y con tu plan activo tendrás todo el mes.';
     }
-    if (usosFuncion >= (USOS_POR_DIA[feature] ?? Infinity)) {
+    const maxDia = (enPrueba ? USOS_POR_DIA_PRUEBA[feature] : undefined) ?? USOS_POR_DIA[feature] ?? Infinity;
+    if (feature === 'tarot' && usosFuncion >= maxDia) {
+      return enPrueba
+        ? 'Ya hiciste tu tirada de hoy 🌙 Vuelve mañana: al terminar tu prueba tendrás 3 tiradas al día. Mientras tanto, ¿te descifro esa conversación que tienes pendiente?'
+        : 'Ya hiciste tus 3 tiradas de hoy 🌙 Las cartas necesitan descansar: vuelve mañana, o descifra ahora esa conversación que tienes pendiente.';
+    }
+    if (usosFuncion >= maxDia) {
       const nombre = NOMBRE_FUNCION[feature] ?? 'consultas';
       return `Hoy ya hiciste muchas ${nombre}. Descansa un poco y vuelve mañana: LUMA te espera con la mente fresca.`;
     }
