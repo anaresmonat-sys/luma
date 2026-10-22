@@ -285,6 +285,8 @@ export default function TarotPage() {
           pregunta: t.pregunta,
           preguntaUsuaria,
           categoria: t.id,
+          // El «día» del límite de tiradas empieza a medianoche en la hora de la persona.
+          zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone,
         }),
       });
       if (res.status === 402) {

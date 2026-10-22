@@ -39,12 +39,28 @@ const ESTADOS_CON_PLAN = ['active', 'trialing', 'trial', 'cancelled'];
 const HORA_MS = 60 * 60 * 1000;
 
 /** Devuelve el mensaje amable para mostrar si la persona llegó a su tope; null si puede seguir. */
-export async function topePersonaExcedido(usuarioId: string | null, feature: string): Promise<string | null> {
+/** Milisegundos desde las 00:00 de HOY en esa zona horaria; null si la zona no es válida. */
+export function msDesdeMedianoche(zona: string | undefined, ahora: number): number | null {
+  if (!zona) return null;
+  try {
+    const partes = new Intl.DateTimeFormat('en-GB', { timeZone: zona, hourCycle: 'h23', hour: '2-digit', minute: '2-digit', second: '2-digit' }).formatToParts(new Date(ahora));
+    const v = (tipo: string) => Number(partes.find((p) => p.type === tipo)?.value ?? NaN);
+    const ms = (v('hour') * 3600 + v('minute') * 60 + v('second')) * 1000 + (ahora % 1000);
+    return Number.isFinite(ms) ? ms : null;
+  } catch {
+    return null;
+  }
+}
+
+/** zonaHoraria (p. ej. «America/Bogota»): si llega, el «día» de las tiradas empieza a medianoche de la persona; si no, se usan las últimas 24 h. */
+export async function topePersonaExcedido(usuarioId: string | null, feature: string, zonaHoraria?: string): Promise<string | null> {
   if (!usuarioId || process.env.PRUEBA_SERVIDOR === 'off') return null;
   try {
     const admin = clienteAdminSupabase();
     const ahora = Date.now();
     const hace24h = ahora - 24 * HORA_MS;
+    const desdeMedianoche = msDesdeMedianoche(zonaHoraria, ahora);
+    const inicioDiaUsos = desdeMedianoche === null ? hace24h : ahora - desdeMedianoche;
     const hace30d = ahora - 30 * 24 * HORA_MS;
 
     const [perfil, suscripciones, llamadas] = await Promise.all([
@@ -70,8 +86,8 @@ export async function topePersonaExcedido(usuarioId: string | null, feature: str
       costoMes += costo;
       if (t >= hace24h) {
         costoDia += costo;
-        if (f.feature === feature) usosFuncion += 1;
       }
+      if (f.feature === feature && t >= inicioDiaUsos) usosFuncion += 1;
       if (t >= desdePrueba) costoPrueba += costo;
     }
 

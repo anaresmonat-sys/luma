@@ -84,6 +84,7 @@ interface CuerpoEntrada {
   /** Lo que la usuaria escribió ella misma (opcional). `pregunta` es la genérica del tema. */
   preguntaUsuaria?: unknown;
   categoria?: unknown;
+  zonaHoraria?: unknown;
 }
 
 const MAX_CARACTERES_PREGUNTA = 500;
@@ -155,7 +156,7 @@ export async function POST(request: Request) {
     })
     .join(' ');
 
-  const topePersona = await topePersonaExcedido(usuarioIdIA, 'tarot');
+  const topePersona = await topePersonaExcedido(usuarioIdIA, 'tarot', typeof cuerpo.zonaHoraria === 'string' ? cuerpo.zonaHoraria : undefined);
   if (topePersona) {
     return NextResponse.json({ error: topePersona, motivo: 'tope_persona' }, { status: 429 });
   }
