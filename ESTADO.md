@@ -1215,3 +1215,7 @@ Pendiente de revisar: límites parecidos en coach/descifrar/diario (no reportado
 Comisión 9,9 % + 1,00 USD por venta aprobada (mensual neto ≈ 8,00 · anual ≈ 80,08). Reembolso: lo aprueba el productor a mano (Ventas → Mis ventas → Reembolsar al comprador),
 solo primer cobro y dentro de garantía; las tarifas NO se devuelven (≈ 1,99 USD perdidos por reembolso mensual). El comprador debe pedírselo a LUMA → el correo de soporte es crítico.
 Detalle en memoria `hotmart-tarifas-y-reembolsos` y docs/release/ECONOMICS-CERTIFICATION.md. Decisión pendiente: botón «Pedir reembolso» (paso 1: guarda hora, valida plazo, cancela, aviso en Admin).
+
+## Soporte por correo (2026-10-22)
+[soporte-correo] El reenvío de soporte@tuluma.app (Porkbun, MX fwd1/fwd2) FUNCIONA, pero Outlook manda los correos a «Correo no deseado».
+Pendiente de la dueña: «No es correo no deseado», regla por destinatario en Outlook y reenviar otra prueba. Si no basta: buzón propio para soporte.
