@@ -97,9 +97,11 @@ export async function POST(req: Request) {
     : null;
   const currency: string | undefined = payload.data?.purchase?.price?.currency_value;
   const offerCode: string | undefined = payload.data?.purchase?.offer?.code;
-  const periodEndRaw: string | undefined = payload.data?.subscription?.date_next_charge
-    ? new Date(payload.data.subscription.date_next_charge).toISOString()
-    : undefined;
+  // Fin del período: la fecha del próximo cobro. Según el evento viaja en la suscripción o en la compra.
+  const proximoCobroCrudo = payload.data?.subscription?.date_next_charge ?? payload.data?.purchase?.date_next_charge;
+  const proximoCobro = proximoCobroCrudo ? new Date(proximoCobroCrudo) : null;
+  const periodEndRaw: string | undefined =
+    proximoCobro && !Number.isNaN(proximoCobro.getTime()) ? proximoCobro.toISOString() : undefined;
 
   // 5B. Catálogo: rechazar productos ajenos si ya sabemos cuál es el nuestro.
   if (PRODUCT_ID_ESPERADO && productoId && productoId !== PRODUCT_ID_ESPERADO) {

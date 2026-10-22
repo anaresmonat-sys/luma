@@ -27,7 +27,9 @@ describe('regla de acceso al plan de pago', () => {
     expect(suscripcionDaAcceso({ estado: 'cancelled', current_period_end: enDias(12) }, AHORA)).toBe(true);
   });
 
-  it('cancelled sin fecha o con fecha pasada NO da acceso', () => {
+  it('cancelled sin fecha de fin da 3 días desde que canceló; con fecha pasada NO da acceso', () => {
+    expect(suscripcionDaAcceso({ estado: 'cancelled', current_period_end: null, updated_at: enDias(-2) }, AHORA)).toBe(true);
+    expect(suscripcionDaAcceso({ estado: 'cancelled', current_period_end: null, updated_at: enDias(-4) }, AHORA)).toBe(false);
     expect(suscripcionDaAcceso({ estado: 'cancelled', current_period_end: null }, AHORA)).toBe(false);
     expect(suscripcionDaAcceso({ estado: 'cancelled', current_period_end: enDias(-1) }, AHORA)).toBe(false);
   });

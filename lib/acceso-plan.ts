@@ -7,6 +7,8 @@
 //    Hotmart puede llegar con retraso). Sin fecha de fin (cortesía) = acceso sin límite.
 //  - cancelled: la persona cancela pero YA PAGÓ ese período → conserva el acceso hasta su fin
 //    (promesa pública de /app/cancelar: «sigues teniendo acceso hasta el final del período que ya pagaste»).
+//    Si NO se conoce la fecha de fin (Hotmart no siempre la manda), se dan 3 días desde la cancelación: cubre
+//    la prueba gratis y acota el coste a unos días de acceso.
 //  - past_due (cobro fallido): 3 días de margen desde el aviso mientras Hotmart reintenta el cobro.
 //  - refunded / chargeback / expired: sin acceso.
 //
@@ -14,6 +16,7 @@
 
 export const GRACIA_PAGO_FALLIDO_DIAS = 3;
 export const TOLERANCIA_RENOVACION_HORAS = 24;
+export const GRACIA_CANCELACION_SIN_FECHA_DIAS = 3;
 
 const HORA_MS = 60 * 60 * 1000;
 const DIA_MS = 24 * HORA_MS;
@@ -37,7 +40,8 @@ export function suscripcionDaAcceso(fila: FilaSuscripcion, ahora: Date = new Dat
     case 'trial':
       return fin === null || t < fin + TOLERANCIA_RENOVACION_HORAS * HORA_MS;
     case 'cancelled':
-      return fin !== null && t < fin;
+      if (fin !== null) return t < fin;
+      return fila.updated_at ? t < new Date(fila.updated_at).getTime() + GRACIA_CANCELACION_SIN_FECHA_DIAS * DIA_MS : false;
     case 'past_due': {
       const aviso = fila.updated_at ? new Date(fila.updated_at).getTime() : null;
       return aviso !== null && t < aviso + GRACIA_PAGO_FALLIDO_DIAS * DIA_MS;
