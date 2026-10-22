@@ -59,15 +59,15 @@ export default function CancelarPage() {
           <p className="mt-2 text-[14px] leading-relaxed text-[var(--text-secondary)]">
             Quedó registrada el {horaLocal(resultado.solicitadaEn)}.{' '}
             {resultado.estado === 'cancelada'
-              ? 'No se te cobrará de nuevo y sigues teniendo acceso hasta el final de lo que ya pagaste.'
+              ? 'No se te cobrará de nuevo y sigues teniendo acceso hasta que termine tu prueba o el período que ya pagaste.'
               : 'La cancelamos hoy mismo. Si por la diferencia horaria se te cobrara el primer pago antes, te lo devolvemos completo.'}
           </p>
         </div>
       ) : (
         <>
           <p className="mt-3 text-[14px] leading-relaxed text-[var(--text-secondary)]">
-            Puedes cancelar cuando quieras, sin preguntas. Sigues teniendo acceso hasta el final del período que ya
-            pagaste. Si estás en la prueba gratis, cancela antes de que termine y no pagas nada.
+            Cancela cuanto antes, sin preguntas: si estás en la prueba gratis, sigues usando LUMA hasta que se cumplan
+            tus 3 días y no pagas nada. Y si ya pagaste, conservas el acceso hasta el final del período.
           </p>
 
           <div className="mt-5 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-4">

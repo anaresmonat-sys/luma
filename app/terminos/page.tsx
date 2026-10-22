@@ -35,7 +35,7 @@ export default function Page() {
       <ul>
         <li>LUMA ofrece 3 días de prueba gratis. Al terminar la prueba, si no cancelaste, se cobra el plan que elegiste.</li>
         <li>La suscripción se renueva automáticamente cada mes o cada año, según el plan que elijas, hasta que la canceles.</li>
-        <li>Puedes cancelar cuando quieras desde <a href="/app/cancelar">Más → Cancelar mi plan</a> o escribiendo a <a href="mailto:soporte@tuluma.app">soporte@tuluma.app</a>. La hora de tu petición es la que cuenta: si pides cancelar antes del primer cobro y aun así se cobra, te lo devolvemos. Sigues teniendo acceso hasta el final del período ya pagado.</li>
+        <li>Puedes cancelar cuando quieras desde <a href="/app/cancelar">Más → Cancelar mi plan</a> o escribiendo a <a href="mailto:soporte@tuluma.app">soporte@tuluma.app</a>. La hora de tu petición es la que cuenta: si pides cancelar antes del primer cobro y aun así se cobra, te lo devolvemos. Si estás en la prueba, sigues usando LUMA hasta que se cumplan tus 3 días; si ya pagaste, conservas el acceso hasta el final del período ya pagado.</li>
         <li>
           Los pagos se procesan a través de Hotmart. Nuestra{' '}
           <a href="/reembolsos">Política de Reembolsos</a> explica cuándo puedes pedir tu dinero de vuelta.
