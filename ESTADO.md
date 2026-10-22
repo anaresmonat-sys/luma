@@ -1210,3 +1210,8 @@ Veredicto de examen vigente: NO APTO 56/100 (ver sección del examen).
    correo/antivirus lo abren antes. Arreglo: `/auth/callback` ahora muestra un botón «Entrar a LUMA» (GET) y el acceso se completa con POST.
 2. En el tarot el cuadro de pregunta cortaba en 200 caracteres sin avisar → ahora 500 (cliente y servidor) y un contador visible desde el 80 %.
 Pendiente de revisar: límites parecidos en coach/descifrar/diario (no reportados). Probar el flujo con un enlace real tras publicar.
+
+## Hotmart: tarifas y reembolsos (2026-10-22, según su asistente)
+Comisión 9,9 % + 1,00 USD por venta aprobada (mensual neto ≈ 8,00 · anual ≈ 80,08). Reembolso: lo aprueba el productor a mano (Ventas → Mis ventas → Reembolsar al comprador),
+solo primer cobro y dentro de garantía; las tarifas NO se devuelven (≈ 1,99 USD perdidos por reembolso mensual). El comprador debe pedírselo a LUMA → el correo de soporte es crítico.
+Detalle en memoria `hotmart-tarifas-y-reembolsos` y docs/release/ECONOMICS-CERTIFICATION.md. Decisión pendiente: botón «Pedir reembolso» (paso 1: guarda hora, valida plazo, cancela, aviso en Admin).

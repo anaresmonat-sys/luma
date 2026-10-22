@@ -6,4 +6,10 @@ Regla: costo de IA por usuario de pago < 20 % del precio. Con $9,99/mes el tope 
 
 Protecciones reales: tope diario global de IA $5 (`lib/tope-ia.ts`), cuota de prueba gratis controlada en servidor, límites por usuario.
 
-NO certificado (faltan): p95 de uso por usuario real (aún no hay usuarios de pago), tarifas exactas de Hotmart e impuestos (la comisión no se ha leído de una fuente oficial), costo por reembolso. Hasta tener 30 días de uso real, la economía es una ESTIMACIÓN, no un certificado.
+
+## Tarifas de Hotmart (fuente: asistente de Hotmart, 2026-10-22; confirmar en la documentación oficial)
+Comisión por venta aprobada: 9,9 % + 1,00 USD (EUR/GBP igual; BRL 9,9 % + 2,49 BRL). Neto: mensual 9,99 → ≈ 8,00 USD · anual 89,99 → ≈ 80,08 USD.
+Con el neto, la regla «IA < 20 %» da un tope de ≈ 1,60 USD por usuaria de pago al mes (mensual). Un uso muy intenso (≈ 1,9 USD) lo SUPERARÍA: vigilar el tope diario y las cuotas.
+Reembolsos: las tarifas cobradas NO se devuelven al productor → cada reembolso del mensual cuesta ≈ 1,99 USD + el costo de IA usado. Solo se reembolsa el primer cobro, dentro de 15 días.
+
+NO certificado (faltan): p95 de uso por usuaria real (aún no hay usuarias de pago), impuestos, y la tarifa oficial publicada por Hotmart. La economía sigue siendo una ESTIMACIÓN hasta tener 30 días de uso real.
