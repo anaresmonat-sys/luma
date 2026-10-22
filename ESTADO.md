@@ -1241,3 +1241,7 @@ Pendiente: repetir /pre-lanzamiento (la dueña dijo «no» por ahora), CI en Git
 
 ## Soporte por correo: RESUELTO (2026-10-22)
 [soporte-correo] Regla en Outlook aplicada: los correos a soporte@tuluma.app ya no caen en «Correo no deseado» (confirmado por la dueña). Comprobados también los 3 cambios de Cancelar/planes en producción (a4ca984).
+
+## Vercel: plan Hobby confirmado (2026-10-22, captura de la dueña)
+Plan Hobby (botones «Mejora»/«Actualiza a Pro»). Uso últimos 30 días: CPU Fluid Active 24 min 58 s / 4 h (10 %), CDN 31K / 1M (3 %), almacenamiento implementación 1,52/10 GB, funciones 892 MB/10 GB.
+Hobby prohíbe uso comercial y puede PAUSAR el proyecto al pasar un límite; sin alertas. DECISIÓN: pasar a Pro (~20 USD/mes) ANTES de anunciar o cobrar de verdad. [vercel-pro]
