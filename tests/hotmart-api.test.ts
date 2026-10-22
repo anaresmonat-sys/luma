@@ -12,7 +12,7 @@ afterEach(() => {
   vi.restoreAllMocks();
   delete process.env.HOTMART_CLIENT_ID;
   delete process.env.HOTMART_CLIENT_SECRET;
-  delete process.env.HOTMART_CLIENT_SECRET;
+  delete process.env.HOTMART_BASIC;
 });
 
 describe('cancelación automática en Hotmart', () => {
