@@ -12,12 +12,12 @@ afterEach(() => {
   vi.restoreAllMocks();
   delete process.env.HOTMART_CLIENT_ID;
   delete process.env.HOTMART_CLIENT_SECRET;
-  delete process.env.HOTMART_BASIC;
+  delete process.env.HOTMART_CLIENT_SECRET;
 });
 
 describe('cancelación automática en Hotmart', () => {
   it('sin credenciales no llama a nadie y avisa para cancelar a mano', async () => {
-    delete process.env.HOTMART_BASIC;
+    delete process.env.HOTMART_CLIENT_SECRET;
     const f = vi.spyOn(globalThis, 'fetch');
     expect(await cancelarEnHotmart('a@b.com')).toEqual({ ok: false, motivo: 'sin_credenciales' });
     expect(f).not.toHaveBeenCalled();

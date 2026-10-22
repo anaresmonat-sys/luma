@@ -1,6 +1,6 @@
 // Cliente mínimo de la API de Hotmart para cancelar suscripciones — SOLO servidor.
 // Documentación oficial: developers.hotmart.com (Authentication · Get subscriptions · Cancel subscription).
-// Las credenciales (HOTMART_CLIENT_ID, HOTMART_CLIENT_SECRET, HOTMART_BASIC) se crean en Hotmart →
+// Las credenciales (HOTMART_CLIENT_ID y HOTMART_CLIENT_SECRET; HOTMART_BASIC es opcional) se crean en Hotmart →
 // Herramientas → Credenciales de desarrollador y se pegan SOLO en las variables de entorno de Vercel.
 
 const URL_TOKEN = 'https://api-sec-vlc.hotmart.com/security/oauth/token';
@@ -14,7 +14,14 @@ export type ResultadoCancelacion =
 let tokenEnMemoria: { valor: string; caduca: number } | null = null;
 
 export function hayCredencialesHotmart(): boolean {
-  return Boolean(process.env.HOTMART_CLIENT_ID && process.env.HOTMART_CLIENT_SECRET && process.env.HOTMART_BASIC);
+  return Boolean(process.env.HOTMART_CLIENT_ID && process.env.HOTMART_CLIENT_SECRET);
+}
+
+// El token "Basic" de Hotmart es base64(client_id:client_secret): se calcula solo si no se dio HOTMART_BASIC
+// (y si se dio con el prefijo "Basic " incluido, se quita para no duplicarlo).
+function tokenBasic(): string {
+  const dado = process.env.HOTMART_BASIC?.trim().replace(/^Basic\s+/i, '');
+  return dado || Buffer.from(`${process.env.HOTMART_CLIENT_ID}:${process.env.HOTMART_CLIENT_SECRET}`).toString('base64');
 }
 
 async function pedir(url: string, init: RequestInit): Promise<Response> {
@@ -30,7 +37,7 @@ async function obtenerToken(): Promise<string> {
   });
   const r = await pedir(`${URL_TOKEN}?${params}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Basic ${process.env.HOTMART_BASIC}` },
+    headers: { 'Content-Type': 'application/json', Authorization: `Basic ${tokenBasic()}` },
   });
   if (!r.ok) throw new Error(`token_${r.status}`);
   const j = (await r.json()) as { access_token?: string; expires_in?: number };
