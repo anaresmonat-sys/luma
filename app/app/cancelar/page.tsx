@@ -9,6 +9,7 @@
 
 import { useState } from 'react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
+import { PedirReembolso } from '@/components/app/PedirReembolso';
 
 type Resultado = { estado: 'cancelada' | 'manual' | 'pendiente'; solicitadaEn: string };
 
@@ -113,6 +114,8 @@ export default function CancelarPage() {
               {error}
             </p>
           )}
+
+          <PedirReembolso />
 
           <p className="mt-4 text-[14px] leading-relaxed text-[var(--text-tertiary)]">
             Si el botón no funciona, escribe a{' '}

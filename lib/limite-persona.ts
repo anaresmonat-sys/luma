@@ -1,7 +1,7 @@
 // Tope de uso POR PERSONA en el servidor (decisión de la dueña, 2026-10-13, tras el
 // análisis de rentabilidad en ESTADO.md). Complementa al tope global de lib/tope-ia.ts
 // (que corta a todos) y a la prueba gratis anónima de lib/prueba-servidor.ts:
-//   · costo de IA por persona: $0,20 en 24 h y $2,00 en 30 días (regla del SO: la IA
+//   · costo de IA por persona: $0,20 en 24 h y $1,60 en 30 días (regla del SO: la IA
 //     no pasa del 20 % del precio; el plan mensual cuesta $9,99),
 //   · durante la prueba de 3 días, $0,40 en total (lo regalado no puede salir caro),
 //   · número de usos por función en 24 h (freno de abuso, no de uso normal).
@@ -11,7 +11,7 @@
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
 
 const TOPE_DIA_USD = 0.2;
-const TOPE_MES_USD = 2;
+const TOPE_MES_USD = 1.6; // 20 % de lo que realmente queda del plan mensual tras Hotmart (≈ 8,00 de 9,99)
 const TOPE_PRUEBA_USD = 0.4;
 const DIAS_PRUEBA = 4;
 

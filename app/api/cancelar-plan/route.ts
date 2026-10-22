@@ -35,6 +35,7 @@ export async function POST(request: Request) {
     .from('cancel_requests')
     .select('id, estado, requested_at')
     .eq('user_id', user.id)
+    .eq('tipo', 'cancelacion')
     .in('estado', ['pendiente', 'manual', 'cancelada'])
     .order('requested_at', { ascending: false })
     .limit(1)

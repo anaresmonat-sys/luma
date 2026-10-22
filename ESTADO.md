@@ -1219,3 +1219,9 @@ Detalle en memoria `hotmart-tarifas-y-reembolsos` y docs/release/ECONOMICS-CERTI
 ## Soporte por correo (2026-10-22)
 [soporte-correo] El reenvío de soporte@tuluma.app (Porkbun, MX fwd1/fwd2) FUNCIONA, pero Outlook manda los correos a «Correo no deseado».
 Pendiente de la dueña: «No es correo no deseado», regla por destinatario en Outlook y reenviar otra prueba. Si no basta: buzón propio para soporte.
+
+## Reembolsos paso 1 + tope mensual (2026-10-22) — SIN PUBLICAR
+Botón «Pedir reembolso» en /app/cancelar → POST /api/pedir-reembolso: guarda la hora (cancel_requests.tipo='reembolso', migración aplicada), valida plazo (15 días + 12 h de margen horario;
+<72 h = aún sin cobro → «cancela»), cancela en Hotmart y lo deja en Admin → Ventas «Peticiones de reembolso» (✓ cuando Hotmart avisa del reembolso). El dinero SÍ lo mueve ella a mano en Hotmart.
+Tope mensual de IA por persona: 2,00 → 1,60 USD. Pendiente paso 2 (reembolso automático por API: falta el texto de Sales Refunds de developers.hotmart.com).
+Comprobar: moneda de Hotmart = EUR (payment_transactions) y amount_minor llega vacío en la compra de prueba; la landing/planes muestran $: revisar coherencia de moneda.
