@@ -66,8 +66,8 @@ export default function CancelarPage() {
       ) : (
         <>
           <p className="mt-3 text-[14px] leading-relaxed text-[var(--text-secondary)]">
-            Cancela cuanto antes, sin preguntas: si estás en la prueba gratis, sigues usando LUMA hasta que se cumplan
-            tus 3 días y no pagas nada. Y si ya pagaste, conservas el acceso hasta el final del período.
+            Puedes cancelar cuando quieras, sin preguntas. Si estás en la prueba gratis, sigues usando LUMA hasta que
+            se cumplan tus 3 días y no pagas nada. Y si ya pagaste, conservas el acceso hasta el final del período.
           </p>
 
           <div className="mt-5 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-4">
