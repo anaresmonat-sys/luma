@@ -12,7 +12,7 @@
 // se queda en 1 sola carta, como en todo el sector.
 
 import { NextResponse } from 'next/server';
-import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
+import { clienteAnthropic, AI_MODEL, REGLA_DE_IDIOMA } from '@/lib/anthropic';
 import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
@@ -179,7 +179,7 @@ export async function POST(request: Request) {
       // personas distintas, 2026-09-30. Ambos números suben con margen de
       // sobra para el español (más denso en tokens que el inglés).
       max_tokens: cartas.length > 1 ? 800 : 480,
-      system: SYSTEM_PROMPT,
+      system: SYSTEM_PROMPT + REGLA_DE_IDIOMA,
       messages: [
         {
           role: 'user',

@@ -4,7 +4,7 @@
 // (matemática pura, sin API externa) — la IA solo redacta la interpretación.
 
 import { NextResponse } from 'next/server';
-import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
+import { clienteAnthropic, AI_MODEL, REGLA_DE_IDIOMA } from '@/lib/anthropic';
 import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
@@ -150,7 +150,7 @@ export async function POST(request: Request) {
       // devolvía el texto cortado o vacío (visto en Tarot 3 cartas y en Descifrar, 2026-10-13).
       thinking: { type: 'disabled' },
       max_tokens: ampliado ? 900 : 700,
-      system: ampliado ? SYSTEM_PROMPT_AMPLIADO : SYSTEM_PROMPT,
+      system: (ampliado ? SYSTEM_PROMPT_AMPLIADO : SYSTEM_PROMPT) + REGLA_DE_IDIOMA,
       messages: [
         {
           role: 'user',

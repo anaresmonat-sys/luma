@@ -5,7 +5,7 @@
 // mostrar el % y "Química" gratis y bloquear el resto.
 
 import { NextResponse } from 'next/server';
-import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
+import { clienteAnthropic, AI_MODEL, REGLA_DE_IDIOMA } from '@/lib/anthropic';
 import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
@@ -100,7 +100,7 @@ export async function POST(request: Request) {
       // devolvía el texto cortado o vacío (visto en Tarot 3 cartas y en Descifrar, 2026-10-13).
       thinking: { type: 'disabled' },
       max_tokens: 700,
-      system: SYSTEM_PROMPT,
+      system: SYSTEM_PROMPT + REGLA_DE_IDIOMA,
       messages: [
         {
           role: 'user',

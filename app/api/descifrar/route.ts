@@ -5,7 +5,7 @@
 // ahora con contenido real en vez del ejemplo fijo.
 
 import { NextResponse } from 'next/server';
-import { clienteAnthropic, AI_MODEL } from '@/lib/anthropic';
+import { clienteAnthropic, AI_MODEL, REGLA_DE_IDIOMA_DESCIFRAR } from '@/lib/anthropic';
 import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
@@ -131,7 +131,7 @@ export async function POST(request: Request) {
       // 400 se quedaba corto con conversaciones largas: el JSON llegaba cortado a mitad y no se
       // podía leer ("No se pudo analizar tu mensaje", visto en el móvil de la dueña, 2026-10-13).
       max_tokens: 1000,
-      system: SYSTEM_PROMPT,
+      system: SYSTEM_PROMPT + REGLA_DE_IDIOMA_DESCIFRAR,
       messages: [
         {
           role: 'user',
