@@ -1245,3 +1245,7 @@ Pendiente: repetir /pre-lanzamiento (la dueña dijo «no» por ahora), CI en Git
 ## Vercel: plan Hobby confirmado (2026-10-22, captura de la dueña)
 Plan Hobby (botones «Mejora»/«Actualiza a Pro»). Uso últimos 30 días: CPU Fluid Active 24 min 58 s / 4 h (10 %), CDN 31K / 1M (3 %), almacenamiento implementación 1,52/10 GB, funciones 892 MB/10 GB.
 Hobby prohíbe uso comercial y puede PAUSAR el proyecto al pasar un límite; sin alertas. DECISIÓN: pasar a Pro (~20 USD/mes) ANTES de anunciar o cobrar de verdad. [vercel-pro]
+
+## HOTMART_PRODUCT_ID creado en Vercel (2026-10-22) — SIN COMPROBAR [product-id]
+Creada `HOTMART_PRODUCT_ID` = 8610914 (confirmado en Hotmart → Productos → LUMA) y Redeploy hecho. Falta una compra real de prueba (plan anual) para comprobar que la app la acepta (webhook_log = applied, no «producto_ajeno»).
+Intento del anual el 22-oct: la banca online de la dueña no abrió y Hotmart no creó el pedido (no aparece en Ventas). Repetir con calma o con PayPal. Si la app ignora una compra real: borrar la variable y Redeploy.
