@@ -27,7 +27,10 @@ const EVENTO_A_ESTADO: Record<string, EstadoMembresia> = {
   PURCHASE_COMPLETE: 'active',
   PURCHASE_DELAYED: 'past_due',
   SUBSCRIPTION_CANCELLATION: 'cancelled',
-  PURCHASE_CANCELED: 'cancelled', // "Compra cancelada" — evento distinto de SUBSCRIPTION_CANCELLATION
+  // «Compra cancelada» (pedido no completado, p. ej. el banco no autorizó el pago): Hotmart desactiva el acceso al instante
+  // y NO queda nada pagado que conservar. Es distinto de SUBSCRIPTION_CANCELLATION (la persona cancela la renovación y
+  // conserva lo que ya tiene). Antes se guardaba como 'cancelled' y regalaba 3 días de acceso (corregido 2026-10-23).
+  PURCHASE_CANCELED: 'expired',
   PURCHASE_REFUNDED: 'refunded',
   PURCHASE_CHARGEBACK: 'chargeback',
 };

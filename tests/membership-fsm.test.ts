@@ -7,7 +7,7 @@ describe('máquina de estados de la membresía (eventos de Hotmart)', () => {
     expect(estadoParaEvento('PURCHASE_COMPLETE')).toBe('active');
     expect(estadoParaEvento('PURCHASE_DELAYED')).toBe('past_due');
     expect(estadoParaEvento('SUBSCRIPTION_CANCELLATION')).toBe('cancelled');
-    expect(estadoParaEvento('PURCHASE_CANCELED')).toBe('cancelled');
+    expect(estadoParaEvento('PURCHASE_CANCELED')).toBe('expired');
     expect(estadoParaEvento('PURCHASE_REFUNDED')).toBe('refunded');
     expect(estadoParaEvento('PURCHASE_CHARGEBACK')).toBe('chargeback');
   });

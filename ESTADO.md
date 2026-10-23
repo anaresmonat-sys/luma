@@ -1253,3 +1253,7 @@ Intento del anual el 22-oct: la banca online de la dueña no abrió y Hotmart no
 ## IA en español neutro (2026-10-22) — PUBLICADO 6337813
 La IA respondía con voseo argentino al copiar el dialecto de quien escribía (verificado en producción antes del arreglo). `REGLA_DE_IDIOMA` (lib/anthropic.ts) se añade al final del prompt de sistema de las 6 funciones; Descifrar permite el dialecto de la conversación solo en el texto sugerido para enviar.
 Verificado en producción tras publicar: Tarot 100 % neutro; Descifrar neutro en la voz de LUMA (el único «querés» es una cita literal del chat pegado). Pruebas: tests/idioma-ia.test.ts.
+
+## Fallo corregido (2026-10-23): «Compra cancelada» regalaba 3 días de acceso — SIN PUBLICAR
+El intento fallido del plan anual (banca sin abrir) hizo que Hotmart mandara PURCHASE_CANCELED y la app creó la cuenta en estado `cancelled`, que con la regla de 3 días de gracia daba acceso gratis.
+Ahora PURCHASE_CANCELED → `expired` (sin acceso; el email de Hotmart dice que al cancelarse la compra el acceso se desactiva al instante). SUBSCRIPTION_CANCELLATION sigue → `cancelled` (conserva la prueba/período). Cuenta de prueba prueba4 corregida a `expired`. Test actualizado.
