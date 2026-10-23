@@ -1257,3 +1257,6 @@ Verificado en producción tras publicar: Tarot 100 % neutro; Descifrar neutro en
 ## Fallo corregido (2026-10-23): «Compra cancelada» regalaba 3 días de acceso — SIN PUBLICAR
 El intento fallido del plan anual (banca sin abrir) hizo que Hotmart mandara PURCHASE_CANCELED y la app creó la cuenta en estado `cancelled`, que con la regla de 3 días de gracia daba acceso gratis.
 Ahora PURCHASE_CANCELED → `expired` (sin acceso; el email de Hotmart dice que al cancelarse la compra el acceso se desactiva al instante). SUBSCRIPTION_CANCELLATION sigue → `cancelled` (conserva la prueba/período). Cuenta de prueba prueba4 corregida a `expired`. Test actualizado.
+
+## Vercel: PRUEBA_SERVIDOR no existe (2026-10-23)
+Comprobado por la dueña: buscar «PRUEBA» en Environment Variables no devuelve nada → el control de prueba gratis y los topes por persona están ACTIVOS en producción. HOTMART_PRODUCT_ID existe (8610914) y sigue sin comprobarse con una compra real.
