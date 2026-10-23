@@ -31,6 +31,17 @@ export default async function AdminVentasPage() {
   for (const r of reembolsos) if (r.detalle === 'reembolsado_por_api') reembolsados.add(r.user_id as string);
   const reembolsosPendientes = reembolsos.filter((r) => !reembolsados.has(r.user_id as string));
 
+  const { data: todas } = await admin.from('subscriptions').select('estado, plan');
+  const filasSub = todas ?? [];
+  const conAcceso = filasSub.filter((f) => f.estado === 'active' || f.estado === 'trialing' || f.estado === 'trial');
+  const activas = conAcceso.length;
+  const cortesias = conAcceso.filter((f) => f.plan === 'cortesia').length;
+  const mensuales = conAcceso.filter((f) => f.plan === 'mensual').length;
+  const anuales = conAcceso.filter((f) => f.plan === 'anual').length;
+  const canceladas = filasSub.filter((f) => f.estado === 'cancelled').length;
+  const reembolsadas = filasSub.filter((f) => f.estado === 'refunded' || f.estado === 'chargeback').length;
+  const sinAcceso = filasSub.filter((f) => f.estado === 'expired' || f.estado === 'past_due').length;
+
   const hora = (iso: string) => new Date(iso).toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
 
   return (
@@ -74,20 +85,17 @@ export default async function AdminVentasPage() {
           </div>
         )}
       </Seccion>
-      <Seccion titulo="Ingresos y suscripciones">
-        <SinDatos>
-          Sin datos — el webhook
-          <Glosa termino="webhook">
-            El aviso automático que Hotmart le manda a tu app cada vez que alguien paga, cancela o se le vence la
-            tarjeta — así la app se entera sola, sin que nadie tenga que avisarle.
-          </Glosa>{' '}
-          de Hotmart todavía no está conectado. En cuanto exista, aquí aparecen ingresos del mes, MRR
-          <Glosa termino="MRR">
-            "Monthly Recurring Revenue": cuánto dinero entra cada mes de forma repetida por las suscripciones
-            activas.
-          </Glosa>
-          , nuevas compras y cancelaciones (ver docs/sistema/18-VENTA-HOTMART.md).
-        </SinDatos>
+      <Seccion titulo="Suscripciones ahora mismo">
+        <div className="flex flex-col gap-1 text-sm">
+          <p>
+            <span className="font-semibold">{activas}</span> con acceso (pago o prueba gratis): {mensuales} mensual · {anuales} anual
+            {cortesias > 0 ? ` · ${cortesias} de cortesía` : ''}
+          </p>
+          <p>{canceladas} canceladas · {reembolsadas} reembolsadas · {sinAcceso} sin acceso (compra no completada o caducada)</p>
+          <p className="text-[var(--text-tertiary)]">
+            El dinero y las ventas exactas se ven en Hotmart → Ventas. Aquí no se muestran ingresos hasta que haya clientas de pago.
+          </p>
+        </div>
       </Seccion>
 
       <Seccion titulo="Cancelaciones: por decisión propia vs por tarjeta rechazada">
