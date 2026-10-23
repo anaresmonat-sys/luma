@@ -7,6 +7,7 @@
 import { SinDatos, Seccion } from '@/components/admin/Tarjeta';
 import { Glosa } from '@/components/admin/Glosa';
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
+import { BotonReembolsar } from '@/components/admin/BotonReembolsar';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,6 +28,7 @@ export default async function AdminVentasPage() {
     ? await admin.from('subscriptions').select('user_id, estado').in('user_id', idsReembolso)
     : { data: [] as { user_id: string; estado: string }[] };
   const reembolsados = new Set((subs ?? []).filter((s) => s.estado === 'refunded' || s.estado === 'chargeback').map((s) => s.user_id));
+  for (const r of reembolsos) if (r.detalle === 'reembolsado_por_api') reembolsados.add(r.user_id as string);
   const reembolsosPendientes = reembolsos.filter((r) => !reembolsados.has(r.user_id as string));
 
   const hora = (iso: string) => new Date(iso).toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
@@ -47,6 +49,7 @@ export default async function AdminVentasPage() {
               <p key={r.id}>
                 {reembolsados.has(r.user_id as string) ? '✓' : '•'} {r.email} — pidió el {hora(r.requested_at as string)} (hora de España) —{' '}
                 {reembolsados.has(r.user_id as string) ? 'reembolsado' : 'pendiente de reembolsar'}
+                {!reembolsados.has(r.user_id as string) && <BotonReembolsar peticionId={r.id as string} correo={r.email as string} />}
               </p>
             ))}
           </div>

@@ -85,3 +85,29 @@ export async function cancelarEnHotmart(email: string, codigoConocido?: string |
     return { ok: false, motivo: 'error_hotmart' };
   }
 }
+
+export type ResultadoReembolso =
+  | { ok: true }
+  | { ok: false; motivo: 'sin_credenciales' | 'rechazado' | 'error_hotmart'; estadoHttp?: number; detalle?: string };
+
+/**
+ * Reembolsa una venta por su código de transacción (PUT /payments/api/v1/sales/{código}/refund).
+ * Hotmart solo permite reembolsar la PRIMERA transacción de una suscripción y dentro de la garantía; si no se cumple,
+ * responde con un error y aquí se devuelve como `rechazado` con su mensaje para mostrárselo a la dueña.
+ */
+export async function reembolsarEnHotmart(codigoTransaccion: string): Promise<ResultadoReembolso> {
+  if (!hayCredencialesHotmart()) return { ok: false, motivo: 'sin_credenciales' };
+  try {
+    const token = await obtenerToken();
+    const r = await pedir(`https://developers.hotmart.com/payments/api/v1/sales/${encodeURIComponent(codigoTransaccion)}/refund`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    });
+    if (r.status === 401) tokenEnMemoria = null;
+    if (r.ok) return { ok: true };
+    const texto = (await r.text().catch(() => '')).slice(0, 300);
+    return { ok: false, motivo: r.status >= 500 ? 'error_hotmart' : 'rechazado', estadoHttp: r.status, detalle: texto };
+  } catch {
+    return { ok: false, motivo: 'error_hotmart' };
+  }
+}

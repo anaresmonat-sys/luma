@@ -1260,3 +1260,7 @@ Ahora PURCHASE_CANCELED → `expired` (sin acceso; el email de Hotmart dice que 
 
 ## Vercel: PRUEBA_SERVIDOR no existe (2026-10-23)
 Comprobado por la dueña: buscar «PRUEBA» en Environment Variables no devuelve nada → el control de prueba gratis y los topes por persona están ACTIVOS en producción. HOTMART_PRODUCT_ID existe (8610914) y sigue sin comprobarse con una compra real.
+
+## Reembolso «paso 1.5» (2026-10-23) — SIN PUBLICAR
+Endpoint de Hotmart (texto pegado por la dueña): PUT /payments/api/v1/sales/{transaction_code}/refund con Bearer. `reembolsarEnHotmart()` (lib/hotmart-api.ts) + `/api/admin/reembolsar` (solo admin, anti-CSRF, rate limit, re-comprueba petición abierta, 15 días + 12 h y que haya transacción) + botón «Reembolsar ahora» (con confirmación) en Admin → Ventas. El dinero NO sale solo: lo decide ella con un clic. Marca la petición `reembolsado_por_api`.
+[reembolso-api] NO PROBADO con una venta real: faltan las condiciones que Hotmart exige a la venta (la dueña solo pegó el curl). Si Hotmart rechaza, el panel muestra el código y el mensaje y se reembolsa a mano. Tests: tests/hotmart-reembolso.test.ts.
