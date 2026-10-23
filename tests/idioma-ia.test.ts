@@ -37,3 +37,26 @@ function listar(dir: string): string[] {
     return e.isDirectory() ? (e.name === 'node_modules' ? [] : listar(p)) : /\.(tsx?)$/.test(e.name) ? [p] : [];
   });
 }
+
+describe('trato neutro en género: LUMA no da por hecho que quien escribe es mujer', () => {
+  it('la regla de la IA prohíbe adjetivos con género y no deducir el género por el nombre', () => {
+    for (const regla of [REGLA_DE_IDIOMA, REGLA_DE_IDIOMA_DESCIFRAR]) {
+      expect(regla).toContain('GÉNERO (regla obligatoria)');
+      expect(regla).toContain('NUNCA lo deduces por el nombre');
+    }
+  });
+
+  it('ningún prompt manda hablar «en femenino» a la persona usuaria', () => {
+    for (const ruta of RUTAS_CON_IA) {
+      const codigo = fs.readFileSync(path.join(RAIZ, 'app', 'api', ruta, 'route.ts'), 'utf8');
+      expect(codigo, ruta).not.toMatch(/en femenino/i);
+    }
+  });
+
+  it('las etiquetas del ánimo y el saludo no llevan adjetivos con género', () => {
+    const animos = fs.readFileSync(path.join(RAIZ, 'lib', 'seed-datos.ts'), 'utf8');
+    expect(animos).not.toMatch(/label: '(Ansiosa|Tranquila|Enfadada)'/);
+    const bienvenida = fs.readFileSync(path.join(RAIZ, 'components', 'app', 'BienvenidaCompra.tsx'), 'utf8');
+    expect(bienvenida).not.toContain("'Bienvenida'");
+  });
+});

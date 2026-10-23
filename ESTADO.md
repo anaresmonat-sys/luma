@@ -1271,3 +1271,8 @@ La dueña ya entra al panel (tuluma.app/admin/ventas) con anares.monat@gmail.com
 
 ## Reembolsos: segundo camino (2026-10-23)
 Según la asistente de Hotmart, el comprador SÍ puede solicitar el reembolso dentro de la garantía y el productor lo aprueba en Ventas → Reembolsos (⋮ → Aprobar). Además del camino propio (Ventas → Mis ventas → Reembolsar). Mirar Ventas → Reembolsos en Hotmart de vez en cuando. [reembolso-comprador] Sin verificar en la práctica: comprobar en una compra real si el portal del comprador ofrece «Solicitar reembolso».
+
+## Trato neutro en género (2026-10-23) — SIN PUBLICAR
+Pedro (hombre, prueba real) vio que LUMA le trataba en femenino. Causa: los prompts de IA hablaban de «la usuaria»/«ella» (numerología mandaba «en femenino») y algunos textos fijos tenían adjetivos femeninos.
+Arreglo: regla GÉNERO en REGLA_DE_IDIOMA (no deducir género por el nombre; sin adjetivos/participios con género; adaptarse si la persona dice cómo quiere que le hablen), prompts reescritos a «la persona usuaria», numerología sin «en femenino», etiquetas del diario Ansiosa/Tranquila/Enfadada → Ansiedad/Calma/Enfado (los ids guardados no cambian), saludo «Bienvenida» → «Te damos la bienvenida». Descifrar: el mensaje sugerido respeta el género con el que la persona se expresa en el chat.
+Pendiente (decisión de producto): ¿preguntar en el recorrido de inicio «¿cómo prefieres que te hable?» (ella / él / neutro)? Textos de la landing/onboarding siguen apuntando a una avatar femenina (decisión de ficha, no se ha cambiado).

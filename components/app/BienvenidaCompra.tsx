@@ -336,7 +336,7 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
                         Hola, <span className="text-[var(--accent-lite)]">{nombreFinal}</span>
                       </>
                     ) : (
-                      'Bienvenida'
+                      'Te damos la bienvenida'
                     )}
                   </h1>
                   <p className="mt-3 text-base text-[var(--text-secondary)]">Tu espacio ya está listo.</p>

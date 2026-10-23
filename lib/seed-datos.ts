@@ -16,17 +16,17 @@ export interface Emocion {
 export const EMOCIONES_INICIO: Emocion[] = [
   { id: 'bien', emoji: '😌', label: 'Bien', color: 'var(--mood-bien)' },
   { id: 'normal', emoji: '🙂', label: 'Normal', color: 'var(--mood-normal)' },
-  { id: 'ansiosa', emoji: '😰', label: 'Ansiosa', color: 'var(--mood-ansiosa)' },
+  { id: 'ansiosa', emoji: '😰', label: 'Ansiedad', color: 'var(--mood-ansiosa)' },
   { id: 'triste', emoji: '😢', label: 'Triste', color: 'var(--mood-triste)' },
   { id: 'ilusion', emoji: '🥰', label: 'Ilusión', color: 'var(--mood-ilusion)' },
 ];
 
 export const EMOCIONES_DIARIO: Emocion[] = [
   { id: 'feliz', emoji: '😄', label: 'Feliz', color: 'var(--mood-normal)' },
-  { id: 'tranquila', emoji: '😌', label: 'Tranquila', color: 'var(--mood-bien)' },
-  { id: 'ansiosa', emoji: '😰', label: 'Ansiosa', color: 'var(--mood-ansiosa)' },
+  { id: 'tranquila', emoji: '😌', label: 'Calma', color: 'var(--mood-bien)' },
+  { id: 'ansiosa', emoji: '😰', label: 'Ansiedad', color: 'var(--mood-ansiosa)' },
   { id: 'triste', emoji: '😢', label: 'Triste', color: 'var(--mood-triste)' },
-  { id: 'enfadada', emoji: '😠', label: 'Enfadada', color: 'var(--mood-enfadada)' },
+  { id: 'enfadada', emoji: '😠', label: 'Enfado', color: 'var(--mood-enfadada)' },
 ];
 
 export const CARTA_DEL_DIA = {

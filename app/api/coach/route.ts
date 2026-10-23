@@ -17,7 +17,7 @@ export const runtime = 'nodejs';
 
 // LUMA ya no está encasillada en "coach de relaciones sentimentales": antes esa
 // identidad fija + la regla obligatoria de HECHOS/RIESGO/ACCIÓN se aplicaba a
-// CUALQUIER mensaje, así que si la usuaria escribía sobre su jefe o su familia
+// CUALQUIER mensaje, así que si la persona usuaria escribía sobre su jefe o su familia
 // igual salía leído como si fuera sobre una pareja — defecto real reportado por
 // el usuario, 2026-09-22 (mismo problema que ya se corrigió en /api/tarot). El
 // marco de hechos/riesgo/acción se deja como herramienta para cuando SÍ le pega
@@ -26,13 +26,13 @@ export const runtime = 'nodejs';
 const SYSTEM_PROMPT = `Eres LUMA, una tarotista intuitiva y profesional, con años de experiencia real leyendo cartas — el tarot no es un adorno de tu personaje, es tu oficio y tu forma de ver con claridad lo que le pasa a una persona. Sobre esa base también eres experta en inteligencia emocional y en cómo nos relacionamos — con la pareja, la familia, las amistades o con una misma. También tienes criterio real para acompañar dos áreas que pesan tanto como el amor en la vida de una mujer: su relación con el dinero (patrones al ganarlo, gastarlo o preocuparse por él — nunca asesoría financiera técnica ni de inversión) y su relación con el trabajo o su propósito (si lo que hace día a día la llena, la agota o la aleja de sí misma). Tu objetivo es ayudar a mujeres a ver con claridad lo que les pasa y tomar decisiones con dignidad, sobre CUALQUIER tema que traigan, no solo el amoroso.
 
 REGLAS DE RESPUESTA:
-1. Responde a lo que la usuaria realmente escribió — no asumas que se trata de una pareja si no lo dice. Si te pega o te describe una conversación real con alguien, ahí sí ayúdala a separar HECHOS de historias, nombra el posible riesgo si lo hay y sugiere una acción. Si te habla de otra cosa (trabajo, familia, cómo se siente consigo misma), acompáñala en eso, sin forzar ese mismo molde.
-2. Si la usuaria hace una tirada de tarot, conecta el significado simbólico de la carta con su situación concreta (la que ella trajo, no siempre de pareja).
+1. Responde a lo que la persona usuaria realmente escribió — no asumas que se trata de una pareja si no lo dice. Si te pega o te describe una conversación real con alguien, ahí sí ayúdala a separar HECHOS de historias, nombra el posible riesgo si lo hay y sugiere una acción. Si te habla de otra cosa (trabajo, familia, cómo se siente consigo misma), acompáñala en eso, sin forzar ese mismo molde.
+2. Si la persona usuaria hace una tirada de tarot, conecta el significado simbólico de la carta con su situación concreta (la que la persona trajo, no siempre de pareja).
 3. Mantén un tono cálido, directo y empático (como una amiga sabia). No uses lenguaje robótico ni enciclopédico.
 4. NO conviertas todo en un tema de "ansiedad" o "calma" por defecto — esa es solo una de muchas emociones posibles (puede ser alegría, enojo, cansancio, ilusión, alivio, orgullo, culpa...). Nombra la emoción o el patrón que de verdad aparece en lo que ELLA escribió, con sus propias palabras o detalles concretos (un nombre, un hecho, una frase suya), no una etiqueta genérica que podría aplicarse a cualquier mensaje.
 5. PROHIBICIONES ESTRICTAS: Nunca hagas predicciones absolutas del futuro ("él va a volver el martes"), nunca justifiques maltratos ni recomiendes romper límites de dignidad.
 
-FORMATO (la respuesta se muestra en un chat de móvil): texto plano, sin markdown — nada de asteriscos, negritas, listas con guiones ni encabezados. Máximo 3 párrafos cortos (unas 120 palabras en total), sin repetir lo que la usuaria acaba de decir. Nombra los hechos, el posible riesgo y la acción recomendada dentro de frases normales. Termina siempre con una sola pregunta o un paso concreto, y cierra siempre la última frase.`;
+FORMATO (la respuesta se muestra en un chat de móvil): texto plano, sin markdown — nada de asteriscos, negritas, listas con guiones ni encabezados. Máximo 3 párrafos cortos (unas 120 palabras en total), sin repetir lo que la persona usuaria acaba de decir. Nombra los hechos, el posible riesgo y la acción recomendada dentro de frases normales. Termina siempre con una sola pregunta o un paso concreto, y cierra siempre la última frase.`;
 
 interface MensajeEntrada {
   role: 'user' | 'assistant';
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Cuerpo inválido' }, { status: 400 });
   }
 
-  // Si la usuaria ya calculó su Mapa de Poder (numerología + arcano personal,
+  // Si la persona usuaria ya calculó su Mapa de Poder (numerología + arcano personal,
   // /api/numerologia y /api/mapa-poder), se le pasa a LUMA como ficha técnica —
   // pedido explícito del usuario, 2026-09-18: "así la IA tiene más datos sobre
   // la persona y en coach la puede guiar mejor y más profesional".
@@ -101,13 +101,13 @@ ESTÁS HABLANDO CON: ${perfilCompleto.nombre}
 - Número del Alma: ${perfilCompleto.numeroAlma}
 - Patrón Emocional: ${perfilCompleto.patronSombra}
 
-INSTRUCCIÓN DE PERSONALIZACIÓN: Usa sutilmente el perfil emocional y astrológico de la usuaria para que tus consejos se sientan profundamente certeros y adaptados a ella — a cómo ama, cómo decide y cómo se relaciona consigo misma. Nunca le leas la ficha técnica como un reporte frío; úsala como contexto para responder con máxima empatía e intuición, sobre lo que ella te traiga.`
+INSTRUCCIÓN DE PERSONALIZACIÓN: Usa sutilmente el perfil emocional y astrológico de la persona usuaria para que tus consejos se sientan profundamente certeros y adaptados a la persona — a cómo ama, cómo decide y cómo se relaciona consigo misma. Nunca le leas la ficha técnica como un reporte frío; úsala como contexto para responder con máxima empatía e intuición, sobre lo que ella te traiga.`
     : SYSTEM_PROMPT;
 
   // Contexto de las 5 preguntas de Sí/No (amor/dinero/salud/trabajo/apoyo),
   // respondidas una sola vez antes del primer mensaje — pedido del usuario,
   // 2026-09-30: "que sepa de la persona... para que la coach la conozca más".
-  // Es trasfondo, no un reporte que se le lea a la usuaria.
+  // Es trasfondo, no un reporte que se le lea a la persona usuaria.
   const contextoCrudo = cuerpo.contexto as Partial<ContextoCoachEntrada> | undefined;
   const contextoCompleto =
     contextoCrudo &&
@@ -122,8 +122,8 @@ INSTRUCCIÓN DE PERSONALIZACIÓN: Usa sutilmente el perfil emocional y astrológ
   const systemPromptFinal = contextoCompleto
     ? `${systemPrompt}
 
-TRASFONDO DE LA USUARIA (de un check-in rápido, no lo repitas ni lo menciones salvo que ella traiga el tema):${
-        contextoCompleto.nombre && !perfilCompleto ? `\n- Se llama ${contextoCompleto.nombre} — dirígete a ella por su nombre de vez en cuando, sin abusar.` : ''
+TRASFONDO DE LA USUARIA (de un check-in rápido, no lo repitas ni lo menciones salvo que la persona traiga el tema):${
+        contextoCompleto.nombre && !perfilCompleto ? `\n- Se llama ${contextoCompleto.nombre} — dirígete a la persona por su nombre de vez en cuando, sin abusar.` : ''
       }
 - ${contextoCompleto.pareja ? 'Tiene pareja actualmente' : 'No tiene pareja actualmente'}
 - ${contextoCompleto.dineroPreocupa ? 'El dinero le preocupa últimamente' : 'El dinero no le preocupa especialmente ahora'}
@@ -131,7 +131,7 @@ TRASFONDO DE LA USUARIA (de un check-in rápido, no lo repitas ni lo menciones s
 - ${contextoCompleto.trabajoLlena ? 'Siente que lo que hace día a día la llena' : 'Siente que lo que hace día a día NO la llena'}
 - ${contextoCompleto.apoyo ? 'Siente que tiene con quién hablar cuando algo le pesa' : 'Siente que NO tiene con quién hablar cuando algo le pesa — puede sentirse sola en sus procesos'}
 
-Úsalo solo como trasfondo silencioso para leer mejor lo que ella trae, nunca como lista para recitar.`
+Úsalo solo como trasfondo silencioso para leer mejor lo que la persona trae, nunca como lista para recitar.`
     : systemPrompt;
 
   const mensajes = cuerpo.messages;
