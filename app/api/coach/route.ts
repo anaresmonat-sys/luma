@@ -7,6 +7,8 @@
 
 import { NextResponse } from 'next/server';
 import { clienteAnthropic, AI_MODEL, REGLA_DE_IDIOMA } from '@/lib/anthropic';
+import { instruccionDeTrato } from '@/lib/trato';
+import { leerTrato } from '@/lib/trato-servidor';
 import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
@@ -173,7 +175,7 @@ TRASFONDO DE LA USUARIA (de un check-in rápido, no lo repitas ni lo menciones s
       // devolvía el texto cortado o vacío (visto en Tarot 3 cartas y en Descifrar, 2026-10-13).
       thinking: { type: 'disabled' },
       max_tokens: 600,
-      system: systemPromptFinal + REGLA_DE_IDIOMA,
+      system: systemPromptFinal + REGLA_DE_IDIOMA + instruccionDeTrato(await leerTrato()),
       messages: historial,
     });
 

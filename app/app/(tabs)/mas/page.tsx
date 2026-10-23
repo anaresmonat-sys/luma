@@ -22,6 +22,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
 import { Bell, Cookie, CreditCard, FileText, LifeBuoy, Lock, Sparkles, Undo2, User } from 'lucide-react';
+import { SelectorTrato } from '@/components/app/SelectorTrato';
+import { esTrato, type Trato } from '@/lib/trato';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { pruebaGratisDisponible } from '@/lib/prueba-gratis';
 
@@ -44,6 +46,7 @@ export default function MasPage() {
   const [conSesion, setConSesion] = useState(false);
   const [correo, setCorreo] = useState<string | null>(null);
   const [nombre, setNombre] = useState<string | null>(null);
+  const [trato, setTrato] = useState<Trato | null>(null);
   const [cerrando, setCerrando] = useState(false);
   const [gratisDisponible, setGratisDisponible] = useState(true);
   const [conPlan, setConPlan] = useState(false);
@@ -82,7 +85,9 @@ export default function MasPage() {
       if (user) {
         // Lo que la persona eligió en la bienvenida ("¿Cómo quieres que te llame?") manda sobre el nombre
         // completo del Mapa de Poder: es como ella pidió que LUMA la llame.
-        const apodo = (user.user_metadata as { apodo?: string } | null)?.apodo;
+        const meta = user.user_metadata as { apodo?: string; trato?: unknown } | null;
+        if (!cancelado && esTrato(meta?.trato)) setTrato(meta.trato);
+        const apodo = meta?.apodo;
         if (apodo) {
           if (!cancelado) setNombre(apodo);
         } else {
@@ -95,6 +100,15 @@ export default function MasPage() {
       cancelado = true;
     };
   }, []);
+
+  async function elegirTrato(nuevo: Trato) {
+    setTrato(nuevo);
+    try {
+      await crearClienteNavegador().auth.updateUser({ data: { trato: nuevo } });
+    } catch {
+      // sin conexión: la elección se verá de nuevo al reintentar.
+    }
+  }
 
   function tocarProximamente(label: string) {
     setAviso(label);
@@ -170,6 +184,16 @@ export default function MasPage() {
           )}
         </div>
       </div>
+
+      {conSesion && (
+        <div className="mt-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--text-tertiary)_22%,transparent)] bg-[var(--surface)] p-4">
+          <p className="text-sm font-semibold text-[var(--text-primary)]">Cómo te hablo</p>
+          <p className="mt-1 text-xs text-[var(--text-secondary)]">Así te trata LUMA en sus respuestas.</p>
+          <div className="mt-3">
+            <SelectorTrato valor={trato} onCambio={elegirTrato} aria="Cómo prefieres que te hable LUMA" />
+          </div>
+        </div>
+      )}
 
       <div className="mt-auto h-5 shrink-0 pt-4">
         <AnimatePresence>

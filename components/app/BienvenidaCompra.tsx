@@ -11,6 +11,8 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { SelectorTrato } from '@/components/app/SelectorTrato';
+import type { Trato } from '@/lib/trato';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { leerContextoCoach } from '@/lib/almacenamiento-contexto-coach';
 import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
@@ -102,6 +104,7 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
   const [fase, setFase] = useState<'nombre' | 'saludo'>('nombre');
   const [nombre, setNombre] = useState('');
   const [aviso, setAviso] = useState(false);
+  const [trato, setTrato] = useState<Trato | null>(null);
 
   useEffect(() => {
     let cancelado = false;
@@ -174,9 +177,9 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
     }
     if (limpio) {
       onNombre?.(limpio);
-      void guardar({ apodo: limpio, bienvenida_hecha: true });
+      void guardar({ apodo: limpio, bienvenida_hecha: true, trato: trato ?? 'neutro' });
     } else {
-      void guardar({ bienvenida_hecha: true });
+      void guardar({ bienvenida_hecha: true, trato: trato ?? 'neutro' });
     }
     setNombre(limpio);
     setFase('saludo');
@@ -287,6 +290,11 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
                     <p className="mt-3 text-center text-sm text-[var(--text-secondary)]">
                       Puede ser tu nombre o un apodo.
                     </p>
+                    <p className="mt-5 text-center text-sm font-semibold text-[var(--text-primary)]">¿Cómo prefieres que te hable LUMA?</p>
+                    <div className="mt-2">
+                      <SelectorTrato valor={trato} onCambio={setTrato} aria="Cómo prefieres que te hable LUMA" />
+                    </div>
+                    <p className="mt-2 text-center text-xs text-[var(--text-tertiary)]">Puedes cambiarlo cuando quieras, en Más.</p>
                     <p role="status" className="mt-1 h-5 text-center text-sm font-semibold text-[var(--an-risk)]">
                       {aviso ? 'Escribe cómo quieres que te llame.' : ''}
                     </p>
