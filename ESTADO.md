@@ -1268,3 +1268,6 @@ Endpoint de Hotmart (texto pegado por la dueña): PUT /payments/api/v1/sales/{tr
 ## Panel Admin → Ventas depurado (2026-10-23) — SIN PUBLICAR
 Dos filas de prueba antiguas («pendientes» compra2 y tradingmargarita, ya canceladas en Hotmart) marcadas como resueltas (`prueba_antigua_ya_cancelada`). El bloque «Ingresos y suscripciones» decía que el webhook no estaba conectado (falso): ahora muestra conteos reales de suscripciones (con acceso mensual/anual/cortesía, canceladas, reembolsadas, sin acceso). Dinero y ventas exactas → Hotmart → Ventas.
 La dueña ya entra al panel (tuluma.app/admin/ventas) con anares.monat@gmail.com.
+
+## Reembolsos: segundo camino (2026-10-23)
+Según la asistente de Hotmart, el comprador SÍ puede solicitar el reembolso dentro de la garantía y el productor lo aprueba en Ventas → Reembolsos (⋮ → Aprobar). Además del camino propio (Ventas → Mis ventas → Reembolsar). Mirar Ventas → Reembolsos en Hotmart de vez en cuando. [reembolso-comprador] Sin verificar en la práctica: comprobar en una compra real si el portal del comprador ofrece «Solicitar reembolso».
