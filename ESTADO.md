@@ -1283,3 +1283,9 @@ Sin verificar en pantalla con sesión real (bienvenida y tarjeta de Más requier
 
 ## Idea de segunda app de tarot (2026-10-24)
 Opinión dada: no lanzar una segunda app antes de que LUMA tenga clientas de pago; hacer un experimento de 2 semanas con una página gratuita «tarot del día» (sin IA, coste 0) que lleve a LUMA. Plan en docs/experimentos/tarot-del-dia.md (NO construido; va después de cerrar Pedro, compra anual y Vercel Pro). Umbral de decisión propuesto: >1.000 visitas y ≥15 % pasa a LUMA.
+
+## Página estática de marketing «Tu carta del día» — PUBLICADA (2026-10-24)
+URL final (la que se da a Marketing y se pone en TikTok): **https://tu-carta-del-dia.vercel.app**
+Proyecto Vercel NUEVO `tu-carta-del-dia` (id prj_aqL5CY04iKfGC7gdMOyWM8lJ8V81) en el equipo LUMA (luma-e7c1, Hobby), independiente de `luma` y de tuluma.app (no tocados). Código: C:\Users\anare\Downloads\claude\LUMA-MARKETING\pagina-tirada-publicar (index.html + cartas/ con 12 .webp). Sin analítica, cookies ni base de datos (solo localStorage del navegador con la carta de hoy). Protección de Vercel DESACTIVADA (ssoProtection null): pública. Contiene `noindex` (Google no la muestra). Existe también el alias automático tu-carta-del-dia-luma-e7c1.vercel.app (lleva «luma», no usar).
+Para actualizar: iniciar sesión en Vercel CLI (`vercel login`, aprobación en el navegador, sin pegar claves), `vercel deploy --prod --scope luma-e7c1` desde esa carpeta (ya enlazada en .vercel). La sesión CLI se cerró (logout) tras publicar.
+Detalle de contenido anotado: El Ermitaño dice «no es estar sola» (femenino). La página «tarot del día» dentro de tuluma.app NO se construyó (la sustituye esta).
