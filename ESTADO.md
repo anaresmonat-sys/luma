@@ -1280,3 +1280,6 @@ Pendiente (decisión de producto): ¿preguntar en el recorrido de inicio «¿có
 ## «Cómo prefieres que te hable LUMA» (2026-10-23) — SIN PUBLICAR
 Selector Ella · Él · Sin género (components/app/SelectorTrato.tsx): en la bienvenida tras comprar (junto al nombre, opcional → «Sin género») y en Más → «Cómo te hablo» (solo con sesión). Se guarda en user_metadata.trato. Las 6 funciones de IA lo leen en el servidor (lib/trato-servidor.ts) y añaden `instruccionDeTrato()` al prompt: ella → femenino, él → masculino, sin elección → regla neutra. Nunca se deduce por el nombre. Pruebas: tests/trato.test.ts (49 en total).
 Sin verificar en pantalla con sesión real (bienvenida y tarjeta de Más requieren cuenta): comprobar tras publicar.
+
+## Idea de segunda app de tarot (2026-10-24)
+Opinión dada: no lanzar una segunda app antes de que LUMA tenga clientas de pago; hacer un experimento de 2 semanas con una página gratuita «tarot del día» (sin IA, coste 0) que lleve a LUMA. Plan en docs/experimentos/tarot-del-dia.md (NO construido; va después de cerrar Pedro, compra anual y Vercel Pro). Umbral de decisión propuesto: >1.000 visitas y ≥15 % pasa a LUMA.
