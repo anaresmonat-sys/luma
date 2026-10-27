@@ -19,3 +19,6 @@ NO verificado (cuenta como 0 en el certificado):
 ## Actualización 2026-10-27
 Verificado desde el examen anterior: cancelación automática por API con compra real (Hotmart la marca «Cancelada por el vendedor», acceso hasta fin de prueba); `PURCHASE_CANCELED` ya no regala acceso (fallo real corregido 23-oct, publicado); regla de acceso por fecha de prueba; `HOTMART_PRODUCT_ID` creado (8610914) en Vercel; `PRUEBA_SERVIDOR` no existe (controles activos); webhook cerrado sin clave (16 pruebas de recorrido en producción).
 SIGUE SIN VERIFICAR: compra real del plan anual (el intento del 22-oct no se completó en el banco; hay que repetirlo para validar HOTMART_PRODUCT_ID con una compra real), pago rechazado/past_due real, reembolso real (por panel o por API), contracargo, compra con otro correo, trial anual, aviso previo al cobro (no existe), hora exacta del primer cobro (Hotmart no la da).
+
+## Ciclo de cancelación en prueba: VERIFICADO de principio a fin (2026-10-27)
+Compra real con prueba gratis → cancelación desde la app (API de Hotmart, 1 s) → «Cancelada por el vendedor» → acceso hasta el día 3 → bloqueo en el club de Hotmart al terminar la prueba. Confirmado por la dueña.

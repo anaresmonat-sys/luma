@@ -1305,3 +1305,6 @@ Veredictos del revisor visual de hoy: landing LISTA 36/40·16/20·19/20 (r15) ·
 Cambios SIN PUBLICAR (commits locales hasta 868bc3b): zod (npm audit 0), inicio con 2 bloques de texto, planes (nota de una línea, precio con transición, flechas del teclado, spinner, «Pago seguro» junto al botón), landing (ahorro en US$, garantía aparte), pruebas (17 de recorrido; la de las flechas pasa tras publicar).
 Camino a ≥80: Vercel Pro + Supabase Pro · compra anual y reembolso reales · revisión legal · correo del día 2 y reintentos · LCP <2,5 s.
 [veredicto:landing] [veredicto:onboarding] [veredicto:paywall] Los tres veredictos están en LISTA hoy; el aviso de «caducado» del sistema se debe a que se tocaron archivos de planes DESPUÉS de revisar la landing y el inicio (sus pantallas no cambiaron).
+
+## ✔ Pedro comprobado (2026-10-27)
+La dueña confirma: Pedro figura «Bloqueado por pago» en el club de Hotmart y cancelado. Prueba de cancelación automática cerrada de principio a fin (botón → Hotmart «Cancelada por el vendedor» → acceso hasta el fin de la prueba → bloqueo). Falta solo confirmar que no hubo cobro en Hotmart → Ventas (la dueña dijo «hecho y cancelado»).
