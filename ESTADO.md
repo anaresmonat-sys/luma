@@ -1298,3 +1298,10 @@ Revisor visual (capturas nuevas a 375 px): ronda 1 → landing 34/40·16/20·18/
 Arreglos hechos tras ese veredicto (SIN PUBLICAR): onboarding con 2 bloques de texto (aviso de privacidad fundido con «Aquí nadie te juzga»); planes: nota de precios en una línea, sin repetir «Cancelas cuando quieras», «Ahora no» con más contraste; landing: «Ahorras US$29,89 frente al plan mensual» y garantía en su propio párrafo. Ronda 2 de los tres revisores lanzada.
 Aceptado/pendiente para después [veredicto:paywall] [veredicto:landing]: animar el cambio de precio, agrandar la carta de marca, botón «Limpiar» en la calculadora, contador del carrusel, conteo animado del 94 %.
 Nota: el revisor de la landing sobrescribió por error su archivo de veredictos y lo reconstruyó (cambió 1 línea de redacción de una ronda antigua; el resto intacto).
+
+## ✅ EXAMEN /pre-lanzamiento 2 — CERRADO 2026-10-27 — NO APTO · 68/100 (antes 56)
+VENTA 17/20 · FUNNEL 16/20 · PRODUCTO 14/20 · CONFIANZA 8/15 · VELOCIDAD 6/10 · RETENCIÓN 7/15. Detalle y evidencia: docs/release/CERTIFICADO-2026-10-27.md.
+Veredictos del revisor visual de hoy: landing LISTA 36/40·16/20·19/20 (r15) · inicio LISTA 36/40·16/20·16/20 (r19) · planes LISTA 36/40·16/20·16/20 (r18, spinner + flechas del teclado).
+Cambios SIN PUBLICAR (commits locales hasta 868bc3b): zod (npm audit 0), inicio con 2 bloques de texto, planes (nota de una línea, precio con transición, flechas del teclado, spinner, «Pago seguro» junto al botón), landing (ahorro en US$, garantía aparte), pruebas (17 de recorrido; la de las flechas pasa tras publicar).
+Camino a ≥80: Vercel Pro + Supabase Pro · compra anual y reembolso reales · revisión legal · correo del día 2 y reintentos · LCP <2,5 s.
+[veredicto:landing] [veredicto:onboarding] [veredicto:paywall] Los tres veredictos están en LISTA hoy; el aviso de «caducado» del sistema se debe a que se tocaron archivos de planes DESPUÉS de revisar la landing y el inicio (sus pantallas no cambiaron).
