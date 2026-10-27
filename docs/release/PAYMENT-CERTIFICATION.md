@@ -15,3 +15,7 @@ NO verificado (cuenta como 0 en el certificado):
 - Que HOTMART_PRODUCT_ID esté definido en Vercel (no hay acceso de lectura al proyecto).
 - No hay allowlist de oferta/importe/moneda (solo de producto).
 - No hay aviso previo al cobro ni correo de pagos fallidos propios (Hotmart reintenta por su cuenta).
+
+## Actualización 2026-10-27
+Verificado desde el examen anterior: cancelación automática por API con compra real (Hotmart la marca «Cancelada por el vendedor», acceso hasta fin de prueba); `PURCHASE_CANCELED` ya no regala acceso (fallo real corregido 23-oct, publicado); regla de acceso por fecha de prueba; `HOTMART_PRODUCT_ID` creado (8610914) en Vercel; `PRUEBA_SERVIDOR` no existe (controles activos); webhook cerrado sin clave (16 pruebas de recorrido en producción).
+SIGUE SIN VERIFICAR: compra real del plan anual (el intento del 22-oct no se completó en el banco; hay que repetirlo para validar HOTMART_PRODUCT_ID con una compra real), pago rechazado/past_due real, reembolso real (por panel o por API), contracargo, compra con otro correo, trial anual, aviso previo al cobro (no existe), hora exacta del primer cobro (Hotmart no la da).

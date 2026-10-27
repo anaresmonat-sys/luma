@@ -1,12 +1,14 @@
 {
   "app": "LUMA",
-  "git_sha": "1252fd5fa43e4aaaa524b441b10c5fd057061d8d",
-  "git_sha_nota": "commit local base del examen; los cambios del examen (CSP, robots, sitemap, OG, /api/version) están sin confirmar ni publicar",
-  "deployment_id": "NO VERIFICADO (el conector de Vercel no ve el proyecto)",
+  "examen": "2026-10-27",
+  "git_sha_repositorio": "1bbc667187df1420fd61c1ef7ec4a76dd1046a9d",
+  "commit_en_produccion": "dc53957 (comprobado en https://www.tuluma.app/api/version el 2026-10-27)",
+  "commits_locales_sin_publicar": "solo documentación y el arreglo de zod en package-lock.json (1bbc667); pendiente de «publica»",
+  "deployment_id": "NO VERIFICADO (el conector de Vercel no ve el proyecto; el plan es Hobby)",
   "production_url": "https://www.tuluma.app",
-  "ultimo_publicado_en_produccion": "f7f2d4a",
-  "migraciones_nuevas": ["20261020_indices_fk_error_log_y_payment_transactions"],
-  "migraciones_en_repo": "solo la nueva; las 13 anteriores existen en Supabase pero NO están en el repo",
-  "built_at": "2026-10-20",
-  "evidence": ["docs/release/*.md", "tests/ (22 pruebas)", "docs/revisiones/"]
+  "otras_urls": ["https://tu-carta-del-dia.vercel.app (página estática de marketing, proyecto aparte)"],
+  "migraciones_nuevas": ["20261020_indices_fk", "20261022_solicitudes_de_cancelacion", "20261022_tipo_en_solicitudes"],
+  "migraciones_en_repo": "solo las 3 nuevas; las 13 anteriores existen en Supabase pero NO están en el repo",
+  "built_at": "2026-10-27",
+  "evidencia": ["docs/release/*.md", "tests/ (49 unitarias + 16 de recorrido)", "docs/release/lighthouse/", "docs/revisiones/"]
 }
