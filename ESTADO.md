@@ -1307,4 +1307,6 @@ Camino a ≥80: Vercel Pro + Supabase Pro · compra anual y reembolso reales · 
 [veredicto:landing] [veredicto:onboarding] [veredicto:paywall] Los tres veredictos están en LISTA hoy; el aviso de «caducado» del sistema se debe a que se tocaron archivos de planes DESPUÉS de revisar la landing y el inicio (sus pantallas no cambiaron).
 
 ## ✔ Pedro comprobado (2026-10-27)
-La dueña confirma: Pedro figura «Bloqueado por pago» en el club de Hotmart y cancelado. Prueba de cancelación automática cerrada de principio a fin (botón → Hotmart «Cancelada por el vendedor» → acceso hasta el fin de la prueba → bloqueo). Falta solo confirmar que no hubo cobro en Hotmart → Ventas (la dueña dijo «hecho y cancelado»).
+La dueña confirma: Pedro figura «Bloqueado por pago» en el club de Hotmart y cancelado. Prueba de cancelación automática cerrada de principio a fin (botón → Hotmart «Cancelada por el vendedor» → acceso hasta el fin de la prueba → bloqueo). Sin cobros confirmado.
+
+Confirmado por la dueña (2026-10-27): Pedro NO tuvo ningún cobro en Hotmart → Ventas. Ciclo de cancelación en prueba cerrado y sin cargos.
