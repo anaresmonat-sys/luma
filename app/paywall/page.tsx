@@ -202,7 +202,7 @@ export default function PaywallLuma() {
             onSeleccionar={setSeleccionado}
           />
           <p className="mt-3 text-center text-[13px] leading-snug text-[var(--text-secondary)]">
-            * Precios en dólares (US$). Después de la prueba se cobra tu plan, más impuestos y en tu moneda local. Cancelas cuando quieras.
+            * Precios en US$, más impuestos y en tu moneda local.
           </p>
         </motion.div>
 
@@ -236,7 +236,7 @@ export default function PaywallLuma() {
           <div className="mt-2 flex items-center justify-center gap-2">
             <a
               href="/"
-              className="flex min-h-11 items-center px-3 text-[13px] font-medium text-[var(--text-tertiary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              className="flex min-h-11 items-center px-3 text-[13px] font-medium text-[var(--text-secondary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
               Ahora no
             </a>

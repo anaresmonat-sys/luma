@@ -298,7 +298,7 @@ Verificación de los defectos de la Ronda 11:
 Verificación de los cambios de la Ronda 12:
 - Garantía "15 días desde que empiezas tu prueba": CONFIRMADO consistente en page.tsx (notaCompra línea 192, Garantia línea 231, FAQ #5 línea 261, PS línea 273) y en landing-r12-5 y landing-r12-6 ("15 días de garantía desde que empiezas"). Cero restos de "desde el primer cobro".
 - Carrusel de 8 pantallas: CONFIRMADO en page.tsx (inicio, descifrar "Hechos, riesgo y qué responder", coach, tarot-temas, tarot, compatibilidad, mapa-poder, diario) con captions en lenguaje del usuario. En la captura solo se ve la pantalla "Inicio" (incluye emojis de ánimo dentro del mockup de la app, permitidos por la ficha: multicolor de emoción) y 6 puntos visibles (de 8: el resto queda bajo el badge dev). Las otras 7 no se pudieron comprobar a nivel de píxel, y "?v=" de caché presente en todas.
-- Botón "Ver mi análisis completo": CONFIRMADO en SinergiaCirculo.tsx línea 207, href `/onboarding?ayuda=compatibilidad&tu=${signoA}&su=${signoB}`. Verificado el cableado en código; el destino (que /onboarding consuma ayuda=compatibilidad&tu&su) NO se verificó en esta ronda.
+- Botón "Ver mi análisis completo": CONFIRMADO el cableado en código, SinergiaCirculo.tsx línea 207, href `/onboarding?ayuda=compatibilidad&tu=${signoA}&su=${signoB}`. El destino (que /onboarding consuma ayuda=compatibilidad&tu&su) NO se verificó en esta ronda.
 - Decisiones de la dueña respetadas, no puntuadas: etiqueta "Elige la lectura que más te vibre", sus 4 píldoras y badge "3 DÍAS DE PRUEBA" en ambas tarjetas.
 Verificado en código: CtaButton whileTap 0.97, nunca disabled; useReducedMotion en carrusel, reveal, calculadora y HeroDemoLuma; aria-live en la sinergia; sin undo/limpiar en la calculadora ni celebración de hito; la landing no cuenta números propios.
 Gate de carga cognitiva: 1 falla de 8 (hero: CTA + 4 píldoras + "Entrar"). No es sobrecarga.
@@ -309,3 +309,55 @@ Top defectos:
 3. [Evidencia, las 6 capturas] El overlay dev "1 Issue" tapa la flecha izquierda del carrusel, parte del título de Mensual y de la pregunta 2 del FAQ y el copyright del pie → fix: recapturar con el overlay desactivado (build de producción) y añadir una captura de la nota de compra y de 2-3 pantallas más del carrusel (Descifrar con "Qué responder", Sinergia).
 4. [Carrusel, 8 pantallas con 8 puntos] Puntos de ~8px y 8 pasos para ver todo: el usuario que quiere ver "Descifrar" (la Big Idea) llega en el 2.º, pero el resto es opcional; sin contador textual "1 de 8" no se sabe cuánto falta → fix: sumar "1 / 8" junto a los puntos o reducir a 6 pantallas.
 5. [Craft general] Sin conteo animado propio ni celebración de hito ni dispositivo firma repetido; los cuatro ejes se quedan en 3 → fix: conteo animado del % de sinergia al entrar en vista y la carta de tarot con resplandor como separador entre secciones.
+
+---
+
+# VEREDICTO revisor-visual — landing (Ronda 13 · precios en US$ con nota de moneda, titular con fade CSS, logo más liviano)
+Fecha: 2026-10-27 00:00
+Screenshot: docs/revisiones/landing-375-parte1.png a landing-375-parte6.png (6 tramos a 375px; Problema, Agitación, Solución, Sinergia y FAQ revisados en captura; Garantía y FAQ vistos solo en parte; CtaFinal y pie NO aparecen en ninguna captura)
+Usabilidad: 34/40
+Craft: 16/20
+Copy (si vende): 18/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:4 h5:4 h6:4 h7:3 h8:3 h9:3 h10:4
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:4 (vino/oro y Cormorant + Hanken coinciden con FICHA-ARTE; sin clon vetado)
+Detalle copy: idea:4 especificidad:3 emoción:4 oferta:3 acción:4 (sin testimonios ni cifra verificable: la ficha lo declara)
+Verificación de los cambios de esta ronda:
+- Precios en US$ con nota de moneda: CONFIRMADO en parte4/5 ("US$7,50*", "Se cobra US$89,99/año*", "US$9,99*" y nota "* Precios en dólares (US$) y sin impuestos: el importe final, con los impuestos y en la moneda de tu país, lo ves en la página de pago"). Resuelve la ambigüedad de moneda. La nota sigue pegada a "Garantía de 15 días… Pago seguro con Hotmart" en el mismo bloque, ahora de 5 líneas a 13px.
+- Fade del titular: CONFIRMADO en código (keyframes luma-fade-in en globals.css con bloque prefers-reduced-motion); en parte1 el titular se ve completo y sin salto.
+- Logo más liviano: CONFIRMADO en parte1 (isotipo y wordmark finos, "Entrar" en gris sobrio); el peso ya no compite con el titular.
+Verificado en código: sin regresiones de CtaButton (whileTap 0.97, nunca disabled), reduced-motion presente. Sin undo/limpiar en la calculadora, sin celebración de hito.
+Gate de carga cognitiva: 1 falla de 8 (hero: CTA + 4 píldoras + "Entrar"). No es sobrecarga.
+Top defectos:
+1. [Oferta, tarjeta Anual (parte4, bajo el precio): "3 meses gratis"] Junto a la insignia "3 DÍAS DE PRUEBA" aparece otro "gratis" con significado distinto (ahorro anual vs prueba) y sin base visible (US$89,99 vs 12 x 9,99); reabre la confusión de "gratis" que las rondas 8-11 cerraron, y es una promesa de precio no verificable a simple vista → fix: reemplazar por "Ahorras US$29,89 frente al plan mensual" (o "pagas 9 meses de 12").
+2. [Evidencia, parte6] La captura final está rota: tras 2 preguntas del FAQ se pega de nuevo la cabecera y el hero completo (duplicado), y NO se ve CtaFinal ni pie/legales; el header "LUMA · Entrar" se superpone a la tercera pregunta → fix: recapturar la página completa con cabecera no fija y añadir el tramo del cierre y del pie; sin eso no se verifica la mitad final.
+3. [Oferta, nota bajo planes (parte5)] Bloque de 5 líneas a 13px que mezcla dólares, impuestos, moneda local, garantía y Hotmart sin saltos; sigue sin la garantía nombrada como línea propia → fix: dos párrafos: "* Precios en US$ sin impuestos; el importe final lo ves en la página de pago" / "Garantía de 15 Días desde que empiezas tu prueba · Pago seguro con Hotmart".
+4. [Usabilidad transversal] h3, h7 y h9 siguen en 3 (sin undo en la calculadora; sin atajos; sin error visible), por lo que el total queda en 34/40, 2 por debajo del gate de 36; la ronda 13 no añadió nada que suba un criterio (los cambios fueron de forma, no de función) y los criterios de R12 se sostenían en el umbral → fix: subir un criterio real (p. ej. botón "Limpiar" en la calculadora y contador "1 / 8" en el carrusel) o recapturar el cierre y demostrar h9/h10.
+5. [Craft general] Movimiento, jerarquía, profundidad e identidad siguen en 3 (sin conteo animado ni celebración, sin dispositivo firma repetido) → fix: conteo animado del 94% al entrar en vista y carta con resplandor como separador entre secciones.
+
+---
+
+# VEREDICTO revisor-visual — landing (Ronda 14 · recaptura de las 6 partes)
+Fecha: 2026-10-27 00:00
+Screenshot: docs/revisiones/landing-375-parte1.png a landing-375-parte6.png (6 tramos a 375px; hero, Problema, Agitación, Solución, Sinergia, Círculo, carrusel, Oferta, Garantía y arranque del FAQ visibles; CtaFinal y pie NO aparecen)
+Usabilidad: 34/40
+Craft: 16/20
+Copy (si vende): 18/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:4 h5:4 h6:4 h7:3 h8:3 h9:3 h10:4
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:4 (vino/oro y Cormorant + Hanken coinciden con FICHA-ARTE; sin clon vetado)
+Detalle copy: idea:4 especificidad:3 emoción:4 oferta:3 acción:4 (sin testimonios ni cifra verificable: la ficha lo declara)
+Defectos de la R13 descartados por captura: ninguno por completo. Parte1 y parte4 (hero, carrusel, planes) están correctas. Pero parte6 SIGUE rota: tras la 2.ª pregunta del FAQ reaparece "Saltar al contenido", la cabecera LUMA/Entrar superpuesta al texto de la 3.ª pregunta y el hero completo repetido; no hay CtaFinal ni pie. El defecto de evidencia de la R13 (#2) NO está resuelto.
+Defectos de contenido confirmados en esta captura y en código:
+- page.tsx línea 200: ahorro "3 meses gratis" sigue en la tarjeta Anual (parte4) junto a la insignia "3 DÍAS DE PRUEBA"; mismo "gratis" con dos significados y sin base visible.
+- La nota bajo los planes (parte5) sigue siendo un bloque de 5 líneas a 13px sin "Garantía de 15 Días" como línea propia.
+- SinergiaCirculo.tsx: sin botón de limpiar ni deshacer; h3 y h7 se mantienen en 3. Calculadora ya muestra 94% precargado (bien).
+- Menor: la tarjeta de Mensual repite un 4.º "gratis" visual con badge idéntico (decisión de la dueña, no puntuada).
+Top defectos:
+1. [Evidencia, parte6] Recaptura aún defectuosa: cabecera fija superpuesta al FAQ y hero duplicado; CtaFinal y pie sin verificar → fix: capturar con la cabecera sin position:fixed (o con scroll real por tramos) y añadir un tramo con CtaFinal y pie.
+2. [Oferta, tarjeta Anual bajo "Se cobra US$89,99/año*": "3 meses gratis"] "Gratis" con otro significado junto a "3 DÍAS DE PRUEBA" y cifra no verificable a simple vista → fix: "Ahorras US$29,89 frente al plan mensual".
+3. [Oferta, nota bajo planes (parte5)] 5 líneas de 13px que mezclan moneda, impuestos, garantía y Hotmart → fix: dos líneas: "* Precios en US$ sin impuestos; el importe final lo ves en la página de pago" / "Garantía de 15 Días desde que empiezas tu prueba · Pago seguro con Hotmart".
+4. [Usabilidad transversal] 34/40, 2 bajo el gate; ningún criterio subió desde la R13 → fix: botón "Limpiar" en la calculadora y contador "1 / 8" junto a los puntos del carrusel.
+5. [Craft general] Cuatro ejes en 3 (sin conteo animado del 94% ni dispositivo firma repetido) → fix: contar el % al entrar en vista y usar la carta con resplandor como separador entre secciones.

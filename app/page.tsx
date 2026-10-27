@@ -189,7 +189,8 @@ export default function LandingLuma() {
         kicker="Tu plan"
         tituloMarked="Menos que [acento]una consulta con tarotista o coach[/acento]"
         trialDias={3}
-        notaCompra={`* Precios en dólares (US$) y sin impuestos: el importe final, con los impuestos y en la moneda de tu país, lo ves en la página de pago antes de confirmar.
+        notaCompra={`* Precios en US$ y sin impuestos: el importe final, con impuestos y en tu moneda, lo ves en la página de pago.
+
 Garantía de 15 días desde que empiezas tu prueba · Pago seguro con Hotmart`}
         anual={{
           nombre: 'Anual',
@@ -197,7 +198,7 @@ Garantía de 15 días desde que empiezas tu prueba · Pago seguro con Hotmart`}
           precioMes: 'US$7,50*',
           sufijo: '/mes aprox.',
           totalAnual: 'Se cobra US$89,99/año*',
-          ahorro: '3 meses gratis',
+          ahorro: 'Ahorras US$29,89 frente al plan mensual',
           descomposicionDia: 'menos de $0,25 al día',
           ctaLabel: 'Empezar con el plan anual',
           ctaHref: CTA_HREF,

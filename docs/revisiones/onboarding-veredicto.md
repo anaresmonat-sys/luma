@@ -287,3 +287,50 @@ Top defectos:
 4. [Banda y≈850-1100 a 2x, entre candado y casilla] Sigue ~125 px de fondo tranquilo (decisión de diseño declarada: zona del pulgar al fondo). No cuenta como defecto nuevo pero mantiene encaje y profundidad en 3 → fix: bloom vino más visible a mitad de pantalla para que se lea como aire deliberado.
 5. [Causa del aviso, PasoEdad.tsx líneas 55-62] «Revisa tu conexión» se afirma tras un simple temporizador de 8 s; si la causa real es otra (ruta lenta, error de la función), el mensaje culpa a la usuaria sin saberlo → fix: comprobar `navigator.onLine` y solo entonces decir «conexión»; si hay red, «Algo no cargó. Toca el botón para reintentar.»
 Veredicto honesto: 35/40 y 16/20. Craft pasa. Usabilidad sigue en 35 por cuarta ronda: los cuatro defectos de la Ronda 15 están corregidos de verdad, pero ninguno cambia el criterio que lo contiene (h3 queda en 3 por la flecha apagada sin salida y h8 en 3 por los 3 bloques de texto), y el arreglo del aviso introdujo un salto de layout en el estado de error. No se sube ningún criterio sin evidencia; LISTA exige ≥36/40.
+
+# VEREDICTO revisor-visual — onboarding (Ronda 17, re-revisión)
+Fecha: 2026-10-27 12:00
+Screenshot: docs/revisiones/onboarding-375.png
+Usabilidad: 35/40
+Craft: 16/20
+Copy (si vende): 16/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:4 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:4 h10:3
+Detalle craft: jerarquia:3 profundidad:3 identidad:3 movimiento:4 encaje:3
+Detalle copy: idea:3 especificidad:3 emocion:3 oferta:3 accion:4 (puerta de edad, no vende; puntuado a pedido)
+Gate de carga cognitiva: 0 fallas en la puerta (código).
+Evidencia: la captura onboarding-375.png NO es la puerta de edad: muestra /app/descifrar (destino tras el onboarding: «Descifra la conversación», Texto/Captura, Analizar). Del onboarding real no hay captura nueva en esta ronda; lo verificado de la puerta es solo por código.
+Defectos de la Ronda 16 verificados en código (PasoEdad.tsx / page.tsx):
+- R16-1 (aviso en 2 líneas): CORREGIDO, «No pudimos entrar. Toca el botón de nuevo.» (1 línea, sin captura).
+- R16-2 (flecha apagada sin tope): CORREGIDO, `saliendo` se libera a 1,5 s y la flecha vuelve.
+- R16-3 (3 bloques de texto): NO CORREGIDO; con nota siguen subtítulo + párrafo + candado antes de la casilla.
+- R16-5 («conexión» afirmada sin saber): CORREGIDO, mensaje neutro.
+Pantalla visible (Descifrar): campo de texto de ~540px casi vacío con pista «O escribe, o toca el micrófono» partida en 2 líneas; «Probar con un ejemplo» a 14px sin forma de botón, pegado al borde inferior y alineado a la izquierda bajo un CTA centrado.
+Verificado contra FICHA-ARTE: Cormorant en titular, Hanken en cuerpo, oro en acción/acento, vino con blooms, radios por tokens. Sin desvío; sin clon de ejemplos vetados.
+Top defectos:
+1. [Evidencia] La captura es del destino, no de la puerta de edad → recapturar /onboarding a 375x812 (inicial, aviso, enviando) y sobrescribir onboarding-375.png.
+2. [Puerta, subtítulo + párrafo + candado, h8: lo que impide el 36] Tres bloques de texto antes de la casilla → fundir en una sola pieza «Aquí nadie te juzga. Tu conversación es privada y no la guardamos.» y dejar el párrafo solo con la oferta («Tu primera lectura es gratis, sin tarjeta.»).
+3. [Puerta, banda entre candado y casilla ~120px] Sigue sin contenido; es la zona más vacía → pt-16 al bloque superior o bloom vino a media pantalla.
+4. [Descifrar, «Probar con un ejemplo» abajo-izquierda] Enlace de 14px sin área táctil ni jerarquía de acción secundaria → botón fantasma centrado, min-h-11, bajo «Analizar».
+5. [Descifrar, textarea y≈345-1400 a 2x] Campo gigante vacío y pista del micrófono en 2 líneas → altura ~280px y pista corta «O toca el micrófono del teclado».
+Veredicto honesto: 35/40 y 16/20. Craft pasa; usabilidad sigue a 1 punto por h8 (texto triple en la puerta) y por evidencia no válida de la pantalla. LISTA exige ≥36/40.
+
+# VEREDICTO revisor-visual — onboarding (Ronda 18, re-revisión con captura correcta)
+Fecha: 2026-10-27 18:00
+Screenshot: docs/revisiones/onboarding-375.png (+ docs/revisiones/onboarding-aviso-375.png)
+Usabilidad: 35/40
+Craft: 16/20
+Copy (si vende): 16/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:4 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:4 h10:3
+Detalle craft: jerarquia:3 profundidad:3 identidad:3 movimiento:4 encaje:3
+Detalle copy: idea:3 especificidad:3 emocion:3 oferta:3 accion:4 (puerta de edad, no vende; puntuado a pedido)
+Gate de carga cognitiva: 0 fallas. Evidencia válida: las dos capturas son la puerta de edad real a 375px (inicial y aviso con borde acento + «Marca la casilla para continuar.»). Se descartan de la Ronda 17 los defectos de Descifrar (4 y 5) y el defecto de evidencia (1): eran de la captura equivocada.
+Visto en captura: medallón con bloom, titular Cormorant con «primera lectura» en oro, «Aquí nadie te juzga.» 16/600, párrafo de oferta, línea del candado centrada, casilla con hairline degradé, CTA dorado pleno h-14, legal con enlaces. Paleta, tipografía y radios coinciden con FICHA-ARTE; sin clon de ejemplos vetados. CTA héroe vivo: cumple los 4.
+Top defectos:
+1. [Bloque de texto superior, h8: lo que impide el 36] Tres bloques de texto seguidos antes de la casilla (subtítulo «Aquí nadie te juzga.», párrafo «Cuenta lo que te pasa… gratis, sin tarjeta.», candado «Tu conversación es privada… no la guardamos.») → fix en PasoEdad.tsx: fundir subtítulo + candado en una sola pieza («Aquí nadie te juzga. Tu conversación es privada y no la guardamos.», icono inline) y dejar el párrafo solo con la oferta («Tu primera lectura es gratis, sin tarjeta.»); queda en 2 bloques y h8 pasa a 4.
+2. [Banda y≈850-1130 a 2x, entre candado y casilla] ~140px de fondo tranquilo que parte la pantalla en dos mitades (profundidad/encaje se quedan en 3) → fix: bloom vino a media pantalla o subir la zona del pulgar con pb-6.
+3. [Aviso, onboarding-aviso-375.png] Funciona (borde acento + texto a 8px del CTA), pero la sacudida y el cambio de estado no se pueden juzgar en estático; sin captura del estado «enviando» ni del fallo en esta ronda → capturarlos si se vuelve a pedir veredicto.
+Veredicto honesto: 35/40 y 16/20. Con evidencia correcta el único defecto que impide llegar a 36/40 es el triple bloque de texto previo a la acción (h8), arrastrado desde la Ronda 15; el fix de arriba lo cierra. LISTA exige ≥36/40.

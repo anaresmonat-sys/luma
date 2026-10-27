@@ -106,23 +106,23 @@ export function PasoEdad({
             </>
           )}
         </motion.h1>
-        <motion.p {...entrada(2)} className="mt-3 max-w-[340px] text-[16px] font-semibold leading-snug text-[var(--text-primary)]">
+        {/* Dos bloques como máximo antes de la casilla (revisor, ronda 18): subtítulo + privacidad en uno, oferta en otro. */}
+        <motion.p {...entrada(2)} className="mt-3 max-w-[340px] text-balance text-[16px] font-semibold leading-snug text-[var(--text-primary)]">
           {nota ? 'Aquí nadie te juzga.' : 'Aquí nadie te juzga: es un espacio privado.'}
+          {nota && (
+            <span className="mt-1 block text-[14px] font-normal leading-snug text-[var(--text-secondary)]">
+              <Lock size={14} strokeWidth={2} aria-hidden="true" className="mr-1.5 inline align-[-2px] text-[var(--accent-lite)]" />
+              {nota}
+            </span>
+          )}
         </motion.p>
-        <motion.p {...entrada(2)} className="mt-2 max-w-[340px] text-[14px] leading-relaxed text-[var(--text-secondary)]">
+        <motion.p {...entrada(2)} className="mt-3 max-w-[340px] text-[14px] leading-relaxed text-[var(--text-secondary)]">
           {conSesion
             ? 'Cuenta lo que te pasa sin miedo. Solo te pedimos esto una vez.'
-            : 'Cuenta lo que te pasa sin miedo. Tu primera lectura es gratis, sin tarjeta.'}
+            : nota
+              ? 'Tu primera lectura es gratis, sin tarjeta.'
+              : 'Cuenta lo que te pasa sin miedo. Tu primera lectura es gratis, sin tarjeta.'}
         </motion.p>
-        {nota && (
-          <motion.p
-            {...entrada(2)}
-            className="mt-4 max-w-[340px] text-balance text-center text-[14px] leading-snug text-[var(--text-secondary)]"
-          >
-            <Lock size={14} strokeWidth={2} aria-hidden="true" className="mr-1.5 inline align-[-2px] text-[var(--accent-lite)]" />
-            {nota}
-          </motion.p>
-        )}
       </motion.div>
 
       {/* Zona del pulgar: casilla + aviso + botón + legal, juntos y al fondo */}

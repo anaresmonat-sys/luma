@@ -46,7 +46,7 @@ describe('páginas públicas', () => {
     const texto = await pagina.locator('body').innerText();
     expect(texto).toContain('US$9,99');
     expect(texto).toContain('US$89,99');
-    expect(texto).toContain('Precios en dólares (US$)');
+    expect(texto.includes('Precios en dólares (US$)') || texto.includes('Precios en US$')).toBe(true);
     expect(texto).toContain('sigues con tu prueba hasta el día 3');
     await pagina.close();
   }, 30_000);
