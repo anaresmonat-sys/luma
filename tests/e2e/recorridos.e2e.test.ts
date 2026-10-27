@@ -51,6 +51,18 @@ describe('páginas públicas', () => {
     await pagina.close();
   }, 30_000);
 
+  it('los planes se cambian con las flechas del teclado', async () => {
+    const { pagina } = await abrir('/paywall');
+    await pagina.waitForSelector('#plan-anual');
+    await pagina.waitForLoadState('networkidle');
+    await pagina.waitForTimeout(1500); // que React termine de engancharse antes de pulsar teclas
+    expect(await pagina.locator('#plan-anual').getAttribute('aria-checked')).toBe('true');
+    await pagina.locator('#plan-anual').focus();
+    await pagina.keyboard.press('ArrowDown');
+    await pagina.waitForFunction(() => document.getElementById('plan-mensual')?.getAttribute('aria-checked') === 'true');
+    await pagina.close();
+  }, 30_000);
+
   it('Entrar pide el correo y avisa si el enlace ya no sirve', async () => {
     const { pagina } = await abrir('/entrar?error=enlace');
     await pagina.waitForSelector('input[type="email"]');

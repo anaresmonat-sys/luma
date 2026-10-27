@@ -44,6 +44,8 @@ function Card({
       type="button"
       role="radio"
       aria-checked={seleccionado}
+      id={`plan-${plan.id}`}
+      tabIndex={seleccionado ? 0 : -1}
       onClick={onClick}
       whileTap={{ scale: 0.98 }}
       className={`relative w-full rounded-[var(--radius-card)] border p-5 text-left transition-colors duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
@@ -115,7 +117,18 @@ export function PlanCards({
   onSeleccionar: (id: 'anual' | 'mensual') => void;
 }) {
   return (
-    <div role="radiogroup" aria-label="Elige tu plan" className="flex flex-col gap-3">
+    <div
+      role="radiogroup"
+      aria-label="Elige tu plan"
+      className="flex flex-col gap-3"
+      onKeyDown={(e) => {
+        if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) return;
+        e.preventDefault();
+        const siguiente = seleccionado === "anual" ? "mensual" : "anual";
+        onSeleccionar(siguiente);
+        window.requestAnimationFrame(() => document.getElementById(`plan-${siguiente}`)?.focus());
+      }}
+    >
       <Card plan={anual} seleccionado={seleccionado === 'anual'} trialDias={trialDias} onClick={() => onSeleccionar('anual')} />
       <Card plan={mensual} seleccionado={seleccionado === 'mensual'} trialDias={trialDias} onClick={() => onSeleccionar('mensual')} />
     </div>

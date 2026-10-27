@@ -16,7 +16,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { X, ShieldCheck } from 'lucide-react';
+import { X, ShieldCheck, Loader2 } from 'lucide-react';
 import { CheckCustom, Hairline } from '@/components/landing/ui';
 import { MarkedCopy } from '@/components/landing/MarkedCopy';
 import { TimelineTrial } from '@/components/paywall/Timeline';
@@ -283,7 +283,14 @@ export default function PaywallLuma() {
             whileTap={abriendoPago ? undefined : { scale: 0.97 }}
             className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] transition-opacity [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] disabled:opacity-70"
           >
-            {abriendoPago ? 'Abriendo el pago seguro…' : `Empezar mis ${TRIAL_DIAS} días gratis`}
+            {abriendoPago ? (
+              <span className="flex items-center gap-2" role="status">
+                <Loader2 size={18} aria-hidden="true" className="motion-safe:animate-spin" />
+                Abriendo el pago seguro…
+              </span>
+            ) : (
+              `Empezar mis ${TRIAL_DIAS} días gratis`
+            )}
           </motion.button>
           {errorPago && (
             <p role="alert" className="mt-2 text-center text-[13px] font-semibold leading-snug text-[var(--an-risk)]">
