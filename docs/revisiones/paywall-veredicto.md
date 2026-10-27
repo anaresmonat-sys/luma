@@ -210,3 +210,15 @@ Top defectos:
 3. [Movimiento, precio "US$7,50" y "1er cobro: US$89,99/año*"] Sin conteo ni transición de dígitos al cambiar de plan (2 de las 7 baseline ausentes): es lo que impide craft 16 → animar el precio del "1er cobro" con AnimatePresence (y 6→0, 200 ms) o contador motion, gateado por reduce.
 4. [Carta de marca, parte alta, 72px scale .34] El objeto héroe de FICHA-ARTE (carta flotante con resplandor) se lee como icono de 35px y la pantalla se sostiene solo en color/tipografía → subirla a ~96px quitando el tercer beneficio ("Un espacio privado y sin juicio") si Mensual sigue visible sobre la barra.
 5. [Fila "Ahora no · Ya pagué, entrar" y "Pago seguro con Hotmart", captura planes, y=1190-1290] La confianza del pago queda a ~160px del botón y bajo ~150px de aire muerto antes del CTA fijo; "Ahora no" y el separador "·" quedan en text-tertiary de bajo contraste → mover "Pago seguro con Hotmart" a la línea de garantía de la barra fija ("Garantía de 15 días desde que empiezas · Pago seguro con Hotmart") y subir "Ahora no" a text-secondary.
+
+---
+
+# VEREDICTO revisor-visual — paywall (Ronda 16)
+Fecha: 2026-10-27 · Screenshots: docs/revisiones/paywall-inicio-375.png, paywall-planes-375.png, paywall-375.png (versión con la nota de precios en una línea y «Ahora no» con más contraste)
+Usabilidad: 33/40 (h1:3 h2:3 h3:3 h4:3 h5:3 h6:4 h7:3 h8:4 h9:4 h10:3) — +1: h8 vuelve a 4 porque la nota ocupa una línea y no repite «Cancelas cuando quieras».
+Craft: 15/20 (jerarquía 3, profundidad 3, identidad 3, movimiento 3, encaje 3). La carta de marca sigue como icono de ~35 px y el precio cambia de golpe al elegir plan.
+Copy (si vende): 16/20 (ningún eje en 2 o menos).
+Fidelidad: N-A
+Veredicto: NO LISTA
+Pendientes del revisor: «Ahora no» y el separador «·» siguen en text-tertiary (línea 243); «Pago seguro con Hotmart» queda ~150 px lejos del botón.
+Tres cambios baratos propuestos: (1) animar el precio «1er cobro» al cambiar de plan (200 ms, sin animación con reduced-motion) para subir movimiento a 4; (2) mover «Pago seguro con Hotmart» a la línea de garantía de la barra fija y quitar el bloque inferior; (3) subir la carta a ~96 px quitando el tercer beneficio y poner «Ahora no» y «·» en text-secondary. Aun con los tres, usabilidad llegaría a ~35: haría falta un punto más en h1 o h7 (por ejemplo, el estado de carga).
