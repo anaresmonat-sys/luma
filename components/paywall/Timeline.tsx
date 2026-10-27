@@ -8,13 +8,33 @@
 
 import { motion, useReducedMotion } from 'motion/react';
 
+/** El precio entra con un fundido corto cada vez que cambia (se remonta por `key`); con reduced-motion no se anima. */
+function PrecioAnimado({ texto }: { texto: string }) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.span
+      key={texto}
+      className="inline-block"
+      initial={reduce ? false : { opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: reduce ? 0 : 0.2, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {texto}
+    </motion.span>
+  );
+}
+
 export function TimelineTrial({ diasPrueba, precioTexto }: { diasPrueba: number; precioTexto: string }) {
   const reduce = useReducedMotion();
   const nodos = [
     { estado: 'hecho' as const, titulo: 'Hoy — acceso completo', detalle: 'Todo LUMA, desde hoy' },
     // Honesto: no se promete ningún aviso por correo mientras no exista (2026-10-18). Solo lo que es cierto: no se cobra nada durante la prueba y se puede cancelar.
     { estado: 'hecho' as const, titulo: `Hasta el día ${diasPrueba} — sin cobro`, detalle: `Cancela cuando quieras: sigues con tu prueba hasta el día ${diasPrueba}` },
-    { estado: 'pendiente' as const, titulo: `Día ${diasPrueba} — 1er cobro: ${precioTexto}`, detalle: 'Si no cancelas antes' },
+    { estado: 'pendiente' as const, titulo: (
+        <>
+          Día {diasPrueba} — 1er cobro: <PrecioAnimado texto={precioTexto} />
+        </>
+      ), detalle: 'Si no cancelas antes' },
   ];
 
   return (

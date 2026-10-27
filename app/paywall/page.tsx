@@ -16,7 +16,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { X, Lock, ShieldCheck } from 'lucide-react';
+import { X, ShieldCheck } from 'lucide-react';
 import { CheckCustom, Hairline } from '@/components/landing/ui';
 import { MarkedCopy } from '@/components/landing/MarkedCopy';
 import { TimelineTrial } from '@/components/paywall/Timeline';
@@ -132,7 +132,7 @@ export default function PaywallLuma() {
           transition={{ duration: reduce ? 0.2 : 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="flex justify-center"
         >
-          <div className="h-[72px] scale-[0.34] [transform-origin:top]">
+          <div className="h-[84px] scale-[0.4] [transform-origin:top]">
             <CartaSacerdotisa animar={false} />
           </div>
         </motion.div>
@@ -240,7 +240,7 @@ export default function PaywallLuma() {
             >
               Ahora no
             </a>
-            <span aria-hidden="true" className="text-[var(--text-tertiary)]">
+            <span aria-hidden="true" className="text-[var(--text-secondary)]">
               ·
             </span>
             {/* Más peso que "Ahora no": recuperar una compra ya hecha no es lo
@@ -253,12 +253,6 @@ export default function PaywallLuma() {
             </a>
           </div>
 
-          <p className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[13px] text-[var(--text-secondary)]">
-            <span className="flex items-center gap-1.5 whitespace-nowrap">
-              <Lock size={14} aria-hidden="true" />
-              Pago seguro con Hotmart
-            </span>
-          </p>
         </motion.div>
       </div>
 
@@ -298,7 +292,9 @@ export default function PaywallLuma() {
           )}
           <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[13px] font-semibold leading-snug text-[var(--text-secondary)]">
             <ShieldCheck size={16} aria-hidden="true" className="shrink-0 text-[var(--accent-lite)]" />
-            Garantía de 15 días desde que empiezas
+            <span>
+              Garantía de 15 días desde que empiezas <span aria-hidden="true">·</span> Pago seguro con Hotmart
+            </span>
           </p>
         </div>
       </div>
