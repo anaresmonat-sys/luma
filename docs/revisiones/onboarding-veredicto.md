@@ -334,3 +334,15 @@ Top defectos:
 2. [Banda y≈850-1130 a 2x, entre candado y casilla] ~140px de fondo tranquilo que parte la pantalla en dos mitades (profundidad/encaje se quedan en 3) → fix: bloom vino a media pantalla o subir la zona del pulgar con pb-6.
 3. [Aviso, onboarding-aviso-375.png] Funciona (borde acento + texto a 8px del CTA), pero la sacudida y el cambio de estado no se pueden juzgar en estático; sin captura del estado «enviando» ni del fallo en esta ronda → capturarlos si se vuelve a pedir veredicto.
 Veredicto honesto: 35/40 y 16/20. Con evidencia correcta el único defecto que impide llegar a 36/40 es el triple bloque de texto previo a la acción (h8), arrastrado desde la Ronda 15; el fix de arriba lo cierra. LISTA exige ≥36/40.
+
+---
+
+# VEREDICTO revisor-visual — onboarding (Ronda 19 · dos bloques de texto antes de la casilla)
+Fecha: 2026-10-27 · Screenshot: docs/revisiones/onboarding-375.png y onboarding-aviso-375.png (puerta de edad real, contexto limpio, versión nueva)
+Usabilidad: 36/40 (h1:4 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:4 h9:4 h10:3) — sube 1 punto, solo por h8: ahora hay DOS bloques de texto antes de la casilla («Aquí nadie te juzga.» con el candado y el aviso de privacidad dentro del mismo párrafo + «Tu primera lectura es gratis, sin tarjeta.»).
+Craft: 16/20 (jerarquía 3, profundidad 3, identidad 3, movimiento 4, encaje 3)
+Copy (si vende): 16/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: LISTA
+Margen: 36/40 y 16/20 están en el umbral exacto.
+Defectos que quedan (no bloqueantes): (1) banda de ~140 px entre el texto y la casilla, se arregla con un resplandor vino a media pantalla o `pb-6` en la zona del pulgar; (2) faltan capturas de los estados «enviando» y de fallo; (3) la flecha atrás queda apagada 1,5 s durante el envío.

@@ -361,3 +361,28 @@ Top defectos:
 3. [Oferta, nota bajo planes (parte5)] 5 líneas de 13px que mezclan moneda, impuestos, garantía y Hotmart → fix: dos líneas: "* Precios en US$ sin impuestos; el importe final lo ves en la página de pago" / "Garantía de 15 Días desde que empiezas tu prueba · Pago seguro con Hotmart".
 4. [Usabilidad transversal] 34/40, 2 bajo el gate; ningún criterio subió desde la R13 → fix: botón "Limpiar" en la calculadora y contador "1 / 8" junto a los puntos del carrusel.
 5. [Craft general] Cuatro ejes en 3 (sin conteo animado del 94% ni dispositivo firma repetido) → fix: contar el % al entrar en vista y usar la carta con resplandor como separador entre secciones.
+
+---
+
+# VEREDICTO revisor-visual — landing (Ronda 15 · ahorro en US$ y nota de planes partida)
+Fecha: 2026-10-27 00:00
+Screenshot: docs/revisiones/landing-375-parte1.png a landing-375-parte6.png (6 tramos a 375px; ahora SÍ aparecen FAQ, CtaFinal, PS y pie)
+Usabilidad: 36/40
+Craft: 16/20
+Copy (si vende): 19/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: LISTA
+Detalle usabilidad: h1:3 h2:4 h3:3 h4:4 h5:4 h6:4 h7:3 h8:3 h9:4 h10:4
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:4 (vino/oro y Cormorant + Hanken coinciden con FICHA-ARTE; sin clon vetado)
+Detalle copy: idea:4 especificidad:3 emoción:4 oferta:4 acción:4 (sin testimonios ni cifra verificable: la ficha lo declara)
+Verificación de la R14:
+- D1 (evidencia parte6): CERRADO. Sin cabecera superpuesta ni hero duplicado; se ven FAQ, CtaFinal, PS y pie con rejilla de enlaces y correo.
+- D2 ("3 meses gratis"): CERRADO. parte4: "Ahorras US$29,89 frente al plan mensual"; el único "gratis" de la zona de planes ya no choca con "3 DÍAS DE PRUEBA".
+- D3 (nota de planes): CERRADO en lo esencial. parte5: asterisco de precios y garantía en párrafos separados. Menor: la línea dice "Garantía de 15 días" en minúscula y comparte renglón con "Pago seguro con Hotmart"; el nombre propio "Garantía de 15 Días" solo aparece en la sección siguiente.
+Margen: 36/40 y 16/20 están en el umbral exacto.
+Top defectos (menores):
+1. [Oferta, nota bajo planes (parte5)] La garantía sin nombre propio en mayúsculas ni peso → fix: "Garantía de 15 Días" en semibold 13px.
+2. [Calculadora de sinergia (parte3)] Sin "Limpiar"/deshacer; el 94% precargado no cuenta al entrar en vista → fix: conteo animado y botón de reinicio (sube h3 y movimiento).
+3. [Hero (parte1)] CTA + 4 píldoras + "Entrar" con etiqueta coloquial (decisión de la dueña); la carta de demo queda cortada al pie del primer viewport → fix: degradado inferior de 48px.
+4. [CtaFinal (parte6)] Recap gris de 12-13px ("Descifra chats · Chat con LUMA…") repite los planes y el PS repite la condición por tercera vez → fix: quitar el recap.
+5. [Craft general] Cuatro ejes en 3: sin números animados propios, celebración de hito ni dispositivo firma repetido → fix: carta con resplandor como separador entre secciones.
