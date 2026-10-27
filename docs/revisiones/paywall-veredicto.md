@@ -222,3 +222,24 @@ Fidelidad: N-A
 Veredicto: NO LISTA
 Pendientes del revisor: «Ahora no» y el separador «·» siguen en text-tertiary (línea 243); «Pago seguro con Hotmart» queda ~150 px lejos del botón.
 Tres cambios baratos propuestos: (1) animar el precio «1er cobro» al cambiar de plan (200 ms, sin animación con reduced-motion) para subir movimiento a 4; (2) mover «Pago seguro con Hotmart» a la línea de garantía de la barra fija y quitar el bloque inferior; (3) subir la carta a ~96 px quitando el tercer beneficio y poner «Ahora no» y «·» en text-secondary. Aun con los tres, usabilidad llegaría a ~35: haría falta un punto más en h1 o h7 (por ejemplo, el estado de carga).
+
+---
+
+# VEREDICTO revisor-visual — paywall (Ronda 17)
+Fecha: 2026-10-27 · Capturas: docs/revisiones/paywall-inicio-375.png, paywall-planes-375.png, paywall-375.png
+Usabilidad: 34/40 (h1:3 h2:3 h3:3 h4:3 h5:4 h6:4 h7:3 h8:4 h9:4 h10:3)
+Craft: 16/20 (jerarquía 3, profundidad 3, identidad 3, movimiento 4, encaje 3) — el fundido de 200 ms del precio del cobro sube movimiento a 4.
+Copy (si vende): 16/20 · Fidelidad: N-A
+Veredicto: NO LISTA (faltan 2 puntos de usabilidad). Dos cambios baratos propuestos: (1) al tocar el botón, mostrar al instante «Abriendo el pago…» con spinner y bloquear el doble toque (h1); (2) atajo de teclado en los planes (h7).
+
+---
+
+# VEREDICTO revisor-visual — paywall (Ronda 18)
+Fecha: 2026-10-27 · Screenshot: docs/revisiones/paywall-375.png, paywall-planes-375.png y paywall-abriendo-375.png (estado «Abriendo el pago seguro…», capturado después de la revisión: texto, spinner y botón desactivado verificados en pantalla y en el DOM)
+Usabilidad: 36/40 (partiendo de 34: h1 +1 por el spinner con estado inmediato y doble toque bloqueado; h7 +1 por las flechas del teclado en los planes con foco que acompaña)
+Craft: 16/20
+Copy (si vende): 16/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: LISTA
+Condición del revisor: si la captura «abriendo» no existía o no mostraba el spinner, h1 volvía a 3 (35/40, NO LISTA). La captura existe y muestra el spinner.
+Margen: 36/40, 16/20 y 16/20 están en el umbral exacto. Defectos que quedan: «Ahora no · Ya pagué, entrar» con poco contraste y lejos del botón; «Pago seguro» se partía en dos líneas (corregido después con whitespace-nowrap, cambio cosmético sin nueva revisión).

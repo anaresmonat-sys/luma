@@ -300,7 +300,8 @@ export default function PaywallLuma() {
           <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[13px] font-semibold leading-snug text-[var(--text-secondary)]">
             <ShieldCheck size={16} aria-hidden="true" className="shrink-0 text-[var(--accent-lite)]" />
             <span>
-              Garantía de 15 días desde que empiezas <span aria-hidden="true">·</span> Pago seguro con Hotmart
+              Garantía de 15 días desde que empiezas <span aria-hidden="true">·</span>{" "}
+              <span className="whitespace-nowrap">Pago seguro con Hotmart</span>
             </span>
           </p>
         </div>
