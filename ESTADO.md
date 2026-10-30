@@ -1310,3 +1310,7 @@ Camino a ≥80: Vercel Pro + Supabase Pro · compra anual y reembolso reales · 
 La dueña confirma: Pedro figura «Bloqueado por pago» en el club de Hotmart y cancelado. Prueba de cancelación automática cerrada de principio a fin (botón → Hotmart «Cancelada por el vendedor» → acceso hasta el fin de la prueba → bloqueo). Sin cobros confirmado.
 
 Confirmado por la dueña (2026-10-27): Pedro NO tuvo ningún cobro en Hotmart → Ventas. Ciclo de cancelación en prueba cerrado y sin cargos.
+
+## Página «Tu carta del día» = reclamo TEMPORAL (2026-10-30)
+Decisión de la dueña: se queda con las 12 cartas de los vídeos (no se amplía a las 78). Es un reclamo hasta que se lance LUMA y luego se sustituirá. Última versión publicada: botón «Compartir» y pie sin la línea de redes (la actualizó Marketing, desplegada por el desarrollador el 2026-10-30; sesión de Vercel cerrada).
+Cuando LUMA se lance: cambiar el enlace del perfil de TikTok a tuluma.app (o a la página de LUMA que decida la dueña) y decidir si se borra o se redirige el proyecto Vercel `tu-carta-del-dia`. [pagina-temporal]
