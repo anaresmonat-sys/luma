@@ -1314,3 +1314,14 @@ Confirmado por la dueña (2026-10-27): Pedro NO tuvo ningún cobro en Hotmart �
 ## Página «Tu carta del día» = reclamo TEMPORAL (2026-10-30)
 Decisión de la dueña: se queda con las 12 cartas de los vídeos (no se amplía a las 78). Es un reclamo hasta que se lance LUMA y luego se sustituirá. Última versión publicada: botón «Compartir» y pie sin la línea de redes (la actualizó Marketing, desplegada por el desarrollador el 2026-10-30; sesión de Vercel cerrada).
 Cuando LUMA se lance: cambiar el enlace del perfil de TikTok a tuluma.app (o a la página de LUMA que decida la dueña) y decidir si se borra o se redirige el proyecto Vercel `tu-carta-del-dia`. [pagina-temporal]
+
+## 🔄 CHECKPOINT — 2026-10-30 (página «Tu carta del día»)
+- Fase: lanzamiento de LUMA en pausa de decisiones; la página estática `tu-carta-del-dia` (Vercel, proyecto aparte) es un reclamo temporal.
+- En curso: el pie de `LUMA-MARKETING/pagina-tirada-publicar/index.html` ya no tiene enlaces (iconos Instagram/TikTok como `<span>`, 0 `<a>`), verificado a 375 px en local. NO desplegado: espera el OK de Margarita.
+- Duda abierta: qué quiere decir con «quita publicaciones por ser incómoda» (aviso de TikTok al abrir el perfil).
+- Siguiente: su OK → `vercel login` (ella aprueba) → deploy a `tu-carta-del-dia` → verificar → `vercel logout`.
+
+### Problemas conocidos (2026-10-31)
+- veredicto:landing / veredicto:onboarding caducados: el código de paywall (PlanCards/Timeline) es posterior; sin cambios visuales hoy. Se re-lanza el revisor-visual antes de publicar de nuevo.
+- Webhook Hotmart: PURCHASE_COMPLETE (fin de garantía de 15 días) reactiva la cuenta y manda correo de acceso a las 5:30 (caso tradingmargarita, 31-oct). CORREGIDO en local 2026-10-31 (sin publicar, espera «publica»). Además `current_period_end` quedó en el pasado con estado active: por revisar.
+- Webhook PURCHASE_COMPLETE reactivaba cuentas canceladas (Pedro ~5-nov, compra2 ~3-nov): corregido en local (ae63373), SIN publicar. Publicar antes del 3-nov con su «publica»; antes, re-lanzar revisor-visual del paywall (veredictos landing/onboarding caducados).
