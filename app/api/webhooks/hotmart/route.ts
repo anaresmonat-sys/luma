@@ -178,6 +178,12 @@ export async function POST(req: Request) {
     const { data: filaPrevia } = await admin.from('subscriptions').select('estado').eq('user_id', userId).maybeSingle();
     const estadoAnterior = (filaPrevia?.estado as EstadoMembresia | undefined) ?? null;
 
+    // El fin de la garantía no reactiva a quien ya canceló o venció: solo confirma una compra que sigue viva.
+    if (event === 'PURCHASE_COMPLETE' && (estadoAnterior === 'cancelled' || estadoAnterior === 'expired')) {
+      await registrarLog(admin, { event_id: eventId, type: event, result: 'illegal', detail: `${estadoAnterior}->${nuevoEstado}` });
+      return NextResponse.json({ received: true, ignored: 'garantia_cumplida_sin_reactivar' });
+    }
+
     if (!transicionValida(estadoAnterior, nuevoEstado)) {
       await registrarLog(admin, { event_id: eventId, type: event, result: 'illegal', detail: `${estadoAnterior}->${nuevoEstado}` });
       return NextResponse.json({ received: true, ignored: 'transicion_ilegal' });
