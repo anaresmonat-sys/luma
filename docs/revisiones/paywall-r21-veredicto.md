@@ -1,0 +1,9 @@
+# VEREDICTO revisor-visual — paywall (ronda 21, viewport 375x812)
+Fecha: 2026-10-31 17:00
+Screenshot: docs/revisiones/paywall-r21-1-primera-vista-375.png
+Usabilidad: 31/40
+Craft: 14/20
+Copy (si vende): 16/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Top defectos: 1) Identidad: al quitar la carta flotante (dispositivo ownable #1 de FICHA-ARTE) la pantalla queda solo con vino/oro + Cormorant + un hairline; no hay ningun dispositivo firma visible en las 3 capturas, y una pantalla de pago es el momento de mas peso emocional -> devolver un dispositivo firma compacto (carta miniatura de 56-72px junto al titular o en el header del timeline) sin empujar la tarjeta Mensual bajo la barra. 2) Primera vista: el rotulo "CÓMO FUNCIONA TU PRUEBA" asoma cortado por el degradado de la barra fija, justo encima del boton (texto a medias, se ve como error) -> subir la opacidad/altura del degradado o dar padding para que el rotulo quede oculto del todo o entero. 3) Movimiento: solo hay stagger, resorte de precio, layoutId del borde y tap; el precio no cuenta ni hay hito/celebracion y el resorte del precio es un fundido/escala leve (en reduced-motion el stagger sigue desplazando 10px) -> contar el precio al cambiar de plan y anular el desplazamiento y la escala con reduced-motion. 4) Nota de precios "* Precios en US$..." flota centrada encima de las tarjetas, antes de que se vea ningun precio, y compite con ellas; ademas la nota, sufijos, timeline, enlaces y garantia siguen en 13px (jerarquia plana abajo) -> moverla debajo de la tarjeta Mensual (donde se lee tras ver el precio) y subir detalles clave del timeline a 14px. 5) Garantia: dice "15 dias para pedir tu reembolso" pero no a quien ni como, y en la barra va en 13px junto a "Pago seguro con Hotmart"; "Ahora no / Ya pagué, entrar" solo aparecen tras scroll -> anadir en el timeline un nodo/linea "Reembolso en 15 dias escribiendo a soporte" y mantener una salida visible.

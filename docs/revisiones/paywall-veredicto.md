@@ -243,3 +243,24 @@ Fidelidad (si hubo referencia): N-A
 Veredicto: LISTA
 Condición del revisor: si la captura «abriendo» no existía o no mostraba el spinner, h1 volvía a 3 (35/40, NO LISTA). La captura existe y muestra el spinner.
 Margen: 36/40, 16/20 y 16/20 están en el umbral exacto. Defectos que quedan: «Ahora no · Ya pagué, entrar» con poco contraste y lejos del botón; «Pago seguro» se partía en dos líneas (corregido después con whitespace-nowrap, cambio cosmético sin nueva revisión).
+
+---
+## Ronda 19b (2026-10-31, capturas de viewport real) — anexada por el desarrollador
+Revisor: NO LISTA · 30/40 · 14/20 · 15/20 (gate 36/16/16). Detalle: docs/revisiones/paywall-r19b-veredicto.md
+Defectos reales: garantía sin nombre, chip «3 días de prueba» repetido, 8 tamaños de letra, escudo desalineado, nota de impuestos cortada.
+
+## Ronda 20 (2026-10-31, tras corregir esos 5 puntos) — anexada por el desarrollador
+Revisor: NO LISTA · 32/40 · 15/20 · 16/20 (copy pasa). Detalle: docs/revisiones/paywall-r20-veredicto.md · capturas paywall-r20-*-375.png
+Los 5 defectos de r19b quedan resueltos. Pendiente: tarjeta Mensual tapada por la barra en la primera vista, precio sin animación al cambiar de plan, garantía sin explicar, nota de moneda ambigua.
+Estado: cambios locales sin publicar; producción conserva el paywall anterior.
+
+## Ronda 21 (2026-10-31, ambos planes visibles sin carta decorativa) — anexada por el desarrollador
+Revisor: NO LISTA · 31/40 · 14/20 · 16/20. Detalle: docs/revisiones/paywall-r21-veredicto.md · capturas paywall-r21-*-375.png
+Resuelto: ambos planes visibles sobre la barra, garantía explicada, nota de moneda clara.
+Nuevo: identidad 2 (sin carta no queda dispositivo ownable); rótulo «Cómo funciona tu prueba» asoma cortado sobre el botón; precio sin conteo; nota de precios flotando antes de ver precios.
+Estado: cambios locales sin commit ni publicar; producción conserva el paywall anterior.
+
+## Ronda 22 (2026-10-31, carta miniatura en la cabecera) — anexada por el desarrollador
+Revisor: NO LISTA · 30/40 · 14/20 · 16/20. Detalle: docs/revisiones/paywall-r22-veredicto.md · capturas paywall-r22-*-375.png
+Resuelto: rótulo cortado, ambos planes visibles. Pendiente: sin conteo de precio, carta miniatura poco perceptible (26x44px), resplandor recortado en banda, con reduced-motion el escalonado aún desplaza 10px (page.tsx), nota de precios sobre las tarjetas.
+Estado: cambios locales sin commit ni publicar; producción conserva el paywall anterior. Rondas 19b-22: 30-32 / 14-15 / 15-16 sin llegar a 36/16/16.
