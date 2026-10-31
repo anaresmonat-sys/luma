@@ -40,7 +40,10 @@ async function registrarLog(admin: ReturnType<typeof clienteAdminSupabase>, log:
 
 /** ¿A quién le llega el correo de "ya tienes acceso"? Solo cuando el estado nuevo da acceso Y el
  * usuario no lo tenía ya (evita reenviar el mismo correo en cada reintento de Hotmart). */
-function esPrimeraActivacion(estadoAnterior: EstadoMembresia | null, estadoNuevo: EstadoMembresia): boolean {
+// PURCHASE_COMPLETE llega al terminar la garantía (15 días después de comprar): si la cuenta ya existía no es una
+// activación nueva y no debe mandar correo de acceso (pasó a las 5:30 del 31-oct-2026).
+function esPrimeraActivacion(estadoAnterior: EstadoMembresia | null, estadoNuevo: EstadoMembresia, evento: string): boolean {
+  if (evento === 'PURCHASE_COMPLETE' && estadoAnterior !== null) return false;
   const teniaAcceso = estadoAnterior === 'trialing' || estadoAnterior === 'active';
   const tieneAcceso = estadoNuevo === 'trialing' || estadoNuevo === 'active';
   return tieneAcceso && !teniaAcceso;
@@ -224,7 +227,7 @@ export async function POST(req: Request) {
 
     // 8. Correo de acceso: solo en la PRIMERA activación (no en cada reintento de Hotmart).
     //    Vía Resend (SMTP custom ya configurado en Supabase Auth) — el propio enlace mágico.
-    if (resultadoTexto === 'applied' && esPrimeraActivacion(estadoAnterior, nuevoEstado)) {
+    if (resultadoTexto === 'applied' && esPrimeraActivacion(estadoAnterior, nuevoEstado, event)) {
       const { createClient } = await import('@supabase/supabase-js');
       const anon = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!);
       await anon.auth
