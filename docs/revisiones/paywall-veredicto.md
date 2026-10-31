@@ -264,3 +264,6 @@ Estado: cambios locales sin commit ni publicar; producción conserva el paywall 
 Revisor: NO LISTA · 30/40 · 14/20 · 16/20. Detalle: docs/revisiones/paywall-r22-veredicto.md · capturas paywall-r22-*-375.png
 Resuelto: rótulo cortado, ambos planes visibles. Pendiente: sin conteo de precio, carta miniatura poco perceptible (26x44px), resplandor recortado en banda, con reduced-motion el escalonado aún desplaza 10px (page.tsx), nota de precios sobre las tarjetas.
 Estado: cambios locales sin commit ni publicar; producción conserva el paywall anterior. Rondas 19b-22: 30-32 / 14-15 / 15-16 sin llegar a 36/16/16.
+
+## Cierre 2026-10-31 — anexado por el desarrollador
+Se descartaron los cambios de diseño de las rondas 19b-22 (git checkout a la versión publicada). El paywall visual es el mismo que el de la ronda 18 (LISTA 36/16/16 en su día; las rondas 19b-22 con otra metodología dieron NO LISTA 30-32/14-15/15-16). Único cambio de código: entradas sin desplazamiento con «reducir movimiento» (commit 1956926), sin efecto visual en el uso normal. Sin captura nueva: no cambia lo que se ve.
