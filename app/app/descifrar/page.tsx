@@ -58,6 +58,7 @@ export default function DescifrarPage() {
   const [estado, setEstado] = useState<Estado>('reposo');
   const [analisis, setAnalisis] = useState<ItemAnalisis[]>([]);
   const [noConversacion, setNoConversacion] = useState('');
+  const [esCrisis, setEsCrisis] = useState(false);
   const [mensajeError, setMensajeError] = useState('Necesito un poco más de contexto — pega al menos un par de mensajes.');
 
   const { disponible, conPlan, refrescar } = usePruebaDisponible();
@@ -129,6 +130,7 @@ export default function DescifrarPage() {
       return;
     }
     setNoConversacion('');
+    setEsCrisis(false);
     setEstado('cargando');
     try {
       const res = await fetch('/api/descifrar', {
@@ -149,10 +151,11 @@ export default function DescifrarPage() {
         }
       }
       if (!res.ok) throw new Error('respuesta no OK');
-      const datos: { analisis?: ItemAnalisis[]; noConversacion?: string } = await res.json();
+      const datos: { analisis?: ItemAnalisis[]; noConversacion?: string; crisis?: boolean } = await res.json();
       if (datos.noConversacion) {
         // No era una conversación: se muestra el aviso amable y no se gasta la lectura gratis.
         setNoConversacion(datos.noConversacion);
+        setEsCrisis(datos.crisis === true);
         setEstado('reposo');
         return;
       }
@@ -375,13 +378,15 @@ export default function DescifrarPage() {
 
         {noConversacion && estado !== 'resultado' && (
           <div role="status" className="mt-6 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[var(--surface-2)] p-4">
-            {modo === 'texto' && texto.trim() && (
+            {modo === 'texto' && texto.trim() && !esCrisis && (
               <div className="mb-3 rounded-[var(--radius-button)] border-l-2 border-[color-mix(in_oklab,var(--accent)_55%,transparent)] bg-[color-mix(in_oklab,var(--accent)_7%,transparent)] px-3 py-2">
                 <p className="line-clamp-5 whitespace-pre-line text-[13px] leading-snug text-[var(--text-secondary)]">{texto.trim()}</p>
               </div>
             )}
             <p className="text-[13.5px] leading-relaxed text-[var(--text-primary)]">{noConversacion}</p>
             <div className="mt-3 flex flex-col gap-2">
+              {!esCrisis && (
+                <>
               <AppLinkButton href="/app/tarot">Hacer una tirada de tarot</AppLinkButton>
               <Link
                 href="/app/coach"
@@ -389,10 +394,13 @@ export default function DescifrarPage() {
               >
                 Hablar con LUMA
               </Link>
+                </>
+              )}
               <button
                 type="button"
                 onClick={() => {
                   setNoConversacion('');
+                  setEsCrisis(false);
                   setTexto('');
                   setEstado('reposo');
                 }}
