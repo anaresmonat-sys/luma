@@ -123,7 +123,7 @@ export default function PaywallLuma() {
         <span className="size-11" aria-hidden="true" />
       </div>
 
-      <div className="mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pb-40 pt-4">
+      <div className="mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pb-40 pt-2">
         {/* Dispositivo ownable de FICHA-ARTE — repite el motivo del funnel (Hero,
             Casos, PlanListo), en tamaño reducido y sin animación de entrada. */}
         <motion.div
@@ -160,7 +160,7 @@ export default function PaywallLuma() {
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className={`mt-5 flex flex-col gap-3 ${listo ? '' : 'invisible'}`}
+          className={`mt-4 flex flex-col gap-2.5 ${listo ? '' : 'invisible'}`}
         >
           {beneficios.map((b, i) => (
             <li key={i} className="flex items-start gap-3 text-[14px] leading-snug text-[var(--text-primary)]">
@@ -175,7 +175,7 @@ export default function PaywallLuma() {
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="relative mt-7"
+          className="relative mt-5"
         >
           {/* 2º resplandor: la página es larga y el bloom del body (fijo, cerca
               del header) no llega hasta aquí — sin esto la mitad inferior se
@@ -197,7 +197,7 @@ export default function PaywallLuma() {
             trialDias={TRIAL_DIAS}
             onSeleccionar={setSeleccionado}
           />
-          <p className="mt-3 text-center text-[13px] leading-snug text-[var(--text-secondary)]">
+          <p className="mt-2 text-center text-[13px] leading-snug text-[var(--text-secondary)]">
             * Precios en US$, más impuestos y en tu moneda local.
           </p>
         </motion.div>
@@ -293,12 +293,10 @@ export default function PaywallLuma() {
               El pago tarda más de lo normal. Toca de nuevo el botón o escríbenos a soporte@tuluma.app.
             </p>
           )}
-          <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[13px] font-semibold leading-snug text-[var(--text-secondary)]">
-            <ShieldCheck size={16} aria-hidden="true" className="shrink-0 text-[var(--accent-lite)]" />
-            <span>
-              Garantía de 15 días desde que empiezas <span aria-hidden="true">·</span>{" "}
-              <span className="whitespace-nowrap">Pago seguro con Hotmart</span>
-            </span>
+          <p className="mt-2 text-center text-[13px] font-semibold leading-snug text-[var(--text-secondary)]">
+            <ShieldCheck size={16} aria-hidden="true" className="mr-1.5 inline align-[-3px] text-[var(--accent-lite)]" />
+            Garantía de devolución de 15 días <span aria-hidden="true">·</span>{' '}
+            <span className="whitespace-nowrap">Pago seguro con Hotmart</span>
           </p>
         </div>
       </div>

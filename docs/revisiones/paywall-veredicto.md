@@ -293,3 +293,38 @@ Defectos (con severidad):
 5. [BAJA · Identidad/profundidad] La carta ownable queda en ~50px de ancho: el objeto héroe de la ficha se percibe como icono; además el halo de las tarjetas deja ver bordes laterales tenues en el rectángulo de la columna → carta ~72-96px si cabe sin empujar Mensual bajo la barra, y extender el halo a ancho completo con máscara también horizontal.
 
 Para pasar el gate (36/16/16): usabilidad +4 y craft +2. Rutas realistas: (a) corregir 1 y 3 → encaje 3 (craft 15); (b) quitar chips redundantes y consolidar tamaños → h8 sube a 4 (usab 33) y jerarquía a 3 firme; (c) para craft 16 hace falta además movimiento 4 (conteo/transición de dígitos del precio héroe al montar) o identidad 4 (carta héroe visible a ~90px con su resplandor); (d) para usabilidad 36 hacen falta +3 más: un skeleton/espacio visible mientras `listo` es false en el bloque de beneficios (hoy queda un hueco vacío sin JS/hidratación lenta: h1), nombre de garantía y confirmación visible en la primera vista de que se puede cancelar (hoy esa promesa solo vive en el timeline bajo el pliegue: h10/h2). Honestamente, 36/40 es un tope difícil: un 4 en 4 criterios es poco probable sin rediseño; el valor real está en cerrar los defectos 1-4 y recapturar a 375x812 con la nota visible.
+
+---
+
+## Ronda 2026-11-06 b (revisor independiente)
+Fecha: 2026-11-06 18:00
+Screenshot: docs/revisiones/paywall-375.png (750x1624 = 375x812 a 2x; solo primera vista; el timeline y los enlaces "Ahora no" / "Ya pagué, entrar" quedan bajo el pliegue y se verificaron en código)
+Usabilidad: 32/40
+Craft: 15/20
+Copy (si vende): 16/20
+Fidelidad (si hubo referencia): N-A
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:3 h5:3 h6:4 h7:3 h8:3 h9:4 h10:3
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+Detalle copy: idea:3 especificidad:3 emoción:3 oferta:3 acción:4 (ningún eje <=2; garantía con plazo y condición de reembolso junto al CTA, sin nombre propio; "Ahorras 3 meses" verificable: 119,88 - 89,99 = 29,89)
+Gate de carga cognitiva: 0 fallos (3 beneficios, 2 planes, 1 acción primaria, bloques de 1-2 líneas).
+Ficha de arte: respetada (vino con blooms, oro, Cormorant Garamond en titular y precios, Hanken Grotesk en cuerpo, carta ownable con resplandor; no coincide con los clones vetados Capítulo/Umbral). Las cifras de precio en Cormorant salen en estilo antiguo ("7,50", "9,99" con alturas desiguales): legible pero irregular.
+
+Estado de los defectos de la ronda anterior:
+- Nota "* Precios en US$…" cortada por la barra: RESUELTO (ahora queda ~20px de aire sobre el botón, texto completo).
+- Escudo desalineado de la garantía: RESUELTO (escudo en línea con el texto, bloque centrado).
+- Garantía sin nombre propio: PERSISTE en parte ("Garantía de devolución de 15 días" ya dice qué recibe, pero sin nombre de marca ni "desde el primer cobro").
+- Chip "3 DÍAS DE PRUEBA" repetido en ambas tarjetas y ≥8 tamaños de letra (11, 12, 13, 14, 15, 16, 24, 28): PERSISTE.
+- Carta ownable ~50px: PERSISTE (se percibe, con resplandor, pero como icono).
+
+Verificado en código: CTA 52px ancho completo, whileTap 0.97, habilitado por defecto y disabled solo tras pulsar (spinner "Abriendo el pago seguro…" con role="status"), error role="alert" con qué pasó + qué hacer, pageshow + timeout cancelable, radiogroup/radio/aria-checked con flechas de teclado, layoutId del marco, MotionConfig reducedMotion="user" en layout, entradas sin desplazamiento con reduce, timeline con línea dibujada y fundido del precio. CTA vivo: cumple los 4 anclas. Movimiento: stagger, tap, marco con spring, línea dibujada, fundido de precio; sin conteo de números ni celebración → 3. Control/libertad (h3): X de cierre y "Ahora no" visibles, pero la promesa de cancelar vive solo en el timeline bajo el pliegue. Flexibilidad (h7): plan anual por defecto y flechas de teclado; nada más. Prevención/carga: bloque de beneficios queda invisible hasta que `listo` es true (hueco vacío sin JS / hidratación lenta), sin skeleton.
+
+Defectos (con severidad):
+1. [MEDIA · Jerarquía/h8, tarjetas de plan, ambos chips "3 DÍAS DE PRUEBA"] El chip se repite en las dos tarjetas (más titular, CTA y timeline: 5 menciones de "3 días") y compite con "MÁS POPULAR" y con el precio; no distingue un plan de otro. Además hay 8 tamaños de letra frente al máximo de 3-4 → quitar el chip de las tarjetas o bajarlo a texto de 12px sin fondo; consolidar tamaños (11/12/13 a uno, 14/15/16 a uno).
+2. [MEDIA · Copy/oferta, barra fija inferior] "Garantía de devolución de 15 días" es plazo sin nombre propio ni condición (desde cuándo), y queda en 13px text-secondary, la línea más débil junto al botón; el sub-check "garantía nombrada" no pasa limpio → "Garantía LUMA de 15 días: te devolvemos tu dinero desde tu primer cobro" en una sola línea.
+3. [MEDIA · Estado/h1, bloque de beneficios, page.tsx línea 163] `invisible` hasta que `listo` es true: sin JS o con hidratación lenta queda un hueco de ~100px entre el subtítulo y las tarjetas, sin skeleton ni texto → renderizar los 3 beneficios genéricos visibles en servidor (el layout effect ya evita el salto de texto si coinciden) o un skeleton de 3 filas.
+4. [BAJA · Identidad, carta ownable en la cabecera, ~50px de ancho] El objeto héroe de la ficha se percibe como icono; la identidad sostiene en color y tipografía, no en el dispositivo firma → subirla a ~72-96px si Mensual sigue visible sobre la barra a 375x812.
+5. [BAJA · Movimiento/encaje, precios "US$7,50" y "US$9,99" en Cormorant] Cifras de estilo antiguo con alturas desiguales y sin conteo al montar; el precio héroe no anima → activar cifras tabulares/lining (font-variant-numeric: lining-nums) y contar el precio al montar (200-400 ms, gateado por reduce) para llegar a movimiento 4.
+
+Para pasar el gate (36/16/16): faltan 4 puntos de usabilidad y 1 de craft; copy ya pasa (16). Rutas realistas: (a) h8 a 4 (chips y tamaños) = 33; (b) h1 a 4 (skeleton/beneficios visibles + estado inmediato ya existente) o h10 a 4 (promesa "cancela cuando quieras" visible en la primera vista, junto a la nota de precios) = 34-35; (c) h2/h3 a 4 exige nombrar la garantía y dar salida/cancelación visible sin scroll = 36 solo con tres 4s adicionales, poco probable sin rediseño; (d) craft 16 con conteo del precio (movimiento 4) o carta héroe a ~90px (identidad 4). Se resolvieron los dos defectos de encaje (nota cortada y escudo), por eso encaje sube a 3 y craft de 14 a 15.
+
+Veredicto: NO LISTA
