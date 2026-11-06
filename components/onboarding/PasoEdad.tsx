@@ -84,17 +84,16 @@ export function PasoEdad({
           className="pointer-events-none absolute inset-x-[-20px] -top-8 -z-10 h-72"
           style={{ background: 'radial-gradient(220px 170px at 50% 30%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 72%)' }}
         />
-        <motion.span
-          {...entrada(0)}
+        <span
           aria-hidden="true"
-          className="flex size-16 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] shadow-[0_0_28px_-8px_color-mix(in_oklab,var(--accent)_60%,transparent)]"
+          className="luma-fade-in flex size-16 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] shadow-[0_0_28px_-8px_color-mix(in_oklab,var(--accent)_60%,transparent)]"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/luma-icon.png" alt="" className="h-9 w-auto brightness-125" />
-        </motion.span>
-        <motion.h1
-          {...entrada(1)}
-          className="mt-5 text-balance text-[28px] font-bold leading-[1.1] text-[var(--text-primary)] [font-family:var(--font-display)]"
+          <img src="/luma-icon-sm.webp" alt="" className="h-9 w-auto brightness-125" />
+        </span>
+        {/* Fundido con CSS puro: el título es el LCP y no debe esperar a que cargue el JavaScript (38) */}
+        <h1
+          className="luma-fade-in mt-5 text-balance text-[28px] font-bold leading-[1.1] text-[var(--text-primary)] [font-family:var(--font-display)]"
         >
           {conSesion ? (
             <>
@@ -105,9 +104,9 @@ export function PasoEdad({
               Una cosa antes de tu <span className="text-[var(--accent)]">primera lectura</span>
             </>
           )}
-        </motion.h1>
+        </h1>
         {/* Dos bloques como máximo antes de la casilla (revisor, ronda 18): subtítulo + privacidad en uno, oferta en otro. */}
-        <motion.p {...entrada(2)} className="mt-3 max-w-[340px] text-balance text-[16px] font-semibold leading-snug text-[var(--text-primary)]">
+        <p className="luma-fade-in mt-3 max-w-[340px] text-balance text-[16px] font-semibold leading-snug text-[var(--text-primary)]">
           {nota ? 'Aquí nadie te juzga.' : 'Aquí nadie te juzga: es un espacio privado.'}
           {nota && (
             <span className="mt-1 block text-[14px] font-normal leading-snug text-[var(--text-secondary)]">
@@ -115,18 +114,18 @@ export function PasoEdad({
               {nota}
             </span>
           )}
-        </motion.p>
-        <motion.p {...entrada(2)} className="mt-3 max-w-[340px] text-[14px] leading-relaxed text-[var(--text-secondary)]">
+        </p>
+        <p className="luma-fade-in mt-3 max-w-[340px] text-[14px] leading-relaxed text-[var(--text-secondary)]">
           {conSesion
             ? 'Cuenta lo que te pasa sin miedo. Solo te pedimos esto una vez.'
             : nota
               ? 'Tu primera lectura es gratis, sin tarjeta.'
               : 'Cuenta lo que te pasa sin miedo. Tu primera lectura es gratis, sin tarjeta.'}
-        </motion.p>
+        </p>
       </motion.div>
 
       {/* Zona del pulgar: casilla + aviso + botón + legal, juntos y al fondo */}
-      <motion.div {...entrada(3)} className="relative mt-auto">
+      <div className="luma-fade-in relative mt-auto">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-[-20px] -top-24 -z-10 h-72"
@@ -244,7 +243,7 @@ export function PasoEdad({
           </Link>
           .
         </p>
-      </motion.div>
+      </div>
     </div>
   );
 }

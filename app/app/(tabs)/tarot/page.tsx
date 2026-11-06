@@ -102,7 +102,7 @@ function CartaReverso({ retraso }: { retraso: number }) {
     >
       <span className="absolute inset-1 rounded-md" style={{ border: '1px solid color-mix(in oklab, var(--accent) 40%, transparent)' }} />
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/luma-icon.png" alt="" className="relative h-9 w-auto brightness-125" />
+      <img src="/luma-icon-sm.webp" alt="" className="relative h-9 w-auto brightness-125" />
     </motion.div>
   );
 }
@@ -132,7 +132,7 @@ function MiniReverso({ className = '' }: { className?: string }) {
           style={{ background: 'linear-gradient(125deg, transparent 30%, rgb(255 255 255 / 0.2) 48%, transparent 64%)' }}
         />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/luma-icon.png" alt="" className="relative h-5 w-auto brightness-125 [@media(max-height:720px)]:h-4" />
+        <img src="/luma-icon-sm.webp" alt="" className="relative h-5 w-auto brightness-125 [@media(max-height:720px)]:h-4" />
       </span>
     </span>
   );

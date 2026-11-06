@@ -138,12 +138,8 @@ export default function PaywallLuma() {
         </motion.div>
 
         {/* Headline: promesa concreta (entender qué pasa y qué responder) + la escena del avatar en el subtítulo; sin prometer un resultado emocional */}
-        <motion.div
-          initial={{ opacity: 0, y: reduce ? 0 : 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-2"
-        >
+        {/* Fundido con CSS puro: el título es el LCP y no debe esperar a que cargue el JavaScript (38) */}
+        <div className="luma-fade-in mt-2">
           {lecturaUsada && (
             <p className="mb-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_40%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2 text-[13px] font-semibold leading-snug text-[var(--text-primary)]">
               Ya usaste tu lectura gratis. Con los {TRIAL_DIAS} días de prueba tienes LUMA completa.
@@ -157,7 +153,7 @@ export default function PaywallLuma() {
           <p className="mt-2 text-[15px] leading-snug text-[var(--text-secondary)]">
             <MarkedCopy text="Para esas noches [b]mirando el teléfono[/b], esperando que responda." />
           </p>
-        </motion.div>
+        </div>
 
         {/* Beneficios: personalizados si hay datos del onboarding, genéricos si no */}
         <motion.ul

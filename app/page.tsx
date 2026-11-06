@@ -37,7 +37,7 @@ export default function LandingLuma() {
       <SiteHeader
         appName="LUMA"
         loginHref="/entrar"
-        logo={<img src="/luma-icon.png" alt="" aria-hidden="true" className="h-6 w-auto" />}
+        logo={<img src="/luma-icon-sm.webp" alt="" aria-hidden="true" width={18} height={24} className="h-6 w-auto" />}
       />
       <main id="contenido">
       {/* 1 · HERO */}
@@ -279,7 +279,7 @@ Garantía de 15 días desde que empiezas tu prueba · Pago seguro con Hotmart`}
       {/* 10 · FOOTER LEGAL — las páginas enlazadas existen como borrador (contenido pendiente, archivo 47) */}
       <FooterLegal
         appName="LUMA"
-        logo={<img src="/luma-icon.png" alt="" aria-hidden="true" className="h-6 w-auto" />}
+        logo={<img src="/luma-icon-sm.webp" alt="" aria-hidden="true" width={18} height={24} className="h-6 w-auto" />}
         soporteEmail="soporte@tuluma.app"
         enlaces={[
           { label: 'Privacidad', href: '/privacidad' },

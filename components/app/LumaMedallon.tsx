@@ -4,6 +4,7 @@
 
 export function LumaMedallon({ size = 34, luna = false }: { size?: number; luna?: boolean }) {
   const aro = Math.max(1, Math.round(size / 40));
+  const alto = size * (luna ? 0.5 : 0.56);
   return (
     <span
       aria-hidden="true"
@@ -30,10 +31,10 @@ export function LumaMedallon({ size = 34, luna = false }: { size?: number; luna?
       )}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/luma-icon.png"
+        src={alto <= 48 ? '/luma-icon-sm.webp' : '/luma-icon.png'}
         alt=""
         className="relative w-auto brightness-125 drop-shadow-[0_0_6px_rgba(224,176,92,0.55)]"
-        style={{ height: size * (luna ? 0.5 : 0.56) }}
+        style={{ height: alto }}
       />
     </span>
   );
