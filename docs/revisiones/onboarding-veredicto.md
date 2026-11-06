@@ -346,3 +346,41 @@ Fidelidad (si hubo referencia): N-A
 Veredicto: LISTA
 Margen: 36/40 y 16/20 están en el umbral exacto.
 Defectos que quedan (no bloqueantes): (1) banda de ~140 px entre el texto y la casilla, se arregla con un resplandor vino a media pantalla o `pb-6` en la zona del pulgar; (2) faltan capturas de los estados «enviando» y de fallo; (3) la flecha atrás queda apagada 1,5 s durante el envío.
+
+---
+
+## Ronda 2026-11-06 (revisor independiente)
+Fecha: 2026-11-06 12:00
+Screenshot: docs/revisiones/onboarding-375.png (750x1624 = 375x812 a 2x, puerta de edad real con ?ayuda=analizar; sin capturas de aviso, enviando ni fallo en esta ronda)
+Usabilidad: 34/40
+Craft: 15/20
+Copy (si vende): N-A
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:4 h2:4 h3:3 h4:3 h5:4 h6:4 h7:3 h8:3 h9:3 h10:3
+Detalle craft: jerarquia:3 profundidad:3 identidad:3 movimiento:3 encaje:3
+Gate de carga cognitiva: 0 fallas (1 casilla, 1 CTA, texto corto, qué sigue obvio).
+Verificado contra FICHA-ARTE: Cormorant Garamond en titular, Hanken Grotesk en cuerpo, oro #d8a441 solo en titular/acento y CTA, fondo vino con bloom, radios por tokens. Sin desvío de ficha; no es clon de los ejemplos vetados (Capítulo/Umbral). CTA héroe vivo: contraste alto, whileTap 0.97, habilitado por defecto, h-14 ancho completo: cumple los 4.
+Verificación en código (no inferida):
+- Movimiento: `entrada()` (stagger 0.07, PasoEdad.tsx líneas 55-60) es código MUERTO: ninguna llamada la usa. Tras el commit 235de12 (titular con fundido CSS) los bloques usan `.luma-fade-in` (globals.css 85-94: solo opacity 0.3 s, sin delay ni desplazamiento), así que medallón, titular, párrafos y zona del pulgar aparecen TODOS a la vez. El stagger de entrada (baseline 1) ya no existe aunque el comentario del archivo (líneas 7-8) lo sigue afirmando. Spring de casilla, whileTap, fundido de etiqueta, fade-out previo a navegar y reduced-motion sí están. Movimiento baja de 4 a 3.
+- h3: flecha atrás presente y deshabilitada solo durante `saliendo` (1,5 s máx.); sin undo necesario. Se queda en 3.
+- h7: edad recordada por navegador, destino pre-elegido por ?ayuda; sin atajos de teclado. 3.
+Visto en captura:
+- Jerarquía: titular 28 serif con «primera lectura» en oro > «Aquí nadie te juzga.» 16/600 > cuerpo 14 > legal. 3 tamaños + botón. Nítida.
+- Bloques de texto antes de la casilla: se leen TRES (línea en negrita; línea con candado de 2 líneas; línea de oferta) aunque dos vivan en el mismo <p>. La línea de oferta queda separada del candado con gap propio. h8 no es 4.
+- Banda vacía entre «Tu primera lectura es gratis…» (y≈780 a 2x) y la casilla (y≈1135): ~178 px CSS, la mayor registrada hasta ahora (antes ~120-140). La pantalla se lee partida en dos mitades; es lo primero que se nota al abrirla. Afecta encaje y profundidad (bloom del CTA no cubre la banda).
+- Medallón con espada-corazón a línea: identidad correcta pero es el único dispositivo ownable y es pequeño (64 px).
+- Casilla con hairline de 2px degradé visible; texto «Confirmo que soy mayor de 18 años.» de 14 px sobre tarjeta de 56 px; área táctil correcta.
+- Legal a 14 px terciario con enlaces subrayados de área ≥44 px.
+Defectos con severidad:
+1. [ALTA · Movimiento · PasoEdad.tsx líneas 55-60 y 95-128] Stagger de entrada eliminado en la práctica por el cambio a `.luma-fade-in` (perf 235de12); `entrada` quedó sin uso y el comentario miente → fix: dar a cada `.luma-fade-in` un `animation-delay` por clase/variable CSS (0 / 70 / 140 / 210 ms) más un `translateY(8px)→0` en el keyframe, sin volver a depender de JS para el LCP; borrar `entrada` o usarla. Esto recupera el 4 de movimiento.
+2. [MEDIA · Encaje/profundidad · banda y≈780-1135 a 2x] ~178 px de fondo casi plano entre la oferta y la casilla; la pantalla queda en dos mitades → fix: bajar el bloque superior (`pt-12` → `pt-20`) o subir la zona del pulgar con `pb-12`/menos `mt-auto`, y ampliar el bloom del medallón al 22-24% para que el vacío se lea como aire deliberado.
+3. [MEDIA · h8 · bloque de texto superior] Tres piezas de texto (negrita, candado, oferta) antes de la acción → fix: fundir «Aquí nadie te juzga.» + candado + oferta en un solo bloque de dos líneas máximo, p. ej. «Aquí nadie te juzga. Tu conversación es privada y no la guardamos.» y mover «Tu primera lectura es gratis, sin tarjeta.» al texto del botón o bajo el CTA como microcopy.
+4. [BAJA · h9 · aviso de fallo] «No pudimos entrar. Toca el botón de nuevo.» dice qué hacer pero no la causa probable ni otra salida, y no tiene captura → fix: «No pudimos entrar. Revisa tu conexión y toca el botón de nuevo.» solo si `navigator.onLine` es falso; capturar el estado.
+5. [BAJA · Evidencia] Sin capturas de aviso, enviando ni fallo en esta ronda → capturar los tres a 375x812 antes de pedir nueva revisión.
+Lo que falta para pasar el gate (≥36/40 y ≥16/20):
+- Craft: restaurar el stagger de entrada real (defecto 1) → movimiento 4 → 16/20. Es el cambio mínimo y suficiente para craft.
+- Usabilidad: 34 → 36 exige subir h8 a 4 (defecto 3, fundir a dos piezas) y un segundo punto, que solo es honesto con h9 a 4 (aviso con causa, defecto 4, con captura) o h3 a 4. Sin ambos, usabilidad se queda en 35 como máximo.
+- Re-capturar la puerta tras los cambios, con el estado de aviso incluido.
+
+NOTA DE CIERRE (2026-11-06, quien construye — no es veredicto): la ronda anterior puntuó un cambio de velocidad en components/onboarding/PasoEdad.tsx (fundido CSS en lugar de la entrada escalonada de motion) que quitó el stagger de entrada, una animación baseline. Ese cambio se REVIRTIÓ: PasoEdad.tsx vuelve a ser el de 3ffe749 (el publicado en producción; veredicto LISTA 36/40 · 16/20 de la ronda 19 del 2026-10-27). Los defectos 2-5 de la ronda (banda vacía de ~178 px, tres bloques de texto, aviso de fallo sin causa, capturas de estados) son sobre el diseño publicado y quedan en Problemas conocidos de ESTADO.md; no se corrigieron hoy. La captura docs/revisiones/onboarding-375.png vuelve a la de la ronda 19.

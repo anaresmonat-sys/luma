@@ -267,3 +267,29 @@ Estado: cambios locales sin commit ni publicar; producción conserva el paywall 
 
 ## Cierre 2026-10-31 — anexado por el desarrollador
 Se descartaron los cambios de diseño de las rondas 19b-22 (git checkout a la versión publicada). El paywall visual es el mismo que el de la ronda 18 (LISTA 36/16/16 en su día; las rondas 19b-22 con otra metodología dieron NO LISTA 30-32/14-15/15-16). Único cambio de código: entradas sin desplazamiento con «reducir movimiento» (commit 1956926), sin efecto visual en el uso normal. Sin captura nueva: no cambia lo que se ve.
+
+---
+
+## Ronda 2026-11-06 (revisor independiente)
+Fecha: 2026-11-06 12:00
+Screenshot: docs/revisiones/paywall-375.png (750x1624 = 375x812 a 2x; solo primera vista, el timeline y los enlaces de salida quedan bajo el pliegue y se verificaron en código)
+Usabilidad: 32/40
+Craft: 14/20
+Copy (si vende): 16/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:3 h2:3 h3:3 h4:3 h5:3 h6:4 h7:3 h8:3 h9:4 h10:3
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:2
+Detalle copy: idea:3 especificidad:3 emoción:3 oferta:3 acción:4 (ningún eje <=2; sub-check "garantía nombrada" FALLA: hay plazo (15 días) pero sin nombre propio ni condición clara)
+Gate de carga cognitiva: 0 fallos (3 beneficios, 2 planes, 1 acción primaria, bloques de 1-2 líneas).
+Ficha de arte: respetada (vino #1a0d13/#241019 con blooms, oro #d8a441, Cormorant Garamond en titular y precios, Hanken Grotesk en cuerpo, carta ownable). No coincide con los clones vetados (Capítulo/Umbral). Nota: los números de precio en Cormorant salen con cifras de estilo antiguo ("7,50", "9,99" con alturas desiguales), legible pero irregular.
+Verificado en código: CTA 52px ancho completo, whileTap 0.97, habilitado por defecto y disabled solo tras pulsar (con spinner "Abriendo el pago seguro…" y role="status"), error con role="alert" tras 8 s con qué pasó + qué hacer, pageshow + timeout cancelable, radiogroup/radio/aria-checked + flechas de teclado, layoutId del marco, MotionConfig reducedMotion="user" (layout) y entradas sin desplazamiento con reduce, timeline con línea que se dibuja y fundido del precio. CTA vivo: cumple los 4 anclas (contraste oro sobre vino alto). Movimiento: stagger, tap, marco con spring, línea dibujada, fundido de precio; sin conteo de números ni celebración (no hay hito real en un paywall) → 3 por prudencia. Aritmética del copy verificada: 89,99/12 = 7,50; 119,88 - 89,99 = 29,89 (~3 meses). Garantía = 15 días (la ficha dice 7: error de la ficha, no se penaliza la pantalla).
+
+Defectos (con severidad):
+1. [ALTA · Encaje/estado, y≈1400-1425 de la captura, nota "* Precios en US$, más impuestos y en tu moneda local." justo sobre el botón] La nota queda cortada por el degradado de la barra fija: se ve la mitad superior de las letras. Cualquier usuario lo nota y parece un error de maquetación, justo en la letra pequeña de transparencia del cobro → liberar ~28px arriba (reducir mt-7 de las tarjetas a mt-5 y el gap/espacios del bloque de beneficios, o carta más baja) o mover la nota dentro de las tarjetas / a la barra fija, para dejar ≥16px de aire sobre el botón en 375x812.
+2. [MEDIA · Copy/oferta, fila inferior de la barra fija] La garantía es "Garantía de 15 días desde que empiezas" sin nombre propio ni qué recibe la persona (reembolso); el sub-check binario "garantía nombrada" falla → "Garantía LUMA de 15 días: te devolvemos tu dinero" (una línea) junto al CTA.
+3. [MEDIA · Encaje, esquina inferior izquierda de la barra] El escudo queda pegado al borde izquierdo (x≈57) mientras el texto de 2 líneas va centrado (arranca en x≈153): ícono y texto no forman un grupo, desencaje visible → agrupar ícono+texto en un solo bloque centrado (inline-flex con texto alineado a la izquierda dentro) o poner el escudo antes de la primera línea.
+4. [MEDIA · Jerarquía/h8, tarjetas de plan] Las dos tarjetas repiten el chip "3 DÍAS DE PRUEBA" (junto al titular, el CTA y el timeline son 5 menciones de "3 días") y compiten con "MÁS POPULAR" y con el precio; no distingue un plan de otro → quitar el chip de las tarjetas o bajarlo a texto 12px sin fondo. Además hay ≥8 tamaños de letra en la pantalla (11, 12, 13, 14, 15, 16, 24, 28) frente al máximo de 3: consolidar a 3-4.
+5. [BAJA · Identidad/profundidad] La carta ownable queda en ~50px de ancho: el objeto héroe de la ficha se percibe como icono; además el halo de las tarjetas deja ver bordes laterales tenues en el rectángulo de la columna → carta ~72-96px si cabe sin empujar Mensual bajo la barra, y extender el halo a ancho completo con máscara también horizontal.
+
+Para pasar el gate (36/16/16): usabilidad +4 y craft +2. Rutas realistas: (a) corregir 1 y 3 → encaje 3 (craft 15); (b) quitar chips redundantes y consolidar tamaños → h8 sube a 4 (usab 33) y jerarquía a 3 firme; (c) para craft 16 hace falta además movimiento 4 (conteo/transición de dígitos del precio héroe al montar) o identidad 4 (carta héroe visible a ~90px con su resplandor); (d) para usabilidad 36 hacen falta +3 más: un skeleton/espacio visible mientras `listo` es false en el bloque de beneficios (hoy queda un hueco vacío sin JS/hidratación lenta: h1), nombre de garantía y confirmación visible en la primera vista de que se puede cancelar (hoy esa promesa solo vive en el timeline bajo el pliegue: h10/h2). Honestamente, 36/40 es un tope difícil: un 4 en 4 criterios es poco probable sin rediseño; el valor real está en cerrar los defectos 1-4 y recapturar a 375x812 con la nota visible.
