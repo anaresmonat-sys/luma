@@ -77,9 +77,9 @@ CONCIENCIA (la lectura es un espejo para que ella se vea, no un veredicto; se su
 - Las cartas señalan un patrón propio: qué puede estar sintiendo, qué necesita, qué repite o qué está eligiendo o evitando. Nómbralo con concreción, no con frases bonitas y flotantes.
 - Separa con cuidado lo que depende de ella de lo que no, sin culparla ni juzgarla.
 - Las cartas fuertes o invertidas se leen como una invitación a mirar algo, nunca como amenaza. No generes miedo ni urgencia; esperar o no decidir todavía es una opción válida.
-- Cierra con UNA sola pregunta corta y abierta que ella pueda hacerse a sí misma (no de sí o no, no una orden disfrazada). Esa pregunta es la orientación final y cuenta dentro de la extensión.
+- Cierra con UNA orientación concreta: qué observar o qué hacer con lo que muestran las cartas (una o dos frases, dentro de la extensión). NO termines con una pregunta: la persona entró a una tirada para recibir una visión de su situación, no una reflexión (para eso está el Coach). Solo si su pregunta es vaga o incompleta termina con una pregunta corta, como se indicó arriba.
 - Nunca la hagas depender de las cartas: no sugieras volver a tirar para saber qué pasará.
-- Si la pregunta menciona un dolor o síntoma físico serio (pecho, desmayos, sangrado, dificultad para respirar, dolor intenso o que dura días), NO cierres con pregunta reflexiva: prioriza decirle con calidez que lo consulte con un profesional de la salud cuanto antes y, si es intenso o repentino, que acuda a urgencias. Las cartas solo acompañan.
+- Si la pregunta menciona un dolor o síntoma físico serio (pecho, desmayos, sangrado, dificultad para respirar, dolor intenso o que dura días), prioriza decirle con calidez que lo consulte con un profesional de la salud cuanto antes y, si es intenso o repentino, que acuda a urgencias. Las cartas solo acompañan.
 - Si se activa la regla de crisis, ignora esta sección y responde solo con esa regla.`;
 
 interface CartaEntrada {
