@@ -14,10 +14,6 @@ const RETARDO_S = 0.9;
 const TAMANO =
   'h-[15rem] w-[8.75rem] [@media(min-height:721px)_and_(max-height:840px)]:h-[12rem] [@media(min-height:721px)_and_(max-height:840px)]:w-[7rem] [@media(min-height:621px)_and_(max-height:720px)]:h-[10rem] [@media(min-height:621px)_and_(max-height:720px)]:w-[5.9rem] [@media(max-height:620px)]:h-[7.5rem] [@media(max-height:620px)]:w-[4.4rem]';
 
-// Con la cajita «Tu progreso» visible en Inicio sobra menos alto: la carta se ajusta de forma continua al alto de la
-// pantalla (6,5 rem a 640 px, hasta 15 rem) en vez de saltar por tramos, para no montarse sobre la cajita ni sobre el botón.
-const ALTO_COMPACTA = 'clamp(6.5rem, calc(0.6 * (100dvh - 640px) + 6.5rem), 15rem)';
-
 const SOMBRA_REVERSO =
   '0 30px 44px -14px rgb(10 5 8 / 0.7), 0 12px 18px -8px rgb(10 5 8 / 0.5), inset 0 0 0 1.5px color-mix(in oklab, var(--accent-lite) 85%, transparent)';
 
@@ -31,7 +27,7 @@ function Estrella({ className = '' }: { className?: string }) {
   );
 }
 
-export function CartaGirando({ compacta = false }: { compacta?: boolean }) {
+export function CartaGirando() {
   const reducir = useReducedMotion();
 
   return (
@@ -54,11 +50,8 @@ export function CartaGirando({ compacta = false }: { compacta?: boolean }) {
       >
         {/* se da la vuelta una sola vez */}
         <motion.div
-          className={`relative ${compacta ? '' : TAMANO}`}
-          style={{
-            transformStyle: 'preserve-3d',
-            ...(compacta ? { height: ALTO_COMPACTA, width: `calc(${ALTO_COMPACTA} * 0.5833)` } : {}),
-          }}
+          className={`relative ${TAMANO}`}
+          style={{ transformStyle: 'preserve-3d' }}
           initial={reducir ? false : { rotateY: 0, rotateZ: 0 }}
           animate={{ rotateY: 180, rotateZ: -3 }}
           transition={reducir ? { duration: 0 } : { delay: RETARDO_S, duration: 1.5, ease: [0.45, 0.05, 0.25, 1] }}

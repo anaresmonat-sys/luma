@@ -27,6 +27,7 @@ export default function InicioPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [racha, setRacha] = useState(0);
   const [termometro, setTermometro] = useState<Termometro>({ haceUnMes: null, estaSemana: null });
+  const hayProgreso = Boolean(termometro.haceUnMes && termometro.estaSemana);
 
   useEffect(() => {
     const h = new Date().getHours();
@@ -135,10 +136,20 @@ export default function InicioPage() {
           <div className="mt-4 [@media(max-height:620px)]:mt-2">
             <MoodPicker emociones={EMOCIONES_INICIO} seleccion={animo} onSeleccionar={elegirAnimo} />
           </div>
-          <div className="mt-2 h-7 [@media(min-height:621px)_and_(max-height:720px)]:h-3 [@media(max-height:620px)]:h-0">
-            <AnimatePresence>
-              {guardado && (
+          {/* Justo debajo de los emojis: el aviso «Guardado en tu diario» y la cajita «Tu progreso» comparten el mismo hueco
+              (el aviso sustituye a la cajita 2 s) para que no cambie la altura de la pantalla. La cajita es de 2 líneas: la
+              carta es lo importante y mantiene su tamaño. */}
+          <div
+            className={
+              hayProgreso
+                ? 'mt-1.5 min-h-[3rem]'
+                : 'mt-2 h-7 [@media(min-height:621px)_and_(max-height:720px)]:h-3 [@media(max-height:620px)]:h-0'
+            }
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {guardado ? (
                 <motion.p
+                  key="guardado"
                   initial={{ opacity: 0, y: -4 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
@@ -146,35 +157,42 @@ export default function InicioPage() {
                 >
                   ✓ Guardado en tu diario
                 </motion.p>
+              ) : (
+                hayProgreso &&
+                termometro.haceUnMes &&
+                termometro.estaSemana && (
+                  <motion.div
+                    key="progreso"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-3 py-2"
+                  >
+                    <p className="text-[11.5px] leading-snug text-[var(--text-secondary)]">
+                      <span className="font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">Tu progreso</span> · Ánimo bajo hace 30
+                      días:{' '}
+                      <strong className="text-[var(--text-primary)]">
+                        {termometro.haceUnMes.negativos} de {termometro.haceUnMes.total}
+                      </strong>
+                      . Esta semana:{' '}
+                      <strong className="text-[var(--text-primary)]">
+                        {termometro.estaSemana.negativos} de {termometro.estaSemana.total}
+                      </strong>
+                      {termometro.estaSemana.negativos / termometro.estaSemana.total <
+                        termometro.haceUnMes.negativos / termometro.haceUnMes.total && (
+                        <span className="font-semibold text-[var(--accent-lite)]"> · vas mejorando</span>
+                      )}
+                    </p>
+                  </motion.div>
+                )
               )}
             </AnimatePresence>
           </div>
-
-          {termometro.haceUnMes && termometro.estaSemana && (
-            <div className="mt-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] p-3">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">
-                Tu progreso
-              </p>
-              <p className="mt-1 text-[12.5px] leading-relaxed text-[var(--text-secondary)]">
-                Hace 30 días marcaste un ánimo bajo{' '}
-                <strong className="text-[var(--text-primary)]">
-                  {termometro.haceUnMes.negativos} de {termometro.haceUnMes.total} días
-                </strong>
-                . Esta semana:{' '}
-                <strong className="text-[var(--text-primary)]">
-                  {termometro.estaSemana.negativos} de {termometro.estaSemana.total} días
-                </strong>
-                {termometro.estaSemana.negativos / termometro.estaSemana.total <
-                  termometro.haceUnMes.negativos / termometro.haceUnMes.total && ' — vas mejorando'}
-                .
-              </p>
-            </div>
-          )}
         </div>
 
         <div className="flex min-h-0 flex-1 flex-col items-center gap-2">
           <Link href="/app/tarot" className="flex min-h-0 flex-1 items-center justify-center">
-            <CartaGirando compacta={Boolean(termometro.haceUnMes && termometro.estaSemana)} />
+            <CartaGirando />
           </Link>
           <Link
             href="/app/tarot"
