@@ -8,7 +8,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, animate, useReducedMotion } from 'motion/react';
 import { Flame, MessageCircle, Search, Sparkles, User } from 'lucide-react';
 import { CartaGirando } from '@/components/app/CartaGirando';
 import { arcanoMayorAlAzar } from '@/lib/tarotDeck';
@@ -35,6 +35,9 @@ export default function InicioPage() {
   const [animo, setAnimo] = useState<string | null>(null);
   const [aviso, setAviso] = useState<'guardando' | 'guardado' | 'error' | null>(null);
   const [animoGuardado, setAnimoGuardado] = useState<string | null>(null);
+  const [pulso, setPulso] = useState(0);
+  const reducir = useReducedMotion();
+  const [rachaMostrada, setRachaMostrada] = useState(0);
   const temporizadorAviso = useRef<number | null>(null);
   useEffect(
     () => () => {
@@ -58,6 +61,16 @@ export default function InicioPage() {
     const carta = arcanoMayorAlAzar();
     setArcano({ nombre: carta.nombre, image: carta.image });
   }, []);
+
+  // La racha cuenta de 0 al valor real al llegar (con «reducir movimiento» aparece ya completa).
+  useEffect(() => {
+    if (racha < 2 || reducir) {
+      setRachaMostrada(racha);
+      return;
+    }
+    const control = animate(0, racha, { duration: 0.7, ease: 'easeOut', onUpdate: (v) => setRachaMostrada(Math.round(v)) });
+    return () => control.stop();
+  }, [racha, reducir]);
 
   useEffect(() => {
     const h = new Date().getHours();
@@ -138,6 +151,7 @@ export default function InicioPage() {
         return;
       }
       setAnimoGuardado(id);
+      setPulso((n) => n + 1);
       mostrarAviso('guardado');
       const desde = new Date();
       desde.setDate(desde.getDate() - VENTANA_DIAS);
@@ -189,7 +203,7 @@ export default function InicioPage() {
             {racha >= 2 && (
               <span className="flex items-center gap-1 text-[12px] font-semibold text-[var(--text-secondary)]">
                 <Flame size={13} strokeWidth={2} aria-hidden="true" className="text-[var(--accent-lite)]" />
-                {racha} días
+                {rachaMostrada} días
               </span>
             )}
           </div>
@@ -197,7 +211,7 @@ export default function InicioPage() {
             ¿Cómo estás hoy?
           </h1>
           <div className="mt-4 [@media(max-height:620px)]:mt-2">
-            <MoodPicker emociones={EMOCIONES_INICIO} seleccion={animo} onSeleccionar={elegirAnimo} bloqueado={aviso === 'guardando'} />
+            <MoodPicker emociones={EMOCIONES_INICIO} seleccion={animo} onSeleccionar={elegirAnimo} bloqueado={aviso === 'guardando'} pulso={pulso} />
           </div>
           {/* Justo debajo de los emojis: el aviso «Guardado en tu diario» y la cajita «Tu progreso» comparten el mismo hueco
               (el aviso sustituye a la cajita 2 s) para que no cambie la altura de la pantalla. La cajita es de 2 líneas: la
@@ -241,14 +255,14 @@ export default function InicioPage() {
                     className="rounded-[var(--radius-card)] bg-[color-mix(in_oklab,var(--bg)_70%,black)] px-3 py-2"
                   >
                     <p className="text-[12px] leading-snug text-[var(--text-secondary)]">
-                      <span className="font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">Tu progreso</span> · Ánimo bajo hace un
-                      mes:{' '}
-                      <strong className="text-[var(--text-primary)]">
-                        {termometro.haceUnMes.negativos} de {termometro.haceUnMes.total} días
-                      </strong>
-                      ; esta semana:{' '}
+                      <span className="font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">Tu progreso</span> · Días con ansiedad o
+                      tristeza: esta semana{' '}
                       <strong className="text-[var(--text-primary)]">
                         {termometro.estaSemana.negativos} de {termometro.estaSemana.total}
+                      </strong>
+                      , hace un mes{' '}
+                      <strong className="text-[var(--text-primary)]">
+                        {termometro.haceUnMes.negativos} de {termometro.haceUnMes.total}
                       </strong>
                       {termometro.estaSemana.negativos / termometro.estaSemana.total <
                         termometro.haceUnMes.negativos / termometro.haceUnMes.total && (

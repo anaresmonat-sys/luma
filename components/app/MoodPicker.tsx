@@ -4,7 +4,7 @@
 // propio por emoción, funcional (marca selección) no decorativo. Reutilizada en
 // Inicio (check-in del día) y Diario (registro emocional) con distintos sets.
 
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 
 export interface Emocion {
   id: string;
@@ -19,13 +19,17 @@ export function MoodPicker({
   seleccion,
   onSeleccionar,
   bloqueado = false,
+  pulso = 0,
 }: {
   emociones: Emocion[];
   seleccion: string | null;
   onSeleccionar: (id: string) => void;
   /** Mientras se guarda: no admite más toques (cada toque guardaría un registro nuevo). */
   bloqueado?: boolean;
+  /** Sube cada vez que se confirma un guardado: el aro elegido da un pequeño pulso (celebración mínima). */
+  pulso?: number;
 }) {
+  const reducir = useReducedMotion();
   return (
     <div className="flex justify-between gap-1" role="radiogroup" aria-label="¿Cómo te sientes?" aria-busy={bloqueado}>
       {emociones.map((e) => {
@@ -43,6 +47,9 @@ export function MoodPicker({
             }`}
           >
             <motion.span
+              key={sel ? `${e.id}-${pulso}` : e.id}
+              animate={sel && pulso > 0 && !reducir ? { scale: [1, 1.18, 1] } : undefined}
+              transition={{ duration: 0.45, ease: 'easeOut' }}
               whileTap={{ scale: 0.92 }}
               className="flex size-11 items-center justify-center rounded-full text-[20px] leading-none"
               style={{
