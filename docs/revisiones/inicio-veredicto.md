@@ -118,3 +118,33 @@ Observaciones sin penalizar: carta flotante con giro, resplandor y borde dorado 
 Qué falta para pasar el gate (≥36/40 y ≥16/20): faltan 6 puntos de usabilidad y 1 de craft. Camino realista: (a) estado «guardando» + bloqueo de doble toque + error legible con reintento claro (h1 a 4, h5 a 3, h9 a 4 = +3); (b) cajita sin apariencia de botón y texto ≥13 px (h8 a 4 posible, h10 a 4 con ayuda contextual sobre qué cuenta como «ánimo bajo» = +2); (c) deshacer/cambiar el ánimo del día sin duplicar (h3 a 4 = +1); y para craft, stagger + tap scale + celebración mínima en el guardado (movimiento a 4 = +1). Sin esos cambios la pantalla es sólida pero no llega al umbral.
 
 Veredicto: NO LISTA
+
+## Ronda 2026-11-09 c (revisor independiente)
+Fecha: 2026-11-09
+Screenshot: docs/revisiones/inicio-375.png (+ docs/revisiones/inicio-error-guardado-375.png)
+Usabilidad: 31/40  (detalle: h1:3 h2:3 h3:3 h4:3 h5:3 h6:3 h7:3 h8:3 h9:4 h10:3)
+Craft: 15/20  (detalle: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3)
+Copy (si vende): N-A
+Fidelidad (si hubo referencia): N-A
+
+Verificación de los fixes de la ronda b (screenshot + código):
+- Error legible: CORREGIDO. En inicio-error-guardado-375.png la píldora con borde y fondo rojizo y texto claro se lee a simple vista («No pudimos guardar tu ánimo. Toca de nuevo.»), role="alert", y la selección vuelve a vacío (page.tsx L117). Dice qué pasó y qué hacer: h9 sube a 4.
+- Guardando + doble toque: CORREGIDO en código (L102 bloquea mientras `aviso==='guardando'` y repite-mismo-ánimo no inserta; MoodPicker `disabled` + `aria-busy`). Estado «Guardando…» presente en código (no capturado en screenshot; no verificado visualmente). h5 sube a 3.
+- Cajita «Tu progreso»: CORREGIDO en apariencia (fondo hundido, sin borde de botón, 12 px). Sigue siendo denso: dos ventanas, cifras y «vas mejorando» en 2 líneas, y «ánimo bajo» no se explica (qué emociones cuentan).
+- Movimiento: stagger de 70 ms y active:scale 0.97 verificados en código; whileTap del selector también. Sin conteo de números, sin celebración al guardar, sin transición de pestaña verificable aquí.
+- FICHA-ARTE: vino/oro, Cormorant + Hanken, radios, borde dorado: coinciden. No es clon de «Capítulo» ni «Umbral». Carta decorativa con título en inglés impreso: decisión de la dueña, no penalizada.
+
+Gate de carga cognitiva: 0 fallas relevantes (5 emociones, 1 primaria + 2 secundarias, cajita de 2 líneas, sin elementos muertos; la carta y el botón grande comparten destino, redundancia aceptable).
+
+Defectos con severidad:
+1. [MEDIA · h3/h1] El ánimo no tiene deshacer ni corrección: tocar el mismo ánimo ya guardado se ignora SIN feedback (L102 `return` mudo; parece un botón roto), y cambiar de idea inserta una segunda fila el mismo día. Tampoco hay forma de borrar un toque por error → mostrar «Ya lo marcaste hoy» o permitir actualizar/deshacer el registro del día (upsert) con un «Deshacer» de 5 s en el aviso.
+2. [MEDIA · h6/h1] Al volver a abrir Inicio el ánimo de hoy no se restaura: `animoGuardado` y `animo` viven solo en estado local (L37) y nacen en null, aunque ya exista un registro de hoy. La usuaria no sabe si ya marcó el día, y puede duplicar registros tras recargar → leer el último check-in de hoy en `cargar()` y precargar selección y `animoGuardado`.
+3. [MEDIA · h10/h8] «TU PROGRESO · Ánimo bajo hace un mes: 2 de 3 días; esta semana: 1 de 3 · vas mejorando» sigue siendo una frase densa de 12 px, sin explicar qué cuenta como ánimo bajo ni a qué se refiere «hace un mes» (¿ventana de qué días?) → frase de una idea («Esta semana, 1 de 3 días con ánimo bajo; hace un mes, 2 de 3») o 13 px con ayuda corta.
+4. [BAJA · eje 1] Demasiado texto de 12 px: saludo, racha, etiquetas de ánimo, cajita, aviso y botones secundarios; la jerarquía real son solo 24/14/12 pero la escala inferior pesa igual y el cuerpo útil queda pequeño para una pantalla que se lee cada día → subir etiquetas de ánimo y cajita a 13 px.
+5. [BAJA · eje 4] Sin celebración ni conteo: el momento central (guardar el ánimo) solo muestra un chip de 12 px; la racha («3 días») aparece estática; el aviso de «guardado» puede apagarse antes de tiempo porque los `setTimeout` (L92) no se cancelan al encadenar avisos (un temporizador viejo borra el aviso nuevo) → un pequeño pulso/spring en el aro elegido al confirmar, conteo de la racha al entrar, y guardar el id del temporizador para limpiarlo.
+
+Observaciones sin penalizar: la carta flotante con giro, resplandor y borde dorado (dispositivo ownable) mantiene su tamaño y no se toca; reduced-motion heredado del MotionConfig global (no re-verificado en esta ronda); offline y skeleton de carga de racha/cajita no verificados (la racha y la cajita aparecen de golpe tras la carga, sin skeleton).
+
+Qué falta para pasar el gate (≥36/40 y ≥16/20): faltan 5 puntos de usabilidad y 1 de craft. Camino realista: (a) restaurar el ánimo de hoy y permitir cambiar/deshacer sin duplicar (h3 a 4, h6 a 4, h1 a 4 con feedback al repetir = +3); (b) cajita en una idea clara con ayuda contextual (h10 y h8 a 4 = +2); (c) celebración mínima al guardar + conteo de la racha + temporizadores limpios (movimiento a 4 = +1 craft). Aun con eso, 36/40 exige casi todo en 4; el nivel actual es sólido pero no ejemplar.
+
+Veredicto: NO LISTA
