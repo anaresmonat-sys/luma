@@ -117,14 +117,14 @@ export function drawCards(count: number): CartaExtraida[] {
 /** Carta del día: DETERMINÍSTICA por fecha — la misma carta para todas las
  * usuarias durante el mismo día, cambia sola a la medianoche. Antes estaba
  * congelada en una sola carta para siempre (defecto real de la auditoría
- * 2026-09-18) — este es el arreglo. */
+ * 2026-09-18) — este es el arreglo.
+ * Desde 2026-11-09 es siempre un ARCANO MAYOR y AL DERECHO: es la carta que se descubre en el Inicio y debe ser
+ * exactamente la misma que lee la «Carta del día» de Tarot (si no, la persona vería una carta y leería otra). */
 export function cartaDelDia(fecha: Date = new Date()): CartaExtraida {
   const clave = `${fecha.getFullYear()}-${fecha.getMonth()}-${fecha.getDate()}`;
   let hash = 0;
   for (let i = 0; i < clave.length; i++) hash = (hash * 31 + clave.charCodeAt(i)) >>> 0;
-  const indice = hash % MAZO_TAROT.length;
-  const invertida = Math.floor(hash / MAZO_TAROT.length) % 2 === 1;
-  return { carta: MAZO_TAROT[indice], invertida };
+  return { carta: MAYORES[hash % MAYORES.length], invertida: false };
 }
 
 /** Posiciones de la tirada de 3 cartas por categoría — se leen como UNA historia

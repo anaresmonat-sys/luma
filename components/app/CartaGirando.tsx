@@ -27,7 +27,8 @@ function Estrella({ className = '' }: { className?: string }) {
   );
 }
 
-export function CartaGirando() {
+/** `arcano`: la carta del día (nombre + imagen real). Sin él (o hasta que se calcula en el navegador) se ve la carta de LUMA. */
+export function CartaGirando({ arcano }: { arcano?: { nombre: string; image: string } }) {
   const reducir = useReducedMotion();
 
   return (
@@ -71,7 +72,7 @@ export function CartaGirando() {
             <img src="/luma-icon.png" alt="" className="relative h-[34%] w-auto brightness-125 drop-shadow-[0_0_14px_rgba(224,176,92,0.6)]" />
           </div>
 
-          {/* la carta de LUMA */}
+          {/* la cara: el arcano del día (imagen real) o, si todavía no se sabe, la carta de LUMA */}
           <div
             className="absolute inset-0 overflow-hidden rounded-[var(--radius-button)]"
             style={{
@@ -83,6 +84,22 @@ export function CartaGirando() {
               boxShadow: `${SOMBRA_REVERSO}, 0 0 36px -8px color-mix(in oklab, ${DORADO} 55%, transparent)`,
             }}
           >
+            {arcano ? (
+              <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={arcano.image}
+                  alt=""
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+                <span
+                  className="absolute inset-0 rounded-[var(--radius-button)]"
+                  style={{ boxShadow: `inset 0 0 0 1.5px color-mix(in oklab, ${DORADO} 85%, transparent)` }}
+                />
+              </>
+            ) : (
+              <>
             <span className="absolute inset-2 rounded-xl" style={{ border: `1px solid color-mix(in oklab, ${DORADO} 60%, transparent)` }} />
             <span className="absolute inset-[0.9rem] rounded-lg" style={{ border: `1px solid color-mix(in oklab, ${DORADO} 26%, transparent)` }} />
 
@@ -115,6 +132,8 @@ export function CartaGirando() {
                 Luma
               </span>
             </div>
+              </>
+            )}
           </div>
         </motion.div>
       </motion.div>

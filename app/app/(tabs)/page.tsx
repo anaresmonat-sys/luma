@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { Flame, MessageCircle, Search, Sparkles, User } from 'lucide-react';
 import { CartaGirando } from '@/components/app/CartaGirando';
+import { cartaDelDia } from '@/lib/tarotDeck';
 import { MoodPicker } from '@/components/app/MoodPicker';
 import { BienvenidaCompra } from '@/components/app/BienvenidaCompra';
 import { EMOCIONES_INICIO } from '@/lib/seed-datos';
@@ -28,6 +29,12 @@ export default function InicioPage() {
   const [racha, setRacha] = useState(0);
   const [termometro, setTermometro] = useState<Termometro>({ haceUnMes: null, estaSemana: null });
   const hayProgreso = Boolean(termometro.haceUnMes && termometro.estaSemana);
+  // El arcano del día depende de la fecha LOCAL: se calcula tras montar para no desajustar la hidratación (servidor ≠ zona de la persona).
+  const [arcano, setArcano] = useState<{ nombre: string; image: string } | null>(null);
+  useEffect(() => {
+    const { carta } = cartaDelDia();
+    setArcano({ nombre: carta.nombre, image: carta.image });
+  }, []);
 
   useEffect(() => {
     const h = new Date().getHours();
@@ -191,8 +198,12 @@ export default function InicioPage() {
         </div>
 
         <div className="flex min-h-0 flex-1 flex-col items-center gap-2">
-          <Link href="/app/tarot" className="flex min-h-0 flex-1 items-center justify-center">
-            <CartaGirando />
+          <Link
+            href="/app/tarot"
+            aria-label={arcano ? `Tu carta de hoy: ${arcano.nombre}. Abrir mi lectura de tarot` : 'Abrir mi lectura de tarot'}
+            className="flex min-h-0 flex-1 items-center justify-center"
+          >
+            <CartaGirando arcano={arcano ?? undefined} />
           </Link>
           <Link
             href="/app/tarot"
