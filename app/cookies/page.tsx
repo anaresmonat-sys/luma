@@ -11,7 +11,7 @@ export default function Page() {
       </p>
 
       <h2>Lo único que usamos hoy: cookies esenciales</h2>
-      <p>LUMA usa únicamente dos tipos de cookies, ambas necesarias para que la app funcione y para protegerla:</p>
+      <p>LUMA usa únicamente tres tipos de cookies, necesarias para que la app funcione, para protegerla y para tratarte como prefieres:</p>
       <ul>
         <li>
           <strong>Sesión iniciada</strong> (de Supabase Auth, nuestro proveedor de inicio de sesión): sin ella
@@ -22,8 +22,13 @@ export default function Page() {
           que sirve para llevar la cuenta de tu resultado gratis y evitar abusos. No contiene tu nombre ni tu
           correo, no se usa para publicidad y no puede leerse desde el navegador.
         </li>
+        <li>
+          <strong>Cómo prefieres que te hable LUMA</strong> (<code>luma_trato</code>, dura un año): guarda si eliges
+          «ella», «él» o «sin género» para que LUMA te trate así también sin cuenta. No contiene tu nombre ni tu
+          correo y no se usa para publicidad.
+        </li>
       </ul>
-      <p>Ninguna de las dos sirve para rastrearte ni para mostrarte publicidad.</p>
+      <p>Ninguna de las tres sirve para rastrearte ni para mostrarte publicidad.</p>
 
       <h2>Almacenamiento en tu dispositivo</h2>
       <p>

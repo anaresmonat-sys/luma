@@ -12,7 +12,7 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { SelectorTrato } from '@/components/app/SelectorTrato';
-import type { Trato } from '@/lib/trato';
+import { guardarTratoLocal, leerTratoLocal, type Trato } from '@/lib/trato';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { leerContextoCoach } from '@/lib/almacenamiento-contexto-coach';
 import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
@@ -105,6 +105,7 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
   const [nombre, setNombre] = useState('');
   const [aviso, setAviso] = useState(false);
   const [trato, setTrato] = useState<Trato | null>(null);
+  const [tratoYaElegido, setTratoYaElegido] = useState(false);
 
   useEffect(() => {
     let cancelado = false;
@@ -117,6 +118,12 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
         if (!user || cancelado) return;
         const meta = (user.user_metadata ?? {}) as { apodo?: string; bienvenida_hecha?: boolean };
         if (meta.apodo) onNombre?.(meta.apodo);
+        // Si ya contestó antes (aviso dentro de las herramientas), llega elegido y no se vuelve a preguntar.
+        const previo = leerTratoLocal();
+        if (previo && !cancelado) {
+          setTrato(previo);
+          setTratoYaElegido(true);
+        }
         let hechaLocal = false;
         try {
           hechaLocal = window.localStorage.getItem(CLAVE_LOCAL) === '1';
@@ -175,6 +182,7 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
     } catch {
       // ídem.
     }
+    guardarTratoLocal(trato ?? 'neutro');
     if (limpio) {
       onNombre?.(limpio);
       void guardar({ apodo: limpio, bienvenida_hecha: true, trato: trato ?? 'neutro' });
@@ -290,11 +298,15 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
                     <p className="mt-3 text-center text-sm text-[var(--text-secondary)]">
                       Puede ser tu nombre o un apodo.
                     </p>
+                    {!tratoYaElegido && (
+                      <>
                     <p className="mt-5 text-center text-sm font-semibold text-[var(--text-primary)]">¿Cómo prefieres que te hable LUMA?</p>
                     <div className="mt-2">
                       <SelectorTrato valor={trato} onCambio={setTrato} aria="Cómo prefieres que te hable LUMA" />
                     </div>
                     <p className="mt-2 text-center text-xs text-[var(--text-tertiary)]">Puedes cambiarlo cuando quieras, en Más.</p>
+                      </>
+                    )}
                     <p role="status" className="mt-1 h-5 text-center text-sm font-semibold text-[var(--an-risk)]">
                       {aviso ? 'Escribe cómo quieres que te llame.' : ''}
                     </p>

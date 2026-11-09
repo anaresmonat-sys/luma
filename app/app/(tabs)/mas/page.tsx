@@ -21,9 +21,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
-import { Bell, Cookie, CreditCard, FileText, LifeBuoy, Lock, Sparkles, Undo2, User } from 'lucide-react';
+import { Bell, ChevronDown, Cookie, CreditCard, FileText, LifeBuoy, Lock, MessageCircle, Sparkles, Undo2, User } from 'lucide-react';
 import { SelectorTrato } from '@/components/app/SelectorTrato';
-import { esTrato, type Trato } from '@/lib/trato';
+import { esTrato, guardarTratoLocal, leerTratoLocal, TRATOS, type Trato } from '@/lib/trato';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { pruebaGratisDisponible } from '@/lib/prueba-gratis';
 
@@ -47,6 +47,7 @@ export default function MasPage() {
   const [correo, setCorreo] = useState<string | null>(null);
   const [nombre, setNombre] = useState<string | null>(null);
   const [trato, setTrato] = useState<Trato | null>(null);
+  const [tratoAbierto, setTratoAbierto] = useState(false);
   const [cerrando, setCerrando] = useState(false);
   const [gratisDisponible, setGratisDisponible] = useState(true);
   const [conPlan, setConPlan] = useState(false);
@@ -55,6 +56,8 @@ export default function MasPage() {
   const [errorBorrado, setErrorBorrado] = useState<string | null>(null);
 
   useEffect(() => {
+    // Sin cuenta, el trato vive en el navegador; si hay cuenta, el valor de la cuenta lo sustituye más abajo.
+    setTrato(leerTratoLocal());
     setGratisDisponible(pruebaGratisDisponible());
     // El recordatorio local no sabe si ya hay un plan real (cortesía o pago) —
     // se corrige con la verdad del servidor en cuanto llega (mismo defecto real
@@ -103,6 +106,7 @@ export default function MasPage() {
 
   async function elegirTrato(nuevo: Trato) {
     setTrato(nuevo);
+    guardarTratoLocal(nuevo);
     try {
       await crearClienteNavegador().auth.updateUser({ data: { trato: nuevo } });
     } catch {
@@ -185,16 +189,6 @@ export default function MasPage() {
         </div>
       </div>
 
-      {conSesion && (
-        <div className="mt-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--text-tertiary)_22%,transparent)] bg-[var(--surface)] p-4">
-          <p className="text-sm font-semibold text-[var(--text-primary)]">Cómo te hablo</p>
-          <p className="mt-1 text-xs text-[var(--text-secondary)]">Así te trata LUMA en sus respuestas.</p>
-          <div className="mt-3">
-            <SelectorTrato valor={trato} onCambio={elegirTrato} aria="Cómo prefieres que te hable LUMA" />
-          </div>
-        </div>
-      )}
-
       <div className="mt-auto h-5 shrink-0 pt-4">
         <AnimatePresence>
           {aviso && (
@@ -211,6 +205,32 @@ export default function MasPage() {
       </div>
 
       <div className="mt-2 flex flex-col">
+        {/* Cómo le habla LUMA a la persona: una fila más de la lista (no una tarjeta). Funciona con o sin cuenta. */}
+        <button
+          type="button"
+          onClick={() => setTratoAbierto((a) => !a)}
+          aria-expanded={tratoAbierto}
+          className="flex items-center gap-3 py-3 text-left text-[13px] font-medium text-[var(--text-primary)] [@media(max-height:840px)]:py-2 [@media(max-height:720px)]:py-1.5"
+        >
+          <span className="text-[var(--accent-lite)]" aria-hidden="true">
+            <MessageCircle size={18} strokeWidth={1.75} />
+          </span>
+          Cómo te hablo
+          <span className="ml-auto text-[12px] font-semibold text-[var(--text-secondary)]">
+            {TRATOS.find((x) => x.id === trato)?.etiqueta ?? 'Sin elegir'}
+          </span>
+          <ChevronDown
+            size={16}
+            aria-hidden="true"
+            className={`text-[var(--text-tertiary)] transition-transform ${tratoAbierto ? 'rotate-180' : ''}`}
+          />
+        </button>
+        {tratoAbierto && (
+          <div className="pb-3">
+            <p className="mb-2 text-xs text-[var(--text-secondary)]">Para que LUMA te hable en femenino, masculino o sin género.</p>
+            <SelectorTrato valor={trato} onCambio={elegirTrato} aria="Cómo prefieres que te hable LUMA" />
+          </div>
+        )}
         {PROXIMAMENTE.map((o, i) => (
           <button
             key={o.label}

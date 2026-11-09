@@ -5,11 +5,15 @@
 
 import type { ReactNode } from 'react';
 import { PuertaEdad } from '@/components/app/PuertaEdad';
+import { PreguntaTrato } from '@/components/app/PreguntaTrato';
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <div className="mx-auto w-full max-w-[480px] md:border-x md:border-[color-mix(in_oklab,var(--text-tertiary)_16%,transparent)]">
-      <PuertaEdad>{children}</PuertaEdad>
+      <PuertaEdad>
+        {children}
+        <PreguntaTrato />
+      </PuertaEdad>
     </div>
   );
 }
