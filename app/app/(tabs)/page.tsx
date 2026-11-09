@@ -33,9 +33,11 @@ export default function InicioPage() {
   const [saludo, setSaludo] = useState('Hola');
   const [apodo, setApodo] = useState('');
   const [animo, setAnimo] = useState<string | null>(null);
-  const [aviso, setAviso] = useState<'guardando' | 'guardado' | 'error' | 'deshecho' | 'errorDeshacer' | null>(null);
+  const [aviso, setAviso] = useState<'guardando' | 'guardado' | 'error' | 'deshaciendo' | 'deshecho' | 'errorDeshacer' | null>(null);
   // Último registro creado en esta visita: es el que «Deshacer» puede borrar (solo durante el aviso).
   const ultimoRegistro = useRef<{ id: string; anterior: string | null } | null>(null);
+  // Guardas SÍNCRONAS: el estado tarda un render en llegar y dos toques seguidos podían colarse (guardar o borrar dos veces).
+  const ocupado = useRef(false);
   const [animoGuardado, setAnimoGuardado] = useState<string | null>(null);
   const [pulso, setPulso] = useState(0);
   const reducir = useReducedMotion();
@@ -140,7 +142,9 @@ export default function InicioPage() {
 
   async function deshacer() {
     const registro = ultimoRegistro.current;
-    if (!registro) return;
+    if (!registro || ocupado.current) return;
+    ocupado.current = true;
+    setAviso('deshaciendo');
     let fallo = false;
     try {
       const { error } = await crearClienteNavegador().from('checkins').delete().eq('id', registro.id);
@@ -148,6 +152,7 @@ export default function InicioPage() {
     } catch {
       fallo = true;
     }
+    ocupado.current = false;
     if (fallo) {
       mostrarAviso('errorDeshacer');
       return;
@@ -166,12 +171,13 @@ export default function InicioPage() {
       return;
     }
     // Mientras se guarda no se admiten más toques, y volver a tocar el mismo ánimo ya guardado no crea otro registro.
-    if (aviso === 'guardando') return;
+    if (ocupado.current) return;
     if (id === animoGuardado) {
       mostrarAviso('guardado');
       return;
     }
     const anterior = animoGuardado;
+    ocupado.current = true;
     setAnimo(id);
     setAviso('guardando');
     void (async () => {
@@ -184,6 +190,7 @@ export default function InicioPage() {
       } catch {
         fallo = true;
       }
+      ocupado.current = false;
       if (fallo) {
         // No se guardó: la selección vuelve a lo último que sí está guardado.
         setAnimo(anterior);
@@ -260,7 +267,9 @@ export default function InicioPage() {
             className={
               hayProgreso
                 ? 'mt-1.5 min-h-[3rem]'
-                : 'mt-2 h-7 [@media(min-height:621px)_and_(max-height:720px)]:h-3 [@media(max-height:620px)]:h-0'
+                : userId
+                  ? 'mt-1.5 min-h-11'
+                  : 'mt-2 h-7 [@media(min-height:621px)_and_(max-height:720px)]:h-3 [@media(max-height:620px)]:h-0'
             }
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -286,9 +295,11 @@ export default function InicioPage() {
                         ? 'No pudimos deshacerlo. Inténtalo de nuevo.'
                         : aviso === 'guardando'
                           ? 'Guardando…'
-                          : aviso === 'deshecho'
-                            ? 'Listo, lo deshicimos'
-                            : '✓ Guardado en tu diario'}
+                          : aviso === 'deshaciendo'
+                            ? 'Deshaciendo…'
+                            : aviso === 'deshecho'
+                              ? 'Listo, lo deshicimos'
+                              : '✓ Guardado en tu diario'}
                   </p>
                   {(aviso === 'guardado' || aviso === 'errorDeshacer') && ultimoRegistro.current && (
                     <button

@@ -148,3 +148,33 @@ Observaciones sin penalizar: la carta flotante con giro, resplandor y borde dora
 Qué falta para pasar el gate (≥36/40 y ≥16/20): faltan 5 puntos de usabilidad y 1 de craft. Camino realista: (a) restaurar el ánimo de hoy y permitir cambiar/deshacer sin duplicar (h3 a 4, h6 a 4, h1 a 4 con feedback al repetir = +3); (b) cajita en una idea clara con ayuda contextual (h10 y h8 a 4 = +2); (c) celebración mínima al guardar + conteo de la racha + temporizadores limpios (movimiento a 4 = +1 craft). Aun con eso, 36/40 exige casi todo en 4; el nivel actual es sólido pero no ejemplar.
 
 Veredicto: NO LISTA
+
+## Ronda 2026-11-09 d (revisor independiente)
+Fecha: 2026-11-09
+Screenshot: docs/revisiones/inicio-375.png (+ inicio-deshacer-375.png + inicio-error-guardado-375.png)
+Usabilidad: 33/40  (detalle: h1:3 h2:3 h3:4 h4:3 h5:3 h6:4 h7:3 h8:3 h9:4 h10:3)
+Craft: 15/20  (detalle: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3)
+Copy (si vende): N-A
+Fidelidad (si hubo referencia): N-A
+
+Verificación de los fixes de la ronda c (screenshot + código):
+- Restaurar ánimo de hoy: CORREGIDO en código (page.tsx L100-106 precarga `animo` y `animoGuardado` con el registro más reciente de hoy; repetir el mismo ánimo muestra «Guardado» sin insertar, L170-173). h6 sube a 4.
+- Deshacer 5 s: CORREGIDO. En inicio-deshacer-375.png el enlace «Deshacer» subrayado junto al chip se ve y es legible; en código borra la fila, restaura el ánimo anterior, refresca derivados y avisa «Listo, lo deshicimos» / «No pudimos deshacerlo. Inténtalo de nuevo.» con reintento. Un solo temporizador (L43, L121-126) limpiado al desmontar. h3 sube a 4.
+- Celebración mínima: pulso (scale 1→1,18→1) en el aro elegido con remontaje por `key` y respeto de `useReducedMotion`; racha cuenta 0→valor en 0,7 s (solo si ≥2 y sin reducir). Verificado en código, no capturable en estático.
+- Error al guardar: legible a simple vista, role="alert", la selección vuelve a lo guardado. Mantiene h9 en 4.
+- FICHA-ARTE: vino/oro, Cormorant Garamond + Hanken Grotesk, radios y borde dorado coinciden; sin desvío. No es clon de «Capítulo» ni «Umbral». Título inglés impreso en la carta: decisión de la dueña, no penalizada.
+
+Gate de carga cognitiva: 0 fallas relevantes (5 emociones, 1 primaria + 2 secundarias, sin elementos muertos).
+
+Defectos con severidad:
+1. [MEDIA · h10/h8 · evidencia] La cajita «Tu progreso» NO aparece en ninguno de los tres screenshots (en inicio-375.png el chip «Guardado» ocupa su hueco y en su cuenta no sale). El cambio 4 (frase en una idea + «ánimo bajo» explicado) queda sin verificación visual; solo en código: ~110 caracteres a 12 px dentro de 335 px = probablemente 3 líneas. Sin captura con datos semilla ≥3 días no se puede dar h10 ni h8 a 4 → capturar la pantalla con la cajita visible y, si son 3 líneas, acortar («Días con ansiedad o tristeza: 1 de 3 esta semana · 2 de 3 hace un mes»).
+2. [MEDIA · h8/encaje] page.tsx L259-265 y L293-299: la cajita usa `min-h-[3rem]` (crece con 3 líneas, ~64 px) mientras el aviso mide ~44 px, así que al aparecer/desaparecer el aviso la altura del bloque cambia y la carta salta. Además, sin cajita el hueco es `h-7` (28 px) y el botón «Deshacer» es `min-h-11` (44 px): desborda 16 px hacia abajo y, en los viewports bajos donde el hueco es `h-3`/`h-0`, se solapa con la carta → fijar la altura del hueco en ambos estados (≥44 px mientras hay Deshacer).
+3. [BAJA · h1] Deshacer no da feedback mientras borra (no hay «Deshaciendo…», el enlace sigue activo: doble toque lanza dos borrados) y los estados «Listo, lo deshicimos» y «No pudimos deshacerlo» no están capturados. La racha y la cajita siguen apareciendo de golpe sin skeleton → bloquear el enlace durante la petición y capturar ambos estados.
+4. [BAJA · eje 1] La escala sigue teniendo 24 / 16 / 14 / 12 con casi todo el soporte (saludo, racha, etiquetas de ánimo, avisos, cajita, botones secundarios) a 12 px; el título 24 px y la carta sostienen la jerarquía, pero el texto útil diario es pequeño → etiquetas de ánimo y botones secundarios a 13 px.
+5. [BAJA · eje 4] La celebración es un pulso de 0,45 s y el conteo solo de la racha; falta transición entre pestañas verificable y el hito de racha (3, 7 días) no se celebra distinto. Es un movimiento correcto y completo para una pantalla utilitaria, pero no «ejemplar» → no sube a 4.
+
+Observaciones sin penalizar: carta flotante/giro con resplandor y borde dorado (dispositivo ownable) y su tamaño, por decisión de la dueña; la cajita oculta con <3 días es correcta; offline no verificado.
+
+Qué falta para pasar el gate (≥36/40 y ≥16/20): faltan 3 puntos de usabilidad y 1 de craft. Camino realista: (a) captura real con la cajita visible y texto ≤2 líneas con «ánimo bajo» explicado, altura estable del hueco aviso/cajita (h8 y h10 a 4 = +2); (b) Deshacer con estado «Deshaciendo…» y bloqueo de doble toque + skeleton/entrada suave de racha y cajita (h1 a 4 = +1); (c) craft: etiquetas a 13 px y jerarquía clara de solo 3 tamaños (jerarquía a 4) o celebración de hito de racha con transición verificable (movimiento a 4) = +1. Con 33/40 y 15/20 la pantalla es sólida pero no llega al umbral.
+
+Veredicto: NO LISTA
