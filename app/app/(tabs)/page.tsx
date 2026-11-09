@@ -174,7 +174,7 @@ export default function InicioPage() {
 
         <div className="flex min-h-0 flex-1 flex-col items-center gap-2">
           <Link href="/app/tarot" className="flex min-h-0 flex-1 items-center justify-center">
-            <CartaGirando />
+            <CartaGirando compacta={Boolean(termometro.haceUnMes && termometro.estaSemana)} />
           </Link>
           <Link
             href="/app/tarot"
