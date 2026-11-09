@@ -26,14 +26,16 @@ describe('cartaDelDia (Tarot)', () => {
 });
 
 describe('arcanoMayorAlAzar (adorno del Inicio)', () => {
-  it('siempre es un arcano mayor con su imagen en /public/tarot', () => {
+  it('siempre es un arcano mayor (sin El Diablo, La Torre ni La Muerte) con su imagen en /public/tarot', () => {
     const vistas = new Set<string>();
     for (let i = 0; i < 300; i++) {
       const carta = arcanoMayorAlAzar();
       expect(carta.arcano).toBe('mayor');
+      expect(['el-diablo', 'la-torre', 'la-muerte']).not.toContain(carta.id);
       expect(existsSync(path.join(process.cwd(), 'public', carta.image))).toBe(true);
       vistas.add(carta.id);
     }
     expect(vistas.size).toBeGreaterThanOrEqual(15);
+    expect(vistas.size).toBeLessThanOrEqual(19);
   });
 });

@@ -127,10 +127,14 @@ export function cartaDelDia(fecha: Date = new Date()): CartaExtraida {
   return { carta: MAZO_TAROT[indice], invertida };
 }
 
+/** Cartas que no salen en el adorno del Inicio: son bonitas pero pesadas para una pantalla de bienvenida cálida (decisión de la dueña, 2026-11-09). Siguen en el mazo y en las lecturas. */
+const EXCLUIDAS_DEL_ADORNO = new Set(['el-diablo', 'la-torre', 'la-muerte']);
+
 /** Carta DECORATIVA del Inicio: un arcano mayor al azar cada vez que se abre la pantalla. No tiene NINGUNA relación con
  * la «Carta del día» de Tarot ni con ninguna lectura (decisión de la dueña, 2026-11-09): es solo adorno. */
 export function arcanoMayorAlAzar(): CartaTarot {
-  return MAYORES[Math.floor(Math.random() * MAYORES.length)];
+  const candidatas = MAYORES.filter((c) => !EXCLUIDAS_DEL_ADORNO.has(c.id));
+  return candidatas[Math.floor(Math.random() * candidatas.length)];
 }
 
 /** Posiciones de la tirada de 3 cartas por categoría — se leen como UNA historia
