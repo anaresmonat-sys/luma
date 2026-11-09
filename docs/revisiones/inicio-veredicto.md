@@ -87,3 +87,34 @@ Observaciones sin penalizar fuerte: la carta flotante/giro con resplandor es un 
 Qué falta para pasar el gate (≥36/40 y ≥16/20): arreglar 1 y 2 (suben h9 a 3 y h8 a 3, +2), 3 (h2 a 3, +1), 4 (h10/h8 pulido, +1) da ≈31/40; para llegar a 36 hace falta además subir varias heurísticas a 4 (feedback de guardado con estado de carga/error real, undo del ánimo, atajos). Craft necesita +1: jerarquía a 4 (títulos y cta primaria nítida) con los fixes 2 y 5.
 
 Veredicto: NO LISTA
+
+## Ronda 2026-11-09 b (revisor independiente)
+Fecha: 2026-11-09
+Screenshot: docs/revisiones/inicio-375.png (+ docs/revisiones/inicio-error-guardado-375.png)
+Usabilidad: 30/40  (detalle: h1:3 h2:3 h3:3 h4:3 h5:2 h6:3 h7:3 h8:3 h9:3 h10:3)
+Craft: 15/20  (detalle: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3)
+Copy (si vende): N-A
+Fidelidad (si hubo referencia): N-A
+
+Verificación de los fixes de la ronda anterior (screenshot + código):
+- Falsa confirmación de guardado: CORREGIDO en código (page.tsx L87-114: sin `userId` no se promete nada; el chip «Guardado» solo tras insert sin error; fallo o excepción muestra «No pudimos guardar tu ánimo. Toca de nuevo.» con role="alert"). Ver defecto 1 sobre cómo se ve.
+- Una sola acción primaria: CORREGIDO. «Abrir mi lectura de tarot hoy» es el único relleno dorado; «Descifrar un chat» y «Hablar con mi coach» pasan a borde dorado con fondo tenue. Jerarquía nítida en el screenshot.
+- Cajita «Tu progreso»: CORREGIDO. Exige ≥3 registros por ventana (MIN_REGISTROS) y el texto es llano («Hace un mes marcaste ánimo bajo 2 de 3 días; esta semana, 1 de 3 · vas mejorando»). Queda pequeña (ver defecto 3).
+- Título 24px / saludo 12px: aplicado; el título ya sostiene la jerarquía frente a la carta.
+- Nombre en inglés de la carta («THE MAGICIAN.»): decisión de la dueña de carta decorativa, sin nombre en español; no se penaliza como defecto, solo se anota como inglés impreso en la imagen (h2 queda en 3, no 4).
+- FICHA-ARTE: vino/oro, Cormorant Garamond + Hanken Grotesk, radios, borde dorado en cajitas: coinciden. No es clon de «Capítulo» ni «Umbral».
+
+Gate de carga cognitiva: 0 fallas relevantes (1 acción primaria, 2 secundarias, 5 emociones, cajita de 2 líneas). Solo observación: la carta y el botón grande llevan al mismo destino (redundancia aceptable).
+
+Defectos con severidad:
+1. [MEDIA · h9/h1] Estado de error (inicio-error-guardado-375.png): el mensaje bajo los emojis se ve casi invisible, rojo oscuro sobre vino, sin la píldora de fondo reconocible; el screenshot no demuestra un error legible (posible captura a mitad del fade-in, pero entonces el estado no está evidenciado). Además el ánimo «Ansiedad» queda resaltado como si estuviera guardado, y el aviso se apaga solo a los 3,6 s → repetir la captura con el mensaje a opacidad plena y contraste ≥4.5:1 (hoy `--an-risk` 12px sobre fondo del 16%), y al fallar quitar la selección o marcarla como «sin guardar».
+2. [MEDIA · h5/h1] elegirAnimo (page.tsx L87-114) no tiene estado «guardando» ni bloqueo de doble toque: cada toque inserta una fila nueva en `checkins` (un doble tap o cambiar de idea duplica registros que alteran racha y «tu progreso») y no hay feedback durante la espera → deshabilitar el picker mientras dura el insert (o actualizar el registro del día en vez de insertar) y mostrar un estado «Guardando…».
+3. [MEDIA · h8/h10] La cajita «Tu progreso» tiene texto de 11,5 px y el mismo borde dorado que los dos botones secundarios, por lo que parece tocable y no hace nada (regla UX 11); la frase mezcla dos ventanas y es densa para 2 líneas → texto ≥13 px o sin borde de botón (solo fondo hundido) y frase más corta («Esta semana 1 de 3 días con ánimo bajo; hace un mes eran 2 de 3»).
+4. [BAJA · eje 4] Movimiento incompleto frente a las 7 baseline: una sola entrada fade+8px sin stagger entre bloques, sin whileTap visible (solo `transition-transform` sin `active:scale`), y sin celebración al marcar el ánimo → stagger de 60-80 ms en saludo/emojis/cajita/botones y `active:scale-[0.97]` en los tres botones.
+5. [BAJA · eje 1] Demasiados tamaños de texto en pantalla (24, 16, 14, 12, 11.5, 11) frente al máximo de 3; saludo 12px y racha 11px quedan muy pequeños → unificar labels en 12-13px.
+
+Observaciones sin penalizar: carta flotante con giro, resplandor y borde dorado es dispositivo ownable sólido y mantiene su tamaño; reduced-motion se respeta (carta ya descubierta); el hueco entre cajita y carta se ve equilibrado ahora. No verificados: offline y skeleton de carga de la cajita; undo del ánimo no existe (se puede volver a elegir).
+
+Qué falta para pasar el gate (≥36/40 y ≥16/20): faltan 6 puntos de usabilidad y 1 de craft. Camino realista: (a) estado «guardando» + bloqueo de doble toque + error legible con reintento claro (h1 a 4, h5 a 3, h9 a 4 = +3); (b) cajita sin apariencia de botón y texto ≥13 px (h8 a 4 posible, h10 a 4 con ayuda contextual sobre qué cuenta como «ánimo bajo» = +2); (c) deshacer/cambiar el ánimo del día sin duplicar (h3 a 4 = +1); y para craft, stagger + tap scale + celebración mínima en el guardado (movimiento a 4 = +1). Sin esos cambios la pantalla es sólida pero no llega al umbral.
+
+Veredicto: NO LISTA
