@@ -20,15 +20,23 @@ import { calcularRacha, calcularTermometro, type Checkin, type Termometro } from
 
 const VENTANA_DIAS = 40;
 
+const MIN_REGISTROS = 3;
+
 export default function InicioPage() {
   const [saludo, setSaludo] = useState('Hola');
   const [apodo, setApodo] = useState('');
   const [animo, setAnimo] = useState<string | null>(null);
-  const [guardado, setGuardado] = useState(false);
+  const [aviso, setAviso] = useState<'guardado' | 'error' | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [racha, setRacha] = useState(0);
   const [termometro, setTermometro] = useState<Termometro>({ haceUnMes: null, estaSemana: null });
-  const hayProgreso = Boolean(termometro.haceUnMes && termometro.estaSemana);
+  // Con 1 o 2 registros una «mejora» no significa nada: la cajita pide al menos 3 días en cada ventana.
+  const hayProgreso = Boolean(
+    termometro.haceUnMes &&
+    termometro.estaSemana &&
+    termometro.haceUnMes.total >= MIN_REGISTROS &&
+    termometro.estaSemana.total >= MIN_REGISTROS
+  );
   // Carta decorativa: un arcano mayor al azar (sin relación con la «Carta del día» de Tarot). Se elige tras montar para no desajustar la hidratación.
   const [arcano, setArcano] = useState<{ nombre: string; image: string } | null>(null);
   useEffect(() => {
@@ -71,15 +79,29 @@ export default function InicioPage() {
     setTermometro(calcularTermometro(checkins));
   }
 
+  function mostrarAviso(tipo: 'guardado' | 'error') {
+    setAviso(tipo);
+    window.setTimeout(() => setAviso(null), tipo === 'error' ? 3600 : 2200);
+  }
+
   function elegirAnimo(id: string) {
     setAnimo(id);
-    setGuardado(true);
-    window.setTimeout(() => setGuardado(false), 2200);
+    // Sin cuenta el ánimo no se guarda en ninguna parte: tampoco se dice que sí.
     if (!userId) return;
     void (async () => {
       const supabase = crearClienteNavegador();
-      const { error } = await supabase.from('checkins').insert({ user_id: userId, animo: id });
-      if (error) return;
+      let fallo = false;
+      try {
+        const { error } = await supabase.from('checkins').insert({ user_id: userId, animo: id });
+        fallo = Boolean(error);
+      } catch {
+        fallo = true;
+      }
+      if (fallo) {
+        mostrarAviso('error');
+        return;
+      }
+      mostrarAviso('guardado');
       const desde = new Date();
       desde.setDate(desde.getDate() - VENTANA_DIAS);
       const { data } = await supabase
@@ -129,7 +151,7 @@ export default function InicioPage() {
       >
         <div>
           <div className="flex items-center justify-between">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">{apodo ? `${saludo}, ${apodo}` : saludo}</p>
+            <p className="text-[12px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">{apodo ? `${saludo}, ${apodo}` : saludo}</p>
             {racha >= 2 && (
               <span className="flex items-center gap-1 text-[11px] font-semibold text-[var(--text-secondary)]">
                 <Flame size={13} strokeWidth={2} aria-hidden="true" className="text-[var(--accent-lite)]" />
@@ -137,7 +159,7 @@ export default function InicioPage() {
               </span>
             )}
           </div>
-          <h1 className="mt-1 text-[20px] font-semibold text-[var(--text-primary)] [font-family:var(--font-display)]">
+          <h1 className="mt-1 text-[24px] font-semibold text-[var(--text-primary)] [font-family:var(--font-display)]">
             ¿Cómo estás hoy?
           </h1>
           <div className="mt-4 [@media(max-height:620px)]:mt-2">
@@ -154,15 +176,20 @@ export default function InicioPage() {
             }
           >
             <AnimatePresence mode="wait" initial={false}>
-              {guardado ? (
+              {aviso ? (
                 <motion.p
-                  key="guardado"
+                  key={aviso}
+                  role={aviso === 'error' ? 'alert' : 'status'}
                   initial={{ opacity: 0, y: -4 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--accent)_16%,transparent)] px-3 py-1 text-[11px] font-semibold text-[var(--accent-lite)]"
+                  className={
+                    aviso === 'error'
+                      ? 'inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--an-risk)_16%,transparent)] px-3 py-1 text-[12px] font-semibold text-[var(--an-risk)]'
+                      : 'inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--accent)_16%,transparent)] px-3 py-1 text-[12px] font-semibold text-[var(--accent-lite)]'
+                  }
                 >
-                  ✓ Guardado en tu diario
+                  {aviso === 'error' ? 'No pudimos guardar tu ánimo. Toca de nuevo.' : '✓ Guardado en tu diario'}
                 </motion.p>
               ) : (
                 hayProgreso &&
@@ -176,12 +203,12 @@ export default function InicioPage() {
                     className="rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-3 py-2"
                   >
                     <p className="text-[11.5px] leading-snug text-[var(--text-secondary)]">
-                      <span className="font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">Tu progreso</span> · Ánimo bajo hace 30
-                      días:{' '}
+                      <span className="font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">Tu progreso</span> · Hace un mes
+                      marcaste ánimo bajo{' '}
                       <strong className="text-[var(--text-primary)]">
-                        {termometro.haceUnMes.negativos} de {termometro.haceUnMes.total}
+                        {termometro.haceUnMes.negativos} de {termometro.haceUnMes.total} días
                       </strong>
-                      . Esta semana:{' '}
+                      ; esta semana,{' '}
                       <strong className="text-[var(--text-primary)]">
                         {termometro.estaSemana.negativos} de {termometro.estaSemana.total}
                       </strong>
@@ -217,14 +244,14 @@ export default function InicioPage() {
         <div className="grid shrink-0 grid-cols-2 gap-3 pb-2 [@media(max-height:620px)]:pb-0">
           <Link
             href="/app/descifrar"
-            className="flex min-h-[48px] w-full items-center justify-center gap-1.5 rounded-[var(--radius-button)] bg-gradient-to-b from-[var(--accent-lite)] to-[var(--accent)] px-3 py-2 text-center text-[12px] font-bold leading-snug text-[var(--on-accent)] shadow-[0_8px_16px_-10px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-transform duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(max-height:620px)]:min-h-9 [@media(max-height:620px)]:py-1 [@media(max-height:620px)]:text-[11px]"
+            className="flex min-h-[48px] w-full items-center justify-center gap-1.5 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_55%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] px-3 py-2 text-center text-[12px] font-bold leading-snug text-[var(--accent-lite)] transition-transform duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(max-height:620px)]:min-h-9 [@media(max-height:620px)]:py-1 [@media(max-height:620px)]:text-[11px]"
           >
             <Search size={15} strokeWidth={2} aria-hidden="true" />
             Descifrar un chat
           </Link>
           <Link
             href="/app/coach"
-            className="flex min-h-[48px] w-full items-center justify-center gap-1.5 rounded-[var(--radius-button)] bg-gradient-to-b from-[var(--accent-lite)] to-[var(--accent)] px-3 py-2 text-center text-[12px] font-bold leading-snug text-[var(--on-accent)] shadow-[0_8px_16px_-10px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-transform duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(max-height:620px)]:min-h-9 [@media(max-height:620px)]:py-1 [@media(max-height:620px)]:text-[11px]"
+            className="flex min-h-[48px] w-full items-center justify-center gap-1.5 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_55%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] px-3 py-2 text-center text-[12px] font-bold leading-snug text-[var(--accent-lite)] transition-transform duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(max-height:620px)]:min-h-9 [@media(max-height:620px)]:py-1 [@media(max-height:620px)]:text-[11px]"
           >
             <MessageCircle size={15} strokeWidth={2} aria-hidden="true" />
             Hablar con mi coach
