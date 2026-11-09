@@ -27,7 +27,7 @@ function Estrella({ className = '' }: { className?: string }) {
   );
 }
 
-/** `arcano`: la carta del día (nombre + imagen real). Sin él (o hasta que se calcula en el navegador) se ve la carta de LUMA. */
+/** `arcano`: carta decorativa (nombre + imagen real de un arcano mayor). Sin él (o hasta que se elige en el navegador) se ve la carta de LUMA. */
 export function CartaGirando({ arcano }: { arcano?: { nombre: string; image: string } }) {
   const reducir = useReducedMotion();
 
@@ -72,7 +72,7 @@ export function CartaGirando({ arcano }: { arcano?: { nombre: string; image: str
             <img src="/luma-icon.png" alt="" className="relative h-[34%] w-auto brightness-125 drop-shadow-[0_0_14px_rgba(224,176,92,0.6)]" />
           </div>
 
-          {/* la cara: el arcano del día (imagen real) o, si todavía no se sabe, la carta de LUMA */}
+          {/* la cara: un arcano mayor (imagen real) o, si todavía no se elige, la carta de LUMA */}
           <div
             className="absolute inset-0 overflow-hidden rounded-[var(--radius-button)]"
             style={{

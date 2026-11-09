@@ -117,14 +117,20 @@ export function drawCards(count: number): CartaExtraida[] {
 /** Carta del día: DETERMINÍSTICA por fecha — la misma carta para todas las
  * usuarias durante el mismo día, cambia sola a la medianoche. Antes estaba
  * congelada en una sola carta para siempre (defecto real de la auditoría
- * 2026-09-18) — este es el arreglo.
- * Desde 2026-11-09 es siempre un ARCANO MAYOR y AL DERECHO: es la carta que se descubre en el Inicio y debe ser
- * exactamente la misma que lee la «Carta del día» de Tarot (si no, la persona vería una carta y leería otra). */
+ * 2026-09-18) — este es el arreglo. */
 export function cartaDelDia(fecha: Date = new Date()): CartaExtraida {
   const clave = `${fecha.getFullYear()}-${fecha.getMonth()}-${fecha.getDate()}`;
   let hash = 0;
   for (let i = 0; i < clave.length; i++) hash = (hash * 31 + clave.charCodeAt(i)) >>> 0;
-  return { carta: MAYORES[hash % MAYORES.length], invertida: false };
+  const indice = hash % MAZO_TAROT.length;
+  const invertida = Math.floor(hash / MAZO_TAROT.length) % 2 === 1;
+  return { carta: MAZO_TAROT[indice], invertida };
+}
+
+/** Carta DECORATIVA del Inicio: un arcano mayor al azar cada vez que se abre la pantalla. No tiene NINGUNA relación con
+ * la «Carta del día» de Tarot ni con ninguna lectura (decisión de la dueña, 2026-11-09): es solo adorno. */
+export function arcanoMayorAlAzar(): CartaTarot {
+  return MAYORES[Math.floor(Math.random() * MAYORES.length)];
 }
 
 /** Posiciones de la tirada de 3 cartas por categoría — se leen como UNA historia
