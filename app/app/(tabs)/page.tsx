@@ -6,7 +6,7 @@
 // rápido, check-in de ánimo real (confirma guardado — cambia el diario, loop de
 // retención). El avatar es el único punto de entrada a "Más" (cuenta/ajustes).
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { Flame, MessageCircle, Search, Sparkles, User } from 'lucide-react';
@@ -35,6 +35,13 @@ export default function InicioPage() {
   const [animo, setAnimo] = useState<string | null>(null);
   const [aviso, setAviso] = useState<'guardando' | 'guardado' | 'error' | null>(null);
   const [animoGuardado, setAnimoGuardado] = useState<string | null>(null);
+  const temporizadorAviso = useRef<number | null>(null);
+  useEffect(
+    () => () => {
+      if (temporizadorAviso.current !== null) window.clearTimeout(temporizadorAviso.current);
+    },
+    []
+  );
   const [userId, setUserId] = useState<string | null>(null);
   const [racha, setRacha] = useState(0);
   const [termometro, setTermometro] = useState<Termometro>({ haceUnMes: null, estaSemana: null });
@@ -75,6 +82,13 @@ export default function InicioPage() {
         .order('created_at', { ascending: false });
       if (cancelado || !data) return;
       actualizarDerivados(data);
+      // El ánimo de hoy ya marcado se recupera (el más reciente del día) para no volver a pedirlo ni duplicarlo.
+      const hoy = new Date().toDateString();
+      const deHoy = data.find((c) => new Date(c.created_at).toDateString() === hoy);
+      if (deHoy && EMOCIONES_INICIO.some((e) => e.id === deHoy.animo)) {
+        setAnimo(deHoy.animo);
+        setAnimoGuardado(deHoy.animo);
+      }
     }
     void cargar();
     return () => {
@@ -89,7 +103,8 @@ export default function InicioPage() {
 
   function mostrarAviso(tipo: 'guardado' | 'error') {
     setAviso(tipo);
-    window.setTimeout(() => setAviso(null), tipo === 'error' ? 5000 : 2200);
+    if (temporizadorAviso.current !== null) window.clearTimeout(temporizadorAviso.current);
+    temporizadorAviso.current = window.setTimeout(() => setAviso(null), tipo === 'error' ? 5000 : 2200);
   }
 
   function elegirAnimo(id: string) {
@@ -99,7 +114,11 @@ export default function InicioPage() {
       return;
     }
     // Mientras se guarda no se admiten más toques, y volver a tocar el mismo ánimo ya guardado no crea otro registro.
-    if (aviso === 'guardando' || id === animoGuardado) return;
+    if (aviso === 'guardando') return;
+    if (id === animoGuardado) {
+      mostrarAviso('guardado');
+      return;
+    }
     const anterior = animoGuardado;
     setAnimo(id);
     setAviso('guardando');
