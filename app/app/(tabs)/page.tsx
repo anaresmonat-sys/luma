@@ -22,11 +22,19 @@ const VENTANA_DIAS = 40;
 
 const MIN_REGISTROS = 3;
 
+// Entrada escalonada: cada bloque entra 70 ms después del anterior.
+const entrada = (i: number) => ({
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.3, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] as const },
+});
+
 export default function InicioPage() {
   const [saludo, setSaludo] = useState('Hola');
   const [apodo, setApodo] = useState('');
   const [animo, setAnimo] = useState<string | null>(null);
-  const [aviso, setAviso] = useState<'guardado' | 'error' | null>(null);
+  const [aviso, setAviso] = useState<'guardando' | 'guardado' | 'error' | null>(null);
+  const [animoGuardado, setAnimoGuardado] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [racha, setRacha] = useState(0);
   const [termometro, setTermometro] = useState<Termometro>({ haceUnMes: null, estaSemana: null });
@@ -81,13 +89,20 @@ export default function InicioPage() {
 
   function mostrarAviso(tipo: 'guardado' | 'error') {
     setAviso(tipo);
-    window.setTimeout(() => setAviso(null), tipo === 'error' ? 3600 : 2200);
+    window.setTimeout(() => setAviso(null), tipo === 'error' ? 5000 : 2200);
   }
 
   function elegirAnimo(id: string) {
-    setAnimo(id);
     // Sin cuenta el ánimo no se guarda en ninguna parte: tampoco se dice que sí.
-    if (!userId) return;
+    if (!userId) {
+      setAnimo(id);
+      return;
+    }
+    // Mientras se guarda no se admiten más toques, y volver a tocar el mismo ánimo ya guardado no crea otro registro.
+    if (aviso === 'guardando' || id === animoGuardado) return;
+    const anterior = animoGuardado;
+    setAnimo(id);
+    setAviso('guardando');
     void (async () => {
       const supabase = crearClienteNavegador();
       let fallo = false;
@@ -98,9 +113,12 @@ export default function InicioPage() {
         fallo = true;
       }
       if (fallo) {
+        // No se guardó: la selección vuelve a lo último que sí está guardado.
+        setAnimo(anterior);
         mostrarAviso('error');
         return;
       }
+      setAnimoGuardado(id);
       mostrarAviso('guardado');
       const desde = new Date();
       desde.setDate(desde.getDate() - VENTANA_DIAS);
@@ -143,27 +161,24 @@ export default function InicioPage() {
         </Link>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+      <div
         className="flex min-h-0 flex-1 flex-col gap-8 [@media(min-height:721px)_and_(max-height:840px)]:gap-4 [@media(min-height:621px)_and_(max-height:720px)]:gap-3 [@media(max-height:620px)]:gap-2"
       >
-        <div>
+        <motion.div {...entrada(0)}>
           <div className="flex items-center justify-between">
             <p className="text-[12px] font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">{apodo ? `${saludo}, ${apodo}` : saludo}</p>
             {racha >= 2 && (
-              <span className="flex items-center gap-1 text-[11px] font-semibold text-[var(--text-secondary)]">
+              <span className="flex items-center gap-1 text-[12px] font-semibold text-[var(--text-secondary)]">
                 <Flame size={13} strokeWidth={2} aria-hidden="true" className="text-[var(--accent-lite)]" />
                 {racha} días
               </span>
             )}
           </div>
-          <h1 className="mt-1 text-[24px] font-semibold text-[var(--text-primary)] [font-family:var(--font-display)]">
+          <h1 className="mt-1 text-[24px] [@media(max-height:660px)]:text-[20px] font-semibold text-[var(--text-primary)] [font-family:var(--font-display)]">
             ¿Cómo estás hoy?
           </h1>
           <div className="mt-4 [@media(max-height:620px)]:mt-2">
-            <MoodPicker emociones={EMOCIONES_INICIO} seleccion={animo} onSeleccionar={elegirAnimo} />
+            <MoodPicker emociones={EMOCIONES_INICIO} seleccion={animo} onSeleccionar={elegirAnimo} bloqueado={aviso === 'guardando'} />
           </div>
           {/* Justo debajo de los emojis: el aviso «Guardado en tu diario» y la cajita «Tu progreso» comparten el mismo hueco
               (el aviso sustituye a la cajita 2 s) para que no cambie la altura de la pantalla. La cajita es de 2 líneas: la
@@ -185,11 +200,15 @@ export default function InicioPage() {
                   exit={{ opacity: 0 }}
                   className={
                     aviso === 'error'
-                      ? 'inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--an-risk)_16%,transparent)] px-3 py-1 text-[12px] font-semibold text-[var(--an-risk)]'
+                      ? 'inline-flex items-center gap-1.5 rounded-full border border-[color-mix(in_oklab,var(--an-risk)_70%,transparent)] bg-[color-mix(in_oklab,var(--an-risk)_26%,var(--bg))] px-3 py-1 text-[12px] font-semibold text-[var(--text-primary)]'
                       : 'inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--accent)_16%,transparent)] px-3 py-1 text-[12px] font-semibold text-[var(--accent-lite)]'
                   }
                 >
-                  {aviso === 'error' ? 'No pudimos guardar tu ánimo. Toca de nuevo.' : '✓ Guardado en tu diario'}
+                  {aviso === 'error'
+                    ? 'No pudimos guardar tu ánimo. Toca de nuevo.'
+                    : aviso === 'guardando'
+                      ? 'Guardando…'
+                      : '✓ Guardado en tu diario'}
                 </motion.p>
               ) : (
                 hayProgreso &&
@@ -200,15 +219,15 @@ export default function InicioPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_28%,transparent)] bg-[var(--surface)] px-3 py-2"
+                    className="rounded-[var(--radius-card)] bg-[color-mix(in_oklab,var(--bg)_70%,black)] px-3 py-2"
                   >
-                    <p className="text-[11.5px] leading-snug text-[var(--text-secondary)]">
-                      <span className="font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">Tu progreso</span> · Hace un mes
-                      marcaste ánimo bajo{' '}
+                    <p className="text-[12px] leading-snug text-[var(--text-secondary)]">
+                      <span className="font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">Tu progreso</span> · Ánimo bajo hace un
+                      mes:{' '}
                       <strong className="text-[var(--text-primary)]">
                         {termometro.haceUnMes.negativos} de {termometro.haceUnMes.total} días
                       </strong>
-                      ; esta semana,{' '}
+                      ; esta semana:{' '}
                       <strong className="text-[var(--text-primary)]">
                         {termometro.estaSemana.negativos} de {termometro.estaSemana.total}
                       </strong>
@@ -222,9 +241,9 @@ export default function InicioPage() {
               )}
             </AnimatePresence>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="flex min-h-0 flex-1 flex-col items-center gap-2">
+        <motion.div {...entrada(1)} className="flex min-h-0 flex-1 flex-col items-center gap-2">
           <Link
             href="/app/tarot"
             aria-label="Abrir mi lectura de tarot"
@@ -234,30 +253,30 @@ export default function InicioPage() {
           </Link>
           <Link
             href="/app/tarot"
-            className="mt-6 flex h-[48px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-gradient-to-b from-[var(--accent-lite)] to-[var(--accent)] text-[14px] font-bold text-[var(--on-accent)] shadow-[0_8px_16px_-10px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-transform duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(min-height:721px)_and_(max-height:840px)]:mt-3 [@media(min-height:721px)_and_(max-height:840px)]:h-11 [@media(min-height:621px)_and_(max-height:720px)]:mt-2 [@media(min-height:621px)_and_(max-height:720px)]:h-9 [@media(min-height:621px)_and_(max-height:720px)]:text-[12.5px] [@media(max-height:620px)]:mt-1 [@media(max-height:620px)]:h-8 [@media(max-height:620px)]:text-[12px]"
+            className="mt-6 flex h-[48px] w-full items-center justify-center gap-2 rounded-[var(--radius-button)] bg-gradient-to-b from-[var(--accent-lite)] to-[var(--accent)] text-[14px] font-bold text-[var(--on-accent)] shadow-[0_8px_16px_-10px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-transform duration-150 [touch-action:manipulation] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(min-height:721px)_and_(max-height:840px)]:mt-3 [@media(min-height:721px)_and_(max-height:840px)]:h-11 [@media(min-height:621px)_and_(max-height:720px)]:mt-2 [@media(min-height:621px)_and_(max-height:720px)]:h-9 [@media(min-height:621px)_and_(max-height:720px)]:text-[12.5px] [@media(max-height:620px)]:mt-1 [@media(max-height:620px)]:h-8 [@media(max-height:620px)]:text-[12px]"
           >
             <Sparkles size={16} strokeWidth={2} aria-hidden="true" />
             Abrir mi lectura de tarot hoy →
           </Link>
-        </div>
+        </motion.div>
 
-        <div className="grid shrink-0 grid-cols-2 gap-3 pb-2 [@media(max-height:620px)]:pb-0">
+        <motion.div {...entrada(2)} className="grid shrink-0 grid-cols-2 gap-3 pb-2 [@media(max-height:620px)]:pb-0">
           <Link
             href="/app/descifrar"
-            className="flex min-h-[48px] w-full items-center justify-center gap-1.5 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_55%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] px-3 py-2 text-center text-[12px] font-bold leading-snug text-[var(--accent-lite)] transition-transform duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(max-height:620px)]:min-h-9 [@media(max-height:620px)]:py-1 [@media(max-height:620px)]:text-[11px]"
+            className="flex min-h-[48px] w-full items-center justify-center gap-1.5 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_55%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] px-3 py-2 text-center text-[12px] font-bold leading-snug text-[var(--accent-lite)] transition-transform duration-150 [touch-action:manipulation] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(max-height:620px)]:min-h-9 [@media(max-height:620px)]:py-1 [@media(max-height:620px)]:text-[11px]"
           >
             <Search size={15} strokeWidth={2} aria-hidden="true" />
             Descifrar un chat
           </Link>
           <Link
             href="/app/coach"
-            className="flex min-h-[48px] w-full items-center justify-center gap-1.5 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_55%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] px-3 py-2 text-center text-[12px] font-bold leading-snug text-[var(--accent-lite)] transition-transform duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(max-height:620px)]:min-h-9 [@media(max-height:620px)]:py-1 [@media(max-height:620px)]:text-[11px]"
+            className="flex min-h-[48px] w-full items-center justify-center gap-1.5 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_55%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] px-3 py-2 text-center text-[12px] font-bold leading-snug text-[var(--accent-lite)] transition-transform duration-150 [touch-action:manipulation] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-lite)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] [@media(max-height:620px)]:min-h-9 [@media(max-height:620px)]:py-1 [@media(max-height:620px)]:text-[11px]"
           >
             <MessageCircle size={15} strokeWidth={2} aria-hidden="true" />
             Hablar con mi coach
           </Link>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </div>
   );
 }

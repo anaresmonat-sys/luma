@@ -18,13 +18,16 @@ export function MoodPicker({
   emociones,
   seleccion,
   onSeleccionar,
+  bloqueado = false,
 }: {
   emociones: Emocion[];
   seleccion: string | null;
   onSeleccionar: (id: string) => void;
+  /** Mientras se guarda: no admite más toques (cada toque guardaría un registro nuevo). */
+  bloqueado?: boolean;
 }) {
   return (
-    <div className="flex justify-between gap-1" role="radiogroup" aria-label="¿Cómo te sientes?">
+    <div className="flex justify-between gap-1" role="radiogroup" aria-label="¿Cómo te sientes?" aria-busy={bloqueado}>
       {emociones.map((e) => {
         const sel = e.id === seleccion;
         return (
@@ -33,8 +36,9 @@ export function MoodPicker({
             type="button"
             role="radio"
             aria-checked={sel}
+            disabled={bloqueado}
             onClick={() => onSeleccionar(e.id)}
-            className={`flex flex-col items-center gap-1.5 text-[11px] font-semibold transition-colors duration-150 ${
+            className={`flex flex-col items-center gap-1.5 text-[12px] font-semibold transition-colors duration-150 disabled:cursor-wait ${
               sel ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'
             }`}
           >
