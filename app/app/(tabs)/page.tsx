@@ -33,7 +33,9 @@ export default function InicioPage() {
   const [saludo, setSaludo] = useState('Hola');
   const [apodo, setApodo] = useState('');
   const [animo, setAnimo] = useState<string | null>(null);
-  const [aviso, setAviso] = useState<'guardando' | 'guardado' | 'error' | null>(null);
+  const [aviso, setAviso] = useState<'guardando' | 'guardado' | 'error' | 'deshecho' | 'errorDeshacer' | null>(null);
+  // Último registro creado en esta visita: es el que «Deshacer» puede borrar (solo durante el aviso).
+  const ultimoRegistro = useRef<{ id: string; anterior: string | null } | null>(null);
   const [animoGuardado, setAnimoGuardado] = useState<string | null>(null);
   const [pulso, setPulso] = useState(0);
   const reducir = useReducedMotion();
@@ -114,10 +116,47 @@ export default function InicioPage() {
     setTermometro(calcularTermometro(checkins));
   }
 
-  function mostrarAviso(tipo: 'guardado' | 'error') {
+  function mostrarAviso(tipo: 'guardado' | 'error' | 'deshecho' | 'errorDeshacer') {
     setAviso(tipo);
     if (temporizadorAviso.current !== null) window.clearTimeout(temporizadorAviso.current);
-    temporizadorAviso.current = window.setTimeout(() => setAviso(null), tipo === 'error' ? 5000 : 2200);
+    const ms = tipo === 'guardado' && ultimoRegistro.current ? 5000 : tipo === 'error' || tipo === 'errorDeshacer' ? 5000 : 2200;
+    temporizadorAviso.current = window.setTimeout(() => {
+      setAviso(null);
+      ultimoRegistro.current = null;
+    }, ms);
+  }
+
+  async function refrescarDerivados() {
+    const supabase = crearClienteNavegador();
+    const desde = new Date();
+    desde.setDate(desde.getDate() - VENTANA_DIAS);
+    const { data } = await supabase
+      .from('checkins')
+      .select('animo, created_at')
+      .gte('created_at', desde.toISOString())
+      .order('created_at', { ascending: false });
+    if (data) actualizarDerivados(data);
+  }
+
+  async function deshacer() {
+    const registro = ultimoRegistro.current;
+    if (!registro) return;
+    let fallo = false;
+    try {
+      const { error } = await crearClienteNavegador().from('checkins').delete().eq('id', registro.id);
+      fallo = Boolean(error);
+    } catch {
+      fallo = true;
+    }
+    if (fallo) {
+      mostrarAviso('errorDeshacer');
+      return;
+    }
+    ultimoRegistro.current = null;
+    setAnimo(registro.anterior);
+    setAnimoGuardado(registro.anterior);
+    mostrarAviso('deshecho');
+    void refrescarDerivados();
   }
 
   function elegirAnimo(id: string) {
@@ -139,8 +178,9 @@ export default function InicioPage() {
       const supabase = crearClienteNavegador();
       let fallo = false;
       try {
-        const { error } = await supabase.from('checkins').insert({ user_id: userId, animo: id });
-        fallo = Boolean(error);
+        const { data: fila, error } = await supabase.from('checkins').insert({ user_id: userId, animo: id }).select('id').single();
+        fallo = Boolean(error) || !fila;
+        if (fila) ultimoRegistro.current = { id: fila.id, anterior };
       } catch {
         fallo = true;
       }
@@ -225,24 +265,41 @@ export default function InicioPage() {
           >
             <AnimatePresence mode="wait" initial={false}>
               {aviso ? (
-                <motion.p
+                <motion.div
                   key={aviso}
-                  role={aviso === 'error' ? 'alert' : 'status'}
                   initial={{ opacity: 0, y: -4 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className={
-                    aviso === 'error'
-                      ? 'inline-flex items-center gap-1.5 rounded-full border border-[color-mix(in_oklab,var(--an-risk)_70%,transparent)] bg-[color-mix(in_oklab,var(--an-risk)_26%,var(--bg))] px-3 py-1 text-[12px] font-semibold text-[var(--text-primary)]'
-                      : 'inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--accent)_16%,transparent)] px-3 py-1 text-[12px] font-semibold text-[var(--accent-lite)]'
-                  }
+                  className="flex items-center gap-1"
                 >
-                  {aviso === 'error'
-                    ? 'No pudimos guardar tu ánimo. Toca de nuevo.'
-                    : aviso === 'guardando'
-                      ? 'Guardando…'
-                      : '✓ Guardado en tu diario'}
-                </motion.p>
+                  <p
+                    role={aviso === 'error' || aviso === 'errorDeshacer' ? 'alert' : 'status'}
+                    className={
+                      aviso === 'error' || aviso === 'errorDeshacer'
+                        ? 'inline-flex items-center gap-1.5 rounded-full border border-[color-mix(in_oklab,var(--an-risk)_70%,transparent)] bg-[color-mix(in_oklab,var(--an-risk)_26%,var(--bg))] px-3 py-1 text-[12px] font-semibold text-[var(--text-primary)]'
+                        : 'inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--accent)_16%,transparent)] px-3 py-1 text-[12px] font-semibold text-[var(--accent-lite)]'
+                    }
+                  >
+                    {aviso === 'error'
+                      ? 'No pudimos guardar tu ánimo. Toca de nuevo.'
+                      : aviso === 'errorDeshacer'
+                        ? 'No pudimos deshacerlo. Inténtalo de nuevo.'
+                        : aviso === 'guardando'
+                          ? 'Guardando…'
+                          : aviso === 'deshecho'
+                            ? 'Listo, lo deshicimos'
+                            : '✓ Guardado en tu diario'}
+                  </p>
+                  {(aviso === 'guardado' || aviso === 'errorDeshacer') && ultimoRegistro.current && (
+                    <button
+                      type="button"
+                      onClick={deshacer}
+                      className="min-h-11 px-2 text-[12px] font-semibold text-[var(--accent-lite)] underline underline-offset-2"
+                    >
+                      Deshacer
+                    </button>
+                  )}
+                </motion.div>
               ) : (
                 hayProgreso &&
                 termometro.haceUnMes &&
