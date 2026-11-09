@@ -63,3 +63,27 @@ Top defectos (restantes, ronda 3):
 4. [Bottom nav / accesos rápidos] Componente de navegación inferior no incluido en los archivos de esta revisión — no se pudo verificar en código. En el screenshot el ícono "Inicio" (activo) se ve con color completo y los demás (Coach/Tarot/Diario/Más) más apagados, lo cual es un patrón activo/inactivo razonable — si se continúa iterando, confirmar que los íconos inactivos mantienen la identidad de emoji-color de FICHA-ARTE y no quedaron desaturados por accidente.
 
 Nota para la decisión de seguir o cerrar: los defectos concretos y accionables (bugs) de las rondas 1 y 2 están resueltos. Lo que queda para llegar al gate de 36/40 ya no son fallas que un usuario cualquiera note sin buscarlas (ancla "2"), sino ajustes que solo un ojo entrenado detecta (ancla "3", que es donde está casi toda la rúbrica ahora) — exactamente la frontera donde el sistema define "3 vs 4". El craft SÍ alcanzó el gate (16/20). Seguir iterando esta pantalla específica tiene retorno decreciente: el ítem #1 de arriba es la única corrección con relación esfuerzo/impacto clara; los ítems #2 y #3 son afinación de gusto. Decisión razonable: aplicar el fix #1 (una línea) si se quiere apurar el cierre, o cerrar con criterio propio documentando que la pantalla está funcionalmente sólida y visualmente coherente con FICHA-ARTE, aun sin alcanzar el 36/40 formal.
+
+## Ronda 2026-11-09 (revisor independiente)
+Fecha: 2026-11-09
+Screenshot: docs/revisiones/inicio-375.png
+Usabilidad: 27/40  (detalle: h1:3 h2:2 h3:3 h4:3 h5:3 h6:3 h7:3 h8:2 h9:2 h10:3)
+Craft: 15/20  (detalle: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3)
+Copy (si vende): N-A
+Fidelidad (si hubo referencia): N-A
+Verificaciones en código: h3/h7 leídos en page.tsx y MoodPicker.tsx; eje 4 leído en CartaGirando.tsx (reduced-motion: carta ya descubierta, bloom y flotación estáticos; MotionConfig global heredado de la ronda 3, no re-verificado). FICHA-ARTE: paleta vino/oro, Cormorant + Hanken, radios coinciden; sin desvío. No es clon de "Capítulo" ni "Umbral".
+
+Gate de carga cognitiva: 1 falla (tres botones dorados idénticos compiten como primarios; además la carta es una segunda ruta al mismo destino que el botón grande). No llega a sobrecarga crítica (<4).
+
+Defectos con severidad:
+1. [ALTA · h9/h1] page.tsx L82: `if (error) return;` descarta en silencio el fallo al guardar el ánimo, y el chip «Guardado en tu diario» se enciende ANTES (L76) e incluso sin sesión (`!userId`). La app puede decir «guardado» cuando no se guardó: falsa confirmación en el momento central del loop de retención → mostrar el chip solo tras el insert correcto y, si falla, un mensaje «No pudimos guardar tu ánimo. Toca de nuevo» con reintento.
+2. [ALTA · h8/EJE 1] Tres CTAs con el mismo relleno dorado y la misma sombra (Abrir mi lectura, Descifrar un chat, Hablar con mi coach) → no hay UNA acción primaria; la jerarquía la pierde el usuario que entrecierra los ojos. Degradar los dos accesos de abajo a secundario (borde oro tenue, fondo hundido, texto dorado) y dejar el relleno pleno solo en «Abrir mi lectura».
+3. [MEDIA · h2] La carta del día muestra «THE FOOL.» impreso en inglés (escaneo RWS) en una UI 100 % español y sin el nombre «El Loco» en ningún lado visible; el aria-label lo lleva pero el ojo no. Añadir un rótulo en español bajo la carta («El Loco · tu carta de hoy») o recortar/tapar la franja del título inglés con el mismo marco.
+4. [MEDIA · h8/h10] «TU PROGRESO · Ánimo bajo hace 30 días: 1 de 1. Esta semana: 0 de 1 · vas mejorando» es críptico: «1 de 1» sobre un solo registro no es un progreso, y «vas mejorando» se afirma con n=1 (promesa sin base, riesgo para la confianza). Exigir un mínimo (p. ej. ≥3 registros por ventana) antes de mostrar la cajita y redactar en lenguaje llano («Hace un mes, 1 de tus 1 registros fue de ánimo bajo; esta semana, ninguno»).
+5. [BAJA · EJE 1/encaje] Titular «¿Cómo estás hoy?» a 20 px y saludo a 11 px: el título queda tímido frente a la carta y los 3 botones; el hueco vertical entre la cajita y la carta (≈120 px) frente a la carta pequeña y centrada deja aire flotante. Subir el título a ~24 px y dar a la carta algo más de altura útil (usar ese hueco).
+
+Observaciones sin penalizar fuerte: la carta flotante/giro con resplandor es un dispositivo ownable sólido; la imagen RWS amarilla satura frente al vino pero funciona como foco. Estados no observables (offline, skeleton de carga de progreso) no verificados; el mood no tiene deshacer explícito más allá de volver a tocar.
+
+Qué falta para pasar el gate (≥36/40 y ≥16/20): arreglar 1 y 2 (suben h9 a 3 y h8 a 3, +2), 3 (h2 a 3, +1), 4 (h10/h8 pulido, +1) da ≈31/40; para llegar a 36 hace falta además subir varias heurísticas a 4 (feedback de guardado con estado de carga/error real, undo del ánimo, atajos). Craft necesita +1: jerarquía a 4 (títulos y cta primaria nítida) con los fixes 2 y 5.
+
+Veredicto: NO LISTA
