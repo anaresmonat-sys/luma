@@ -9,7 +9,7 @@
 // Dónde vive el dato: metadatos de la propia cuenta (auth.user_metadata.apodo / bienvenida_hecha),
 // sin tablas nuevas. `profiles.nombre` se deja intacto: lo usa la numerología con el nombre completo.
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { SelectorTrato } from '@/components/app/SelectorTrato';
 import { guardarTratoLocal, leerTratoLocal, type Trato } from '@/lib/trato';
@@ -17,7 +17,10 @@ import { crearClienteNavegador } from '@/lib/supabase/client';
 import { leerContextoCoach } from '@/lib/almacenamiento-contexto-coach';
 import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
 
+// La marca local es POR CUENTA (no por navegador): si otra cuenta ya vio la bienvenida en este navegador, esta persona
+// debe verla igualmente (caso real 2026-11-13: la compra de prueba6 no vio la bienvenida por una marca de otra cuenta).
 const CLAVE_LOCAL = 'luma_bienvenida_hecha';
+const claveLocal = (userId: string) => `${CLAVE_LOCAL}_${userId}`;
 const MAX_NOMBRE = 30;
 const DURACION_SALUDO_MS = 2400;
 
@@ -106,6 +109,7 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
   const [aviso, setAviso] = useState(false);
   const [trato, setTrato] = useState<Trato | null>(null);
   const [tratoYaElegido, setTratoYaElegido] = useState(false);
+  const idUsuario = useRef<string | null>(null);
 
   useEffect(() => {
     let cancelado = false;
@@ -116,6 +120,7 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
           data: { user },
         } = await supabase.auth.getUser();
         if (!user || cancelado) return;
+        idUsuario.current = user.id;
         const meta = (user.user_metadata ?? {}) as { apodo?: string; bienvenida_hecha?: boolean };
         if (meta.apodo) onNombre?.(meta.apodo);
         // Si ya contestó antes (aviso dentro de las herramientas), llega elegido y no se vuelve a preguntar.
@@ -126,7 +131,7 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
         }
         let hechaLocal = false;
         try {
-          hechaLocal = window.localStorage.getItem(CLAVE_LOCAL) === '1';
+          hechaLocal = window.localStorage.getItem(claveLocal(user.id)) === '1';
         } catch {
           // sin almacenamiento local: se confía solo en la cuenta.
         }
@@ -178,7 +183,7 @@ export function BienvenidaCompra({ onNombre }: { onNombre?: (nombre: string) => 
       return;
     }
     try {
-      window.localStorage.setItem(CLAVE_LOCAL, '1');
+      if (idUsuario.current) window.localStorage.setItem(claveLocal(idUsuario.current), '1');
     } catch {
       // ídem.
     }
