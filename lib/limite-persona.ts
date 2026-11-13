@@ -22,9 +22,11 @@ const USOS_POR_DIA: Record<string, number> = {
   diario: 10,
 };
 
-// Durante la prueba gratis el tarot es 1 tirada al día (decisión de la dueña, 2026-10-22): crea el hábito diario y
-// el límite se cuenta como motivo para quedarse («al terminar la prueba, 3 al día»). Las demás funciones no cambian.
-const USOS_POR_DIA_PRUEBA: Record<string, number> = { tarot: 1 };
+// Antes (2026-10-22) el tarot era 1 tirada al día durante la prueba. CAMBIADO el 2026-11-13 por la dueña: quien tiene un plan
+// activo ya dio sus datos de pago (la prueba de Hotmart lleva tarjeta), así que NO es la persona que prueba sin dar nada
+// (esa tiene su único resultado gratis en lib/prueba-servidor.ts): desde el primer día tiene las 3 tiradas al día.
+// Lo regalado sigue acotado por TOPE_PRUEBA_USD. Aquí se pueden poner límites distintos para la prueba si hiciera falta.
+const USOS_POR_DIA_PRUEBA: Record<string, number> = {};
 
 const NOMBRE_FUNCION: Record<string, string> = {
   tarot: 'lecturas de tarot',
@@ -100,9 +102,7 @@ export async function topePersonaExcedido(usuarioId: string | null, feature: str
     }
     const maxDia = (enPrueba ? USOS_POR_DIA_PRUEBA[feature] : undefined) ?? USOS_POR_DIA[feature] ?? Infinity;
     if (feature === 'tarot' && usosFuncion >= maxDia) {
-      return enPrueba
-        ? 'Ya hiciste tu tirada de hoy 🌙 Vuelve mañana: con tu plan, al terminar la prueba gratis, tendrás 3 tiradas al día. Mientras tanto, ¿te descifro esa conversación que tienes pendiente?'
-        : 'Ya hiciste tus 3 tiradas de hoy 🌙 Las cartas necesitan descansar: vuelve mañana, o descifra ahora esa conversación que tienes pendiente.';
+      return 'Ya hiciste tus 3 tiradas de hoy 🌙 Las cartas necesitan descansar: vuelve mañana, o descifra ahora esa conversación que tienes pendiente.';
     }
     if (usosFuncion >= maxDia) {
       const nombre = NOMBRE_FUNCION[feature] ?? 'consultas';
