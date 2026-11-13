@@ -31,10 +31,11 @@ export function usePruebaDisponible() {
     let cancelado = false;
     fetch('/api/mi-plan')
       .then((r) => (r.ok ? r.json() : null))
-      .then((datos: { activo?: boolean } | null) => {
+      .then((datos: { activo?: boolean; admin?: boolean } | null) => {
         if (cancelado) return;
-        // Modo revisión de la dueña: se ve como una persona nueva aunque tenga acceso completo.
-        const activo = Boolean(datos?.activo) && !modoPersonaNueva();
+        // Modo revisión de la dueña: se ve como una persona nueva aunque tenga acceso completo. SOLO para la administradora:
+        // la marca vive en el navegador y una clienta que comparta navegador con ella no debe heredarla (caso real 2026-11-13).
+        const activo = Boolean(datos?.activo) && !(datos?.admin && modoPersonaNueva());
         conPlanRef.current = activo;
         if (activo) setDisponible(true);
         setConPlan(activo);

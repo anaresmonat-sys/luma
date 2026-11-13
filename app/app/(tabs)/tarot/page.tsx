@@ -205,9 +205,10 @@ export default function TarotPage() {
       let cancelado = false;
       fetch('/api/mi-plan')
         .then((r) => (r.ok ? r.json() : null))
-        .then((d: { activo?: boolean } | null) => {
+        .then((d: { activo?: boolean; admin?: boolean } | null) => {
           if (cancelado) return;
-          if (d?.activo && !modoPersonaNueva()) setListo(true);
+          // El «modo persona nueva» es una herramienta de la administradora: solo vale para ella, no para clientas.
+          if (d?.activo && !(d.admin && modoPersonaNueva())) setListo(true);
           else window.location.href = '/paywall?motivo=lectura-usada';
         })
         .catch(() => {
