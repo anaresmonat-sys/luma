@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server';
 import { crearClienteServidor } from '@/lib/supabase/server';
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
 import { reembolsarEnHotmart } from '@/lib/hotmart-api';
+import { yaUsoSuGarantia } from '@/lib/garantia';
 import { registrarError } from '@/lib/log-servidor';
 import { elegirVentaAReembolsar } from '@/lib/venta-a-reembolsar';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
@@ -57,6 +58,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Ese reembolso ya se hizo.' }, { status: 409 });
   }
 
+  if (await yaUsoSuGarantia(admin, peticion.user_id as string, peticion.id as string)) {
+    return NextResponse.json(
+      { error: 'A esta persona ya se le devolvió dinero antes: la garantía es una sola vez por persona. Si quieres hacer una excepción, hazlo a mano en Hotmart.' },
+      { status: 409 },
+    );
+  }
+
   const { data: sub } = await admin.from('subscriptions').select('estado, created_at').eq('user_id', peticion.user_id).maybeSingle();
   if (!sub || sub.estado === 'refunded' || sub.estado === 'chargeback') {
     return NextResponse.json({ error: 'Esa compra ya figura como reembolsada o no existe.' }, { status: 409 });
@@ -85,6 +93,8 @@ export async function POST(request: Request) {
       .from('cancel_requests')
       .update({ estado: 'cancelada', detalle: 'reembolsado_por_api', resolved_at: new Date().toISOString() })
       .eq('id', peticion.id);
+    // Con el reembolso aceptado, el acceso se corta YA (sin esperar el aviso final de Hotmart, que puede tardar días).
+    await admin.from('subscriptions').update({ estado: 'refunded', updated_at: new Date().toISOString() }).eq('user_id', peticion.user_id);
     return NextResponse.json({ ok: true, transaccion: venta.transaction_id });
   }
 

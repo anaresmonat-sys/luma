@@ -1,0 +1,39 @@
+Asunto: Consulta sobre un reembolso aceptado, avisos (webhook) y pruebas gratuitas repetidas - producto LUMA
+
+Hola, equipo de Hotmart:
+
+Soy la productora del producto LUMA (suscripción mensual con 3 días de prueba gratis y garantía de 15 días). Tengo varias dudas sobre cómo funciona un reembolso que hice y sobre las pruebas gratuitas. Os dejo los datos de la compra de prueba y mis preguntas.
+
+DATOS DE LA COMPRA DE PRUEBA
+- Producto: LUMA (suscripción mensual).
+- Inicio de la prueba gratis: transacción HP3693403302, 13/11/2026 (importe gratis).
+- Primer cobro: transacción HP0170124640, 16/11/2026, importe que veo en Reembolsos: 12,10 EUR.
+- Reembolso: el 17/11/2026 lo pedí yo como vendedora, por la API (PUT /payments/api/v1/sales/HP0170124640/refund). En Ventas > Reembolsos me aparece con el estatus "Aceptada" (tipo de solicitante: Vendedor, motivo: Otro).
+
+PREGUNTAS
+
+1) Aviso de reembolso (webhook). Tengo configurado el webhook y espero el evento PURCHASE_REFUNDED para dar de baja el acceso del cliente. Más de una hora después de la aceptación todavía no lo he recibido.
+   - ¿Hotmart envía PURCHASE_REFUNDED cuando el reembolso lo inicia la vendedora por la API?
+   - ¿En qué momento se envía: al aceptarse la solicitud o cuando el reembolso se completa en el medio de pago? ¿Cuánto puede tardar?
+   - ¿Qué estatus tendrá la transacción cuando el reembolso esté completo ("Reembolsada")?
+
+2) Dónde ver el cobro. En Ventas > Mis ventas, con el filtro 18/10/2026 - 17/11/2026, solo veo los inicios de prueba (importe "Gratis", ingreso neto 0,00 EUR) y no aparece la transacción HP0170124640 como fila propia.
+   - ¿Los cobros de recurrencia (el primer cobro después de la prueba) se muestran en otra vista? ¿Dónde puedo verlos con su importe?
+   - ¿Un cobro ya reembolsado se oculta de la lista de ventas o debería aparecer con el estatus "Reembolsada"?
+
+3) Importe. El cobro de la transacción HP0170124640 aparece como 12,10 EUR. ¿Me podéis indicar cómo se desglosa (precio, impuestos, conversión de moneda)? Mi precio configurado es de 9,99 USD al mes.
+
+4) Prueba gratis repetida. Si un mismo comprador (mismo correo y/o misma tarjeta) recibe un reembolso y después vuelve a comprar el mismo producto:
+   - ¿Hotmart le vuelve a dar los 3 días de prueba gratis?
+   - ¿Existe una opción para que la prueba gratis se ofrezca una sola vez por comprador (por correo o por tarjeta)?
+   - Si no existe, ¿cuál es la forma recomendada de evitar que alguien repita el ciclo "comprar, usar la prueba, pedir reembolso" varias veces?
+
+5) Garantía en una compra nueva. Si ese comprador vuelve a comprar después de un reembolso, ¿puedo indicar que la nueva compra no tiene garantía, o Hotmart le permite pedir reembolso de nuevo dentro de los 15 días de la nueva compra? ¿Puede el comprador pedirlo por su cuenta aunque yo no lo apruebe?
+
+6) Avisos de la nueva compra. Para esa nueva compra, ¿qué eventos recibiré y con qué código de transacción? (Necesito distinguir una compra nueva de un aviso repetido de la compra reembolsada.)
+
+Muchas gracias por vuestra ayuda. Si necesitáis más datos o capturas, os las envío.
+
+Un saludo,
+Margarita Añares
+Productora de LUMA

@@ -18,7 +18,8 @@ export default function Page() {
       <p>
         Si sientes que LUMA no es para ti, tienes <strong>15 días desde que empiezas tu prueba</strong> para pedir el
         reembolso completo — sin preguntas incómodas. Como la prueba dura 3 días, después de tu primer cobro te quedan
-        12 días. Pasado ese plazo, ya no es posible el reembolso.
+        12 días. Pasado ese plazo, ya no es posible el reembolso. La garantía se aplica una sola vez por persona: si ya recibiste
+        un reembolso y vuelves a comprar más adelante, esa nueva compra no tiene una segunda garantía.
       </p>
 
       <h2>Cómo pedir tu reembolso</h2>
@@ -44,7 +45,7 @@ export default function Page() {
       <h2>Después de un reembolso</h2>
       <p>
         Cuando se aprueba un reembolso o se reporta una devolución de cargo, tu acceso a las funciones pagas de LUMA
-        se cierra. Tu cuenta y tu historial no se borran automáticamente — si además quieres eliminar tus datos,
+        se cierra al momento. Tu cuenta y tu historial no se borran automáticamente — si además quieres eliminar tus datos,
         puedes hacerlo desde <strong>Más → Zona de riesgo → Eliminar mi cuenta</strong>.
       </p>
     </PaginaLegal>

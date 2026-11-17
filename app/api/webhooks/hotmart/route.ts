@@ -10,6 +10,7 @@ import crypto from 'node:crypto';
 import { verifyHotmart } from '@/lib/hotmart-verify';
 import { estadoParaEvento, transicionValida, PLAN_CHANGE_EVENT, type EstadoMembresia } from '@/lib/membership-fsm';
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
+import { esCompraNuevaTrasReembolso } from '@/lib/membership-fsm';
 import { registrarError } from '@/lib/log-servidor';
 
 export const runtime = 'nodejs'; // necesitamos node:crypto y el raw body — no Edge
@@ -176,7 +177,23 @@ export async function POST(req: Request) {
 
     // Estado ANTES de aplicar el evento (para decidir si mandamos el correo de bienvenida).
     const { data: filaPrevia } = await admin.from('subscriptions').select('estado').eq('user_id', userId).maybeSingle();
-    const estadoAnterior = (filaPrevia?.estado as EstadoMembresia | undefined) ?? null;
+    let estadoAnterior = (filaPrevia?.estado as EstadoMembresia | undefined) ?? null;
+
+    // Compra NUEVA de una cuenta ya reembolsada (otro código de transacción): vuelve a tener acceso. Se pasa por «expired»
+    // porque la función de la base de datos protege 'refunded' de avisos viejos; así solo se reactiva con una compra real.
+    if (estadoAnterior === 'refunded' && event === 'PURCHASE_APPROVED' && transactionId) {
+      const { data: conocida } = await admin
+        .from('payment_transactions')
+        .select('transaction_id')
+        .eq('provider', 'hotmart')
+        .eq('transaction_id', transactionId)
+        .limit(1)
+        .maybeSingle();
+      if (esCompraNuevaTrasReembolso(estadoAnterior, event, Boolean(conocida), true)) {
+        await admin.from('subscriptions').update({ estado: 'expired', updated_at: new Date().toISOString() }).eq('user_id', userId);
+        estadoAnterior = 'expired';
+      }
+    }
 
     // El fin de la garantía no reactiva a quien ya canceló o venció: solo confirma una compra que sigue viva.
     if (event === 'PURCHASE_COMPLETE' && (estadoAnterior === 'cancelled' || estadoAnterior === 'expired')) {

@@ -52,6 +52,20 @@ export function transicionValida(from: EstadoMembresia | null, to: EstadoMembres
   return true;
 }
 
+/**
+ * Una compra NUEVA (código de transacción que nunca habíamos visto) de una cuenta reembolsada SÍ la reactiva.
+ * Un aviso viejo o repetido de la compra reembolsada (transacción ya conocida) sigue bloqueado, como antes.
+ * Un chargeback (disputa con el banco) nunca se reactiva solo: se revisa a mano.
+ */
+export function esCompraNuevaTrasReembolso(
+  estadoAnterior: EstadoMembresia | null,
+  evento: string,
+  transaccionYaConocida: boolean,
+  hayTransaccion: boolean,
+): boolean {
+  return estadoAnterior === 'refunded' && evento === 'PURCHASE_APPROVED' && hayTransaccion && !transaccionYaConocida;
+}
+
 export function tieneAccesoCompleto(
   estado: EstadoMembresia,
   ahora: Date,

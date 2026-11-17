@@ -7,7 +7,7 @@
 import { useState } from 'react';
 
 type Respuesta = {
-  estado: 'recibida' | 'en_prueba' | 'fuera_de_plazo' | 'ya_reembolsada';
+  estado: 'recibida' | 'en_prueba' | 'fuera_de_plazo' | 'ya_reembolsada' | 'sin_garantia';
   solicitadaEn?: string;
 };
 
@@ -30,6 +30,11 @@ const TEXTOS: Record<Respuesta['estado'], { titulo: string; cuerpo: (hora?: stri
     titulo: 'Ya pasó el plazo de reembolso',
     cuerpo: () =>
       'La garantía cubre los 15 días desde que empezó tu prueba y ese plazo ya terminó. Puedes cancelar para que no haya más cobros. Si crees que es un error, escribe a soporte@tuluma.app.',
+  },
+  sin_garantia: {
+    titulo: 'Tu garantía ya se usó',
+    cuerpo: () =>
+      'La garantía de 15 días se aplica una sola vez por persona, y ya la usaste con tu compra anterior. Puedes cancelar para que no haya más cobros. Si crees que es un error, escribe a soporte@tuluma.app.',
   },
   ya_reembolsada: {
     titulo: 'Tu compra ya figura como reembolsada',
@@ -84,11 +89,11 @@ export function PedirReembolso() {
             Garantía de 15 días
           </h2>
           <p className="mt-1 text-[14px] leading-relaxed text-[var(--text-secondary)]">
-            Si ya te cobraron, puedes pedir que te devolvamos el primer pago durante los 15 días desde que empezó tu prueba. Se cancela tu plan y se cierra tu cuenta.
+            Si ya te cobraron, puedes pedir que te devolvamos el primer pago durante los 15 días desde que empezó tu prueba. Si se aprueba, dejas de tener acceso a LUMA; tu cuenta y tu historial se conservan.
           </p>
           {confirmando ? (
             <div className="mt-4 flex flex-col gap-3">
-              <p className="text-[14px] font-semibold text-[var(--text-primary)]">Pediremos tu reembolso y cancelaremos tu plan. ¿Seguro?</p>
+              <p className="text-[14px] font-semibold text-[var(--text-primary)]">Pediremos tu reembolso y cancelaremos tu plan. Si se aprueba, perderás el acceso a LUMA. ¿Seguro?</p>
               <button
                 type="button"
                 onClick={pedir}

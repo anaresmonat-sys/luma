@@ -8,6 +8,7 @@ import { NextResponse } from 'next/server';
 import { crearClienteServidor } from '@/lib/supabase/server';
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
 import { cancelarEnHotmart } from '@/lib/hotmart-api';
+import { yaUsoSuGarantia } from '@/lib/garantia';
 import { registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 
@@ -19,7 +20,7 @@ const GARANTIA_DIAS = 15;
 const MARGEN_HORARIO_HORAS = 12; // el cambio horario nunca debe dejar a alguien fuera de plazo por unas horas
 const PRUEBA_SIN_COBRO_HORAS = 72;
 
-export type EstadoReembolso = 'recibida' | 'en_prueba' | 'fuera_de_plazo' | 'ya_reembolsada';
+export type EstadoReembolso = 'recibida' | 'en_prueba' | 'fuera_de_plazo' | 'ya_reembolsada' | 'sin_garantia';
 
 export async function POST(request: Request) {
   if (limiteExcedido(`pedir-reembolso:${identificadorDePeticion(request)}`, 5, 60_000)) {
@@ -48,6 +49,11 @@ export async function POST(request: Request) {
 
   if (sub.estado === 'refunded' || sub.estado === 'chargeback') {
     return NextResponse.json({ estado: 'ya_reembolsada' satisfies EstadoReembolso });
+  }
+
+  // La garantía es una sola vez por persona: quien ya recibió un reembolso y volvió a comprar no tiene otra.
+  if (await yaUsoSuGarantia(admin, user.id)) {
+    return NextResponse.json({ estado: 'sin_garantia' satisfies EstadoReembolso });
   }
 
   const ahora = Date.now();
