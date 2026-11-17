@@ -4,9 +4,9 @@
 // profundidad (docs/sistema/09-SEGURIDAD.md).
 
 import { crearClienteServidor } from '@/lib/supabase/server';
+import { clienteAdminSupabase } from '@/lib/supabase/admin';
 import { Tarjeta, SinDatos, Seccion } from '@/components/admin/Tarjeta';
 import { BannerAvisos, type Aviso } from '@/components/admin/BannerAvisos';
-import { Glosa } from '@/components/admin/Glosa';
 import { GraficoTendencia } from '@/components/admin/GraficoTendencia';
 
 export const dynamic = 'force-dynamic';
@@ -26,6 +26,17 @@ function formatearUsd(n: number): string {
 
 export default async function AdminResumenPage() {
   const supabase = await crearClienteServidor();
+
+  // Suscripciones reales (el webhook de Hotmart las crea y actualiza solo).
+  const { data: subsTodas } = await clienteAdminSupabase().from('subscriptions').select('estado, plan');
+  const filasSub = subsTodas ?? [];
+  const conAccesoFilas = filasSub.filter((f) => f.estado === 'active' || f.estado === 'trialing' || f.estado === 'trial');
+  const conAcceso = conAccesoFilas.length;
+  const cortesias = conAccesoFilas.filter((f) => f.plan === 'cortesia').length;
+  const mensuales = conAccesoFilas.filter((f) => f.plan === 'mensual').length;
+  const anuales = conAccesoFilas.filter((f) => f.plan === 'anual').length;
+  const canceladas = filasSub.filter((f) => f.estado === 'cancelled').length;
+  const reembolsadas = filasSub.filter((f) => f.estado === 'refunded' || f.estado === 'chargeback').length;
 
   const inicioHoy = new Date();
   inicioHoy.setHours(0, 0, 0, 0);
@@ -115,23 +126,19 @@ export default async function AdminResumenPage() {
       <BannerAvisos avisos={avisos} />
 
       <Seccion titulo="Ventas y suscripciones">
-        <SinDatos>
-          Sin datos todavía — el webhook
-          <Glosa termino="webhook">
-            El aviso automático que Hotmart le manda a tu app cada vez que alguien paga, cancela o se le vence la
-            tarjeta — así la app se entera sola, sin que nadie tenga que avisarle.
-          </Glosa>{' '}
-          de Hotmart no está conectado (ver docs/sistema/18-VENTA-HOTMART.md). Ingresos, MRR
-          <Glosa termino="MRR">
-            "Monthly Recurring Revenue": cuánto dinero entra cada mes de forma repetida por las suscripciones
-            activas — el número que mejor resume si el negocio está creciendo.
-          </Glosa>
-          , cancelaciones y churn
-          <Glosa termino="churn">
-            El porcentaje de clientas que se dan de baja en un período — cuanto más bajo, mejor.
-          </Glosa>{' '}
-          aparecerán aquí en cuanto empiecen a llegar ventas reales.
-        </SinDatos>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <Tarjeta icono="✅" etiqueta="Con acceso" valor={conAcceso} insight={`${mensuales} mensual · ${anuales} anual${cortesias > 0 ? ` · ${cortesias} cortesía` : ''}`} tono="bien" />
+          <Tarjeta icono="💳" etiqueta="De pago real" valor={conAcceso - cortesias} insight="Incluye quienes están en la prueba gratis" />
+          <Tarjeta icono="↩️" etiqueta="Canceladas" valor={canceladas} />
+          <Tarjeta icono="💸" etiqueta="Reembolsadas" valor={reembolsadas} />
+        </div>
+        <p className="mt-3 text-xs text-[var(--text-secondary)]">
+          Datos reales de las suscripciones que Hotmart avisa a la app. El dinero exacto se ve en Hotmart → Ventas;{' '}
+          <a href="/admin/ventas" className="font-semibold text-[var(--accent-lite)] underline underline-offset-2">
+            ver el detalle en Ventas
+          </a>
+          .
+        </p>
       </Seccion>
 
       <Seccion titulo="Camino de compra (últimos 7 días)">
