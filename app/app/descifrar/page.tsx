@@ -9,7 +9,7 @@
 // el texto es muy corto para decir algo real, se explica por qué en vez de
 // apagar el botón.
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Camera, CircleHelp, ClipboardList, ClipboardPaste, Eye, MessageCircle, TriangleAlert } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -22,6 +22,7 @@ import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import { CONVERSACION_EJEMPLO } from '@/lib/seed-datos';
 import { consumirPruebaGratis } from '@/lib/prueba-gratis';
 import { guardarMensajePendiente } from '@/lib/almacenamiento-coach';
+import { borrarUltimoAnalisis, guardarPreguntaTarotPendiente, guardarUltimoAnalisis, leerUltimoAnalisis } from '@/lib/almacenamiento-analisis';
 
 type Modo = 'texto' | 'captura';
 type Estado = 'reposo' | 'cargando' | 'error' | 'resultado';
@@ -58,6 +59,14 @@ export default function DescifrarPage() {
   const [estado, setEstado] = useState<Estado>('reposo');
   const [analisis, setAnalisis] = useState<ItemAnalisis[]>([]);
   const [noConversacion, setNoConversacion] = useState('');
+  // Al volver a esta pantalla (por ejemplo desde Tarot) se recupera el último análisis de la sesión.
+  useEffect(() => {
+    const ultimo = leerUltimoAnalisis();
+    if (!ultimo) return;
+    setTexto(ultimo.texto);
+    setAnalisis(ultimo.analisis);
+    setEstado('resultado');
+  }, []);
   const [esCrisis, setEsCrisis] = useState(false);
   const [mensajeError, setMensajeError] = useState('Necesito un poco más de contexto — pega al menos un par de mensajes.');
 
@@ -164,6 +173,8 @@ export default function DescifrarPage() {
       refrescar();
       setAnalisis(datos.analisis);
       setEstado('resultado');
+      // Continuidad: se recuerda mientras dure la sesión para poder VOLVER desde Tarot o el Coach.
+      guardarUltimoAnalisis({ texto: modo === 'texto' ? texto : '', analisis: datos.analisis });
     } catch {
       setMensajeError('No se pudo analizar tu mensaje — inténtalo de nuevo.');
       setEstado('error');
@@ -233,7 +244,10 @@ export default function DescifrarPage() {
                   value={texto}
                   onChange={(e) => {
                     setTexto(e.target.value);
-                    if (estado !== 'cargando') setEstado('reposo');
+                    if (estado !== 'cargando') {
+                      setEstado('reposo');
+                      borrarUltimoAnalisis();
+                    }
                   }}
                   onKeyDown={(e) => {
                     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') analizar();
@@ -379,6 +393,7 @@ export default function DescifrarPage() {
             <button
               type="button"
               onClick={() => {
+                borrarUltimoAnalisis();
                 setTexto('');
                 setImagen(null);
                 setEstado('reposo');
@@ -416,6 +431,7 @@ export default function DescifrarPage() {
               <button
                 type="button"
                 onClick={() => {
+                  borrarUltimoAnalisis();
                   setNoConversacion('');
                   setEsCrisis(false);
                   setTexto('');
@@ -479,7 +495,18 @@ export default function DescifrarPage() {
                 </motion.div>
               ))}
               <motion.div variants={item} className="mt-1 flex flex-col gap-2">
-                <AppLinkButton href="/app/tarot">Explorar con tarot</AppLinkButton>
+                <AppLinkButton
+                  href="/app/tarot"
+                  onClick={() =>
+                    guardarPreguntaTarotPendiente(
+                      texto.trim()
+                        ? `Mi situación: ${texto.trim()}`
+                        : `Mi situación: ${analisis.find((a) => a.id === 'vemos')?.texto ?? ''}`
+                    )
+                  }
+                >
+                  Explorar con tarot
+                </AppLinkButton>
                 <Link
                   href="/app/coach"
                   onClick={() =>

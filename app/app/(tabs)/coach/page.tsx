@@ -22,6 +22,10 @@ import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
 import { leerContextoCoach, type ContextoCoach } from '@/lib/almacenamiento-contexto-coach';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { ContextoCoachPaso } from '@/components/app/ContextoCoach';
+import { VolverAlAnalisis } from '@/components/app/VolverAlAnalisis';
+import { guardarSesion, leerSesion } from '@/lib/sesion-pantalla';
+
+const CLAVE_HILO = 'luma_coach_hilo';
 
 export default function CoachPage() {
   const [hilo, setHilo] = useState<MensajeCoach[]>([]);
@@ -61,6 +65,9 @@ export default function CoachPage() {
       const contextoGuardado = leerContextoCoach();
       setApodo(apodoCuenta);
       setApertura(aperturaCoach(apodoCuenta ?? mapaPoder?.nombre ?? contextoGuardado?.nombre));
+      // Continuidad: si salió a otra sección y vuelve, la conversación sigue donde la dejó.
+      const anterior = leerSesion<MensajeCoach[]>(CLAVE_HILO);
+      if (anterior && anterior.length > 0) setHilo(anterior);
       const pendiente = leerYLimpiarMensajePendiente();
       if (pendiente) setTexto(pendiente);
       setContexto(contextoGuardado);
@@ -70,6 +77,10 @@ export default function CoachPage() {
       cancelado = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (hilo.length > 0) guardarSesion(CLAVE_HILO, hilo);
+  }, [hilo]);
 
   // Cuando termina el paso de preguntas (incluido el nombre, si no lo teníamos
   // ya del Mapa de Poder), el saludo de arriba del chat se re-personaliza con
@@ -181,6 +192,7 @@ export default function CoachPage() {
           </div>
         </div>
       </div>
+      <VolverAlAnalisis className="self-start" />
 
       {contextoListo && !contexto ? (
         <ContextoCoachPaso nombrePrellenado={apodo ?? leerMapaPoder()?.nombre} onListo={alTerminarContexto} />

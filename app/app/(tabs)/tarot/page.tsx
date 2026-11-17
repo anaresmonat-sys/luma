@@ -13,6 +13,9 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'motion/react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
+import { VolverAlAnalisis } from '@/components/app/VolverAlAnalisis';
+import { leerYLimpiarPreguntaTarotPendiente } from '@/lib/almacenamiento-analisis';
+import { borrarSesion, guardarSesion, leerSesion } from '@/lib/sesion-pantalla';
 import { AppButton, AppLinkButton } from '@/components/app/AppButton';
 import { AvisoIA } from '@/components/app/AvisoIA';
 import { InvitacionPlan } from '@/components/app/InvitacionPlan';
@@ -26,6 +29,8 @@ import { drawCards, cartaDelDia, citaDeCarta, POSICIONES_TIRADA, type CartaExtra
 
 const CLAVE_TIRADAS_GUARDADAS = 'luma_tiradas_guardadas';
 const MAX_PREGUNTA = 500;
+
+const CLAVE_TIRADA_ABIERTA = 'luma_tarot_tirada_abierta';
 
 type Vista = 'lista' | 'ritual' | 'pregunta' | 'leyendo' | 'resultado' | 'error';
 
@@ -189,9 +194,30 @@ export default function TarotPage() {
   const { disponible, conPlan } = usePruebaDisponible();
   // Evita el parpadeo de la lista de temas antes de saltar al ritual (localStorage solo existe en el navegador).
   const [listo, setListo] = useState(false);
+  // Situación que llega desde Descifrar («Explorar con tarot»): se ofrece leerla como pregunta ya escrita.
+  const [situacion, setSituacion] = useState<string | null>(null);
+  useEffect(() => {
+    // En desarrollo React ejecuta este efecto dos veces: la segunda lectura ya viene vacía y no debe borrar la situación.
+    const llegada = leerYLimpiarPreguntaTarotPendiente();
+    if (llegada) {
+      setSituacion(llegada);
+      borrarSesion(CLAVE_TIRADA_ABIERTA); // viene a empezar una lectura nueva: no se le muestra una tirada vieja
+    }
+  }, []);
 
   useEffect(() => {
     setDelDia(leerCartaDelDiaGuardada());
+    // Continuidad: si salió a otra sección con una tirada abierta y vuelve, la encuentra tal cual.
+    const abierta = leerSesion<{ temaId: string; tirada: TiradaGuardada; preguntaUsada: string }>(CLAVE_TIRADA_ABIERTA);
+    const temaAbierto = abierta ? TIRADAS_TAROT.find((x) => x.id === abierta.temaId) : undefined;
+    if (abierta && temaAbierto && !new URLSearchParams(window.location.search).get('ritual')) {
+      setTema(temaAbierto);
+      setTirada(abierta.tirada);
+      setPreguntaUsada(abierta.preguntaUsada);
+      setVista('resultado');
+      setListo(true);
+      return;
+    }
     const quiereRitual = new URLSearchParams(window.location.search).get('ritual') === '1';
     if (quiereRitual && pruebaGratisDisponible()) {
       setCartasRitual(drawCards(6));
@@ -230,7 +256,12 @@ export default function TarotPage() {
     return () => window.clearTimeout(t);
   }, [elegidas, reduce]);
 
+  useEffect(() => {
+    if (vista === 'resultado' && tirada && tema) guardarSesion(CLAVE_TIRADA_ABIERTA, { temaId: tema.id, tirada, preguntaUsada });
+  }, [vista, tirada, tema, preguntaUsada]);
+
   function volverALista() {
+    borrarSesion(CLAVE_TIRADA_ABIERTA);
     setDesdeRitual(false);
     setElegidas([]);
     setRitualPreguntada(false);
@@ -749,6 +780,27 @@ export default function TarotPage() {
     <div className="relative flex min-h-min flex-1 flex-col pb-4 pt-3">
       {fondo}
       <ScreenHeader titulo="Tarot" volverHref="/app" />
+      <VolverAlAnalisis className="self-start" />
+      {situacion && (
+        <div className="mt-2 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] p-3">
+          <p className="text-[13px] font-semibold text-[var(--text-primary)]">Viniste de tu análisis</p>
+          <p className="mt-1 line-clamp-3 text-[12px] leading-snug text-[var(--text-secondary)]">{situacion}</p>
+          <button
+            type="button"
+            onClick={() => {
+              const t = TIRADAS_TAROT.find((x) => x.id === 'autoconocimiento');
+              if (!t) return;
+              setTema(t);
+              setPregunta(situacion);
+              setSituacion(null);
+              setVista('pregunta');
+            }}
+            className="mt-2 flex min-h-11 w-full items-center justify-center rounded-[var(--radius-button)] bg-gradient-to-b from-[var(--accent-lite)] to-[var(--accent)] text-[13px] font-bold text-[var(--on-accent)]"
+          >
+            Leer esta situación con las cartas
+          </button>
+        </div>
+      )}
       <h1 className="mt-1 text-[20px] font-semibold text-[var(--text-primary)] [font-family:var(--font-display)] [@media(max-height:720px)]:hidden">
         ¿Qué tipo de tirada necesitas?
       </h1>
