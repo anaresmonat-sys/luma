@@ -110,7 +110,7 @@ export function PedirReembolso() {
             <button
               type="button"
               onClick={() => setConfirmando(true)}
-              className="mt-4 flex h-12 w-full items-center justify-center rounded-[var(--radius-button)] border border-[var(--border)] text-[14px] font-semibold text-[var(--text-primary)]"
+              className="mt-4 flex h-12 w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[14px] font-semibold text-[var(--on-accent)]"
             >
               Pedir reembolso
             </button>

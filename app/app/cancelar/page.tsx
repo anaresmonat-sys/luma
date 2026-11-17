@@ -101,12 +101,16 @@ export default function CancelarPage() {
               Cuenta: <span className="font-semibold text-[var(--text-primary)]">{correo}</span>
             </p>
           )}
-          <p className="mt-3 text-[14px] leading-relaxed text-[var(--text-secondary)]">
-            Puedes cancelar cuando quieras, sin preguntas. No se te cobrará más y sigues usando LUMA hasta que termine tu prueba o el período que ya pagaste.
-          </p>
           <p className="mt-2 text-[14px] leading-relaxed text-[var(--text-tertiary)]">
-            Guardamos la hora exacta de tu petición: si pides cancelar antes del primer cobro y aun así se cobra, te lo devolvemos entero.
+            Gracias por haber probado LUMA, de verdad. Al cancelar, queda guardada la fecha y la hora exactas de tu petición, por si en algún momento necesitas hacer una reclamación.
           </p>
+
+          <div className="mt-5 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] px-4 py-3">
+            <p className="text-sm font-semibold text-[var(--text-primary)]">¿Te vas por algo que podamos mejorar?</p>
+            <a href="/app/sugerencias" className="flex min-h-11 items-center text-sm font-semibold text-[var(--accent-lite)] underline underline-offset-2">
+              Cuéntanoslo en un minuto
+            </a>
+          </div>
 
           {confirmando ? (
             <div className="mt-6 flex flex-col gap-3">
