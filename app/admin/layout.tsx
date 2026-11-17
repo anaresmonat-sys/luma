@@ -37,6 +37,9 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     redirect('/');
   }
 
+  const { count: sugerenciasNuevas } = await supabase.from('sugerencias').select('id', { count: 'exact', head: true }).eq('estado', 'nueva');
+  const secciones = SECCIONES.map((s) => (s.href === '/admin/sugerencias' ? { ...s, insignia: sugerenciasNuevas ?? 0 } : s));
+
   return (
     <div className="mx-auto min-h-dvh w-full max-w-[1080px] px-5 pb-16 pt-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -51,7 +54,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
         </a>
       </div>
 
-      <NavAdmin secciones={SECCIONES} />
+      <NavAdmin secciones={secciones} />
 
       <div className="mt-6">{children}</div>
     </div>

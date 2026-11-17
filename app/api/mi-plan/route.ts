@@ -30,7 +30,12 @@ export async function GET() {
     ]);
     const conPlan = algunaSuscripcionDaAcceso(suscripciones as FilaSuscripcion[] | null);
     const esAdmin = perfil?.role === 'admin';
-    return NextResponse.json({ activo: esAdmin || conPlan, admin: esAdmin });
+    let sugerenciasNuevas = 0;
+    if (esAdmin) {
+      const { count } = await admin.from('sugerencias').select('id', { count: 'exact', head: true }).eq('estado', 'nueva');
+      sugerenciasNuevas = count ?? 0;
+    }
+    return NextResponse.json({ activo: esAdmin || conPlan, admin: esAdmin, ...(esAdmin ? { sugerenciasNuevas } : {}) });
   } catch {
     // Disponibilidad primero: si falla la consulta, no se afirma nada de más —
     // el aviso local sigue siendo el respaldo y el 402 real del servidor sigue

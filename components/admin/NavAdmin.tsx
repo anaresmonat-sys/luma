@@ -12,7 +12,7 @@ import { usePathname } from 'next/navigation';
 export function NavAdmin({
   secciones,
 }: {
-  secciones: readonly { href: string; label: string; icono: string }[];
+  secciones: readonly { href: string; label: string; icono: string; insignia?: number }[];
 }) {
   const pathname = usePathname();
 
@@ -33,6 +33,11 @@ export function NavAdmin({
           >
             <span aria-hidden="true">{s.icono}</span>
             {s.label}
+            {s.insignia ? (
+              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--an-risk)] px-1 text-xs font-bold text-[var(--on-accent)]">
+                {s.insignia}
+              </span>
+            ) : null}
           </Link>
         );
       })}

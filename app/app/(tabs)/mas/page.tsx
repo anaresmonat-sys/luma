@@ -53,6 +53,7 @@ export default function MasPage() {
   const [gratisDisponible, setGratisDisponible] = useState(true);
   const [conPlan, setConPlan] = useState(false);
   const [esAdmin, setEsAdmin] = useState(false);
+  const [sugerenciasNuevas, setSugerenciasNuevas] = useState(0);
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false);
   const [borrando, setBorrando] = useState(false);
   const [errorBorrado, setErrorBorrado] = useState<string | null>(null);
@@ -66,8 +67,9 @@ export default function MasPage() {
     // corregido en lib/use-prueba-gratis.ts, 2026-09-29).
     fetch('/api/mi-plan')
       .then((r) => (r.ok ? r.json() : null))
-      .then((datos: { activo?: boolean; admin?: boolean } | null) => {
+      .then((datos: { activo?: boolean; admin?: boolean; sugerenciasNuevas?: number } | null) => {
         if (datos?.admin) setEsAdmin(true);
+        if (datos?.sugerenciasNuevas) setSugerenciasNuevas(datos.sugerenciasNuevas);
         if (datos?.activo) {
           setGratisDisponible(false);
           setConPlan(true);
@@ -267,7 +269,15 @@ export default function MasPage() {
             <span aria-hidden="true">
               <ShieldCheck size={18} strokeWidth={1.75} />
             </span>
-            Panel de administración
+            <span className="whitespace-nowrap">Panel de administración</span>
+            {sugerenciasNuevas > 0 && (
+              <span
+                className="whitespace-nowrap rounded-full bg-[var(--an-risk)] px-2 py-0.5 text-xs font-bold text-[var(--on-accent)]"
+                aria-label={sugerenciasNuevas === 1 ? '1 sugerencia nueva' : `${sugerenciasNuevas} sugerencias nuevas`}
+              >
+                {sugerenciasNuevas === 1 ? '1 nueva' : `${sugerenciasNuevas} nuevas`}
+              </span>
+            )}
             <span className="ml-auto" aria-hidden="true">
               →
             </span>
