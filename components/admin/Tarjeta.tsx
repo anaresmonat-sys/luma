@@ -36,7 +36,7 @@ export function Tarjeta({
         {etiqueta}
         {glosa && <Glosa termino={etiqueta}>{glosa}</Glosa>}
       </p>
-      <p className="mt-1.5 text-[26px] font-bold tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]">
+      <p className="mt-1.5 text-[26px] font-bold lining-nums tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]">
         {valor}
       </p>
       {insight && (
