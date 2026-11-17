@@ -8,6 +8,7 @@ import { crearClienteServidor } from '@/lib/supabase/server';
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
 import { reembolsarEnHotmart } from '@/lib/hotmart-api';
 import { registrarError } from '@/lib/log-servidor';
+import { elegirVentaAReembolsar } from '@/lib/venta-a-reembolsar';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
@@ -64,14 +65,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Han pasado más de 15 días: fuera de la garantía.' }, { status: 409 });
   }
 
-  const { data: venta } = await admin
+  // La compra a reembolsar es el PRIMER COBRO REAL (con importe). Quien empieza con prueba gratis tiene antes una
+  // «venta» de importe vacío (el inicio de la prueba): reembolsar esa no devuelve nada y Hotmart la rechaza (400).
+  // Si ninguna fila trae importe (datos antiguos), se usa la más antigua, como antes.
+  const { data: ventas } = await admin
     .from('payment_transactions')
-    .select('transaction_id')
+    .select('transaction_id, amount_minor')
     .eq('user_id', peticion.user_id)
     .eq('economic_kind', 'sale')
-    .order('occurred_at', { ascending: true })
-    .limit(1)
-    .maybeSingle();
+    .order('occurred_at', { ascending: true });
+  const venta = elegirVentaAReembolsar(ventas);
   if (!venta?.transaction_id) {
     return NextResponse.json({ error: 'No encontré la transacción de esa compra. Reembólsala a mano en Hotmart.' }, { status: 404 });
   }
