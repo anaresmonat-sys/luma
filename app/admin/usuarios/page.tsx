@@ -5,6 +5,7 @@
 // el estado completo de cada persona.
 
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
+import { suscripcionDaAcceso } from '@/lib/acceso-plan';
 import { Tarjeta, Seccion, SinDatos } from '@/components/admin/Tarjeta';
 import { FormularioAgregarUsuario } from '@/components/admin/FormularioAgregarUsuario';
 import { BotonCortesia } from '@/components/admin/BotonCortesia';
@@ -23,7 +24,7 @@ export default async function AdminUsuariosPage() {
   const [{ data: listado, error }, { data: perfiles }, { data: suscripciones }] = await Promise.all([
     admin.auth.admin.listUsers({ perPage: 200 }),
     admin.from('profiles').select('id, nombre, role, created_at'),
-    admin.from('subscriptions').select('user_id, estado, plan'),
+    admin.from('subscriptions').select('user_id, estado, plan, current_period_end, updated_at'),
   ]);
 
   const perfilPorId = new Map((perfiles ?? []).map((p: any) => [p.id, p]));
@@ -39,6 +40,8 @@ export default async function AdminUsuariosPage() {
       ultimoAcceso: u.last_sign_in_at,
       estadoPlan: (suscripcionPorId.get(u.id) as any)?.estado ?? 'sin_suscripcion',
       plan: (suscripcionPorId.get(u.id) as any)?.plan ?? null,
+      // Misma regla que usa la app: una suscripción «active» con el período ya vencido NO da acceso.
+      daAcceso: suscripcionPorId.has(u.id) ? suscripcionDaAcceso(suscripcionPorId.get(u.id) as any) : false,
     }))
     .sort((a, b) => new Date(b.creado).getTime() - new Date(a.creado).getTime());
 
@@ -50,7 +53,7 @@ export default async function AdminUsuariosPage() {
           <Tarjeta
             icono="💳"
             etiqueta="Con plan activo"
-            valor={usuarios.filter((u) => u.estadoPlan === 'active').length}
+            valor={usuarios.filter((u) => u.daAcceso).length}
           />
         </div>
       </Seccion>
@@ -100,7 +103,7 @@ export default async function AdminUsuariosPage() {
                     <td className="px-3 py-2.5 text-[var(--text-primary)]">{u.nombre}</td>
                     <td className="px-3 py-2.5 text-[var(--text-secondary)]">{u.email}</td>
                     <td className="px-3 py-2.5 text-[var(--text-secondary)]">
-                      {u.estadoPlan === 'sin_suscripcion' ? 'Sin plan' : u.plan === 'cortesia' ? 'Cortesía' : u.estadoPlan}
+                      {u.estadoPlan === 'sin_suscripcion' ? 'Sin plan' : u.plan === 'cortesia' ? 'Cortesía' : u.estadoPlan === 'active' && !u.daAcceso ? 'vencida (sin acceso)' : u.estadoPlan}
                     </td>
                     <td className="px-3 py-2.5 text-[var(--text-secondary)]">{formatearFecha(u.creado)}</td>
                     <td className="px-3 py-2.5 text-[var(--text-secondary)]">{formatearFecha(u.ultimoAcceso)}</td>

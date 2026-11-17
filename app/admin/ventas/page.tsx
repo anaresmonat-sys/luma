@@ -7,6 +7,7 @@
 import { SinDatos, Seccion } from '@/components/admin/Tarjeta';
 import { Glosa } from '@/components/admin/Glosa';
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
+import { suscripcionDaAcceso } from '@/lib/acceso-plan';
 import { BotonReembolsar } from '@/components/admin/BotonReembolsar';
 
 export const dynamic = 'force-dynamic';
@@ -31,9 +32,9 @@ export default async function AdminVentasPage() {
   for (const r of reembolsos) if (r.detalle === 'reembolsado_por_api') reembolsados.add(r.user_id as string);
   const reembolsosPendientes = reembolsos.filter((r) => !reembolsados.has(r.user_id as string));
 
-  const { data: todas } = await admin.from('subscriptions').select('estado, plan');
+  const { data: todas } = await admin.from('subscriptions').select('estado, plan, current_period_end, updated_at');
   const filasSub = todas ?? [];
-  const conAcceso = filasSub.filter((f) => f.estado === 'active' || f.estado === 'trialing' || f.estado === 'trial');
+  const conAcceso = filasSub.filter((f) => suscripcionDaAcceso(f)); // misma regla que usa la app
   const activas = conAcceso.length;
   const cortesias = conAcceso.filter((f) => f.plan === 'cortesia').length;
   const mensuales = conAcceso.filter((f) => f.plan === 'mensual').length;

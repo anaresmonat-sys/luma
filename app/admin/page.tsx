@@ -5,6 +5,7 @@
 
 import { crearClienteServidor } from '@/lib/supabase/server';
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
+import { suscripcionDaAcceso } from '@/lib/acceso-plan';
 import { Tarjeta, SinDatos, Seccion } from '@/components/admin/Tarjeta';
 import { BannerAvisos, type Aviso } from '@/components/admin/BannerAvisos';
 import { GraficoTendencia } from '@/components/admin/GraficoTendencia';
@@ -28,9 +29,9 @@ export default async function AdminResumenPage() {
   const supabase = await crearClienteServidor();
 
   // Suscripciones reales (el webhook de Hotmart las crea y actualiza solo).
-  const { data: subsTodas } = await clienteAdminSupabase().from('subscriptions').select('estado, plan');
+  const { data: subsTodas } = await clienteAdminSupabase().from('subscriptions').select('estado, plan, current_period_end, updated_at');
   const filasSub = subsTodas ?? [];
-  const conAccesoFilas = filasSub.filter((f) => f.estado === 'active' || f.estado === 'trialing' || f.estado === 'trial');
+  const conAccesoFilas = filasSub.filter((f) => suscripcionDaAcceso(f)); // misma regla que usa la app: «active» con el período ya vencido NO da acceso
   const conAcceso = conAccesoFilas.length;
   const cortesias = conAccesoFilas.filter((f) => f.plan === 'cortesia').length;
   const mensuales = conAccesoFilas.filter((f) => f.plan === 'mensual').length;
