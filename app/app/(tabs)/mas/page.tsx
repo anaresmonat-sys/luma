@@ -21,7 +21,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
-import { Bell, ChevronDown, MessageSquarePlus, Cookie, CreditCard, FileText, LifeBuoy, Lock, MessageCircle, Sparkles, Undo2, User } from 'lucide-react';
+import { Bell, ChevronDown, MessageSquarePlus, ShieldCheck, Cookie, CreditCard, FileText, LifeBuoy, Lock, MessageCircle, Sparkles, Undo2, User } from 'lucide-react';
 import { SelectorTrato } from '@/components/app/SelectorTrato';
 import { esTrato, guardarTratoLocal, leerTratoLocal, TRATOS, type Trato } from '@/lib/trato';
 import { crearClienteNavegador } from '@/lib/supabase/client';
@@ -52,6 +52,7 @@ export default function MasPage() {
   const [cerrando, setCerrando] = useState(false);
   const [gratisDisponible, setGratisDisponible] = useState(true);
   const [conPlan, setConPlan] = useState(false);
+  const [esAdmin, setEsAdmin] = useState(false);
   const [confirmandoBorrado, setConfirmandoBorrado] = useState(false);
   const [borrando, setBorrando] = useState(false);
   const [errorBorrado, setErrorBorrado] = useState<string | null>(null);
@@ -65,7 +66,8 @@ export default function MasPage() {
     // corregido en lib/use-prueba-gratis.ts, 2026-09-29).
     fetch('/api/mi-plan')
       .then((r) => (r.ok ? r.json() : null))
-      .then((datos: { activo?: boolean } | null) => {
+      .then((datos: { activo?: boolean; admin?: boolean } | null) => {
+        if (datos?.admin) setEsAdmin(true);
         if (datos?.activo) {
           setGratisDisponible(false);
           setConPlan(true);
@@ -257,6 +259,20 @@ export default function MasPage() {
           </span>
           Ayuda y soporte
         </a>
+        {esAdmin && (
+          <Link
+            href="/admin"
+            className="flex items-center gap-3 border-t border-[color-mix(in_oklab,var(--text-tertiary)_18%,transparent)] py-3 text-[13px] font-semibold text-[var(--accent-lite)]"
+          >
+            <span aria-hidden="true">
+              <ShieldCheck size={18} strokeWidth={1.75} />
+            </span>
+            Panel de administración
+            <span className="ml-auto" aria-hidden="true">
+              →
+            </span>
+          </Link>
+        )}
         {ENLACES.map((o) => (
           <Link
             key={o.label}

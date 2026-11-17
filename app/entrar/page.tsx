@@ -41,10 +41,13 @@ export default function EntrarLuma() {
   // ?desde=paywall (enlace de "Restaurar compra"): ofrece volver ahí en vez
   // de perder el contexto de compra con un genérico "Volver al inicio".
   const [vieneDePaywall, setVieneDePaywall] = useState(false);
+  // ?desde=admin (la guardia del panel manda aquí): tras entrar, la persona aterriza directo en el panel.
+  const [vieneDeAdmin, setVieneDeAdmin] = useState(false);
 
   useEffect(() => {
     const parametros = new URLSearchParams(window.location.search);
     setVieneDePaywall(parametros.get('desde') === 'paywall');
+    setVieneDeAdmin(parametros.get('desde') === 'admin');
     if (parametros.get('error') === 'enlace') {
       setMensajeError(MENSAJE_ENLACE_EXPIRADO);
       setEstado('error');
@@ -70,7 +73,7 @@ export default function EntrarLuma() {
     }
     setEstado('enviando');
     const supabase = crearClienteNavegador();
-    const next = vieneDePaywall ? '/paywall' : '/app';
+    const next = vieneDePaywall ? '/paywall' : vieneDeAdmin ? '/admin' : '/app';
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=${next}` },
@@ -94,7 +97,7 @@ export default function EntrarLuma() {
     }
     setEnviandoGoogle(true);
     const supabase = crearClienteNavegador();
-    const next = vieneDePaywall ? '/paywall' : '/app';
+    const next = vieneDePaywall ? '/paywall' : vieneDeAdmin ? '/admin' : '/app';
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo: `${window.location.origin}/auth/callback?next=${next}` },

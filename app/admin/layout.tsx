@@ -27,7 +27,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/entrar');
+    redirect('/entrar?desde=admin');
   }
 
   const { data: perfil } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
