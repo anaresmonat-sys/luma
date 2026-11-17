@@ -26,6 +26,7 @@ const MENSAJE_SIN_ACEPTAR = 'Marca la casilla para continuar.';
 // dirección técnica de Supabase ("…supabase.co") y a una clienta nueva le parece sospechosa. Se reactiva (true) cuando
 // entre por el botón oficial de Google dentro de tuluma.app, o con un dominio propio de Supabase (decisión 2026-10-17).
 const MOSTRAR_GOOGLE = false;
+// Excepción: quien llega desde /admin (la administradora) sí lo ve, para entrar al panel con un solo toque, sin correo.
 
 export default function EntrarLuma() {
   const reduce = useReducedMotion();
@@ -267,7 +268,7 @@ export default function EntrarLuma() {
             </motion.button>
           </form>
 
-          {MOSTRAR_GOOGLE && (
+          {(MOSTRAR_GOOGLE || vieneDeAdmin) && (
             <button
               type="button"
               onClick={() => void entrarConGoogle()}
