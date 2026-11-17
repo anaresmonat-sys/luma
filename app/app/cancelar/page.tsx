@@ -107,7 +107,7 @@ export default function CancelarPage() {
 
           <div className="mt-5 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] px-4 py-3">
             <p className="text-sm font-semibold text-[var(--text-primary)]">¿Te vas por algo que podamos mejorar?</p>
-            <a href="/app/sugerencias" className="flex min-h-11 items-center text-sm font-semibold text-[var(--accent-lite)] underline underline-offset-2">
+            <a href="/app/sugerencias?desde=cancelar" className="flex min-h-11 items-center text-sm font-semibold text-[var(--accent-lite)] underline underline-offset-2">
               Cuéntanoslo en un minuto
             </a>
           </div>
