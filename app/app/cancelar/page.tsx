@@ -86,6 +86,13 @@ export default function CancelarPage() {
               ? 'No se te cobrará de nuevo y sigues teniendo acceso hasta que termine tu prueba o el período que ya pagaste.'
               : 'La cancelamos hoy mismo. Si por la diferencia horaria se te cobrara el primer pago antes, te lo devolvemos completo.'}
           </p>
+          <p className="mt-3 text-[14px] leading-relaxed text-[var(--text-secondary)]">
+            Antes de irte, ¿nos cuentas qué podemos mejorar?{' '}
+            <a href="/app/sugerencias" className="font-semibold text-[var(--accent-lite)] underline underline-offset-2">
+              Escríbenos aquí
+            </a>
+            .
+          </p>
         </div>
       ) : (
         <>
@@ -95,17 +102,11 @@ export default function CancelarPage() {
             </p>
           )}
           <p className="mt-3 text-[14px] leading-relaxed text-[var(--text-secondary)]">
-            Puedes cancelar cuando quieras, sin preguntas. Si estás en la prueba gratis, sigues usando LUMA hasta que
-            se cumplan tus 3 días y no pagas nada. Y si ya pagaste, conservas el acceso hasta el final del período.
+            Puedes cancelar cuando quieras, sin preguntas. No se te cobrará más y sigues usando LUMA hasta que termine tu prueba o el período que ya pagaste.
           </p>
-
-          <div className="mt-5 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-4">
-            <p className="text-[14px] font-semibold text-[var(--text-primary)]">La hora de tu petición es la que cuenta</p>
-            <p className="mt-1 text-[14px] leading-relaxed text-[var(--text-secondary)]">
-              Guardamos el momento exacto en que lo pides. Si pediste cancelar antes del primer cobro y aun así se cobra, te lo
-              devolvemos entero.
-            </p>
-          </div>
+          <p className="mt-2 text-[14px] leading-relaxed text-[var(--text-tertiary)]">
+            Guardamos la hora exacta de tu petición: si pides cancelar antes del primer cobro y aun así se cobra, te lo devolvemos entero.
+          </p>
 
           {confirmando ? (
             <div className="mt-6 flex flex-col gap-3">
@@ -145,9 +146,6 @@ export default function CancelarPage() {
 
           <PedirReembolso />
 
-          <p className="mt-4 text-[14px] leading-relaxed text-[var(--text-tertiary)]">
-            ¿Hay algo que podamos mejorar? <a href="/app/sugerencias" className="underline underline-offset-2">Cuéntanoslo</a>, lo leemos todo.
-          </p>
 
           <p className="mt-4 text-[14px] leading-relaxed text-[var(--text-tertiary)]">
             Si el botón no funciona, escribe a{' '}

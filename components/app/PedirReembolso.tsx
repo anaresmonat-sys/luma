@@ -70,14 +70,21 @@ export function PedirReembolso() {
           <p className="mt-2 text-[14px] leading-relaxed text-[var(--text-secondary)]">
             {TEXTOS[respuesta.estado].cuerpo(respuesta.solicitadaEn ? horaLocal(respuesta.solicitadaEn) : undefined)}
           </p>
+          <p className="mt-3 text-[14px] leading-relaxed text-[var(--text-secondary)]">
+            Antes de irte, ¿nos cuentas qué podemos mejorar?{' '}
+            <a href="/app/sugerencias" className="font-semibold text-[var(--accent-lite)] underline underline-offset-2">
+              Escríbenos aquí
+            </a>
+            .
+          </p>
         </div>
       ) : (
         <>
           <h2 id="titulo-reembolso" className="text-[16px] font-semibold text-[var(--text-primary)]">
-            ¿Ya te cobraron y quieres tu dinero?
+            Garantía de 15 días
           </h2>
           <p className="mt-1 text-[14px] leading-relaxed text-[var(--text-secondary)]">
-            Tienes 15 días desde que empezó tu prueba para pedir el reembolso del primer pago.
+            Si ya te cobraron, puedes pedir que te devolvamos el primer pago durante los 15 días desde que empezó tu prueba. Se cancela tu plan y se cierra tu cuenta.
           </p>
           {confirmando ? (
             <div className="mt-4 flex flex-col gap-3">
