@@ -38,7 +38,6 @@ export default function DiarioPage() {
   const [animo, setAnimo] = useState<string | null>('tranquila');
   const [texto, setTexto] = useState('');
   const [guardado, setGuardado] = useState(false);
-  const [aviso, setAviso] = useState<string | null>(null);
   const [trajoLectura, setTrajoLectura] = useState(false);
   const [errorVacio, setErrorVacio] = useState(false);
   const [registros, setRegistros] = useState(0);
@@ -154,11 +153,6 @@ export default function DiarioPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trajoLectura, texto, conPlan, disponible]);
 
-  function tocarProximamente(mensaje: string) {
-    setAviso(mensaje);
-    window.setTimeout(() => setAviso(null), 2200);
-  }
-
   return (
     <div className="relative flex min-h-min flex-1 flex-col pb-4 pt-3">
       <div
@@ -189,15 +183,6 @@ export default function DiarioPage() {
             }
           />
         </motion.div>
-        <div className="h-4 shrink-0 text-center">
-          <AnimatePresence>
-            {aviso && (
-              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-[11px] font-semibold text-[var(--accent-lite)]">
-                {aviso}
-              </motion.p>
-            )}
-          </AnimatePresence>
-        </div>
 
         <motion.div variants={item} className="mb-2">
           {!patron && !guardando && !guardado && <AvisoPrueba disponible={disponible} conPlan={conPlan} />}
@@ -289,14 +274,14 @@ export default function DiarioPage() {
           </motion.p>
         )}
 
-        <motion.button
-          variants={item}
-          type="button"
-          onClick={() => tocarProximamente('Próximamente: tu patrón completo')}
-          className="mt-3 flex h-11 w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[12.5px] font-bold text-[var(--accent-lite)] [@media(max-height:840px)]:hidden"
+        <motion.div variants={item} className="mt-3 [@media(max-height:840px)]:hidden">
+        <Link
+          href="/app/diario/historial"
+          className="flex h-11 w-full items-center justify-center gap-2 rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] text-[12.5px] font-bold text-[var(--accent-lite)] [@media(max-height:840px)]:hidden"
         >
-          Ver mi patrón →
-        </motion.button>
+          Ver mi historial →
+        </Link>
+        </motion.div>
 
         <motion.div variants={item} className="mt-3">
           <Link

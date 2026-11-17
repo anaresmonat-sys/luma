@@ -18,7 +18,11 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Lock } from 'lucide-react';
 import { ScreenHeader } from '@/components/app/ScreenHeader';
-import { AppButton } from '@/components/app/AppButton';
+import Link from 'next/link';
+import { AppButton, AppLinkButton } from '@/components/app/AppButton';
+import { guardarMensajePendiente } from '@/lib/almacenamiento-coach';
+import { guardarPreguntaTarotPendiente } from '@/lib/almacenamiento-analisis';
+import { guardarSesion, leerSesion } from '@/lib/sesion-pantalla';
 import { SIGNOS_ZODIACO } from '@/lib/zodiaco';
 import { usePruebaDisponible } from '@/lib/use-prueba-gratis';
 import { leerMapaPoder } from '@/lib/almacenamiento-numerologia';
@@ -145,6 +149,8 @@ function ListaSignos({
   );
 }
 
+const CLAVE_SESION = 'luma_compatibilidad_resultado';
+
 export default function CompatibilidadPage() {
   // Quien tiene plan activo ve el reporte completo; el resto ve el % y la química y una invitación a los planes.
   const { conPlan } = usePruebaDisponible();
@@ -158,6 +164,15 @@ export default function CompatibilidadPage() {
   // Si ya hizo su Mapa de Poder, "Tú" viene con su signo puesto y solo falta el de la otra persona.
   // Se lee en efecto (no en el estado inicial) porque localStorage solo existe en el navegador.
   useEffect(() => {
+    // Continuidad: si salió a otra sección y vuelve, encuentra su resultado tal cual.
+    const anterior = leerSesion<{ signo1: string; signo2: string; resultado: Resultado }>(CLAVE_SESION);
+    if (anterior && !window.location.search) {
+      setSigno1(anterior.signo1);
+      setSigno2(anterior.signo2);
+      setResultado(anterior.resultado);
+      setEstado('resultado');
+      return;
+    }
     // Si viene de la calculadora de la página de ventas (?tu=…&su=…), los dos signos llegan puestos.
     const q = new URLSearchParams(window.location.search);
     const tu = q.get('tu');
@@ -186,6 +201,8 @@ export default function CompatibilidadPage() {
     }
   }
 
+  const nombreSigno = (id: string | null) => SIGNOS_ZODIACO.find((s) => s.id === id)?.nombre ?? '';
+
   async function calcular() {
     if (!signo1 || !signo2) return;
     setEstado('cargando');
@@ -202,6 +219,7 @@ export default function CompatibilidadPage() {
       if (!datos.quimica) throw new Error('sin resultado');
       setResultado(datos as Resultado);
       setEstado('resultado');
+      guardarSesion(CLAVE_SESION, { signo1, signo2, resultado: datos });
     } catch {
       setEstado('error');
     }
@@ -307,6 +325,23 @@ export default function CompatibilidadPage() {
                 </a>
               </div>
               )}
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <p className="text-center text-[12px] text-[var(--text-secondary)]">¿Quieres profundizar en esta relación?</p>
+              <AppLinkButton
+                href="/app/coach"
+                onClick={() => guardarMensajePendiente(`Mi signo es ${nombreSigno(signo1)} y el de la otra persona es ${nombreSigno(signo2)}. Nuestra sinergia salió ${resultado.porcentaje}%. Quiero entender cómo cuidar esta relación.`)}
+              >
+                Hablarlo con tu coach
+              </AppLinkButton>
+              <Link
+                href="/app/tarot"
+                onClick={() => guardarPreguntaTarotPendiente(`Mi relación con una persona ${nombreSigno(signo2)} (yo soy ${nombreSigno(signo1)}).`)}
+                className="flex min-h-11 items-center justify-center text-[13px] font-semibold text-[var(--accent-lite)] underline underline-offset-2"
+              >
+                Leerlo con las cartas
+              </Link>
             </div>
           </motion.div>
         )}

@@ -783,7 +783,7 @@ export default function TarotPage() {
       <VolverAlAnalisis className="self-start" />
       {situacion && (
         <div className="mt-2 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] p-3">
-          <p className="text-[13px] font-semibold text-[var(--text-primary)]">Viniste de tu análisis</p>
+          <p className="text-[13px] font-semibold text-[var(--text-primary)]">Traes una situación para leer</p>
           <p className="mt-1 line-clamp-3 text-[12px] leading-snug text-[var(--text-secondary)]">{situacion}</p>
           <button
             type="button"
