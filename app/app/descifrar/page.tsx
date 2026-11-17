@@ -277,7 +277,7 @@ export default function DescifrarPage() {
                 )}
               </AnimatePresence>
 
-              {!(estado === 'resultado' && !disponible) && (
+              {estado !== 'resultado' && (
               <div className="mt-3">
                 <AppButton onClick={analizar} disabled={estado === 'cargando'} busy={estado === 'cargando'}>
                   {estado === 'cargando' && (
@@ -362,7 +362,7 @@ export default function DescifrarPage() {
                 )}
               </AnimatePresence>
 
-              {!(estado === 'resultado' && !disponible) && (
+              {estado !== 'resultado' && (
               <div className="mt-3">
                 <AppButton onClick={analizar} disabled={estado === 'cargando'} busy={estado === 'cargando'}>
                   {estado === 'cargando' ? 'Analizando…' : disponible ? 'Analizar captura' : 'Elegir mi plan'}
@@ -373,6 +373,23 @@ export default function DescifrarPage() {
           )}
         </AnimatePresence>
 
+        {/* Con el resultado a la vista el botón «Analizar» ya no hace falta: se ofrece empezar de nuevo (si se edita el texto, vuelve el botón). */}
+        {estado === 'resultado' && (
+          <div className="mt-1 flex justify-center">
+            <button
+              type="button"
+              onClick={() => {
+                setTexto('');
+                setImagen(null);
+                setEstado('reposo');
+                window.scrollTo?.({ top: 0 });
+              }}
+              className="min-h-11 text-[13px] font-semibold text-[var(--text-secondary)] underline underline-offset-2"
+            >
+              Analizar otra conversación
+            </button>
+          </div>
+        )}
         </>
         )}
 
