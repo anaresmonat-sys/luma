@@ -20,7 +20,7 @@ export default function SugerenciasPage() {
   const [enviando, setEnviando] = useState(false);
   const [enviado, setEnviado] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  // ?desde=cancelar: la persona venía de «Cancelar mi plan»; al terminar se le lleva de vuelta para que siga con su cancelación.
+  // ?desde=cancelar: la persona llegó desde «Cancelar mi plan»; al terminar se le lleva de vuelta para que siga con su cancelación.
   const [desdeCancelar, setDesdeCancelar] = useState(false);
   useEffect(() => {
     setDesdeCancelar(new URLSearchParams(window.location.search).get('desde') === 'cancelar');
