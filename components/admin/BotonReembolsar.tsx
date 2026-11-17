@@ -38,23 +38,43 @@ export function BotonReembolsar({ peticionId, correo }: { peticionId: string; co
   }
 
   return (
-    <span className="ml-2 inline-flex flex-wrap items-center gap-2">
+    <div className="flex flex-col gap-2">
       {confirmando ? (
         <>
-          <span className="font-semibold">¿Devolver el dinero a {correo}? No se puede deshacer.</span>
-          <button type="button" onClick={reembolsar} disabled={enviando} className="rounded border px-2 py-1 font-semibold">
-            {enviando ? 'Reembolsando…' : 'Sí, reembolsar'}
-          </button>
-          <button type="button" onClick={() => setConfirmando(false)} disabled={enviando} className="rounded border px-2 py-1">
-            No
-          </button>
+          <p className="text-sm font-semibold text-[var(--text-primary)]">¿Devolver el dinero a {correo}? No se puede deshacer.</p>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={reembolsar}
+              disabled={enviando}
+              className="min-h-11 rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-[var(--on-accent)] disabled:opacity-60"
+            >
+              {enviando ? 'Reembolsando…' : 'Sí, reembolsar'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setConfirmando(false)}
+              disabled={enviando}
+              className="min-h-11 rounded-full border border-[var(--border)] px-5 text-sm font-semibold text-[var(--text-primary)]"
+            >
+              No
+            </button>
+          </div>
         </>
       ) : (
-        <button type="button" onClick={() => setConfirmando(true)} className="rounded border px-2 py-1 font-semibold">
+        <button
+          type="button"
+          onClick={() => setConfirmando(true)}
+          className="min-h-11 self-start rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-[var(--on-accent)]"
+        >
           Reembolsar ahora
         </button>
       )}
-      {mensaje && <span role="status">{mensaje}</span>}
-    </span>
+      {mensaje && (
+        <p role="status" className="text-sm text-[var(--text-secondary)]">
+          {mensaje}
+        </p>
+      )}
+    </div>
   );
 }

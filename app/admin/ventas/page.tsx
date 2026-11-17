@@ -1,14 +1,9 @@
-// VENTAS Y NEGOCIO — sin webhook de Hotmart conectado todavía, esta sección
-// no inventa cifras. Ingresos, MRR, churn (voluntario/involuntario), LTV, CAC,
-// ratio LTV:CAC, payback y ganancia real (docs/sistema/21-BACKOFFICE.md +
-// 40-UNIT-ECONOMICS.md) se calculan sobre `subscriptions` y una futura tabla
-// `acquisition_spend` — ambas listas de estructura, vacías de datos reales.
+// VENTAS Y NEGOCIO — lee reembolsos, cancelaciones y suscripciones y los pasa a la vista (components/admin/VentasVista.tsx).
+// No inventa cifras: ingresos, MRR, churn, LTV y CAC se muestran cuando haya ventas suficientes (docs/sistema/21 y 40).
 
-import { SinDatos, Seccion } from '@/components/admin/Tarjeta';
-import { Glosa } from '@/components/admin/Glosa';
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
 import { suscripcionDaAcceso } from '@/lib/acceso-plan';
-import { BotonReembolsar } from '@/components/admin/BotonReembolsar';
+import { VentasVista, type PeticionVista } from '@/components/admin/VentasVista';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,115 +14,43 @@ export default async function AdminVentasPage() {
     .select('id, user_id, email, requested_at, estado, detalle, tipo')
     .order('requested_at', { ascending: false })
     .limit(60);
-  const peticiones = (filas ?? []).filter((p) => p.tipo !== 'reembolso').slice(0, 30);
-  const reembolsos = (filas ?? []).filter((p) => p.tipo === 'reembolso');
-  const porAtender = peticiones.filter((p) => p.estado !== 'cancelada');
+  const todas = (filas ?? []) as (PeticionVista & { tipo: string | null })[];
+  const peticiones = todas.filter((p) => p.tipo !== 'reembolso').slice(0, 30);
+  const reembolsos = todas.filter((p) => p.tipo === 'reembolso');
 
-  // Un reembolso queda hecho cuando Hotmart avisa (PURCHASE_REFUNDED) y la suscripción pasa a «refunded».
-  const idsReembolso = reembolsos.map((r) => r.user_id as string);
+  // Un reembolso queda hecho cuando Hotmart avisa (PURCHASE_REFUNDED) y la suscripción pasa a «refunded»,
+  // o cuando se hizo desde el botón del panel (detalle «reembolsado_por_api»).
+  const idsReembolso = reembolsos.map((r) => r.user_id);
   const { data: subs } = idsReembolso.length
     ? await admin.from('subscriptions').select('user_id, estado').in('user_id', idsReembolso)
     : { data: [] as { user_id: string; estado: string }[] };
-  const reembolsados = new Set((subs ?? []).filter((s) => s.estado === 'refunded' || s.estado === 'chargeback').map((s) => s.user_id));
-  for (const r of reembolsos) if (r.detalle === 'reembolsado_por_api') reembolsados.add(r.user_id as string);
-  const reembolsosPendientes = reembolsos.filter((r) => !reembolsados.has(r.user_id as string));
+  const reembolsados = new Set((subs ?? []).filter((s) => s.estado === 'refunded' || s.estado === 'chargeback').map((s) => s.user_id as string));
+  for (const r of reembolsos) if (r.detalle === 'reembolsado_por_api') reembolsados.add(r.user_id);
 
-  const { data: todas } = await admin.from('subscriptions').select('estado, plan, current_period_end, updated_at');
-  const filasSub = todas ?? [];
-  const conAcceso = filasSub.filter((f) => suscripcionDaAcceso(f)); // misma regla que usa la app
-  const activas = conAcceso.length;
-  const cortesias = conAcceso.filter((f) => f.plan === 'cortesia').length;
-  const mensuales = conAcceso.filter((f) => f.plan === 'mensual').length;
-  const anuales = conAcceso.filter((f) => f.plan === 'anual').length;
+  // Reparto de suscripciones: cada una cuenta en UN solo grupo (así la barra suma el total).
+  const { data: subsTodas } = await admin.from('subscriptions').select('estado, plan, current_period_end, updated_at');
+  const filasSub = subsTodas ?? [];
+  const activasFilas = filasSub.filter(
+    (f) => (f.estado === 'active' || f.estado === 'trialing' || f.estado === 'trial') && suscripcionDaAcceso(f), // misma regla que usa la app
+  );
+  const activas = activasFilas.length;
   const canceladas = filasSub.filter((f) => f.estado === 'cancelled').length;
   const reembolsadas = filasSub.filter((f) => f.estado === 'refunded' || f.estado === 'chargeback').length;
-  const sinAcceso = filasSub.filter((f) => f.estado === 'expired' || f.estado === 'past_due').length;
-
-  const hora = (iso: string) => new Date(iso).toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
 
   return (
-    <div>
-      <Seccion titulo="Peticiones de reembolso">
-        {reembolsos.length === 0 ? (
-          <SinDatos>Nadie ha pedido reembolso todavía.</SinDatos>
-        ) : (
-          <div className="flex flex-col gap-2 text-sm">
-            <p className="font-semibold">
-              {reembolsosPendientes.length === 0
-                ? 'Todos los reembolsos están hechos.'
-                : `${reembolsosPendientes.length} por reembolsar en Hotmart (Ventas → Mis ventas → buscar el correo → tres puntos → Reembolsar al comprador). Ya se canceló su plan:`}
-            </p>
-            {reembolsos.map((r) => (
-              <p key={r.id}>
-                {reembolsados.has(r.user_id as string) ? '✓' : '•'} {r.email} — pidió el {hora(r.requested_at as string)} (hora de España) —{' '}
-                {reembolsados.has(r.user_id as string) ? 'reembolsado' : 'pendiente de reembolsar'}
-                {!reembolsados.has(r.user_id as string) && <BotonReembolsar peticionId={r.id as string} correo={r.email as string} />}
-              </p>
-            ))}
-          </div>
-        )}
-      </Seccion>
-      <Seccion titulo="Peticiones de cancelación">
-        {peticiones.length === 0 ? (
-          <SinDatos>Nadie ha pedido cancelar todavía.</SinDatos>
-        ) : (
-          <div className="flex flex-col gap-2 text-sm">
-            <p className="font-semibold">
-              {porAtender.length === 0
-                ? 'Todo atendido: Hotmart canceló las peticiones solo.'
-                : `${porAtender.length} por cancelar a mano en Hotmart:`}
-            </p>
-            {peticiones.map((p) => (
-              <p key={p.id}>
-                {p.estado === 'cancelada' ? '✓' : '•'} {p.email} — pidió el {hora(p.requested_at as string)} (hora de España) —{' '}
-                {p.estado === 'cancelada' ? 'cancelada en Hotmart' : `pendiente (${p.detalle ?? 'sin detalle'})`}
-              </p>
-            ))}
-          </div>
-        )}
-      </Seccion>
-      <Seccion titulo="Suscripciones ahora mismo">
-        <div className="flex flex-col gap-1 text-sm">
-          <p>
-            <span className="font-semibold">{activas}</span> con acceso (pago o prueba gratis): {mensuales} mensual · {anuales} anual
-            {cortesias > 0 ? ` · ${cortesias} de cortesía` : ''}
-          </p>
-          <p>{canceladas} canceladas · {reembolsadas} reembolsadas · {sinAcceso} sin acceso (compra no completada o caducada)</p>
-          <p className="text-[var(--text-tertiary)]">
-            El dinero y las ventas exactas se ven en Hotmart → Ventas. Aquí no se muestran ingresos hasta que haya clientas de pago.
-          </p>
-        </div>
-      </Seccion>
-
-      <Seccion titulo="Cancelaciones: por decisión propia vs por tarjeta rechazada">
-        <SinDatos>
-          Sin datos — se calcula del estado de las suscripciones tras conectar Hotmart. Se separan porque se arreglan
-          distinto: cuando alguien decide irse, se recupera mostrándole valor de nuevo; cuando le falla la tarjeta, se
-          recupera con reintentos automáticos de cobro (lo que en inglés se llama dunning
-          <Glosa termino="dunning">
-            reintentos automáticos de cobro y un aviso para que actualice su tarjeta — antes de darla de baja del
-            todo.
-          </Glosa>
-          ) y un aviso para que actualice su tarjeta.
-        </SinDatos>
-      </Seccion>
-
-      <Seccion titulo="Cuánto vale cada clienta y cuánto cuesta conseguirla">
-        <SinDatos>
-          Sin datos — el LTV
-          <Glosa termino="LTV">
-            "Lifetime Value": cuánto dinero deja en total una clienta durante todo el tiempo que se queda pagando.
-          </Glosa>{' '}
-          y el CAC
-          <Glosa termino="CAC">
-            "Costo de Adquisición de Clientes": cuánto cuesta en publicidad conseguir a cada nueva clienta que paga.
-          </Glosa>{' '}
-          necesitan al menos un par de meses de ventas reales, y el CAC además requiere que ingreses el gasto en
-          publicidad por canal. La ganancia real se calcula descontando Hotmart, afiliados, impuestos, el costo de IA
-          (ya se está midiendo en "Costo de IA") e infraestructura de lo que factures. Todo esto se activa solo
-          cuando haya datos de verdad — nunca se muestra un número inventado.
-        </SinDatos>
-      </Seccion>
-    </div>
+    <VentasVista
+      d={{
+        reembolsos,
+        peticiones,
+        reembolsados: [...reembolsados],
+        activas,
+        mensuales: activasFilas.filter((f) => f.plan === 'mensual').length,
+        anuales: activasFilas.filter((f) => f.plan === 'anual').length,
+        cortesias: activasFilas.filter((f) => f.plan === 'cortesia').length,
+        canceladas,
+        reembolsadas,
+        sinAcceso: filasSub.length - activas - canceladas - reembolsadas,
+      }}
+    />
   );
 }
