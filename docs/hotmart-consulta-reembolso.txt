@@ -32,10 +32,9 @@ PREGUNTAS
 
 6) Avisos de la nueva compra. Para esa nueva compra, ¿qué eventos recibiré y con qué código de transacción? (Necesito distinguir una compra nueva de un aviso repetido de la compra reembolsada.)
 
-7) Coste real de un reembolso. El correo que recibí de Hotmart sobre la solicitud de reembolso (transacción HP0170124640, 12,10 EUR) indica "Valor de la comisión: 8,68 EUR".
-   - ¿Qué significa exactamente ese valor? ¿Es lo que me correspondía a mí de ese cobro, después de las tarifas de Hotmart y los impuestos?
+7) Coste real de un reembolso. Por ese cobro (HP0170124640, 12,10 EUR) Hotmart me informó de que recibí 8,68 EUR, y el correo de la solicitud de reembolso muestra ese mismo importe como "valor de la comisión".
    - Cuando la vendedora reembolsa una venta, ¿Hotmart devuelve sus tarifas (intermediación y licencia) o se quedan como coste para mí? ¿Y los impuestos?
-   - En resumen: de esos 12,10 EUR, ¿cuánto dinero pierdo yo realmente al reembolsar?
+   - En resumen: de esos 12,10 EUR, ¿cuánto dinero pierdo yo realmente al reembolsar? (Entiendo que devuelvo los 8,68 EUR que recibí; quiero confirmar si, además, pierdo las tarifas.)
 
 Muchas gracias por vuestra ayuda. Si necesitáis más datos o capturas, os las envío.
 
