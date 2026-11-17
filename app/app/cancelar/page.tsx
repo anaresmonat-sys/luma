@@ -146,6 +146,10 @@ export default function CancelarPage() {
           <PedirReembolso />
 
           <p className="mt-4 text-[14px] leading-relaxed text-[var(--text-tertiary)]">
+            ¿Hay algo que podamos mejorar? <a href="/app/sugerencias" className="underline underline-offset-2">Cuéntanoslo</a>, lo leemos todo.
+          </p>
+
+          <p className="mt-4 text-[14px] leading-relaxed text-[var(--text-tertiary)]">
             Si el botón no funciona, escribe a{' '}
             <a href={CORREO_CANCELAR} className="underline underline-offset-2">
               soporte@tuluma.app

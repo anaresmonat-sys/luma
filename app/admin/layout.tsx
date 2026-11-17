@@ -17,6 +17,7 @@ const SECCIONES = [
   { href: '/admin/ia', label: 'Costo de IA', icono: '🤖' },
   { href: '/admin/errores', label: 'Errores', icono: '🐞' },
   { href: '/admin/ventas', label: 'Ventas', icono: '💰' },
+  { href: '/admin/sugerencias', label: 'Sugerencias', icono: '💬' },
 ] as const;
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {

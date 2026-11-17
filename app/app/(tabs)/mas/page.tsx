@@ -21,13 +21,14 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
-import { Bell, ChevronDown, Cookie, CreditCard, FileText, LifeBuoy, Lock, MessageCircle, Sparkles, Undo2, User } from 'lucide-react';
+import { Bell, ChevronDown, MessageSquarePlus, Cookie, CreditCard, FileText, LifeBuoy, Lock, MessageCircle, Sparkles, Undo2, User } from 'lucide-react';
 import { SelectorTrato } from '@/components/app/SelectorTrato';
 import { esTrato, guardarTratoLocal, leerTratoLocal, TRATOS, type Trato } from '@/lib/trato';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { pruebaGratisDisponible } from '@/lib/prueba-gratis';
 
 const ENLACES = [
+  { Icono: MessageSquarePlus, label: 'Enviar una sugerencia', href: '/app/sugerencias' },
   { Icono: Undo2, label: 'Cancelar mi plan', href: '/app/cancelar' },
   { Icono: FileText, label: 'Términos', href: '/terminos' },
   { Icono: Lock, label: 'Privacidad', href: '/privacidad' },
