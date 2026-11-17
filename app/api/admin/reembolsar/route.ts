@@ -7,7 +7,7 @@ import { NextResponse } from 'next/server';
 import { crearClienteServidor } from '@/lib/supabase/server';
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
 import { reembolsarEnHotmart } from '@/lib/hotmart-api';
-import { yaUsoSuGarantia } from '@/lib/garantia';
+import { datosCompraActual } from '@/lib/compra-actual';
 import { registrarError } from '@/lib/log-servidor';
 import { elegirVentaAReembolsar } from '@/lib/venta-a-reembolsar';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
@@ -58,31 +58,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Ese reembolso ya se hizo.' }, { status: 409 });
   }
 
-  if (await yaUsoSuGarantia(admin, peticion.user_id as string, peticion.id as string)) {
-    return NextResponse.json(
-      { error: 'A esta persona ya se le devolvió dinero antes: la garantía es una sola vez por persona. Si quieres hacer una excepción, hazlo a mano en Hotmart.' },
-      { status: 409 },
-    );
-  }
-
   const { data: sub } = await admin.from('subscriptions').select('estado, created_at').eq('user_id', peticion.user_id).maybeSingle();
   if (!sub || sub.estado === 'refunded' || sub.estado === 'chargeback') {
     return NextResponse.json({ error: 'Esa compra ya figura como reembolsada o no existe.' }, { status: 409 });
   }
-  if (Date.now() - new Date(sub.created_at as string).getTime() > GARANTIA_MS) {
+  // Hotmart da garantía en CADA compra: si la persona ya tuvo un reembolso y volvió a comprar, el plazo cuenta desde la compra nueva.
+  const compra = await datosCompraActual(admin, peticion.user_id as string, sub.created_at as string);
+  if (Date.now() - new Date(compra.inicio).getTime() > GARANTIA_MS) {
     return NextResponse.json({ error: 'Han pasado más de 15 días: fuera de la garantía.' }, { status: 409 });
   }
 
   // La compra a reembolsar es el PRIMER COBRO REAL (con importe). Quien empieza con prueba gratis tiene antes una
   // «venta» de importe vacío (el inicio de la prueba): reembolsar esa no devuelve nada y Hotmart la rechaza (400).
   // Si ninguna fila trae importe (datos antiguos), se usa la más antigua, como antes.
-  const { data: ventas } = await admin
-    .from('payment_transactions')
-    .select('transaction_id, amount_minor')
-    .eq('user_id', peticion.user_id)
-    .eq('economic_kind', 'sale')
-    .order('occurred_at', { ascending: true });
-  const venta = elegirVentaAReembolsar(ventas);
+  const venta = elegirVentaAReembolsar(compra.ventas);
   if (!venta?.transaction_id) {
     return NextResponse.json({ error: 'No encontré la transacción de esa compra. Reembólsala a mano en Hotmart.' }, { status: 404 });
   }

@@ -18,8 +18,8 @@ export default function Page() {
       <p>
         Si sientes que LUMA no es para ti, tienes <strong>15 días desde que empiezas tu prueba</strong> para pedir el
         reembolso completo — sin preguntas incómodas. Como la prueba dura 3 días, después de tu primer cobro te quedan
-        12 días. Pasado ese plazo, ya no es posible el reembolso. La garantía se aplica una sola vez por persona: si ya recibiste
-        un reembolso y vuelves a comprar más adelante, esa nueva compra no tiene una segunda garantía.
+        12 días. Pasado ese plazo, ya no es posible el reembolso. Si algún día vuelves a comprar, esa nueva compra tiene
+        su propia garantía de 15 días.
       </p>
 
       <h2>Cómo pedir tu reembolso</h2>

@@ -7,7 +7,7 @@
 import { useState } from 'react';
 
 type Respuesta = {
-  estado: 'recibida' | 'en_prueba' | 'fuera_de_plazo' | 'ya_reembolsada' | 'sin_garantia';
+  estado: 'recibida' | 'en_prueba' | 'fuera_de_plazo' | 'ya_reembolsada';
   solicitadaEn?: string;
 };
 
@@ -30,11 +30,6 @@ const TEXTOS: Record<Respuesta['estado'], { titulo: string; cuerpo: (hora?: stri
     titulo: 'Ya pasó el plazo de reembolso',
     cuerpo: () =>
       'La garantía cubre los 15 días desde que empezó tu prueba y ese plazo ya terminó. Puedes cancelar para que no haya más cobros. Si crees que es un error, escribe a soporte@tuluma.app.',
-  },
-  sin_garantia: {
-    titulo: 'Tu garantía ya se usó',
-    cuerpo: () =>
-      'La garantía de 15 días se aplica una sola vez por persona, y ya la usaste con tu compra anterior. Puedes cancelar para que no haya más cobros. Si crees que es un error, escribe a soporte@tuluma.app.',
   },
   ya_reembolsada: {
     titulo: 'Tu compra ya figura como reembolsada',

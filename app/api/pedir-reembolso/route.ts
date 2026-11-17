@@ -8,7 +8,7 @@ import { NextResponse } from 'next/server';
 import { crearClienteServidor } from '@/lib/supabase/server';
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
 import { cancelarEnHotmart } from '@/lib/hotmart-api';
-import { yaUsoSuGarantia } from '@/lib/garantia';
+import { datosCompraActual } from '@/lib/compra-actual';
 import { registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 
@@ -20,7 +20,7 @@ const GARANTIA_DIAS = 15;
 const MARGEN_HORARIO_HORAS = 12; // el cambio horario nunca debe dejar a alguien fuera de plazo por unas horas
 const PRUEBA_SIN_COBRO_HORAS = 72;
 
-export type EstadoReembolso = 'recibida' | 'en_prueba' | 'fuera_de_plazo' | 'ya_reembolsada' | 'sin_garantia';
+export type EstadoReembolso = 'recibida' | 'en_prueba' | 'fuera_de_plazo' | 'ya_reembolsada';
 
 export async function POST(request: Request) {
   if (limiteExcedido(`pedir-reembolso:${identificadorDePeticion(request)}`, 5, 60_000)) {
@@ -51,13 +51,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ estado: 'ya_reembolsada' satisfies EstadoReembolso });
   }
 
-  // La garantía es una sola vez por persona: quien ya recibió un reembolso y volvió a comprar no tiene otra.
-  if (await yaUsoSuGarantia(admin, user.id)) {
-    return NextResponse.json({ estado: 'sin_garantia' satisfies EstadoReembolso });
-  }
-
+  // Hotmart da garantía en cada compra (también tras un reembolso previo): el plazo cuenta desde la compra actual.
+  const compra = await datosCompraActual(admin, user.id, sub.created_at as string);
   const ahora = Date.now();
-  const desdeLaCompra = ahora - new Date(sub.created_at as string).getTime();
+  const desdeLaCompra = ahora - new Date(compra.inicio).getTime();
 
   if (desdeLaCompra < PRUEBA_SIN_COBRO_HORAS * HORA_MS) {
     return NextResponse.json({ estado: 'en_prueba' satisfies EstadoReembolso });
@@ -72,6 +69,7 @@ export async function POST(request: Request) {
     .select('requested_at')
     .eq('user_id', user.id)
     .eq('tipo', 'reembolso')
+    .gte('requested_at', compra.inicio)
     .order('requested_at', { ascending: false })
     .limit(1)
     .maybeSingle();

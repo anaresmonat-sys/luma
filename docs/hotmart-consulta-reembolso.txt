@@ -1,3 +1,5 @@
+(Ya respondido por el soporte de Hotmart el 17/11/2026: no hace falta enviarlo. La respuesta está resumida en ESTADO.md.)
+
 Asunto: Consulta sobre un reembolso aceptado, avisos (webhook) y pruebas gratuitas repetidas - producto LUMA
 
 Hola, equipo de Hotmart:

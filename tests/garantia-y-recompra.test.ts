@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { esCompraNuevaTrasReembolso } from '@/lib/membership-fsm';
-import { yaUsoSuGarantia } from '@/lib/garantia';
+import { ventasDeLaCompraActual, inicioDeLaCompraActual } from '@/lib/compra-actual';
+import { elegirVentaAReembolsar } from '@/lib/venta-a-reembolsar';
 
 describe('compra nueva tras un reembolso', () => {
   it('una transacción nueva de una cuenta reembolsada la reactiva', () => {
@@ -24,29 +25,31 @@ describe('compra nueva tras un reembolso', () => {
   });
 });
 
-// Cliente de Supabase simulado: cada tabla devuelve un conteo fijo.
-function clienteSimulado(conteos: Record<string, number>) {
-  return {
-    from(tabla: string) {
-      const cadena: any = {
-        select: () => cadena,
-        eq: () => cadena,
-        neq: () => cadena,
-        then: (ok: (v: { count: number }) => unknown) => ok({ count: conteos[tabla] ?? 0 }),
-      };
-      return cadena;
-    },
-  } as any;
-}
+// Hotmart da garantía en CADA compra: tras un reembolso previo, el plazo y el cobro a reembolsar son los de la compra nueva.
+describe('compra actual (tras un reembolso previo)', () => {
+  const ventas = [
+    { transaction_id: 'VIEJA-PRUEBA', amount_minor: null, occurred_at: '2026-11-13T08:55:00Z' },
+    { transaction_id: 'VIEJA-COBRO', amount_minor: 1000, occurred_at: '2026-11-16T14:10:00Z' },
+    { transaction_id: 'NUEVA-PRUEBA', amount_minor: null, occurred_at: '2026-11-20T10:00:00Z' },
+    { transaction_id: 'NUEVA-COBRO', amount_minor: 1000, occurred_at: '2026-11-23T10:00:00Z' },
+  ];
+  const reembolso = ['2026-11-17T11:45:00Z'];
 
-describe('una sola garantía por persona', () => {
-  it('sin reembolsos previos, todavía tiene garantía', async () => {
-    expect(await yaUsoSuGarantia(clienteSimulado({}), 'u1')).toBe(false);
+  it('sin reembolsos previos, todas las ventas cuentan', () => {
+    expect(ventasDeLaCompraActual(ventas, [])).toHaveLength(4);
   });
-  it('con un reembolso hecho desde el panel, ya la usó', async () => {
-    expect(await yaUsoSuGarantia(clienteSimulado({ cancel_requests: 1 }), 'u1')).toBe(true);
+  it('con un reembolso previo, solo cuentan las ventas posteriores', () => {
+    expect(ventasDeLaCompraActual(ventas, reembolso).map((v) => v.transaction_id)).toEqual(['NUEVA-PRUEBA', 'NUEVA-COBRO']);
   });
-  it('con un reembolso registrado por Hotmart, ya la usó', async () => {
-    expect(await yaUsoSuGarantia(clienteSimulado({ payment_transactions: 1 }), 'u1')).toBe(true);
+  it('el cobro a reembolsar es el de la compra nueva y no el viejo ya reembolsado', () => {
+    const actuales = ventasDeLaCompraActual(ventas, reembolso);
+    expect(elegirVentaAReembolsar(actuales)?.transaction_id).toBe('NUEVA-COBRO');
+  });
+  it('el plazo de 15 días cuenta desde el inicio de la compra nueva', () => {
+    const actuales = ventasDeLaCompraActual(ventas, reembolso);
+    expect(inicioDeLaCompraActual(actuales, true, '2026-11-13T08:55:00Z')).toBe('2026-11-20T10:00:00Z');
+  });
+  it('sin reembolsos previos, el plazo cuenta desde el alta de la cuenta, como siempre', () => {
+    expect(inicioDeLaCompraActual(ventas, false, '2026-11-13T08:55:00Z')).toBe('2026-11-13T08:55:00Z');
   });
 });
