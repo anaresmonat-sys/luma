@@ -63,7 +63,7 @@ citas verbatim en las conversaciones del 44 antes del copy final.
 1. "No tengo tiempo de escribir párrafos" → respuesta: pegas un mensaje o subes una captura y en 1 minuto tienes el desglose → vive en: hero + demo + FAQ
 2. "Ya probé apps así y las abandono" → respuesta: validar ("las que probaste te daban lo mismo cada día") + mostrar que aquí la lectura se ancla a TU caso → vive en: sección de mecanismo + onboarding
 3. "La IA es un gimmick / respuestas prefabricadas" → respuesta: demo lado a lado (situación real → análisis específico), no adjetivos → vive en: sección "así funciona"
-4. "Es caro para decirme significados que busco en Google" → respuesta: precio/día + garantía 7 días + "no cobramos por crédito ni por mensaje" → vive en: microcopy bajo CTA + FAQ
+4. "Es caro para decirme significados que busco en Google" → respuesta: precio/día + garantía 15 días + "no cobramos por crédito ni por mensaje" → vive en: microcopy bajo CTA + FAQ
 5. Pago/checkout LATAM ("¿es seguro poner mi tarjeta?", "¿OXXO/cuotas?") → respuesta: plantilla 57 §7 (Hotmart, pasarela usada por miles, medios locales) → vive en: microcopy bajo CTA de compra + FAQ
 6. (del nicho) "No quiero que una app me juzgue por escribirle a mi ex o por sobrepensar" → respuesta: LUMA no juzga; es tu espacio privado para entender, con tono de amiga preparada → vive en: onboarding (promesa de no-juicio) + tono de todo el copy
 

@@ -36,7 +36,7 @@ const PLAN_ANUAL: PlanPaywall = {
   precioMes: 'US$7,50*',
   sufijo: '/mes aprox.',
   descomposicionDia: 'Menos de US$0,25 al día',
-  totalAnual: 'Se cobra US$89,99/año*',
+  totalAnual: `Primer cobro al día ${TRIAL_DIAS}: US$89,99/año*`,
   ahorro: 'Ahorras 3 meses frente al plan mensual',
 };
 
@@ -110,7 +110,7 @@ export default function PaywallLuma() {
   return (
     <div className="flex min-h-dvh flex-col [font-family:var(--font-body)]">
       {/* Header: X (44px, sale a /) + marca — nunca oculta/retardada (C5) */}
-      <div className="sticky top-0 z-20 grid h-14 grid-cols-[1fr_auto_1fr] items-center bg-[var(--bg)]/75 px-3 backdrop-blur-md">
+      <div className="sticky top-0 z-20 grid h-14 grid-cols-[1fr_auto_1fr] items-center bg-[var(--bg)]/90 px-3 backdrop-blur-md">
         <a
           href="/"
           aria-label="Cerrar"
@@ -242,17 +242,7 @@ export default function PaywallLuma() {
             >
               Ahora no
             </a>
-            <span aria-hidden="true" className="text-[var(--text-secondary)]">
-              ·
-            </span>
-            {/* Más peso que "Ahora no": recuperar una compra ya hecha no es lo
-                mismo que abandonar el flujo (defecto de jerarquía de conversión). */}
-            <a
-              href="/entrar?desde=paywall"
-              className="flex min-h-11 items-center px-3 text-[14px] font-semibold text-[var(--text-secondary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-            >
-              Ya pagué, entrar
-            </a>
+            {/* «Ya pagué» vive en la cabecera (siempre visible): aquí solo queda la salida limpia. */}
           </div>
 
         </motion.div>
@@ -303,8 +293,8 @@ export default function PaywallLuma() {
             <ShieldCheck size={16} aria-hidden="true" className="mr-1.5 inline align-[-3px] text-[var(--accent-lite)]" />
             <a href="/reembolsos" className="underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]">
               Garantía LUMA de 15 días
-            </a>{' '}
-            <span aria-hidden="true">·</span> <span className="whitespace-nowrap">Pago seguro con Hotmart</span>
+            </a>
+            <span className="block whitespace-nowrap">Pago seguro con Hotmart</span>
           </p>
         </div>
       </div>

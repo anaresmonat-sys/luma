@@ -57,7 +57,7 @@ function Card({
         />
       )}
       {plan.badge && (
-        <span className="absolute -top-[10px] left-1/2 -translate-x-1/2 rounded-full border border-[color-mix(in_oklab,var(--accent)_25%,transparent)] bg-[var(--accent)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.06em] text-[var(--bg)]">
+        <span className="absolute -top-[10px] left-1/2 -translate-x-1/2 rounded-full border border-[color-mix(in_oklab,var(--accent)_25%,transparent)] bg-[var(--accent)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[var(--bg)]">
           {plan.badge}
         </span>
       )}
