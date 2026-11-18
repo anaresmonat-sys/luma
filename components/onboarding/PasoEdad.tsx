@@ -74,7 +74,7 @@ export function PasoEdad({
   return (
     <div className="flex flex-1 flex-col gap-6 pt-2">
       <motion.div
-        className="relative flex flex-col items-center pt-12 text-center"
+        className="relative flex flex-col items-center pt-16 text-center"
         animate={{ opacity: saliendo ? 0.35 : 1 }}
         transition={{ duration: reduce ? 0 : 0.2 }}
       >
@@ -82,15 +82,15 @@ export function PasoEdad({
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-[-20px] -top-8 -z-10 h-72"
-          style={{ background: 'radial-gradient(220px 170px at 50% 30%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 72%)' }}
+          style={{ background: 'radial-gradient(240px 190px at 50% 30%, color-mix(in oklab, var(--accent) 22%, transparent), transparent 72%)' }}
         />
         <motion.span
           {...entrada(0)}
           aria-hidden="true"
-          className="flex size-16 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] shadow-[0_0_28px_-8px_color-mix(in_oklab,var(--accent)_60%,transparent)]"
+          className="flex size-20 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--accent)_45%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] shadow-[0_0_32px_-8px_color-mix(in_oklab,var(--accent)_60%,transparent)]"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/luma-icon.png" alt="" className="h-9 w-auto brightness-125" />
+          <img src="/luma-icon.png" alt="" className="h-12 w-auto brightness-125" />
         </motion.span>
         <motion.h1
           {...entrada(1)}
@@ -107,13 +107,18 @@ export function PasoEdad({
           )}
         </motion.h1>
         {/* Dos bloques como máximo antes de la casilla (revisor, ronda 18): subtítulo + privacidad en uno, oferta en otro. */}
-        <motion.p {...entrada(2)} className="mt-3 max-w-[340px] text-balance text-[16px] font-semibold leading-snug text-[var(--text-primary)]">
-          {nota ? 'Aquí nadie te juzga.' : 'Aquí nadie te juzga: es un espacio privado.'}
+        {/* Solo DOS bloques de texto antes de la casilla (revisor, rondas 18-19 y 2026-11-06): este (confianza, en un
+            solo párrafo) y el de la oferta. «Aquí nadie te juzga» y la nota de privacidad van juntos. */}
+        <motion.p {...entrada(2)} className="mt-3 max-w-[340px] text-balance text-[16px] leading-snug text-[var(--text-secondary)]">
+          <span className="font-semibold text-[var(--text-primary)]">
+            {nota ? 'Aquí nadie te juzga.' : 'Aquí nadie te juzga: es un espacio privado.'}
+          </span>
           {nota && (
-            <span className="mt-1 block text-[14px] font-normal leading-snug text-[var(--text-secondary)]">
-              <Lock size={14} strokeWidth={2} aria-hidden="true" className="mr-1.5 inline align-[-2px] text-[var(--accent-lite)]" />
+            <>
+              {' '}
+              <Lock size={14} strokeWidth={2} aria-hidden="true" className="mr-1 inline align-[-2px] text-[var(--accent-lite)]" />
               {nota}
-            </span>
+            </>
           )}
         </motion.p>
         <motion.p {...entrada(2)} className="mt-3 max-w-[340px] text-[14px] leading-relaxed text-[var(--text-secondary)]">
@@ -186,7 +191,11 @@ export function PasoEdad({
               </motion.span>
             )}
             {falloEnvio && !faltaCasilla && (
-              <span className="inline-block text-[var(--an-risk)]">No pudimos entrar. Toca el botón de nuevo.</span>
+              <span className="inline-block text-[var(--an-risk)]">
+                {typeof navigator !== 'undefined' && navigator.onLine === false
+                  ? 'Parece que no hay conexión. Revísala y toca el botón de nuevo.'
+                  : 'No pudimos entrar. Toca el botón de nuevo o escríbenos a soporte@tuluma.app.'}
+              </span>
             )}
           </AnimatePresence>
         </div>
