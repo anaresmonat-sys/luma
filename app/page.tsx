@@ -199,7 +199,7 @@ Garantía de 15 días desde que empiezas tu prueba · Pago seguro con Hotmart`}
           sufijo: '/mes aprox.',
           totalAnual: 'Se cobra US$89,99/año*',
           ahorro: 'Ahorras US$29,89 frente al plan mensual',
-          descomposicionDia: 'menos de $0,25 al día',
+          descomposicionDia: 'menos de US$0,25 al día',
           ctaLabel: 'Empezar con el plan anual',
           ctaHref: CTA_HREF,
           features: [

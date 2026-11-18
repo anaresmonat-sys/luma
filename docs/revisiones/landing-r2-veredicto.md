@@ -1,0 +1,32 @@
+# VEREDICTO revisor-visual — landing (ronda nueva r2, recorrido completo de 13 tramos)
+Fecha: 2026-11-18 12:00
+Screenshot: docs/revisiones/landing-hoy-01-375.png (a landing-hoy-13-375.png; 13 tramos a 375px, página de 9288px, sin desborde horizontal; las 10 secciones aparecen en captura)
+Usabilidad: 33/40
+Craft: 15/20
+Copy (si vende): 18/20
+Fidelidad (si hubo referencia): N-A
+Veredicto: NO LISTA
+Detalle usabilidad: h1:3 h2:4 h3:3 h4:3 h5:3 h6:4 h7:3 h8:3 h9:4 h10:3
+Detalle craft: jerarquía:3 profundidad:3 identidad:3 movimiento:3 encaje:3 (vino #1a0d13, oro #d8a441, Cormorant + Hanken y radios 14-16 coinciden con FICHA-ARTE; no es clon de Capítulo ni Umbral)
+Detalle copy: idea:4 especificidad:3 emoción:4 oferta:4 acción:3 (trazabilidad a FICHA-AVATAR verificada: dolor 23:00/releer, objeciones chatbot/Google/juicio/persona real salen de la ficha; sin testimonios porque la ficha declara que no existen; message-match N/A sin anuncio; garantía nombrada con plazo en la sección siguiente a los planes)
+Gate de carga cognitiva: 1 falla de 8 (hero con CTA + 4 píldoras + "Entrar"; decisión de la dueña, no puntuada). No es sobrecarga.
+Gate: NO se cumple (usabilidad 33 < 36 y craft 15 < 16; copy 18 pasa y ningún eje <=2).
+
+Estado del veredicto anterior: el archivo landing-veredicto.md NO está en 2026-09-12; su última entrada es la Ronda 15 (2026-10-27, LISTA 36/16/19). Sus 5 defectos:
+- D1 nota de planes sin el nombre "Garantía de 15 Días" en semibold: NO CERRADO (page.tsx 194 sigue en minúscula y texto plano, compartiendo renglón con "Pago seguro con Hotmart"; landing-hoy-10).
+- D2 calculadora sin "Limpiar" y 94% que no cuenta al entrar en vista: NO CERRADO (SinergiaCirculo.tsx 60 y 76-94; el conteo corre al montar la página y ya terminó cuando la persona llega).
+- D3 carta de demo cortada al pie del primer viewport: CERRADO. landing-hoy-01/02 muestran la carta completa y la tarjeta EJEMPLO debajo como pista de scroll (era marco vacío en R12).
+- D4 recap gris de CtaFinal: sigue (aceptado por la dueña, no puntuado).
+- D5 craft en 3: sin cambio.
+Cerrados desde rondas anteriores y vigentes en captura: emojis de Problema/Agitación coherentes (landing-hoy-02/03), CTA Mensual con el mismo CtaButton (variant outline), CTA por plan con nombre, badge "3 DÍAS DE PRUEBA" sin choque con "gratis", ahorro en US$ (landing-hoy-09), garantía sin "gratis" ambiguo, flechas del carrusel en chip de 44px (landing-hoy-08), pie en rejilla con emblema legible (landing-hoy-13), sin overlay de desarrollo en las capturas, la barra fija ya no aparece sobre el hero.
+
+Verificado en código: CtaButton whileTap 0.97, min-h 52px, nunca disabled (ui.tsx 187-214); useReducedMotion en reveal, carrusel, FAQ, calculadora y barra fija; StickyCtaMobile con IntersectionObserver, cierre y volver arriba (ui.tsx 221-312); aria-live en el resultado de sinergia. Sin undo/limpiar en la calculadora, sin celebración de hito, sin anillos/barras que se dibujen al entrar en vista.
+Decisiones de la dueña respetadas, no puntuadas: "Elige la lectura que más te vibre" con sus 4 píldoras, badge "3 DÍAS DE PRUEBA" en ambas tarjetas, caja dorada de tarot del carrusel, recap de CtaFinal.
+
+Top defectos (ordenados por impacto en la venta):
+1. [Sinergia, SinergiaCirculo.tsx 123-131, 141-147, 207; landing-hoy-06/07] El resultado nace precalculado (Leo-Sagitario, 94%) pero al cambiar un selector el número y la frase NO se actualizan hasta tocar "Calcular"; la tarjeta puede mostrar "Aries" en el selector y "Leo y Sagitario comparten fuego" debajo, y el botón dorado "Ver mi análisis completo" envía signoA/signoB de los selectores, no los del resultado mostrado → la persona que juega ve datos contradictorios en la sección-gancho y llega al onboarding con otra pareja → fix: recalcular en el onChange de ambos selectores (y quitar o dejar solo como respaldo el botón "Calcular sinergia") y construir el href desde resultado.
+2. [Oferta, tarjeta Mensual, CTA "Empezar con el plan mensual" (landing-hoy-10; Oferta.tsx 205, ui.tsx 205 con px-8 y 17px)] El texto salta a 2 líneas (~72px de alto) mientras el CTA Anual ocupa 1 línea (52px): los dos botones de la decisión de compra no tienen el mismo alto ni el mismo ritmo, y la barra fija también parte "Descifrar mi conversación gratis" en 2 líneas (landing-hoy-11) → fix: px-4 en los CTA full-width de móvil o texto de 16px, y/o etiqueta "Elegir plan mensual"; en la barra fija, texto 14px o etiqueta de 3 palabras.
+3. [Oferta, tarjeta Anual: "Se cobra US$89,99/año*" a 12px (Oferta.tsx 178) y "menos de $0,25 al día" (page.tsx 202; Oferta.tsx 83, 13px)] El dato que más pesa para quien desconfía del precio ("es caro", objeción 4 de la ficha) es el texto más pequeño y gris de la tarjeta, y el "$" sin "US$" es ambiguo en un público de México, Colombia y Chile con pesos propios → fix: total anual a 14px en text-secondary con peso 500, y "menos de US$0,25 al día".
+4. [FAQ, page.tsx 238-266; landing-hoy-11] La objeción 5 de la ficha (¿es seguro poner mi tarjeta? ¿puedo pagar en moneda/medios locales?) está declarada con destino FAQ y no tiene pregunta; solo existe "Pago seguro con Hotmart" en una nota de 13px, y la pregunta 2 ("El tarot en apps no me funciona…") ni siquiera está redactada como pregunta → fix: añadir "¿Cómo pago y es seguro?" con los medios que Hotmart ofrece en su checkout real (verificar en FICHA-MERCADO) y reescribir la 2 como "¿Y si prefiero hablar con una persona real?".
+5. [Sección Sinergia + Círculo completa, SinergiaCirculo.tsx 106, 207; landing-hoy-05/06/07] Ocupa ~1,7 pantallas entre la explicación del mecanismo y el recorrido por la app, añade un 2.º CTA dorado sólido con otra promesa ("Ver mi análisis completo") a los de "Descifrar mi conversación gratis", "Tu primera lectura de tarot gratis" y los planes, y el kicker promete "COMPARTIR" cuando el propio comentario del archivo (líneas 11-12) dice que compartir no existe → fix: kicker "PARA JUGAR", un solo CTA sólido por sección (el de la caja borrosa en outline) y acortar el bloque Círculo a una fila de 2 tarjetas.
+Menores (fuera del top 5): conteo del 94% y barra corren al montar, no al entrar en vista (SinergiaCirculo.tsx 76-94: dispararlo con useInView para que se vea); sin celebración de hito ni dispositivo firma repetido entre secciones (movimiento e identidad en 3); nota de planes con "Garantía de 15 días" sin nombre propio (page.tsx 194); borde dorado de caja inconsistente (calculadora, Círculo, Garantía y demo lo llevan; Problema, Hoy/Dentro de un mes y Antes/Después no).

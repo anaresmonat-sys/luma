@@ -57,19 +57,22 @@ export function SinergiaCirculo() {
   const [signoB, setSignoB] = useState('sagitario');
   // Arranca ya calculado con el ejemplo: el número héroe se ve sin tocar nada. Es determinista,
   // así que servidor y cliente coinciden (sin desajuste de hidratación).
-  const [resultado, setResultado] = useState<SinergiaSignos | null>(() => sinergiaEntre('leo', 'sagitario'));
+  // Guarda junto al resultado los signos con los que se calculó: el botón «Ver mi análisis» manda SIEMPRE los del
+  // resultado que se está viendo, nunca los de un selector a medio cambiar.
+  const [calculado, setCalculado] = useState<{ a: string; b: string; r: SinergiaSignos } | null>(() => {
+    const r = sinergiaEntre('leo', 'sagitario');
+    return r ? { a: 'leo', b: 'sagitario', r } : null;
+  });
+  const resultado = calculado?.r ?? null;
   const [mostrado, setMostrado] = useState(0);
-  const [aviso, setAviso] = useState(false);
 
-  function calcular() {
-    const r = signoA && signoB ? sinergiaEntre(signoA, signoB) : null;
-    if (!r) {
-      setAviso(true);
-      return;
-    }
-    setAviso(false);
-    setResultado(r);
-    registrarEventoUnaVez('sinergia_calculada');
+  // Se recalcula en cuanto cambia cualquiera de los dos signos (sin botón intermedio): número, frase y enlace siempre coinciden.
+  function elegir(nuevoA: string, nuevoB: string) {
+    setSignoA(nuevoA);
+    setSignoB(nuevoB);
+    const r = nuevoA && nuevoB ? sinergiaEntre(nuevoA, nuevoB) : null;
+    setCalculado(r ? { a: nuevoA, b: nuevoB, r } : null);
+    if (r) registrarEventoUnaVez('sinergia_calculada');
   }
 
   // Conteo animado del número héroe (0 → %). Con reduced-motion aparece directo.
@@ -103,12 +106,12 @@ export function SinergiaCirculo() {
         className="mx-auto max-w-[780px]"
       >
         <motion.div variants={item}>
-          <Kicker>PARA JUGAR Y COMPARTIR</Kicker>
+          <Kicker>PARA JUGAR</Kicker>
           <h2 className="text-balance text-[30px] font-bold leading-[1.15] text-[var(--text-primary)] [font-family:var(--font-display)] md:text-[40px]">
             ¿Qué tan <span className="text-[var(--accent)]">compatibles</span> son sus signos?
           </h2>
           <p className="mt-4 max-w-[620px] text-[17px] leading-relaxed text-[var(--text-secondary)]">
-            Elige dos signos y mira su sinergia simbólica. Es un juego para reflexionar, no una predicción.
+            Elige dos signos y mira su sinergia simbólica al instante. Es un juego para reflexionar, no una predicción.
           </p>
         </motion.div>
 
@@ -122,10 +125,7 @@ export function SinergiaCirculo() {
               Tu signo
               <select
                 value={signoA}
-                onChange={(e) => {
-                  setSignoA(e.target.value);
-                  setAviso(false);
-                }}
+                onChange={(e) => elegir(e.target.value, signoB)}
                 className={CAMPO}
               >
                 <option value="">Elige un signo</option>
@@ -140,10 +140,7 @@ export function SinergiaCirculo() {
               Su signo
               <select
                 value={signoB}
-                onChange={(e) => {
-                  setSignoB(e.target.value);
-                  setAviso(false);
-                }}
+                onChange={(e) => elegir(signoA, e.target.value)}
                 className={CAMPO}
               >
                 <option value="">Elige un signo</option>
@@ -156,17 +153,9 @@ export function SinergiaCirculo() {
             </label>
           </div>
 
-          <motion.button
-            type="button"
-            onClick={calcular}
-            whileTap={{ scale: 0.97 }}
-            className="mt-4 flex min-h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] border border-[color-mix(in_oklab,var(--accent)_75%,transparent)] px-8 text-[17px] font-semibold text-[var(--accent)] transition-colors duration-150 hover:bg-[var(--chip-bg)] [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-          >
-            Calcular sinergia
-          </motion.button>
-          {aviso && (
-            <p role="status" className="mt-2 text-center text-[13px] font-semibold text-[var(--accent-2)]">
-              Elige los dos signos para calcular.
+          {!resultado && (
+            <p role="status" className="mt-4 text-center text-[14px] font-semibold text-[var(--accent-2)]">
+              Elige los dos signos para ver su sinergia.
             </p>
           )}
 
@@ -204,7 +193,7 @@ export function SinergiaCirculo() {
                     Tu análisis completo —química, fricciones y consejo para cuidar tus límites— te espera dentro de
                     LUMA.
                   </p>
-                  <CtaButton href={`/onboarding?ayuda=compatibilidad&tu=${signoA}&su=${signoB}`} fullMobile>
+                  <CtaButton href={`/onboarding?ayuda=compatibilidad&tu=${calculado?.a ?? ''}&su=${calculado?.b ?? ''}`} fullMobile>
                     Ver mi análisis completo
                   </CtaButton>
                 </div>
