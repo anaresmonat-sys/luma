@@ -6,21 +6,55 @@
 // Si este timeline se muestra, NO se duplican los 3 bullets de C4bis aparte —
 // los 3 nodos YA son la verdad del puente (02C).
 
+import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 
-/** El precio entra con un fundido corto cada vez que cambia (se remonta por `key`); con reduced-motion no se anima. */
+const DURACION_CONTEO_MS = 400;
+
+/** Separa «US$89,99/año*» en prefijo, número y sufijo; si no tiene número, devuelve null. */
+function partirPrecio(texto: string): { antes: string; valor: number; despues: string } | null {
+  const m = texto.match(/^(.*?)(\d+),(\d{2})(.*)$/);
+  if (!m) return null;
+  return { antes: m[1], valor: Number(`${m[2]}.${m[3]}`), despues: m[4] };
+}
+
+/** El precio «cuenta» hasta el nuevo valor cada vez que cambia de plan; con reduced-motion aparece directo. */
 function PrecioAnimado({ texto }: { texto: string }) {
   const reduce = useReducedMotion();
+  const partes = partirPrecio(texto);
+  const destino = partes?.valor ?? null;
+  const [mostrado, setMostrado] = useState(destino ?? 0);
+  const actual = useRef(destino ?? 0);
+
+  useEffect(() => {
+    if (destino === null) return;
+    if (reduce) {
+      actual.current = destino;
+      setMostrado(destino);
+      return;
+    }
+    const desde = actual.current;
+    if (desde === destino) return;
+    const t0 = performance.now();
+    let raf = 0;
+    const paso = (t: number) => {
+      const k = Math.min(1, (t - t0) / DURACION_CONTEO_MS);
+      const suave = 1 - Math.pow(1 - k, 3);
+      actual.current = desde + (destino - desde) * suave;
+      setMostrado(actual.current);
+      if (k < 1) raf = window.requestAnimationFrame(paso);
+    };
+    raf = window.requestAnimationFrame(paso);
+    return () => window.cancelAnimationFrame(raf);
+  }, [destino, reduce]);
+
+  if (!partes) return <>{texto}</>;
   return (
-    <motion.span
-      key={texto}
-      className="inline-block"
-      initial={reduce ? false : { opacity: 0, y: 6 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: reduce ? 0 : 0.2, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {texto}
-    </motion.span>
+    <span className="inline-block tabular-nums">
+      {partes.antes}
+      {mostrado.toFixed(2).replace('.', ',')}
+      {partes.despues}
+    </span>
   );
 }
 
@@ -61,7 +95,7 @@ export function TimelineTrial({ diasPrueba, precioTexto }: { diasPrueba: number;
           </span>
           <div>
             <p className="text-[15px] font-semibold text-[var(--text-primary)]">{n.titulo}</p>
-            <p className="text-[13px] text-[var(--text-secondary)]">{n.detalle}</p>
+            <p className="text-sm text-[var(--text-secondary)]">{n.detalle}</p>
           </div>
         </div>
       ))}

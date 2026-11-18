@@ -35,6 +35,7 @@ const PLAN_ANUAL: PlanPaywall = {
   badge: 'MÁS POPULAR',
   precioMes: 'US$7,50*',
   sufijo: '/mes aprox.',
+  descomposicionDia: 'Menos de US$0,25 al día',
   totalAnual: 'Se cobra US$89,99/año*',
   ahorro: 'Ahorras 3 meses frente al plan mensual',
 };
@@ -109,7 +110,7 @@ export default function PaywallLuma() {
   return (
     <div className="flex min-h-dvh flex-col [font-family:var(--font-body)]">
       {/* Header: X (44px, sale a /) + marca — nunca oculta/retardada (C5) */}
-      <div className="sticky top-0 z-20 flex h-14 items-center justify-between bg-[var(--bg)]/75 px-3 backdrop-blur-md">
+      <div className="sticky top-0 z-20 grid h-14 grid-cols-[1fr_auto_1fr] items-center bg-[var(--bg)]/75 px-3 backdrop-blur-md">
         <a
           href="/"
           aria-label="Cerrar"
@@ -117,10 +118,16 @@ export default function PaywallLuma() {
         >
           <X size={20} strokeWidth={2} aria-hidden="true" />
         </a>
-        <span className="text-[13px] font-semibold tracking-[0.04em] text-[var(--accent-lite)] [font-family:var(--font-display)]">
+        <span className="justify-self-center text-[13px] font-semibold tracking-[0.04em] text-[var(--accent-lite)] [font-family:var(--font-display)]">
           LUMA
         </span>
-        <span className="size-11" aria-hidden="true" />
+        {/* Salida siempre visible: quien ya pagó no tiene que bajar para encontrar por dónde entrar */}
+        <a
+          href="/entrar?desde=paywall"
+          className="flex min-h-11 items-center justify-self-end rounded-[var(--radius-button)] px-3 text-sm font-semibold text-[var(--text-secondary)] underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+        >
+          Ya pagué
+        </a>
       </div>
 
       <div className="mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pb-40 pt-2">
@@ -160,7 +167,7 @@ export default function PaywallLuma() {
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className={`mt-4 flex flex-col gap-2.5 ${listo ? '' : 'invisible'}`}
+          className={`mt-4 flex flex-col gap-2 ${listo ? '' : 'invisible'}`}
         >
           {beneficios.map((b, i) => (
             <li key={i} className="flex items-start gap-3 text-[14px] leading-snug text-[var(--text-primary)]">
@@ -175,17 +182,17 @@ export default function PaywallLuma() {
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="relative mt-5"
+          className="relative mt-4"
         >
           {/* 2º resplandor: la página es larga y el bloom del body (fijo, cerca
               del header) no llega hasta aquí — sin esto la mitad inferior se
               siente plana. Mismo lenguaje de "luz de vela" de FICHA-ARTE. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 -top-10 -z-10 h-[420px]"
+            className="pointer-events-none absolute -inset-x-5 -top-10 -z-10 h-[420px]"
             style={{
               background:
-                'radial-gradient(480px 320px at 50% 40%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 70%)',
+                'radial-gradient(ellipse 50% 50% at 50% 45%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 100%)',
               maskImage: 'linear-gradient(to bottom, transparent, black 30%, black 55%, transparent)',
               WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 30%, black 55%, transparent)',
             }}
@@ -194,7 +201,6 @@ export default function PaywallLuma() {
             anual={PLAN_ANUAL}
             mensual={PLAN_MENSUAL}
             seleccionado={seleccionado}
-            trialDias={TRIAL_DIAS}
             onSeleccionar={setSeleccionado}
           />
           <p className="mt-2 text-center text-[13px] leading-snug text-[var(--text-secondary)]">
@@ -293,10 +299,12 @@ export default function PaywallLuma() {
               El pago tarda más de lo normal. Toca de nuevo el botón o escríbenos a soporte@tuluma.app.
             </p>
           )}
-          <p className="mt-2 text-center text-[13px] font-semibold leading-snug text-[var(--text-secondary)]">
+          <p className="mt-2 text-center text-sm font-semibold leading-snug text-[var(--text-secondary)]">
             <ShieldCheck size={16} aria-hidden="true" className="mr-1.5 inline align-[-3px] text-[var(--accent-lite)]" />
-            Garantía de devolución de 15 días <span aria-hidden="true">·</span>{' '}
-            <span className="whitespace-nowrap">Pago seguro con Hotmart</span>
+            <a href="/reembolsos" className="underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]">
+              Garantía LUMA de 15 días
+            </a>{' '}
+            <span aria-hidden="true">·</span> <span className="whitespace-nowrap">Pago seguro con Hotmart</span>
           </p>
         </div>
       </div>

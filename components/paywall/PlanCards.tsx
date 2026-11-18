@@ -5,8 +5,8 @@
 // (borde acento se mueve); el CTA único de la pantalla actúa sobre el plan
 // seleccionado. Anual recomendado y PRE-SELECCIONADO (+15-20% eligen anual, 02C).
 
-import { motion } from 'motion/react';
-import { Check, Star } from 'lucide-react';
+import { motion, useReducedMotion } from 'motion/react';
+import { Check } from 'lucide-react';
 
 export interface PlanPaywall {
   id: 'anual' | 'mensual';
@@ -19,26 +19,16 @@ export interface PlanPaywall {
   badge?: string;
 }
 
-function TrialBadge({ dias }: { dias: number }) {
-  return (
-    <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--accent)_13%,transparent)] px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.06em] text-[var(--accent)]">
-      <Star size={12} strokeWidth={2.5} aria-hidden="true" />
-      {dias} días de prueba
-    </span>
-  );
-}
-
 function Card({
   plan,
   seleccionado,
-  trialDias,
   onClick,
 }: {
   plan: PlanPaywall;
   seleccionado: boolean;
-  trialDias: number;
   onClick: () => void;
 }) {
+  const reduce = useReducedMotion();
   return (
     <motion.button
       type="button"
@@ -47,8 +37,12 @@ function Card({
       id={`plan-${plan.id}`}
       tabIndex={seleccionado ? 0 : -1}
       onClick={onClick}
+      // Al elegir el plan, la tarjeta hace un pequeño «latido» (sin movimiento si la persona lo tiene desactivado).
+      initial={false}
+      animate={seleccionado && !reduce ? { scale: [1, 1.025, 1] } : { scale: 1 }}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       whileTap={{ scale: 0.98 }}
-      className={`relative w-full rounded-[var(--radius-card)] border p-5 text-left transition-colors duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
+      className={`relative w-full rounded-[var(--radius-card)] border p-4 text-left transition-colors duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
         seleccionado
           ? 'border-transparent bg-[color-mix(in_oklab,var(--accent)_7%,transparent)] shadow-[0_12px_32px_color-mix(in_oklab,var(--accent)_18%,transparent)]'
           : 'border-[color-mix(in_oklab,var(--text-tertiary)_28%,transparent)] bg-[var(--surface)]'
@@ -83,9 +77,8 @@ function Card({
           </span>
           <h3 className="text-[16px] font-semibold text-[var(--text-primary)]">{plan.nombre}</h3>
         </span>
-        <TrialBadge dias={trialDias} />
       </div>
-      <p className="mt-3 flex items-baseline gap-1">
+      <p className="mt-2 flex items-baseline gap-1">
         <span className="text-[24px] font-bold leading-none tabular-nums text-[var(--text-primary)] [font-family:var(--font-display)]">
           {plan.precioMes.replace(/\*$/, '')}
           {plan.precioMes.endsWith('*') && (
@@ -94,11 +87,11 @@ function Card({
             </span>
           )}
         </span>
-        <span className="text-[13px] text-[var(--text-secondary)]">{plan.sufijo ?? '/mes'}</span>
+        <span className="text-sm text-[var(--text-secondary)]">{plan.sufijo ?? '/mes'}</span>
       </p>
-      {plan.descomposicionDia && <p className="mt-0.5 text-[12px] text-[var(--text-secondary)]">{plan.descomposicionDia}</p>}
-      {plan.totalAnual && <p className="mt-1 text-[12px] text-[var(--text-secondary)]">{plan.totalAnual}</p>}
-      {plan.ahorro && <p className="mt-1 text-[13px] font-semibold text-[var(--accent)]">{plan.ahorro}</p>}
+      {plan.descomposicionDia && <p className="mt-0.5 text-sm text-[var(--text-secondary)]">{plan.descomposicionDia}</p>}
+      {plan.totalAnual && <p className="mt-1 text-sm text-[var(--text-secondary)]">{plan.totalAnual}</p>}
+      {plan.ahorro && <p className="mt-1 text-sm font-semibold text-[var(--accent)]">{plan.ahorro}</p>}
     </motion.button>
   );
 }
@@ -107,13 +100,11 @@ export function PlanCards({
   anual,
   mensual,
   seleccionado,
-  trialDias,
   onSeleccionar,
 }: {
   anual: PlanPaywall;
   mensual: PlanPaywall;
   seleccionado: 'anual' | 'mensual';
-  trialDias: number;
   onSeleccionar: (id: 'anual' | 'mensual') => void;
 }) {
   return (
@@ -129,8 +120,8 @@ export function PlanCards({
         window.requestAnimationFrame(() => document.getElementById(`plan-${siguiente}`)?.focus());
       }}
     >
-      <Card plan={anual} seleccionado={seleccionado === 'anual'} trialDias={trialDias} onClick={() => onSeleccionar('anual')} />
-      <Card plan={mensual} seleccionado={seleccionado === 'mensual'} trialDias={trialDias} onClick={() => onSeleccionar('mensual')} />
+      <Card plan={anual} seleccionado={seleccionado === 'anual'} onClick={() => onSeleccionar('anual')} />
+      <Card plan={mensual} seleccionado={seleccionado === 'mensual'} onClick={() => onSeleccionar('mensual')} />
     </div>
   );
 }
