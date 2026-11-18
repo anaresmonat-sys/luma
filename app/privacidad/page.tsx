@@ -28,10 +28,15 @@ export default function Page() {
           indispensable para calcular tu numerología y tu arcano personal, el corazón de esa función.
         </li>
         <li>
-          <strong>Lo que le cuentas a LUMA</strong> — los mensajes o capturas de pantalla que analizas, tus
-          conversaciones con el coach, tus tiradas de tarot y tus entradas del diario. Los textos se guardan para que
-          puedas volver a verlos y para que la IA entienda mejor tu situación con el tiempo. <strong>Las capturas de
-          pantalla no se guardan</strong>: se envían a la IA solo para leerlas y analizarlas, y se descartan.
+          <strong>Lo que le cuentas a LUMA</strong> — <strong>tus entradas del diario</strong> (y la reflexión que
+          LUMA te devuelve) se guardan en tu cuenta para que puedas volver a verlas.{' '}
+          <strong>
+            Lo que escribes en el coach, en las tiradas de tarot y lo que pegas o subes en «Descifrar» (el texto o las
+            capturas de pantalla de una conversación) no se guarda en nuestros servidores
+          </strong>
+          : se envía a la IA solo para generar la respuesta y se descarta. Para que puedas volver atrás sin perder lo
+          último que viste (por ejemplo, tu último análisis o tu conversación actual), tu navegador lo recuerda en tu
+          propio dispositivo; no sale de él y desaparece al cerrar la pestaña o al borrar los datos del navegador.
         </li>
         <li>
           <strong>Datos de otras personas que tú decides guardar</strong> — si usas "El Círculo", puedes anotar el
@@ -94,13 +99,13 @@ export default function Page() {
 
       <h2>Cuánto tiempo guardamos tus datos</h2>
       <p>
-        Mientras tu cuenta esté activa, guardamos tu historial (diario, tiradas, conversaciones) para que puedas
-        volver a verlo. Si eliminas tu cuenta, borramos todo de forma permanente — ver la siguiente sección.
+        Mientras tu cuenta esté activa, guardamos tu diario, tus registros de ánimo y tu círculo para que puedas
+        volver a verlos. Si eliminas tu cuenta, borramos todo de forma permanente — ver la siguiente sección.
       </p>
 
       <h2>Cómo eliminar tu cuenta y tus datos</h2>
       <p>
-        Puedes borrar tu cuenta y todo lo que hayas guardado (diario, tiradas, conversaciones, círculo) desde{' '}
+        Puedes borrar tu cuenta y todo lo que hayas guardado (diario, registros de ánimo, círculo y perfil) desde{' '}
         <strong>Más → Zona de riesgo → "Eliminar mi cuenta y todos mis datos"</strong>, dentro de la app. Es
         inmediato, no se puede deshacer, y también limpia lo que LUMA haya guardado en tu dispositivo. Conservamos
         únicamente registros técnicos anónimos (sin tu nombre ni tu correo) de uso, errores y costo de la IA. Si prefieres pedirlo por correo, escribe a{' '}
