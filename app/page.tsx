@@ -243,7 +243,7 @@ Garantía de 15 días desde que empiezas tu prueba · Pago seguro con Hotmart`}
               'No. LUMA lee [b]tu[/b] conversación concreta y te habla de tu caso. Nada de interpretaciones de horóscopo de periódico iguales cada día.',
           },
           {
-            pregunta: 'El tarot en apps no me funciona, prefiero una persona real.',
+            pregunta: '¿Y si el tarot en apps no me funciona y prefiero una persona real?',
             respuestaMarked:
               'Aquí el tarot es una herramienta de reflexión, no una promesa de futuro. Y tienes una coach que te acompaña, no solo cartas con texto.',
           },
@@ -256,6 +256,11 @@ Garantía de 15 días desde que empiezas tu prueba · Pago seguro con Hotmart`}
             pregunta: '¿La app me va a juzgar por escribirle a mi ex o por darle mil vueltas?',
             respuestaMarked:
               'Nunca. LUMA es tu espacio privado para entender lo que sientes, con el tono de una amiga preparada. Solo tú lo ves.',
+          },
+          {
+            pregunta: '¿Cómo pago y es seguro?',
+            respuestaMarked:
+              'El pago lo procesa [b]Hotmart[/b], no LUMA: nosotras nunca vemos ni guardamos los datos de tu tarjeta. Puedes pagar con tarjeta de crédito o débito, o con PayPal. El importe final, con impuestos y en tu moneda, lo ves en la página de pago antes de confirmar.',
           },
           {
             pregunta: '¿Y si no me convence?',
