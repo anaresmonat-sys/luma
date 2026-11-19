@@ -3,6 +3,8 @@
 // docs/sistema/21-BACKOFFICE.md y lib/log-servidor.ts (el vocabulario cerrado
 // de eventos vive ahí, no aquí — este archivo solo envía).
 
+import { fuenteDeLaVisita } from '@/lib/fuente-visita';
+
 /** Igual que registrarEvento pero UNA sola vez por pestaña/visita (sessionStorage): recargar la
  * página no infla el conteo del camino de compra. Sin sessionStorage, envía igual. */
 export function registrarEventoUnaVez(type: string, metadata?: Record<string, unknown>): void {
@@ -16,12 +18,24 @@ export function registrarEventoUnaVez(type: string, metadata?: Record<string, un
   registrarEvento(type, metadata);
 }
 
+// Pasos del camino de compra que llevan la etiqueta de origen («tiktok», «instagram», «directo»…): así el panel
+// reparte las visitas y las elecciones de plan por red.
+const TIPOS_CON_FUENTE = new Set([
+  'landing_vista',
+  'onboarding_iniciado',
+  'onboarding_completado',
+  'paywall_visto',
+  'plan_elegido',
+  'sinergia_calculada',
+]);
+
 export function registrarEvento(type: string, metadata?: Record<string, unknown>): void {
   try {
+    const datos = TIPOS_CON_FUENTE.has(type) ? { ...(metadata ?? {}), f: fuenteDeLaVisita() } : metadata;
     void fetch('/api/log-event', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type, metadata }),
+      body: JSON.stringify({ type, metadata: datos }),
       keepalive: true,
     }).catch(() => {
       // No debe romper la experiencia del usuario si el registro falla.

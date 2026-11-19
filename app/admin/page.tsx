@@ -92,6 +92,27 @@ export default async function AdminResumenPage() {
     )
   );
   const embudo = PASOS_EMBUDO.map((p, i) => ({ ...p, total: conteosEmbudo[i].count ?? 0 }));
+
+  // De qué red llega la gente: visitas a la página de ventas y elecciones de plan, agrupadas por la etiqueta del enlace
+  // (p. ej. tuluma.app/?f=tiktok). Los eventos anteriores a este contador no traen etiqueta y se agrupan aparte.
+  const desde30dias2 = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+  const { data: eventosOrigen } = await supabase
+    .from('event_log')
+    .select('type, metadata')
+    .in('type', ['landing_vista', 'plan_elegido'])
+    .gte('created_at', desde30dias2)
+    .limit(5000);
+  const porOrigen = new Map<string, { vistas: number; planes: number }>();
+  for (const e of eventosOrigen ?? []) {
+    const f = (e.metadata as { f?: unknown } | null)?.f;
+    const origen = typeof f === 'string' && f ? f : 'sin_dato';
+    const fila = porOrigen.get(origen) ?? { vistas: 0, planes: 0 };
+    if (e.type === 'landing_vista') fila.vistas += 1;
+    else fila.planes += 1;
+    porOrigen.set(origen, fila);
+  }
+  const filasOrigen = [...porOrigen.entries()].sort((a, b) => b[1].vistas - a[1].vistas);
+  const nombreOrigen = (o: string) => (o === 'directo' ? 'Directo (sin código en el enlace)' : o === 'sin_dato' ? 'Anterior a este contador' : o.startsWith('web:') ? `Otra web (${o.slice(4)})` : o);
   const maximoEmbudo = Math.max(embudo[0].total, 1);
 
   const avisos: Aviso[] = [];
@@ -177,6 +198,36 @@ export default async function AdminResumenPage() {
               Cada porcentaje es de quienes llegaron al paso anterior. Donde el número cae más, ahí está el problema
               (la página de ventas, el recorrido o la pantalla de planes).
             </p>
+          </div>
+        )}
+      </Seccion>
+
+      <Seccion titulo="De dónde llegan (últimos 30 días)">
+        {filasOrigen.length === 0 ? (
+          <SinDatos>
+            Aún sin visitas. Pon un código distinto en el enlace de cada red (por ejemplo tuluma.app/?f=tiktok y
+            tuluma.app/?f=instagram) y aquí verás cuántas personas llegan desde cada una y cuántas eligen un plan.
+          </SinDatos>
+        ) : (
+          <div className="overflow-x-auto rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_22%,transparent)] bg-[var(--surface)]">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-xs uppercase tracking-wider text-[var(--text-tertiary)]">
+                  <th className="px-4 py-3 font-semibold">Origen</th>
+                  <th className="px-4 py-3 text-right font-semibold">Vieron la página</th>
+                  <th className="px-4 py-3 text-right font-semibold">Eligieron plan</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filasOrigen.map(([origen, n]) => (
+                  <tr key={origen} className="border-t border-[color-mix(in_oklab,var(--text-tertiary)_14%,transparent)]">
+                    <td className="px-4 py-3 font-semibold text-[var(--text-primary)]">{nombreOrigen(origen)}</td>
+                    <td className="px-4 py-3 text-right tabular-nums text-[var(--text-primary)]">{n.vistas}</td>
+                    <td className="px-4 py-3 text-right tabular-nums text-[var(--text-primary)]">{n.planes}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </Seccion>

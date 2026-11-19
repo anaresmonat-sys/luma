@@ -46,7 +46,7 @@ export default function Page() {
         <li>
           <strong>Datos de uso</strong> — qué funciones usas y cuándo, para saber si la app funciona bien y arreglar
           errores. También contamos, de forma anónima, cuántas personas llegan a cada pantalla de compra (página de
-          ventas, recorrido de inicio, planes): es un simple contador, sin cookies ni datos que te identifiquen.
+          ventas, recorrido de inicio, planes): es un simple contador, sin cookies ni datos que te identifiquen. Si llegas desde un enlace con un código corto (por ejemplo, de una red social), recordamos en tu navegador solo esa etiqueta para saber qué enlaces funcionan.
         </li>
         <li>
           <strong>Datos de protección contra abusos</strong> — un identificador anónimo al azar en una cookie (para
