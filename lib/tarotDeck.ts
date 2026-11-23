@@ -166,3 +166,8 @@ export function citaDeCarta({ carta, invertida }: CartaExtraida): string {
   const frase = palabras.slice(0, 2).join(', ');
   return frase.charAt(0).toUpperCase() + frase.slice(1) + '.';
 }
+
+/** Numeral de una carta del mazo (p. ej. «X» para La Rueda de la Fortuna), para rotularla como el resto de las cartas. */
+export function numeralDeCarta(id: string): string {
+  return MAZO_TAROT.find((c) => c.id === id)?.numero ?? '';
+}
