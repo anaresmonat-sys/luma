@@ -99,19 +99,21 @@ export default async function AdminResumenPage() {
   const { data: eventosOrigen } = await supabase
     .from('event_log')
     .select('type, metadata')
-    .in('type', ['landing_vista', 'plan_elegido'])
+    .in('type', ['landing_vista', 'plan_elegido', 'mapa_visto', 'mapa_calculado'])
     .gte('created_at', desde30dias2)
     .limit(5000);
-  const porOrigen = new Map<string, { vistas: number; planes: number }>();
+  const porOrigen = new Map<string, { vistas: number; planes: number; mapas: number; mapasCalculados: number }>();
   for (const e of eventosOrigen ?? []) {
     const f = (e.metadata as { f?: unknown } | null)?.f;
     const origen = typeof f === 'string' && f ? f : 'sin_dato';
-    const fila = porOrigen.get(origen) ?? { vistas: 0, planes: 0 };
+    const fila = porOrigen.get(origen) ?? { vistas: 0, planes: 0, mapas: 0, mapasCalculados: 0 };
     if (e.type === 'landing_vista') fila.vistas += 1;
-    else fila.planes += 1;
+    else if (e.type === 'plan_elegido') fila.planes += 1;
+    else if (e.type === 'mapa_visto') fila.mapas += 1;
+    else fila.mapasCalculados += 1;
     porOrigen.set(origen, fila);
   }
-  const filasOrigen = [...porOrigen.entries()].sort((a, b) => b[1].vistas - a[1].vistas);
+  const filasOrigen = [...porOrigen.entries()].sort((a, b) => b[1].vistas + b[1].mapas - (a[1].vistas + a[1].mapas));
   const nombreOrigen = (o: string) => (o === 'directo' ? 'Directo (sin código en el enlace)' : o === 'sin_dato' ? 'Anterior a este contador' : o.startsWith('web:') ? `Otra web (${o.slice(4)})` : o);
   const maximoEmbudo = Math.max(embudo[0].total, 1);
 
@@ -216,6 +218,8 @@ export default async function AdminResumenPage() {
                   <th className="px-4 py-3 font-semibold">Origen</th>
                   <th className="px-4 py-3 text-right font-semibold">Vieron la página</th>
                   <th className="px-4 py-3 text-right font-semibold">Eligieron plan</th>
+                  <th className="px-4 py-3 text-right font-semibold">Entraron al Mapa</th>
+                  <th className="px-4 py-3 text-right font-semibold">Calcularon su Mapa</th>
                 </tr>
               </thead>
               <tbody>
@@ -224,6 +228,8 @@ export default async function AdminResumenPage() {
                     <td className="px-4 py-3 font-semibold text-[var(--text-primary)]">{nombreOrigen(origen)}</td>
                     <td className="px-4 py-3 text-right tabular-nums text-[var(--text-primary)]">{n.vistas}</td>
                     <td className="px-4 py-3 text-right tabular-nums text-[var(--text-primary)]">{n.planes}</td>
+                    <td className="px-4 py-3 text-right tabular-nums text-[var(--text-primary)]">{n.mapas}</td>
+                    <td className="px-4 py-3 text-right tabular-nums text-[var(--text-primary)]">{n.mapasCalculados}</td>
                   </tr>
                 ))}
               </tbody>

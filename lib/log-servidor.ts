@@ -19,6 +19,8 @@ export const TIPOS_DE_EVENTO = [
   'paywall_visto',
   'plan_elegido',
   'sinergia_calculada', // uso de la mini-calculadora de la página de ventas
+  'mapa_visto', // entrada al Mapa de poder (campaña de redes)
+  'mapa_calculado', // la persona completó su Mapa de poder
 ] as const;
 export type TipoDeEvento = (typeof TIPOS_DE_EVENTO)[number];
 
@@ -32,6 +34,8 @@ export const TIPOS_DESDE_NAVEGADOR: readonly TipoDeEvento[] = [
   'paywall_visto',
   'plan_elegido',
   'sinergia_calculada',
+  'mapa_visto',
+  'mapa_calculado',
 ];
 
 const MAX_REGISTROS_POR_MINUTO = 200;

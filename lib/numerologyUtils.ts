@@ -78,8 +78,10 @@ const ARCANO_ID_POR_NUMERO: Record<number, string> = {
 
 /** Número del arcano de nacimiento (1 a 22) a partir de "AAAA-MM-DD". */
 export function calcularNumeroArcano(fechaISO: string): number {
+  // \D = todo lo que NO es un dígito (los guiones de «AAAA-MM-DD»). Con /D/ a secas solo se quitaba la letra «D», el guion
+  // sumaba NaN y TODA persona recibía «El Mago» como arcano (corregido 2026-11-23).
   let valor = fechaISO
-    .replace(/D/g, '')
+    .replace(/\D/g, '')
     .split('')
     .reduce((acc, d) => acc + Number(d), 0);
   while (valor > 22) {

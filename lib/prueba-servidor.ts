@@ -25,6 +25,13 @@ const MAX_RESULTADOS_GRATIS = 1;
 const MAX_POR_CONEXION_DIA = 5;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
+/** Convierte la cookie anónima en un identificador propio de un ámbito (p. ej. 'mapa-poder'), con forma de UUID: así el
+ * Mapa de poder cuenta aparte de la «primera lectura gratis» sin cambiar la base de datos. Determinista y no reversible. */
+export function derivarAnonDeAmbito(anon: string, ambito: string): string {
+  const h = createHmac('sha256', process.env.SUPABASE_SECRET_KEY ?? 'luma').update(`${anon}:${ambito}`).digest('hex');
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-8${h.slice(17, 20)}-${h.slice(20, 32)}`;
+}
+
 export interface AccesoGratis {
   permitido: boolean;
   /** Devuelve el uso reservado si la IA falló: un error nuestro no gasta la prueba de nadie. */
@@ -39,7 +46,11 @@ function huellaDeConexion(ip: string): string | null {
   return createHmac('sha256', process.env.SUPABASE_SECRET_KEY ?? 'luma').update(ip).digest('hex').slice(0, 32);
 }
 
-export async function controlarAccesoGratis(request: Request, usuarioId: string | null): Promise<AccesoGratis> {
+export async function controlarAccesoGratis(
+  request: Request,
+  usuarioId: string | null,
+  opciones: { ambito?: string } = {},
+): Promise<AccesoGratis> {
   if (process.env.PRUEBA_SERVIDOR === 'off') return SIN_CONTROL;
   try {
     const admin = clienteAdminSupabase();
@@ -70,9 +81,11 @@ export async function controlarAccesoGratis(request: Request, usuarioId: string 
       });
     }
 
-    const huella = huellaDeConexion(identificadorDePeticion(request));
+    // Con ámbito (p. ej. el Mapa de poder) el contador es propio de ese ámbito y sin tope por conexión (solo por navegador).
+    const anonUsado = opciones.ambito ? derivarAnonDeAmbito(anon, opciones.ambito) : anon;
+    const huella = opciones.ambito ? null : huellaDeConexion(identificadorDePeticion(request));
     const { data, error } = await admin.rpc('reservar_uso_gratis', {
-      p_anon: anon,
+      p_anon: anonUsado,
       p_ip: huella,
       p_max_por_anon: MAX_RESULTADOS_GRATIS,
       p_max_por_ip: huella ? MAX_POR_CONEXION_DIA : 0,
@@ -84,7 +97,7 @@ export async function controlarAccesoGratis(request: Request, usuarioId: string 
       permitido: true,
       devolver: async () => {
         try {
-          await admin.rpc('devolver_uso_gratis', { p_anon: anon, p_ip: huella });
+          await admin.rpc('devolver_uso_gratis', { p_anon: anonUsado, p_ip: huella });
         } catch {
           // Si no se pudo devolver, la persona pierde su intento gratis: raro y sin riesgo de seguridad.
         }

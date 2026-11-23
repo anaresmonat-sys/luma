@@ -10,6 +10,7 @@ import { leerTrato } from '@/lib/trato-servidor';
 import { registrarLlamadaIA, registrarError } from '@/lib/log-servidor';
 import { limiteExcedido, identificadorDePeticion } from '@/lib/rate-limit';
 import { topeDiarioIAExcedido, idUsuarioOpcional } from '@/lib/tope-ia';
+import { controlarAccesoGratis } from '@/lib/prueba-servidor';
 import { MAZO_TAROT } from '@/lib/tarotDeck';
 
 // Auditoría de seguridad, 2026-09-23: `arcano` llegaba como texto libre sin
@@ -144,6 +145,13 @@ export async function POST(request: Request) {
   const personalidad = numeroValido(cuerpo.personalidad);
   const ampliado = expresion !== null && alma !== null && personalidad !== null;
 
+  // UN mapa por persona (decisión de la dueña, 2026-11-23): se cuenta por navegador, aparte de la «primera lectura gratis».
+  // Con plan activo o siendo administradora no hay tope. Si la IA falla, se devuelve el intento.
+  const acceso = await controlarAccesoGratis(request, usuarioIdIA, { ambito: 'mapa-poder' });
+  if (!acceso.permitido) {
+    return NextResponse.json({ error: 'mapa_ya_calculado' }, { status: 402 });
+  }
+
   try {
     const client = clienteAnthropic();
     const respuesta = await client.messages.create({
@@ -178,6 +186,7 @@ export async function POST(request: Request) {
         !resultado.deseos ||
         !resultado.imagen
       ) {
+        await acceso.devolver();
         return NextResponse.json({ error: 'Sin respuesta' }, { status: 502 });
       }
       return NextResponse.json({
@@ -191,11 +200,13 @@ export async function POST(request: Request) {
     }
 
     if (!resultado || !resultado.arquetipo || !resultado.superpoder || !resultado.puntoCiego || !resultado.consejo) {
+      await acceso.devolver();
       return NextResponse.json({ error: 'Sin respuesta' }, { status: 502 });
     }
 
     return NextResponse.json(resultado);
   } catch (error) {
+    await acceso.devolver();
     console.error('Error en /api/numerologia:', error instanceof Error ? error.message : error);
     await registrarError(error instanceof Error ? error.message : String(error), '/api/numerologia');
     return NextResponse.json({ error: 'No se pudo generar la lectura' }, { status: 502 });

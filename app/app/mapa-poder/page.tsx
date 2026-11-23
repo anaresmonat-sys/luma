@@ -31,12 +31,18 @@ import { imagenDeCarta } from '@/lib/tarotDeck';
 import { guardarMapaPoder, leerMapaPoder, type MapaPoder } from '@/lib/almacenamiento-numerologia';
 import { crearClienteNavegador } from '@/lib/supabase/client';
 import { leerPerfilSupabase, guardarPerfilSupabase } from '@/lib/supabase/perfilNumerologia';
+import { registrarEvento, registrarEventoUnaVez } from '@/lib/registrar-evento';
+
+// Versión del mapa: sube cuando cambia el cálculo. La 3 corrige el arcano de nacimiento (2026-11-23: antes todas las personas
+// recibían «El Mago»). Un mapa guardado con otra versión se trata como «sin calcular»: se enseña el formulario con su
+// nombre y fecha y un toque genera el mapa correcto.
+const VERSION_MAPA = 3;
 
 export default function MapaPoderPage() {
   const [mapa, setMapa] = useState<MapaPoder | null>(null);
   const [nombre, setNombre] = useState('');
   const [fecha, setFecha] = useState('');
-  const [estado, setEstado] = useState<'reposo' | 'cargando' | 'error'>('reposo');
+  const [estado, setEstado] = useState<'reposo' | 'cargando' | 'error' | 'limite'>('reposo');
   const [editando, setEditando] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   // El botón atrás vuelve a la pantalla desde la que se entró (Diario por defecto, o Tarot).
@@ -44,10 +50,11 @@ export default function MapaPoderPage() {
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get('desde') === 'tarot') setVolverHref('/app/tarot');
+    registrarEventoUnaVez('mapa_visto');
   }, []);
 
   useEffect(() => {
-    if (mapa && mapa.version !== 2) {
+    if (mapa && mapa.version !== VERSION_MAPA) {
       setNombre((previo) => previo || mapa.nombre);
       setFecha((previo) => previo || mapa.fecha);
     }
@@ -104,6 +111,10 @@ export default function MapaPoderPage() {
           personalidad: numeroPersonalidad,
         }),
       });
+      if (res.status === 402) {
+        setEstado('limite');
+        return;
+      }
       if (!res.ok) throw new Error('respuesta no OK');
       const datos: {
         esencia?: string;
@@ -133,9 +144,10 @@ export default function MapaPoderPage() {
         proposito: datos.proposito!,
         deseos: datos.deseos!,
         imagen: datos.imagen!,
-        version: 2,
+        version: VERSION_MAPA,
       };
       guardarMapaPoder(nuevo);
+      registrarEvento('mapa_calculado');
       if (userId) void guardarPerfilSupabase(userId, nuevo);
       setMapa(nuevo);
       setEditando(false);
@@ -147,7 +159,7 @@ export default function MapaPoderPage() {
 
   // Un mapa de la versión anterior (4 tarjetas solo de amor) se trata como "sin calcular": se enseña el
   // formulario ya con su nombre y fecha, y un toque genera el mapa completo.
-  const mapaVigente = mapa && mapa.version === 2 ? mapa : null;
+  const mapaVigente = mapa && mapa.version === VERSION_MAPA ? mapa : null;
   const mostrarFormulario = !mapaVigente || editando;
 
   return (
@@ -198,6 +210,18 @@ export default function MapaPoderPage() {
           <AppButton onClick={() => void calcular()} disabled={!fecha || !nombre.trim() || estado === 'cargando'} busy={estado === 'cargando'}>
             {estado === 'cargando' ? 'Calculando…' : 'Descubrir mi Arcano'}
           </AppButton>
+          {estado === 'limite' && (
+            <div role="status" className="rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] p-4 text-center">
+              <p className="text-sm font-semibold text-[var(--text-primary)]">Tu mapa de poder se calcula una sola vez</p>
+              <p className="mt-1 text-sm leading-relaxed text-[var(--text-secondary)]">
+                Ya calculaste el tuyo desde este dispositivo. Si te equivocaste de nombre o de fecha, escríbenos a{' '}
+                <a href="mailto:soporte@tuluma.app" className="font-semibold underline underline-offset-2">
+                  soporte@tuluma.app
+                </a>{' '}
+                y lo corregimos.
+              </p>
+            </div>
+          )}
           {estado === 'error' && (
             <p className="text-center text-[11px] font-semibold text-[var(--an-risk)]">
               No se pudo calcular — inténtalo de nuevo.
@@ -212,7 +236,7 @@ export default function MapaPoderPage() {
               <p className="text-center text-[13px] font-semibold leading-relaxed text-[var(--text-secondary)]">
                 {mapa!.signoNombre} · Camino de Vida <span className="text-[var(--accent-lite)]">{mapa!.numero}</span> ·
                 Alma <span className="text-[var(--accent-lite)]">{mapa!.numeroAlma}</span>
-                {mapa!.version === 2 && mapa!.numeroPersonalidad ? (
+                {mapa!.version === VERSION_MAPA && mapa!.numeroPersonalidad ? (
                   <>
                     {' '}
                     · Personalidad <span className="text-[var(--accent-lite)]">{mapa!.numeroPersonalidad}</span>

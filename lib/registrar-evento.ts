@@ -27,6 +27,8 @@ const TIPOS_CON_FUENTE = new Set([
   'paywall_visto',
   'plan_elegido',
   'sinergia_calculada',
+  'mapa_visto',
+  'mapa_calculado',
 ]);
 
 export function registrarEvento(type: string, metadata?: Record<string, unknown>): void {
