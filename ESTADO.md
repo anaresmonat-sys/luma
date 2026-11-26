@@ -4,7 +4,7 @@
 NINGUNA visita con código de red (?f=). Parte de las visitas puede ser propia o de pruebas. Publicado hasta 2a5aa22 (commits
 de documentación sin subir). Claves de Anthropic cerradas. Próximo: confirmar que los enlaces de los perfiles llevan el código.
 Hallazgos: 1 persona nueva (24-nov) eligió plan y no llegó ningún aviso de compra de Hotmart. El aviso PURCHASE_COMPLETE
-«illegal» del 25-nov es esperado. FALLO CONFIRMADO Y CORREGIDO (SIN PUBLICAR, espera «publica»): el webhook anotaba los
+«illegal» del 25-nov es esperado. FALLO CONFIRMADO, CORREGIDO Y PUBLICADO 26-nov (b0ff241, verificado en producción): el webhook anotaba los
 anuales como mensuales (el código de oferta no contiene «anual») y un aviso sin oferta pisaba el plan guardado. Ahora
 lib/plan-hotmart.ts decide por el código de oferta y devuelve null si no lo sabe. tsc ✓ 100 pruebas ✓ build ✓. Sin
 cambios en la base. Falta confirmarlo con una compra anual real.
