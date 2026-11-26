@@ -12,6 +12,7 @@ import { estadoParaEvento, transicionValida, PLAN_CHANGE_EVENT, type EstadoMembr
 import { clienteAdminSupabase } from '@/lib/supabase/admin';
 import { esCompraNuevaTrasReembolso } from '@/lib/membership-fsm';
 import { registrarError } from '@/lib/log-servidor';
+import { planDeHotmart } from '@/lib/plan-hotmart';
 
 export const runtime = 'nodejs'; // necesitamos node:crypto y el raw body — no Edge
 
@@ -123,11 +124,17 @@ export async function POST(req: Request) {
     if (userId) {
       // El plan nuevo (al que se cambió) viene en `data.plans`, el elemento con `current: true`
       // (confirmado con el payload real, 2026-09-28) — no en `data.subscription.plan`.
-      const planesPayload: Array<{ current?: boolean; name?: string }> = Array.isArray(payload.data?.plans) ? payload.data.plans : [];
-      const nombrePlanActual = planesPayload.find((p) => p.current)?.name ?? '';
-      const planNuevo = /anual/i.test(offerCode ?? '') || /anual/i.test(nombrePlanActual) ? 'anual' : 'mensual';
-      await admin.from('subscriptions').update({ plan: planNuevo, updated_at: new Date().toISOString() }).eq('user_id', userId);
-      await registrarLog(admin, { event_id: eventId, type: event, result: 'applied' });
+      const planesPayload: Array<{ current?: boolean; name?: string; offer?: { code?: string } }> = Array.isArray(payload.data?.plans)
+        ? payload.data.plans
+        : [];
+      const planActual = planesPayload.find((p) => p.current);
+      const planNuevo = planDeHotmart(planActual?.offer?.code ?? offerCode, planActual?.name);
+      if (planNuevo) {
+        await admin.from('subscriptions').update({ plan: planNuevo, updated_at: new Date().toISOString() }).eq('user_id', userId);
+        await registrarLog(admin, { event_id: eventId, type: event, result: 'applied' });
+      } else {
+        await registrarLog(admin, { event_id: eventId, type: event, result: 'error', detail: 'plan_desconocido' });
+      }
     }
     return NextResponse.json({ received: true });
   }
@@ -214,7 +221,7 @@ export async function POST(req: Request) {
           ? 'sale'
           : null;
 
-    const plan = /anual/i.test(offerCode ?? '') || /anual/i.test(payload.data?.subscription?.plan?.name ?? '') ? 'anual' : 'mensual';
+    const plan = planDeHotmart(offerCode, payload.data?.subscription?.plan?.name);
     const payloadHash = crypto.createHash('sha256').update(rawBody).digest('hex');
 
     const { data: resultado, error: errorRpc } = await admin.rpc('apply_hotmart_event', {

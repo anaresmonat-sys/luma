@@ -1,5 +1,13 @@
 # ESTADO — LUMA (nombre de trabajo)
-Última actualización: 2026-11-02 | Sesión actual: 6 (servicios externos) — EN CURSO
+Última actualización: 2026-11-26 | Fase: lanzamiento orgánico en redes (desde 20-nov)
+🔄 CHECKPOINT 2026-11-26 — revisión de cifras (20 al 26-nov): 18 visitas, 1 cuenta nueva, 0 ventas, 0 errores, IA 0,09 US$;
+NINGUNA visita con código de red (?f=). Parte de las visitas puede ser propia o de pruebas. Publicado hasta 2a5aa22 (commits
+de documentación sin subir). Claves de Anthropic cerradas. Próximo: confirmar que los enlaces de los perfiles llevan el código.
+Hallazgos: 1 persona nueva (24-nov) eligió plan y no llegó ningún aviso de compra de Hotmart. El aviso PURCHASE_COMPLETE
+«illegal» del 25-nov es esperado. FALLO CONFIRMADO Y CORREGIDO (SIN PUBLICAR, espera «publica»): el webhook anotaba los
+anuales como mensuales (el código de oferta no contiene «anual») y un aviso sin oferta pisaba el plan guardado. Ahora
+lib/plan-hotmart.ts decide por el código de oferta y devuelve null si no lo sabe. tsc ✓ 100 pruebas ✓ build ✓. Sin
+cambios en la base. Falta confirmarlo con una compra anual real.
 PUBLICADA (2026-09-19): app en Vercel (proyecto `luma`, team LUMA) → luma-luma-e7c1.vercel.app, desplegando
 desde `main` (commit c573c7d). Variables en Vercel: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
 ANTHROPIC_API_KEY. El usuario la mostrará a algunas personas para recoger opiniones; el recorrido de inicio

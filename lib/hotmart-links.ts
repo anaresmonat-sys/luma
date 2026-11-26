@@ -4,13 +4,17 @@
 // `showOnlyTrial=1` fuerza que el checkout arranque directo en la opción de prueba gratis (ambos
 // planes tienen el período de prueba de 3 días activado en Hotmart).
 
-const BASE = {
-  mensual: 'https://pay.hotmart.com/F107797138N?off=l96aiyz9',
-  anual: 'https://pay.hotmart.com/F107797138N?off=0zkut925',
+/** Código de la oferta de cada plan en Hotmart. El aviso de compra lo trae y así se sabe qué plan es. */
+export const OFERTAS_HOTMART = {
+  mensual: 'l96aiyz9',
+  anual: '0zkut925',
 } as const;
 
+const PRODUCTO = 'https://pay.hotmart.com/F107797138N';
+
 export function checkoutHotmart(plan: 'mensual' | 'anual'): string {
-  const url = new URL(BASE[plan]);
+  const url = new URL(PRODUCTO);
+  url.searchParams.set('off', OFERTAS_HOTMART[plan]);
   url.searchParams.set('showOnlyTrial', '1');
   return url.toString();
 }
