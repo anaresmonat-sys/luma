@@ -8,6 +8,16 @@ Hallazgos: 1 persona nueva (24-nov) eligió plan y no llegó ningún aviso de co
 anuales como mensuales (el código de oferta no contiene «anual») y un aviso sin oferta pisaba el plan guardado. Ahora
 lib/plan-hotmart.ts decide por el código de oferta y devuelve null si no lo sabe. tsc ✓ 100 pruebas ✓ build ✓. Sin
 cambios en la base. Falta confirmarlo con una compra anual real.
+28-nov título ELEGIDO por ella y puesto en local (SIN publicar, espera «publica»): «3 días gratis en el maravilloso
+mundo de LUMA». tsc ✓ 100 pruebas ✓ build ✓.
+28-nov (SIN publicar) seguía apretado: caja fija más baja (151→113px, botón 44px), aviso de moneda movido a la nota bajo
+los planes y más aire arriba. Propuso título «3 días para adentrarte en el maravilloso mundo de LUMA»: le recomendé
+mantener el actual (más largo y no promete un resultado); decide ella.
+28-nov aclaró «angosto» = apretado: en pantallas ≥640px (computadora) los planes van lado a lado, columna de 640px y más
+separación (a 750×660 todo visible con 80px libres sobre el botón); el celular queda compacto como abajo.
+28-nov (2º ajuste, SIN publicar, espera «publica»): ella vio mucho aire abajo y el Mensual apretado arriba → menos
+relleno final (hueco 81→33px), carta superior más pequeña (oculta en pantallas de menos de 700px de alto) y bloques más
+juntos; el precio mensual ya se ve a 375×740 y 750×660 (a 360×640 sigue tapado hasta desplazar).
 28-nov revisión del paso al pago (sin pagar, 375px, España): eligió ANUAL. Hotmart muestra arriba «105,27 € / año» y los
 3 días gratis quedan abajo (la app mostraba US$7,50/mes y US$89,99); además insignia «MÁS POPULAR» sin datos que la
 respalden (app/paywall/page.tsx). Propuesta pendiente de OK: «Hoy no pagas nada» junto al botón, aviso de moneda e IVA

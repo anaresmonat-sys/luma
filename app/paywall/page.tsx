@@ -130,30 +130,31 @@ export default function PaywallLuma() {
         </a>
       </div>
 
-      <div className="mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pb-52 pt-2">
+      <div className="mx-auto flex w-full max-w-[480px] sm:max-w-[640px] flex-1 flex-col px-5 pb-32 pt-4 sm:pt-8">
         {/* Dispositivo ownable de FICHA-ARTE — repite el motivo del funnel (Hero,
             Casos, PlanListo), en tamaño reducido y sin animación de entrada. */}
         <motion.div
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="flex justify-center"
+          className="flex justify-center [@media(max-height:700px)]:hidden"
         >
-          <div className="h-[84px] scale-[0.4] [transform-origin:top]">
+          <div className="h-14 scale-[0.27] [transform-origin:top]">
             <CartaSacerdotisa animar={false} />
           </div>
         </motion.div>
 
-        {/* Headline: promesa concreta (entender qué pasa y qué responder) + la escena del avatar en el subtítulo; sin prometer un resultado emocional */}
+        {/* Headline elegido por la dueña (28-nov): tono de magia + «gratis». Lo concreto lo explican los beneficios de
+            justo debajo; el subtítulo mantiene la escena del avatar. */}
         {/* Fundido con CSS puro: el título es el LCP y no debe esperar a que cargue el JavaScript (38) */}
-        <div className="luma-fade-in mt-2">
+        <div className="luma-fade-in mt-2 sm:mt-4">
           {lecturaUsada && (
             <p className="mb-3 rounded-[var(--radius-card)] border border-[color-mix(in_oklab,var(--accent)_40%,transparent)] bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-3 py-2 text-[13px] font-semibold leading-snug text-[var(--text-primary)]">
               Ya usaste tu lectura gratis. Con los {TRIAL_DIAS} días de prueba tienes LUMA completa.
             </p>
           )}
           <h1 className="text-balance text-[28px] font-bold leading-[1.15] text-[var(--text-primary)] [font-family:var(--font-display)]">
-            <MarkedCopy text={`${TRIAL_DIAS} días para [acento]entender qué pasa[/acento] y qué responder`} />
+            <MarkedCopy text={`${TRIAL_DIAS} días gratis en el [acento]maravilloso mundo de LUMA[/acento]`} />
           </h1>
           {/* Ancla emocional de FICHA-AVATAR (se repite landing+onboarding+paywall):
               "obsesionada mirando el teléfono" → "en 1 minuto entiendes qué pasa" */}
@@ -167,7 +168,7 @@ export default function PaywallLuma() {
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className={`mt-4 flex flex-col gap-2 ${listo ? '' : 'invisible'}`}
+          className={`mt-4 flex flex-col gap-2 sm:mt-6 sm:gap-3 ${listo ? '' : 'invisible'}`}
         >
           {beneficios.map((b, i) => (
             <li key={i} className="flex items-start gap-3 text-[14px] leading-snug text-[var(--text-primary)]">
@@ -182,7 +183,7 @@ export default function PaywallLuma() {
           initial={{ opacity: 0, y: reduce ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduce ? 0.2 : 0.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="relative mt-4"
+          className="relative mt-4 sm:mt-8"
         >
           {/* 2º resplandor: la página es larga y el bloom del body (fijo, cerca
               del header) no llega hasta aquí — sin esto la mitad inferior se
@@ -204,7 +205,7 @@ export default function PaywallLuma() {
             onSeleccionar={setSeleccionado}
           />
           <p className="mt-2 text-center text-[13px] leading-snug text-[var(--text-secondary)]">
-            * Precios en US$, más impuestos y en tu moneda local.
+            * Precios en US$. Al pagar verás el total en tu moneda, con impuestos.
           </p>
         </motion.div>
 
@@ -250,7 +251,7 @@ export default function PaywallLuma() {
 
       {/* CTA fijo al fondo: siempre a la vista desde la primera pantalla (ronda 6 del revisor).
           Va fuera de los bloques animados porque un transform rompe position:fixed. */}
-      <div className="fixed inset-x-0 bottom-0 z-20 bg-gradient-to-t from-[var(--bg)] from-80% to-transparent pb-2 pt-6">
+      <div className="fixed inset-x-0 bottom-0 z-20 bg-gradient-to-t from-[var(--bg)] from-80% to-transparent pb-2 pt-3">
         <div className="mx-auto w-full max-w-[480px] px-5">
           <motion.button
             type="button"
@@ -273,7 +274,7 @@ export default function PaywallLuma() {
               }
             }}
             whileTap={abriendoPago ? undefined : { scale: 0.97 }}
-            className="flex h-[52px] w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[16px] font-semibold text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] transition-opacity [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] disabled:opacity-70"
+            className="flex h-11 w-full items-center justify-center rounded-[var(--radius-button)] bg-[var(--accent)] text-[15px] font-semibold text-[var(--bg)] shadow-[0_8px_30px_color-mix(in_oklab,var(--accent)_25%,transparent)] transition-opacity [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] disabled:opacity-70"
           >
             {abriendoPago ? (
               <span className="flex items-center gap-2" role="status">
@@ -292,9 +293,6 @@ export default function PaywallLuma() {
           {/* Antes de saltar a Hotmart: allí se ve primero el total en moneda local (los días gratis quedan más abajo) */}
           <p className="mt-2 text-center text-sm font-semibold leading-snug text-[var(--text-primary)]">
             Hoy no pagas nada. Primer cobro al día {TRIAL_DIAS}.
-          </p>
-          <p className="text-balance text-center text-[13px] leading-snug text-[var(--text-secondary)]">
-            Luego verás el total en tu moneda, con impuestos.
           </p>
           <p className="mt-1 text-center text-[13px] font-semibold leading-snug text-[var(--text-secondary)]">
             <ShieldCheck size={16} aria-hidden="true" className="mr-1 inline align-[-3px] text-[var(--accent-lite)]" />

@@ -42,7 +42,7 @@ function Card({
       animate={seleccionado && !reduce ? { scale: [1, 1.025, 1] } : { scale: 1 }}
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       whileTap={{ scale: 0.98 }}
-      className={`relative w-full rounded-[var(--radius-card)] border p-4 text-left transition-colors duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
+      className={`relative w-full rounded-[var(--radius-card)] border p-4 text-left sm:flex sm:flex-col sm:justify-start transition-colors duration-150 [touch-action:manipulation] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
         seleccionado
           ? 'border-transparent bg-[color-mix(in_oklab,var(--accent)_7%,transparent)] shadow-[0_12px_32px_color-mix(in_oklab,var(--accent)_18%,transparent)]'
           : 'border-[color-mix(in_oklab,var(--text-tertiary)_28%,transparent)] bg-[var(--surface)]'
@@ -111,7 +111,7 @@ export function PlanCards({
     <div
       role="radiogroup"
       aria-label="Elige tu plan"
-      className="flex flex-col gap-3"
+      className="flex flex-col gap-3 sm:grid sm:grid-cols-2"
       onKeyDown={(e) => {
         if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) return;
         e.preventDefault();
