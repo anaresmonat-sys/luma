@@ -194,7 +194,7 @@ export default function LandingLuma() {
 Garantía de 15 días desde que empiezas tu prueba · Pago seguro con Hotmart`}
         anual={{
           nombre: 'Anual',
-          badge: 'LA MÁS ELEGIDA',
+          badge: 'RECOMENDADO',
           precioMes: 'US$7,50*',
           sufijo: '/mes aprox.',
           totalAnual: 'Se cobra US$89,99/año*',

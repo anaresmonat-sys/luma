@@ -32,7 +32,7 @@ const TRIAL_DIAS = 3;
 const PLAN_ANUAL: PlanPaywall = {
   id: 'anual',
   nombre: 'Anual',
-  badge: 'MÁS POPULAR',
+  badge: 'RECOMENDADO',
   precioMes: 'US$7,50*',
   sufijo: '/mes aprox.',
   descomposicionDia: 'Menos de US$0,25 al día',
@@ -130,7 +130,7 @@ export default function PaywallLuma() {
         </a>
       </div>
 
-      <div className="mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pb-40 pt-2">
+      <div className="mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pb-52 pt-2">
         {/* Dispositivo ownable de FICHA-ARTE — repite el motivo del funnel (Hero,
             Casos, PlanListo), en tamaño reducido y sin animación de entrada. */}
         <motion.div
@@ -250,7 +250,7 @@ export default function PaywallLuma() {
 
       {/* CTA fijo al fondo: siempre a la vista desde la primera pantalla (ronda 6 del revisor).
           Va fuera de los bloques animados porque un transform rompe position:fixed. */}
-      <div className="fixed inset-x-0 bottom-0 z-20 bg-gradient-to-t from-[var(--bg)] via-[var(--bg)] to-transparent pb-3 pt-6">
+      <div className="fixed inset-x-0 bottom-0 z-20 bg-gradient-to-t from-[var(--bg)] from-80% to-transparent pb-2 pt-6">
         <div className="mx-auto w-full max-w-[480px] px-5">
           <motion.button
             type="button"
@@ -289,12 +289,20 @@ export default function PaywallLuma() {
               El pago tarda más de lo normal. Toca de nuevo el botón o escríbenos a soporte@tuluma.app.
             </p>
           )}
-          <p className="mt-2 text-center text-sm font-semibold leading-snug text-[var(--text-secondary)]">
-            <ShieldCheck size={16} aria-hidden="true" className="mr-1.5 inline align-[-3px] text-[var(--accent-lite)]" />
+          {/* Antes de saltar a Hotmart: allí se ve primero el total en moneda local (los días gratis quedan más abajo) */}
+          <p className="mt-2 text-center text-sm font-semibold leading-snug text-[var(--text-primary)]">
+            Hoy no pagas nada. Primer cobro al día {TRIAL_DIAS}.
+          </p>
+          <p className="text-balance text-center text-[13px] leading-snug text-[var(--text-secondary)]">
+            Luego verás el total en tu moneda, con impuestos.
+          </p>
+          <p className="mt-1 text-center text-[13px] font-semibold leading-snug text-[var(--text-secondary)]">
+            <ShieldCheck size={16} aria-hidden="true" className="mr-1 inline align-[-3px] text-[var(--accent-lite)]" />
             <a href="/reembolsos" className="underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]">
               Garantía LUMA de 15 días
             </a>
-            <span className="block whitespace-nowrap">Pago seguro con Hotmart</span>
+            {' · '}
+            <span className="whitespace-nowrap">Pago con Hotmart</span>
           </p>
         </div>
       </div>

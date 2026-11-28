@@ -8,6 +8,13 @@ Hallazgos: 1 persona nueva (24-nov) eligió plan y no llegó ningún aviso de co
 anuales como mensuales (el código de oferta no contiene «anual») y un aviso sin oferta pisaba el plan guardado. Ahora
 lib/plan-hotmart.ts decide por el código de oferta y devuelve null si no lo sabe. tsc ✓ 100 pruebas ✓ build ✓. Sin
 cambios en la base. Falta confirmarlo con una compra anual real.
+28-nov revisión del paso al pago (sin pagar, 375px, España): eligió ANUAL. Hotmart muestra arriba «105,27 € / año» y los
+3 días gratis quedan abajo (la app mostraba US$7,50/mes y US$89,99); además insignia «MÁS POPULAR» sin datos que la
+respalden (app/paywall/page.tsx). Propuesta pendiente de OK: «Hoy no pagas nada» junto al botón, aviso de moneda e IVA
+visible, y cambiar la insignia a «RECOMENDADO».
+Aprobada y HECHA en local (SIN commitear ni publicar, espera su visto bueno): dos líneas bajo el botón de planes y
+«RECOMENDADO» en planes y página de ventas (antes «MÁS POPULAR» / «LA MÁS ELEGIDA»). 375 y 360 sin desborde, tsc ✓,
+100 pruebas ✓. Captura docs/revisiones/paywall-375.png; sin revisor nuevo (la pantalla sigue NO LISTA).
 PUBLICADA (2026-09-19): app en Vercel (proyecto `luma`, team LUMA) → luma-luma-e7c1.vercel.app, desplegando
 desde `main` (commit c573c7d). Variables en Vercel: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
 ANTHROPIC_API_KEY. El usuario la mostrará a algunas personas para recoger opiniones; el recorrido de inicio
