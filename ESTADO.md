@@ -12,7 +12,7 @@ cambios en la base. Falta confirmarlo con una compra anual real.
 3 días gratis quedan abajo (la app mostraba US$7,50/mes y US$89,99); además insignia «MÁS POPULAR» sin datos que la
 respalden (app/paywall/page.tsx). Propuesta pendiente de OK: «Hoy no pagas nada» junto al botón, aviso de moneda e IVA
 visible, y cambiar la insignia a «RECOMENDADO».
-Aprobada y HECHA en local (SIN commitear ni publicar, espera su visto bueno): dos líneas bajo el botón de planes y
+Aprobada, HECHA y PUBLICADA 28-nov (d1dfb10, verificada en producción; ella la está revisando): dos líneas bajo el botón de planes y
 «RECOMENDADO» en planes y página de ventas (antes «MÁS POPULAR» / «LA MÁS ELEGIDA»). 375 y 360 sin desborde, tsc ✓,
 100 pruebas ✓. Captura docs/revisiones/paywall-375.png; sin revisor nuevo (la pantalla sigue NO LISTA).
 PUBLICADA (2026-09-19): app en Vercel (proyecto `luma`, team LUMA) → luma-luma-e7c1.vercel.app, desplegando
